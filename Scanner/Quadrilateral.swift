@@ -50,4 +50,44 @@ struct Quadrilateral {
         return quadrilateral
     }
     
+    func deskew(withImageSize imageSize: CGSize, inViewSize viewSize: CGSize) -> Quadrilateral {
+        let portraitImageSize = CGSize(width: imageSize.height, height: imageSize.width)
+        
+        let scaleTransform = transform(forSize: portraitImageSize, aspectFillIntoSize: viewSize)
+        let scaledQuad = applying(scaleTransform)
+        
+        let scaledImageSize = imageSize.applying(scaleTransform)
+        
+        let flipTransform = flipCoordinate(withHeight: scaledImageSize.height)
+        let flippedQuad = scaledQuad.applying(flipTransform)
+        
+        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
+        let rotatedQuad = flippedQuad.applying(rotationTransform)
+        
+        let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height).applying(rotationTransform)
+        
+        let translateTransform = translate(fromCenterOfRect: imageBounds, toCenterOfRect: CGRect(x: 0.0, y: 0.0, width: viewSize.width, height: viewSize.height))
+        let translatedQuad = rotatedQuad.applying(translateTransform)
+        
+        return translatedQuad
+    }
+    
+    // MARK: Convenience Functions
+    
+    private func transform(forSize fromSize: CGSize, aspectFillIntoSize toSize: CGSize) -> CGAffineTransform {
+        let scale = max(toSize.width / fromSize.width, toSize.height/fromSize.height)
+        return CGAffineTransform(scaleX: scale, y: scale)
+    }
+    
+    private func flipCoordinate(withHeight height: CGFloat) -> CGAffineTransform {
+        var transform = CGAffineTransform(scaleX: 1, y: -1)
+        transform = transform.translatedBy(x: 0, y: -height)
+        return transform
+    }
+    
+    private func translate(fromCenterOfRect fromRect: CGRect, toCenterOfRect toRect: CGRect) -> CGAffineTransform {
+        let translate = CGPoint(x: toRect.midX - fromRect.midX, y: toRect.midY - fromRect.midY)
+        return CGAffineTransform(translationX: translate.x, y: translate.y)
+    }
+    
 }
