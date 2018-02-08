@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import Scanner
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        let scannerVC = ScannerViewController()
+        present(scannerVC, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
