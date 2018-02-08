@@ -14,6 +14,11 @@
 		A1D4BCC5202C4F3800FCDDEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCC3202C4F3800FCDDEC /* LaunchScreen.storyboard */; };
 		A1D4BCD0202C4F3800FCDDEC /* ScannerSampleProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCCF202C4F3800FCDDEC /* ScannerSampleProjectTests.swift */; };
 		A1D4BCDB202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCDA202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift */; };
+		A1D4BCF6202C4F4100FCDDEC /* Scanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */; };
+		A1D4BCFD202C4F4100FCDDEC /* ScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCFC202C4F4100FCDDEC /* ScannerTests.swift */; };
+		A1D4BCFF202C4F4100FCDDEC /* Scanner.h in Headers */ = {isa = PBXBuildFile; fileRef = A1D4BCEF202C4F4100FCDDEC /* Scanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A1D4BD02202C4F4100FCDDEC /* Scanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */; };
+		A1D4BD03202C4F4100FCDDEC /* Scanner.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +36,42 @@
 			remoteGlobalIDString = A1D4BCB6202C4F3800FCDDEC;
 			remoteInfo = ScannerSampleProject;
 		};
+		A1D4BCF7202C4F4100FCDDEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1D4BCAF202C4F3800FCDDEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A1D4BCEC202C4F4100FCDDEC;
+			remoteInfo = Scanner;
+		};
+		A1D4BCF9202C4F4100FCDDEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1D4BCAF202C4F3800FCDDEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A1D4BCB6202C4F3800FCDDEC;
+			remoteInfo = ScannerSampleProject;
+		};
+		A1D4BD00202C4F4100FCDDEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1D4BCAF202C4F3800FCDDEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A1D4BCEC202C4F4100FCDDEC;
+			remoteInfo = Scanner;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A1D4BD07202C4F4100FCDDEC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A1D4BD03202C4F4100FCDDEC /* Scanner.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScannerSampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +87,12 @@
 		A1D4BCD6202C4F3800FCDDEC /* ScannerSampleProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScannerSampleProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCDA202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerSampleProjectUITests.swift; sourceTree = "<group>"; };
 		A1D4BCDC202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1D4BCED202C4F4100FCDDEC /* Scanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Scanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1D4BCEF202C4F4100FCDDEC /* Scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scanner.h; sourceTree = "<group>"; };
+		A1D4BCF0202C4F4100FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1D4BCF5202C4F4100FCDDEC /* ScannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1D4BCFC202C4F4100FCDDEC /* ScannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerTests.swift; sourceTree = "<group>"; };
+		A1D4BCFE202C4F4100FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1D4BD02202C4F4100FCDDEC /* Scanner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +118,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A1D4BCE9202C4F4100FCDDEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1D4BCF2202C4F4100FCDDEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1D4BCF6202C4F4100FCDDEC /* Scanner.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -80,6 +142,8 @@
 				A1D4BCB9202C4F3800FCDDEC /* ScannerSampleProject */,
 				A1D4BCCE202C4F3800FCDDEC /* ScannerSampleProjectTests */,
 				A1D4BCD9202C4F3800FCDDEC /* ScannerSampleProjectUITests */,
+				A1D4BCEE202C4F4100FCDDEC /* Scanner */,
+				A1D4BCFB202C4F4100FCDDEC /* ScannerTests */,
 				A1D4BCB8202C4F3800FCDDEC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +154,8 @@
 				A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */,
 				A1D4BCCB202C4F3800FCDDEC /* ScannerSampleProjectTests.xctest */,
 				A1D4BCD6202C4F3800FCDDEC /* ScannerSampleProjectUITests.xctest */,
+				A1D4BCED202C4F4100FCDDEC /* Scanner.framework */,
+				A1D4BCF5202C4F4100FCDDEC /* ScannerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,7 +191,36 @@
 			path = ScannerSampleProjectUITests;
 			sourceTree = "<group>";
 		};
+		A1D4BCEE202C4F4100FCDDEC /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				A1D4BCEF202C4F4100FCDDEC /* Scanner.h */,
+				A1D4BCF0202C4F4100FCDDEC /* Info.plist */,
+			);
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		A1D4BCFB202C4F4100FCDDEC /* ScannerTests */ = {
+			isa = PBXGroup;
+			children = (
+				A1D4BCFC202C4F4100FCDDEC /* ScannerTests.swift */,
+				A1D4BCFE202C4F4100FCDDEC /* Info.plist */,
+			);
+			path = ScannerTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A1D4BCEA202C4F4100FCDDEC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1D4BCFF202C4F4100FCDDEC /* Scanner.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		A1D4BCB6202C4F3800FCDDEC /* ScannerSampleProject */ = {
@@ -135,10 +230,12 @@
 				A1D4BCB3202C4F3800FCDDEC /* Sources */,
 				A1D4BCB4202C4F3800FCDDEC /* Frameworks */,
 				A1D4BCB5202C4F3800FCDDEC /* Resources */,
+				A1D4BD07202C4F4100FCDDEC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A1D4BD01202C4F4100FCDDEC /* PBXTargetDependency */,
 			);
 			name = ScannerSampleProject;
 			productName = ScannerSampleProject;
@@ -181,6 +278,43 @@
 			productReference = A1D4BCD6202C4F3800FCDDEC /* ScannerSampleProjectUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		A1D4BCEC202C4F4100FCDDEC /* Scanner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1D4BD04202C4F4100FCDDEC /* Build configuration list for PBXNativeTarget "Scanner" */;
+			buildPhases = (
+				A1D4BCE8202C4F4100FCDDEC /* Sources */,
+				A1D4BCE9202C4F4100FCDDEC /* Frameworks */,
+				A1D4BCEA202C4F4100FCDDEC /* Headers */,
+				A1D4BCEB202C4F4100FCDDEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Scanner;
+			productName = Scanner;
+			productReference = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A1D4BCF4202C4F4100FCDDEC /* ScannerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1D4BD08202C4F4100FCDDEC /* Build configuration list for PBXNativeTarget "ScannerTests" */;
+			buildPhases = (
+				A1D4BCF1202C4F4100FCDDEC /* Sources */,
+				A1D4BCF2202C4F4100FCDDEC /* Frameworks */,
+				A1D4BCF3202C4F4100FCDDEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1D4BCF8202C4F4100FCDDEC /* PBXTargetDependency */,
+				A1D4BCFA202C4F4100FCDDEC /* PBXTargetDependency */,
+			);
+			name = ScannerTests;
+			productName = ScannerTests;
+			productReference = A1D4BCF5202C4F4100FCDDEC /* ScannerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -205,6 +339,15 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = A1D4BCB6202C4F3800FCDDEC;
 					};
+					A1D4BCEC202C4F4100FCDDEC = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					A1D4BCF4202C4F4100FCDDEC = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = A1D4BCB6202C4F3800FCDDEC;
+					};
 				};
 			};
 			buildConfigurationList = A1D4BCB2202C4F3800FCDDEC /* Build configuration list for PBXProject "ScannerSampleProject" */;
@@ -223,6 +366,8 @@
 				A1D4BCB6202C4F3800FCDDEC /* ScannerSampleProject */,
 				A1D4BCCA202C4F3800FCDDEC /* ScannerSampleProjectTests */,
 				A1D4BCD5202C4F3800FCDDEC /* ScannerSampleProjectUITests */,
+				A1D4BCEC202C4F4100FCDDEC /* Scanner */,
+				A1D4BCF4202C4F4100FCDDEC /* ScannerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -246,6 +391,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A1D4BCD4202C4F3800FCDDEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1D4BCEB202C4F4100FCDDEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1D4BCF3202C4F4100FCDDEC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,6 +439,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A1D4BCE8202C4F4100FCDDEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1D4BCF1202C4F4100FCDDEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1D4BCFD202C4F4100FCDDEC /* ScannerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -292,6 +466,21 @@
 			isa = PBXTargetDependency;
 			target = A1D4BCB6202C4F3800FCDDEC /* ScannerSampleProject */;
 			targetProxy = A1D4BCD7202C4F3800FCDDEC /* PBXContainerItemProxy */;
+		};
+		A1D4BCF8202C4F4100FCDDEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A1D4BCEC202C4F4100FCDDEC /* Scanner */;
+			targetProxy = A1D4BCF7202C4F4100FCDDEC /* PBXContainerItemProxy */;
+		};
+		A1D4BCFA202C4F4100FCDDEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A1D4BCB6202C4F3800FCDDEC /* ScannerSampleProject */;
+			targetProxy = A1D4BCF9202C4F4100FCDDEC /* PBXContainerItemProxy */;
+		};
+		A1D4BD01202C4F4100FCDDEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A1D4BCEC202C4F4100FCDDEC /* Scanner */;
+			targetProxy = A1D4BD00202C4F4100FCDDEC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -518,6 +707,86 @@
 			};
 			name = Release;
 		};
+		A1D4BD05202C4F4100FCDDEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 67V847367C;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Scanner/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.Scanner;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A1D4BD06202C4F4100FCDDEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 67V847367C;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Scanner/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.Scanner;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A1D4BD09202C4F4100FCDDEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 67V847367C;
+				INFOPLIST_FILE = ScannerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.ScannerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScannerSampleProject.app/ScannerSampleProject";
+			};
+			name = Debug;
+		};
+		A1D4BD0A202C4F4100FCDDEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 67V847367C;
+				INFOPLIST_FILE = ScannerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.ScannerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScannerSampleProject.app/ScannerSampleProject";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -553,6 +822,24 @@
 			buildConfigurations = (
 				A1D4BCE6202C4F3800FCDDEC /* Debug */,
 				A1D4BCE7202C4F3800FCDDEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1D4BD04202C4F4100FCDDEC /* Build configuration list for PBXNativeTarget "Scanner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1D4BD05202C4F4100FCDDEC /* Debug */,
+				A1D4BD06202C4F4100FCDDEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1D4BD08202C4F4100FCDDEC /* Build configuration list for PBXNativeTarget "ScannerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1D4BD09202C4F4100FCDDEC /* Debug */,
+				A1D4BD0A202C4F4100FCDDEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
