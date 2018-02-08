@@ -20,6 +20,11 @@
 		A1D4BD02202C4F4100FCDDEC /* Scanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */; };
 		A1D4BD03202C4F4100FCDDEC /* Scanner.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */; };
+		A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */; };
+		A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */; };
+		A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E98202C7B66001723AD /* QuadrilateralView.swift */; };
+		A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E9E202C8D70001723AD /* Quadrilateral.swift */; };
+		A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +100,11 @@
 		A1D4BCFC202C4F4100FCDDEC /* ScannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerTests.swift; sourceTree = "<group>"; };
 		A1D4BCFE202C4F4100FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionManager.swift; sourceTree = "<group>"; };
+		A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
+		A1F22E98202C7B66001723AD /* QuadrilateralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
+		A1F22E9E202C8D70001723AD /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
+		A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIRectangleFeature+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,9 +206,13 @@
 		A1D4BCEE202C4F4100FCDDEC /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
+				A1D4BD11202C6C7900FCDDEC /* Extensions */,
 				A1D4BCEF202C4F4100FCDDEC /* Scanner.h */,
 				A1D4BCF0202C4F4100FCDDEC /* Info.plist */,
 				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
+				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
+				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
+				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -210,6 +224,15 @@
 				A1D4BCFE202C4F4100FCDDEC /* Info.plist */,
 			);
 			path = ScannerTests;
+			sourceTree = "<group>";
+		};
+		A1D4BD11202C6C7900FCDDEC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */,
+				A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,7 +470,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */,
+				A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */,
+				A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,
+				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
+				A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
