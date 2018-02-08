@@ -20,7 +20,7 @@ internal class CaptureSessionManager: NSObject  {
     private let videoPreviewLayer: AVCaptureVideoPreviewLayer
     private let captureSession = AVCaptureSession()
     weak var delegate: RectangleDetectionDelegateProtocol?
-    private let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: nil, options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
+    private let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
     
     /// Initialize a ImageCaptureManager instance
     
@@ -92,7 +92,7 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        let videoOutputImage = CIImage.init(cvPixelBuffer: pixelBuffer)
+        let videoOutputImage = CIImage(cvPixelBuffer: pixelBuffer)
         
         guard let rectangeFeatures = rectangleDetector?.features(in: videoOutputImage) as? [CIRectangleFeature] else {
             return
@@ -102,8 +102,8 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        let quad = Quadrilateral(rectagleFeature: biggestRectangle)
         let imageSize = videoOutputImage.extent.size
+        let quad = Quadrilateral(rectagleFeature: biggestRectangle).toCartesian(withHeight: imageSize.height)
         
         DispatchQueue.main.async { [weak self] in
             self?.delegate?.didDetectQuad(quad, imageSize)

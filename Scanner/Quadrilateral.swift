@@ -57,12 +57,9 @@ struct Quadrilateral {
         let scaledQuad = applying(scaleTransform)
         
         let scaledImageSize = imageSize.applying(scaleTransform)
-        
-        let flipTransform = flipCoordinate(withHeight: scaledImageSize.height)
-        let flippedQuad = scaledQuad.applying(flipTransform)
-        
+                
         let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
-        let rotatedQuad = flippedQuad.applying(rotationTransform)
+        let rotatedQuad = scaledQuad.applying(rotationTransform)
         
         let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height).applying(rotationTransform)
         
@@ -72,6 +69,15 @@ struct Quadrilateral {
         return translatedQuad
     }
     
+    func toCartesian(withHeight height: CGFloat) -> Quadrilateral {
+        let topLeft = cartesianForPoint(point: self.topLeft, height: height)
+        let topRight = cartesianForPoint(point: self.topRight, height: height)
+        let bottomRight = cartesianForPoint(point: self.bottomRight, height: height)
+        let bottomLeft = cartesianForPoint(point: self.bottomLeft, height: height)
+        
+        return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
+    }
+    
     // MARK: Convenience Functions
     
     private func transform(forSize fromSize: CGSize, aspectFillIntoSize toSize: CGSize) -> CGAffineTransform {
@@ -79,15 +85,13 @@ struct Quadrilateral {
         return CGAffineTransform(scaleX: scale, y: scale)
     }
     
-    private func flipCoordinate(withHeight height: CGFloat) -> CGAffineTransform {
-        var transform = CGAffineTransform(scaleX: 1, y: -1)
-        transform = transform.translatedBy(x: 0, y: -height)
-        return transform
-    }
-    
     private func translate(fromCenterOfRect fromRect: CGRect, toCenterOfRect toRect: CGRect) -> CGAffineTransform {
         let translate = CGPoint(x: toRect.midX - fromRect.midX, y: toRect.midY - fromRect.midY)
         return CGAffineTransform(translationX: translate.x, y: translate.y)
+    }
+    
+    private func cartesianForPoint(point:CGPoint, height: CGFloat) -> CGPoint {
+        return CGPoint(x: point.x, y: height - point.y)
     }
     
 }
