@@ -57,7 +57,7 @@ struct Quadrilateral {
         let scaledQuad = applying(scaleTransform)
         
         let scaledImageSize = imageSize.applying(scaleTransform)
-                
+        
         let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
         let rotatedQuad = scaledQuad.applying(rotationTransform)
         
