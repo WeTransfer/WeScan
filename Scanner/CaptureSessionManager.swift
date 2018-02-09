@@ -21,6 +21,7 @@ internal class CaptureSessionManager: NSObject  {
     private let captureSession = AVCaptureSession()
     private let rectangleFunnel = RectangleFeaturesFunnel()
     weak var delegate: RectangleDetectionDelegateProtocol?
+    private var displayedRectangle: CIRectangleFeature?
     private let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
     
     /// Initialize a ImageCaptureManager instance
@@ -105,7 +106,11 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let imageSize = videoOutputImage.extent.size
         
-        rectangleFunnel.add(biggestRectangle) { (rectangle) in
+        rectangleFunnel.add(biggestRectangle, previouslyDisplayedRectangleFeature: displayedRectangle) { (rectangle) in
+            
+            displayedRectangle = rectangle
+            
+            
             guard let bestRectangle = rectangle else {
                 DispatchQueue.main.async { [weak self] in
                     self?.delegate?.didDetectQuad(nil, imageSize)
