@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     
-    func didDetectQuad(_ quad: Quadrilateral, _ imageSize: CGSize)
+    func didDetectQuad(_ quad: Quadrilateral?, _ imageSize: CGSize)
     
 }
 
@@ -19,6 +19,7 @@ internal class CaptureSessionManager: NSObject  {
     
     private let videoPreviewLayer: AVCaptureVideoPreviewLayer
     private let captureSession = AVCaptureSession()
+    private let rectangleFunnel = RectangleFeaturesFunnel()
     weak var delegate: RectangleDetectionDelegateProtocol?
     private let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
     
@@ -82,7 +83,7 @@ internal class CaptureSessionManager: NSObject  {
     internal func stop() {
         captureSession.stopRunning()
     }
-    
+
 }
 
 extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -103,10 +104,20 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         let imageSize = videoOutputImage.extent.size
-        let quad = Quadrilateral(rectagleFeature: biggestRectangle).toCartesian(withHeight: imageSize.height)
         
-        DispatchQueue.main.async { [weak self] in
-            self?.delegate?.didDetectQuad(quad, imageSize)
+        rectangleFunnel.add(biggestRectangle) { (rectangle) in
+            guard let bestRectangle = rectangle else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.didDetectQuad(nil, imageSize)
+                }
+                return
+            }
+            
+            let quad = Quadrilateral(rectangleFeature: bestRectangle).toCartesian(withHeight: imageSize.height)
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.didDetectQuad(quad, imageSize)
+            }
         }
     }
 }

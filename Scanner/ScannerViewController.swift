@@ -51,7 +51,11 @@ public class ScannerViewController: UIViewController {
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
-    func didDetectQuad(_ quad: Quadrilateral, _ imageSize: CGSize) {
+    func didDetectQuad(_ quad: Quadrilateral?, _ imageSize: CGSize) {
+        guard let quad = quad else {
+            quadView.removeQuadrilateral()
+            return
+        }
         quadView.drawQuadrilateral(quad: quad, imageSize: imageSize)
     }
     

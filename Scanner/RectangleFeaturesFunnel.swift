@@ -26,18 +26,22 @@ final class RectangleFeaturesFunnel {
         }
     }
     
-    weak var delegate: RectangleDetectionDelegateProtocol?
-    
     private(set) var isOpen = false
     
     private var rectanglesQueue = [RectangleMatch]()
     
     private let maxNumberOfRectangles = 5
+    private let minNumberOfRectangles = 2
 
-    func add(_ rectangleFeature: CIRectangleFeature) {
+    func add(_ rectangleFeature: CIRectangleFeature, completion: (CIRectangleFeature?) -> Void) {
         let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
 
         rectanglesQueue.append(rectangleMatch)
+        
+        guard rectanglesQueue.count > minNumberOfRectangles else {
+            completion(nil)
+            return
+        }
         
         if rectanglesQueue.count > maxNumberOfRectangles {
             rectanglesQueue.removeFirst()
@@ -45,15 +49,25 @@ final class RectangleFeaturesFunnel {
         
         updateRectangleMatches()
         
+        if let bestRectangle = self.bestRectangle() {
+            completion(bestRectangle.rectangleFeature)
+        } else {
+            completion(nil)
+        }
         
     }
     
-    func open() {
+    private func bestRectangle() -> RectangleMatch? {
         
-    }
-    
-    func close() {
+        var bestMatch: RectangleMatch?
         
+        rectanglesQueue.reversed().forEach { (rectangle) in
+            if rectangle.matchingScore > (bestMatch?.matchingScore ?? -1) {
+                bestMatch = rectangle
+            }
+        }
+        
+        return bestMatch
     }
     
     private func updateRectangleMatches() {

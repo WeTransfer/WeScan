@@ -19,11 +19,11 @@ struct Quadrilateral {
     
     var bottomLeft: CGPoint
     
-    init(rectagleFeature: CIRectangleFeature) {
-        self.topLeft = rectagleFeature.topLeft
-        self.topRight = rectagleFeature.topRight
-        self.bottomLeft = rectagleFeature.bottomLeft
-        self.bottomRight = rectagleFeature.bottomRight
+    init(rectangleFeature: CIRectangleFeature) {
+        self.topLeft = rectangleFeature.topLeft
+        self.topRight = rectangleFeature.topRight
+        self.bottomLeft = rectangleFeature.bottomLeft
+        self.bottomRight = rectangleFeature.bottomRight
     }
     
     init(topLeft: CGPoint, topRight: CGPoint, bottomRight: CGPoint, bottomLeft: CGPoint) {
