@@ -27,6 +27,7 @@
 		A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */; };
 		A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */; };
 		A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */; };
+		A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22ECD2031937E001723AD /* EditScanViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIRectangleFeature+Utils.swift"; sourceTree = "<group>"; };
 		A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnel.swift; sourceTree = "<group>"; };
 		A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Utils.swift"; sourceTree = "<group>"; };
+		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				A1D4BCEF202C4F4100FCDDEC /* Scanner.h */,
 				A1D4BCF0202C4F4100FCDDEC /* Info.plist */,
 				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
+				A1F22ECD2031937E001723AD /* EditScanViewController.swift */,
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
@@ -478,6 +481,7 @@
 			files = (
 				A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */,
 				A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */,
+				A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */,
 				A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */,
 				A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,

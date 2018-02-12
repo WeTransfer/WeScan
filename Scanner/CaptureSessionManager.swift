@@ -33,7 +33,6 @@ internal class CaptureSessionManager: NSObject  {
         super.init()
         
         captureSession.beginConfiguration()
-        
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
         let photOutput = AVCapturePhotoOutput()
@@ -126,3 +125,34 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
 }
+
+extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
+    
+    func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        
+        if let error = error {
+            // TODO: Handle Error
+            print("Error capturing photo: \(error)")
+        } else {
+            if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
+                
+                if let image = UIImage(data: dataImage) {
+                    self.capturedImage.image = image
+                }
+            }
+        }
+        
+    }
+    
+    @available(iOS 11.0, *)
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        
+        guard let data = photo.fileDataRepresentation(),
+            let image =  UIImage(data: data)  else {
+                return
+        }
+        
+        self.capturedImage.image = image
+    }
+}
+
