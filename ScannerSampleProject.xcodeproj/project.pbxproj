@@ -212,15 +212,11 @@
 		A1D4BCEE202C4F4100FCDDEC /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
+				A1F22ED020319A03001723AD /* Edit */,
+				A1F22ECF203199E7001723AD /* Scan */,
 				A1D4BD11202C6C7900FCDDEC /* Extensions */,
 				A1D4BCEF202C4F4100FCDDEC /* Scanner.h */,
 				A1D4BCF0202C4F4100FCDDEC /* Info.plist */,
-				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
-				A1F22ECD2031937E001723AD /* EditScanViewController.swift */,
-				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
-				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
-				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
-				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -242,6 +238,26 @@
 				A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A1F22ECF203199E7001723AD /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
+				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
+				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
+				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
+				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		A1F22ED020319A03001723AD /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				A1F22ECD2031937E001723AD /* EditScanViewController.swift */,
+			);
+			path = Edit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
