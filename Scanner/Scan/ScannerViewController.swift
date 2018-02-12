@@ -9,30 +9,27 @@
 import UIKit
 import AVFoundation
 
-public class ScannerViewController: UIViewController {
+internal class ScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
     private let quadView = QuadrilateralView()
+    
+    private lazy var shutterButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("SHUTTER", for: .normal)
+        button.addTarget(self, action: #selector(handleTapShutterButton(_:)), for: .touchUpInside)
+        return button
+    }()
 
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        view.layer.addSublayer(videoPreviewlayer)
+        setupViews()
+        setupConstraints()
+        
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewlayer)
         captureSessionManager?.delegate = self
-        
-        view.addSubview(quadView)
-        
-        quadView.translatesAutoresizingMaskIntoConstraints = false
-        let constraints = [
-            view.topAnchor.constraint(equalTo: quadView.topAnchor),
-            view.bottomAnchor.constraint(equalTo: quadView.bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: quadView.trailingAnchor),
-            view.leadingAnchor.constraint(equalTo: quadView.leadingAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(constraints)
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -47,11 +44,46 @@ public class ScannerViewController: UIViewController {
         videoPreviewlayer.frame = view.layer.bounds
     }
     
+    private func setupViews() {
+        view.layer.addSublayer(videoPreviewlayer)
+        quadView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(quadView)
+        shutterButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(shutterButton)
+    }
+    
+    private func setupConstraints() {
+        let quadViewConstraints = [
+            quadView.topAnchor.constraint(equalTo: view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: quadView.bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: quadView.trailingAnchor),
+            quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(quadViewConstraints)
+        
+        let shutterButtonConstraints = [
+            shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 20.0),
+            shutterButton.widthAnchor.constraint(equalToConstant: 44.0),
+            shutterButton.heightAnchor.constraint(equalToConstant: 44.0)
+        ]
+        
+        NSLayoutConstraint.activate(shutterButtonConstraints)
+    }
+    
+    @objc private func handleTapShutterButton(_ sender: UIButton?) {
+        captureSessionManager?.capturePhoto()
+    }
+    
 }
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture: UIImage, withRect rect: CIRectangleFeature) {
+
+    }
     
-    func didDetectQuad(_ quad: Quadrilateral?, _ imageSize: CGSize) {
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize) {
         guard let quad = quad else {
             quadView.removeQuadrilateral()
             return

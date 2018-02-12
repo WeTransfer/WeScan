@@ -16,6 +16,7 @@ class EditScanViewController: UIViewController {
         imageView.isOpaque = true
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
