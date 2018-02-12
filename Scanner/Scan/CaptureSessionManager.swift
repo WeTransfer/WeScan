@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize)
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture: UIImage, withRect rect: CIRectangleFeature)
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withRect rect: CIRectangleFeature)
 }
 
 internal class CaptureSessionManager: NSObject  {

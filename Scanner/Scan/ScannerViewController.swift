@@ -79,8 +79,10 @@ internal class ScannerViewController: UIViewController {
 }
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture: UIImage, withRect rect: CIRectangleFeature) {
-
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withRect rect: CIRectangleFeature) {
+        let editVC = EditScanViewController(image: picture, rectange: rect)
+        
+        self.navigationController?.pushViewController(editVC, animated: true)
     }
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize) {
