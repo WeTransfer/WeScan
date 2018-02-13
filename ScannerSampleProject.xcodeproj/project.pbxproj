@@ -221,6 +221,7 @@
 				A1F22ED020319A03001723AD /* Edit */,
 				A1F22ECF203199E7001723AD /* Scan */,
 				A1D4BD11202C6C7900FCDDEC /* Extensions */,
+				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
 				A1DF90A320331A0B00841A11 /* RectangleDetector.swift */,
 				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
 				A1D4BCEF202C4F4100FCDDEC /* Scanner.h */,
@@ -255,7 +256,6 @@
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
 				A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
-				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
 				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
 			);
 			path = Scan;
