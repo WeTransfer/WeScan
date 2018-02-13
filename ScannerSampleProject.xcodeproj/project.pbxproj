@@ -23,6 +23,8 @@
 		A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */; };
 		A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */; };
 		A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF909F2031D89D00841A11 /* ImageScannerController.swift */; };
+		A1DF90A22032F98000841A11 /* UIDeviceOrientation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */; };
+		A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90A320331A0B00841A11 /* RectangleDetector.swift */; };
 		A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E98202C7B66001723AD /* QuadrilateralView.swift */; };
 		A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E9E202C8D70001723AD /* Quadrilateral.swift */; };
 		A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */; };
@@ -107,6 +109,8 @@
 		A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionManager.swift; sourceTree = "<group>"; };
 		A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
 		A1DF909F2031D89D00841A11 /* ImageScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScannerController.swift; sourceTree = "<group>"; };
+		A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIDeviceOrientation+Utils.swift"; path = "Scanner/Extensions/UIDeviceOrientation+Utils.swift"; sourceTree = SOURCE_ROOT; };
+		A1DF90A320331A0B00841A11 /* RectangleDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleDetector.swift; sourceTree = "<group>"; };
 		A1F22E98202C7B66001723AD /* QuadrilateralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
 		A1F22E9E202C8D70001723AD /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
 		A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIRectangleFeature+Utils.swift"; sourceTree = "<group>"; };
@@ -217,9 +221,10 @@
 				A1F22ED020319A03001723AD /* Edit */,
 				A1F22ECF203199E7001723AD /* Scan */,
 				A1D4BD11202C6C7900FCDDEC /* Extensions */,
+				A1DF90A320331A0B00841A11 /* RectangleDetector.swift */,
+				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
 				A1D4BCEF202C4F4100FCDDEC /* Scanner.h */,
 				A1D4BCF0202C4F4100FCDDEC /* Info.plist */,
-				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 			children = (
 				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
+				A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
 				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
@@ -507,7 +513,9 @@
 				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
 				A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */,
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
+				A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */,
 				A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */,
+				A1DF90A22032F98000841A11 /* UIDeviceOrientation+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

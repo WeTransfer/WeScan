@@ -15,15 +15,39 @@ class EditScanViewController: UIViewController {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
+        imageView.image = image
         imageView.backgroundColor = .black
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.activityIndicatorViewStyle = .white
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
+
+    
+    private lazy var quadView: QuadrilateralView = {
+        let quadView = QuadrilateralView()
+        quadView.translatesAutoresizingMaskIntoConstraints = false
+        return quadView
+    }()
+    
+    private let image: UIImage
+    
+//    private let quad: Quadrilateral
+    
     // MARK: - Life Cycle
     
-    init(image: UIImage, rectange: CIRectangleFeature) {
+    init(image: UIImage) {
+        self.image = image
+        
+        
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,20 +62,67 @@ class EditScanViewController: UIViewController {
         setupConstraints()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        displayQuad()
+    }
+    
     // MARK: - Setups
     
     private func setupViews() {
         view.addSubview(imageView)
+        view.addSubview(quadView)
+        view.addSubview(activityIndicator)
     }
     
     private func setupConstraints() {
-        let constraints = [
+        let imageViewConstraints = [
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: imageView.trailingAnchor)
+            view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         ]
         
-        NSLayoutConstraint.activate(constraints)
+        NSLayoutConstraint.activate(imageViewConstraints)
+        
+        let quadViewConstraints = [
+            quadView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            quadView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            quadView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            quadView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(quadViewConstraints)
+        
+        let activityIndicatorConstraints = [
+            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(activityIndicatorConstraints)
+    }
+    
+    private func displayQuad() {
+        activityIndicator.startAnimating()
+        
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let strongSelf = self,
+                let ciImage = strongSelf.image.ciImage,
+                let rectangle = RectangleDetector.rectangle(forImage: ciImage) else {
+                // TODO: Handle Error
+                return
+            }
+            
+            
+            
+            var quad = Quadrilateral(rectangleFeature: rectangle)
+            quad = quad.toCartesian(withHeight: strongSelf.image.size.height)
+            strongSelf.quadView.drawQuadrilateral(quad: quad, imageSize: strongSelf.image.size)
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
+        }
     }
 }

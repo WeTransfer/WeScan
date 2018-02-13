@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize)
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withRect rect: CIRectangleFeature)
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage)
 }
 
 internal class CaptureSessionManager: NSObject  {
@@ -21,7 +21,6 @@ internal class CaptureSessionManager: NSObject  {
     private let rectangleFunnel = RectangleFeaturesFunnel()
     weak var delegate: RectangleDetectionDelegateProtocol?
     private var displayedRectangle: CIRectangleFeature?
-    private let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
     private var photoOutput = AVCapturePhotoOutput()
     
     // MARK: Life Cycle
@@ -85,19 +84,15 @@ internal class CaptureSessionManager: NSObject  {
     internal func capturePhoto() {
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
-        photoOutput.capturePhoto(with: photoSettings, delegate: self)
-    }
-    
-    private func rectangle(forImage image: CIImage) -> CIRectangleFeature? {
-        guard let rectangeFeatures = rectangleDetector?.features(in: image) as? [CIRectangleFeature] else {
-            return nil
+        photoSettings.isAutoStillImageStabilizationEnabled = true
+        
+        if let photoOutputConnection = self.photoOutput.connection(with: .video) {
+            photoOutputConnection.videoOrientation = UIDevice.current.orientation.toAVCaptureVideoOrientation()
+            print(UIDevice.current.orientation.rawValue)
+            print(photoOutputConnection.videoOrientation.rawValue)
         }
         
-        guard let biggestRectangle = rectangeFeatures.biggestRectangle() else {
-            return nil
-        }
-        
-        return biggestRectangle
+       photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
 
 }
@@ -110,7 +105,7 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         let videoOutputImage = CIImage(cvPixelBuffer: pixelBuffer)
-        guard let rectangle = rectangle(forImage: videoOutputImage) else {
+        guard let rectangle = RectangleDetector.rectangle(forImage: videoOutputImage) else {
             return
         }
         
@@ -144,31 +139,30 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 }
 
 extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
-    
-    func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
 
+    func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        
         if let error = error {
             // TODO: Handle Errors
             print("Error capturing photo: \(error)")
         } else {
-            if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
-                if let image = CIImage(data: dataImage),
-                    let rectange = rectangle(forImage: image) {
-                    delegate?.captureSessionManager(self, didCapturePicture:  UIImage(ciImage: image), withRect: rectange)
+            if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
+                if let image = UIImage(data: imageData) {
+                    delegate?.captureSessionManager(self, didCapturePicture:  image)
                 }
             }
         }
-
+        
     }
     
     @available(iOS 11.0, *)
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         
-        if let data = photo.fileDataRepresentation(),
-            let image = CIImage(data: data),
-            let rectange = rectangle(forImage: image) {
-            delegate?.captureSessionManager(self, didCapturePicture:  UIImage(ciImage: image), withRect: rectange)
+        if let imageData = photo.fileDataRepresentation(),
+            let image = UIImage(data: imageData) {
+            delegate?.captureSessionManager(self, didCapturePicture:  image)
         }
+        // TODO: Handle Error
     }
 }
 
