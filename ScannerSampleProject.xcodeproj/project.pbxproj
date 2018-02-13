@@ -25,6 +25,7 @@
 		A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF909F2031D89D00841A11 /* ImageScannerController.swift */; };
 		A1DF90A22032F98000841A11 /* UIDeviceOrientation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */; };
 		A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90A320331A0B00841A11 /* RectangleDetector.swift */; };
+		A1DF90A62033321B00841A11 /* EditScanCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90A52033321B00841A11 /* EditScanCornerView.swift */; };
 		A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E98202C7B66001723AD /* QuadrilateralView.swift */; };
 		A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E9E202C8D70001723AD /* Quadrilateral.swift */; };
 		A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */; };
@@ -111,6 +112,7 @@
 		A1DF909F2031D89D00841A11 /* ImageScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScannerController.swift; sourceTree = "<group>"; };
 		A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIDeviceOrientation+Utils.swift"; path = "Scanner/Extensions/UIDeviceOrientation+Utils.swift"; sourceTree = SOURCE_ROOT; };
 		A1DF90A320331A0B00841A11 /* RectangleDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleDetector.swift; sourceTree = "<group>"; };
+		A1DF90A52033321B00841A11 /* EditScanCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanCornerView.swift; sourceTree = "<group>"; };
 		A1F22E98202C7B66001723AD /* QuadrilateralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
 		A1F22E9E202C8D70001723AD /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
 		A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIRectangleFeature+Utils.swift"; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				A1F22ECD2031937E001723AD /* EditScanViewController.swift */,
+				A1DF90A52033321B00841A11 /* EditScanCornerView.swift */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
 				A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */,
 				A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */,
+				A1DF90A62033321B00841A11 /* EditScanCornerView.swift in Sources */,
 				A1DF90A22032F98000841A11 /* UIDeviceOrientation+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

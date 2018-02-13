@@ -39,14 +39,10 @@ class EditScanViewController: UIViewController {
     
     private let image: UIImage
     
-//    private let quad: Quadrilateral
-    
     // MARK: - Life Cycle
     
     init(image: UIImage) {
         self.image = image
-        
-        
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -113,9 +109,7 @@ class EditScanViewController: UIViewController {
                 // TODO: Handle Error
                 return
             }
-            
-            
-            
+                        
             var quad = Quadrilateral(rectangleFeature: rectangle)
             quad = quad.toCartesian(withHeight: strongSelf.image.size.height)
             strongSelf.quadView.drawQuadrilateral(quad: quad, imageSize: strongSelf.image.size)
