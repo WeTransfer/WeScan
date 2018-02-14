@@ -69,7 +69,7 @@ class EditScanViewController: UIViewController {
     private func setupViews() {
         view.addSubview(imageView)
         view.addSubview(quadView)
-        view.addSubview(activityIndicator)
+        imageView.addSubview(activityIndicator)
     }
     
     private func setupConstraints() {
@@ -92,8 +92,8 @@ class EditScanViewController: UIViewController {
         NSLayoutConstraint.activate(quadViewConstraints)
         
         let activityIndicatorConstraints = [
-            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor)
+            imageView.centerYAnchor.constraint(equalTo: activityIndicator.centerYAnchor),
+            imageView.centerXAnchor.constraint(equalTo: activityIndicator.centerXAnchor)
         ]
         
         NSLayoutConstraint.activate(activityIndicatorConstraints)
@@ -104,7 +104,7 @@ class EditScanViewController: UIViewController {
         
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let strongSelf = self,
-                let ciImage = strongSelf.image.ciImage,
+                let ciImage = CIImage(image: strongSelf.image),
                 let rectangle = RectangleDetector.rectangle(forImage: ciImage) else {
                 // TODO: Handle Error
                 return
@@ -112,9 +112,9 @@ class EditScanViewController: UIViewController {
                         
             var quad = Quadrilateral(rectangleFeature: rectangle)
             quad = quad.toCartesian(withHeight: strongSelf.image.size.height)
-            strongSelf.quadView.drawQuadrilateral(quad: quad, imageSize: strongSelf.image.size)
             
             DispatchQueue.main.async { [weak self] in
+                self?.quadView.drawQuadrilateral(quad: quad, imageSize: strongSelf.image.size)
                 self?.activityIndicator.stopAnimating()
             }
         }

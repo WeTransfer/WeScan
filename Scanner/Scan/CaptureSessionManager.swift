@@ -105,27 +105,22 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         let videoOutputImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let imageSize = videoOutputImage.extent.size
+
         guard let rectangle = RectangleDetector.rectangle(forImage: videoOutputImage) else {
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
+            }
             return
         }
         
         rectangleFunnel.add(rectangle, previouslyDisplayedRectangleFeature: displayedRectangle) { (rectangle) in
-            let imageSize = videoOutputImage.extent.size
             displayedRectangle = rectangle
             
-            
-            guard let bestRectangle = rectangle else {
-                DispatchQueue.main.async { [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
-                }
-                return
-            }
-            
-            let quad = Quadrilateral(rectangleFeature: bestRectangle).toCartesian(withHeight: imageSize.height)
+            let quad = Quadrilateral(rectangleFeature: rectangle).toCartesian(withHeight: imageSize.height)
             
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else {
