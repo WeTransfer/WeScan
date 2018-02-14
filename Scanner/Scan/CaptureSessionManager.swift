@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize)
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage)
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral)
 }
 
 internal class CaptureSessionManager: NSObject  {
@@ -20,8 +20,9 @@ internal class CaptureSessionManager: NSObject  {
     private let captureSession = AVCaptureSession()
     private let rectangleFunnel = RectangleFeaturesFunnel()
     weak var delegate: RectangleDetectionDelegateProtocol?
-    private var displayedRectangle: CIRectangleFeature?
+    private var displayedRectangleResult: RectangleDetectorResult?
     private var photoOutput = AVCapturePhotoOutput()
+    private var detects = true
     
     // MARK: Life Cycle
     
@@ -100,6 +101,10 @@ internal class CaptureSessionManager: NSObject  {
 extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard detects == true else {
+            return
+        }
+        
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
@@ -112,24 +117,31 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                 guard let strongSelf = self else {
                     return
                 }
+                strongSelf.displayedRectangleResult = nil
                 strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
             }
             return
         }
         
-        rectangleFunnel.add(rectangle, previouslyDisplayedRectangleFeature: displayedRectangle) { (rectangle) in
-            displayedRectangle = rectangle
-            
-            let quad = Quadrilateral(rectangleFeature: rectangle).toCartesian(withHeight: imageSize.height)
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-
-                strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: quad, imageSize)
-            }
+        rectangleFunnel.add(rectangle, previouslyDisplayedRectangleFeature: displayedRectangleResult?.rectangle) { (rectangle) in
+            displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
         }
+    }
+    
+     private func displayRectangleResult(rectangleResult: RectangleDetectorResult) -> Quadrilateral {
+        displayedRectangleResult = rectangleResult
+        
+        let quad = Quadrilateral(rectangleFeature: rectangleResult.rectangle).toCartesian(withHeight: rectangleResult.imageSize.height)
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: quad, rectangleResult.imageSize)
+        }
+        
+        return quad
     }
 }
 
@@ -137,13 +149,15 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
 
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         
+        // TODO: FIX iOS 10.0
+        
         if let error = error {
             // TODO: Handle Errors
             print("Error capturing photo: \(error)")
         } else {
             if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
                 if let image = UIImage(data: imageData) {
-                    delegate?.captureSessionManager(self, didCapturePicture:  image)
+//                    delegate?.captureSessionManager(self, didCapturePicture:  image)
                 }
             }
         }
@@ -152,12 +166,24 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     
     @available(iOS 11.0, *)
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let displayedRectangleResult = displayedRectangleResult else {
+            return
+        }
+        
+        detects = false
+        let quad = displayRectangleResult(rectangleResult: displayedRectangleResult)
         
         if let imageData = photo.fileDataRepresentation(),
             let image = UIImage(data: imageData) {
-            delegate?.captureSessionManager(self, didCapturePicture:  image)
+            delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: quad, forViewSize: videoPreviewLayer.bounds.size)
         }
         // TODO: Handle Error
     }
 }
 
+struct RectangleDetectorResult {
+    
+    let rectangle: CIRectangleFeature
+    let imageSize: CGSize
+    
+}

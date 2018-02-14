@@ -75,11 +75,11 @@ internal class ScannerViewController: UIViewController {
     @objc private func handleTapShutterButton(_ sender: UIButton?) {
         captureSessionManager?.capturePhoto()
     }
-    
+
 }
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage) {
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral, forImageSize imageSize: CGSize) {
         let editVC = EditScanViewController(image: picture)
         
         present(editVC, animated: false, completion: nil)

@@ -103,18 +103,9 @@ class EditScanViewController: UIViewController {
         activityIndicator.startAnimating()
         
         DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let strongSelf = self,
-                let ciImage = CIImage(image: strongSelf.image),
-                let rectangle = RectangleDetector.rectangle(forImage: ciImage) else {
-                // TODO: Handle Error
-                return
-            }
-                        
-            var quad = Quadrilateral(rectangleFeature: rectangle)
-            quad = quad.toCartesian(withHeight: strongSelf.image.size.height)
             
             DispatchQueue.main.async { [weak self] in
-                self?.quadView.drawQuadrilateral(quad: quad, imageSize: strongSelf.image.size)
+
                 self?.activityIndicator.stopAnimating()
             }
         }
