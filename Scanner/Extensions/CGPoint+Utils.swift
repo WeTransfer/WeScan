@@ -12,7 +12,10 @@ extension CGPoint {
     
     func surroundingRect(withDistance distance: CGFloat) -> CGRect {
         return CGRect(x: x - distance / 2.0, y: y - distance / 2.0, width: distance, height: distance)
-
+    }
+    
+    func isWithin(delta: CGFloat, ofPoint point: CGPoint) -> Bool {
+        return (fabs(self.x - point.x) < delta) && (fabs(self.y - point.y) < delta)
     }
     
 }

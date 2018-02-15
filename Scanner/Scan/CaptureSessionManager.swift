@@ -72,6 +72,7 @@ internal class CaptureSessionManager: NSObject  {
         }
         else if authorizationStatus == .authorized {
             self.captureSession.startRunning()
+            detects = true
         }
         else {
             //TODO: present error
@@ -123,7 +124,7 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        rectangleFunnel.add(rectangle, previouslyDisplayedRectangleFeature: displayedRectangleResult?.rectangle) { (rectangle) in
+        rectangleFunnel.add(rectangle, previouslyDisplayedRectangle: displayedRectangleResult?.rectangle) { (rectangle) in
             displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
         }
     }
@@ -170,12 +171,19 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        detects = false
-        let quad = displayRectangleResult(rectangleResult: displayedRectangleResult)
-        
         if let imageData = photo.fileDataRepresentation(),
             let image = UIImage(data: imageData) {
-            delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: quad, forViewSize: videoPreviewLayer.bounds.size)
+            
+            detects = false
+            
+            let quad = displayRectangleResult(rectangleResult: displayedRectangleResult)
+            
+            guard let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, fixRotation: true) else {
+                // TODO: HANDLE ERROR
+                return
+            }
+            
+            delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: scaledQuad)
         }
         // TODO: Handle Error
     }

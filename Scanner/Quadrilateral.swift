@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-struct Quadrilateral {
+struct Quadrilateral: Transformable {
     
     var topLeft: CGPoint
     
@@ -50,25 +50,6 @@ struct Quadrilateral {
         return quadrilateral
     }
     
-    func deskew(withImageSize imageSize: CGSize, inViewSize viewSize: CGSize) -> Quadrilateral {
-        let portraitImageSize = CGSize(width: imageSize.height, height: imageSize.width)
-        
-        let scaleTransform = transform(forSize: portraitImageSize, aspectFillIntoSize: viewSize)
-        let scaledQuad = applying(scaleTransform)
-        
-        let scaledImageSize = imageSize.applying(scaleTransform)
-        
-        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
-        let rotatedQuad = scaledQuad.applying(rotationTransform)
-        
-        let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height).applying(rotationTransform)
-        
-        let translateTransform = translate(fromCenterOfRect: imageBounds, toCenterOfRect: CGRect(x: 0.0, y: 0.0, width: viewSize.width, height: viewSize.height))
-        let translatedQuad = rotatedQuad.applying(translateTransform)
-        
-        return translatedQuad
-    }
-    
     func toCartesian(withHeight height: CGFloat) -> Quadrilateral {
         let topLeft = cartesianForPoint(point: self.topLeft, height: height)
         let topRight = cartesianForPoint(point: self.topRight, height: height)
@@ -78,18 +59,41 @@ struct Quadrilateral {
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
     
-    // MARK: Convenience Functions
-    
-    private func transform(forSize fromSize: CGSize, aspectFillIntoSize toSize: CGSize) -> CGAffineTransform {
-        let scale = max(toSize.width / fromSize.width, toSize.height/fromSize.height)
-        return CGAffineTransform(scaleX: scale, y: scale)
+    func scale(_ fromImageSize: CGSize, _ toImageSize: CGSize, fixRotation: Bool? = false) -> Quadrilateral? {
+        var invertedFromImageSize = fromImageSize
+        
+        if fixRotation == false {
+            guard fromImageSize.width / toImageSize.width == fromImageSize.height / toImageSize.height else {
+                return nil
+            }
+        } else {
+            guard fromImageSize.height / toImageSize.width == fromImageSize.width / toImageSize.height else {
+                return nil
+            }
+            invertedFromImageSize = CGSize(width: fromImageSize.height, height: fromImageSize.width)
+        }
+        
+        var transformedQuad = self
+        
+        let scale = toImageSize.width / invertedFromImageSize.width
+        let scaledTransform = CGAffineTransform(scaleX: scale, y: scale)
+        transformedQuad = transformedQuad.applying(scaledTransform)
+        
+        if fixRotation == true {
+            let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
+            
+            let fromImageBounds = CGRect(x: 0.0, y: 0.0, width: fromImageSize.width, height: fromImageSize.height).applying(scaledTransform).applying(rotationTransform)
+            
+            let toImageBounds = CGRect(x: 0.0, y: 0.0, width: toImageSize.width, height: toImageSize.height)
+            let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: fromImageBounds, toCenterOfRect: toImageBounds)
+            
+            transformedQuad = transformedQuad.applyTransforms([rotationTransform, translationTransform])
+        }
+        
+        return transformedQuad
     }
-    
-    private func translate(fromCenterOfRect fromRect: CGRect, toCenterOfRect toRect: CGRect) -> CGAffineTransform {
-        let translate = CGPoint(x: toRect.midX - fromRect.midX, y: toRect.midY - fromRect.midY)
-        return CGAffineTransform(translationX: translate.x, y: translate.y)
-    }
-    
+        // MARK: Convenience Functions
+        
     private func cartesianForPoint(point:CGPoint, height: CGFloat) -> CGPoint {
         return CGPoint(x: point.x, y: height - point.y)
     }

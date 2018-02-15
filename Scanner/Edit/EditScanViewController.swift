@@ -22,15 +22,6 @@ class EditScanViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.activityIndicatorViewStyle = .white
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.stopAnimating()
-        return activityIndicator
-    }()
-
-    
     private lazy var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
         quadView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,11 +29,13 @@ class EditScanViewController: UIViewController {
     }()
     
     private let image: UIImage
+    private let quad: Quadrilateral
     
     // MARK: - Life Cycle
     
-    init(image: UIImage) {
+    init(image: UIImage, quad: Quadrilateral) {
         self.image = image
+        self.quad = quad
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -69,7 +62,6 @@ class EditScanViewController: UIViewController {
     private func setupViews() {
         view.addSubview(imageView)
         view.addSubview(quadView)
-        imageView.addSubview(activityIndicator)
     }
     
     private func setupConstraints() {
@@ -90,24 +82,22 @@ class EditScanViewController: UIViewController {
         ]
         
         NSLayoutConstraint.activate(quadViewConstraints)
-        
-        let activityIndicatorConstraints = [
-            imageView.centerYAnchor.constraint(equalTo: activityIndicator.centerYAnchor),
-            imageView.centerXAnchor.constraint(equalTo: activityIndicator.centerXAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(activityIndicatorConstraints)
     }
     
     private func displayQuad() {
-        activityIndicator.startAnimating()
+        let imageSize = image.size
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: quadView.bounds.size)
+        let scaledImageSize = imageSize.applying(scaleTransform)
         
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            
-            DispatchQueue.main.async { [weak self] in
-
-                self?.activityIndicator.stopAnimating()
-            }
-        }
+//        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
+        
+        let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height)
+        let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
+        
+        let transforms = [scaleTransform, translationTransform]
+        
+        let transformedQuad = quad.applyTransforms(transforms)
+                
+        quadView.drawQuadrilateral(quad: transformedQuad)
     }
 }

@@ -79,18 +79,33 @@ internal class ScannerViewController: UIViewController {
 }
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral, forImageSize imageSize: CGSize) {
-        let editVC = EditScanViewController(image: picture)
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral) {
+        let editVC = EditScanViewController(image: picture, quad: quad)
         
-        present(editVC, animated: false, completion: nil)
+        navigationController?.pushViewController(editVC, animated: false)
     }
-    
+        
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize) {
         guard let quad = quad else {
             quadView.removeQuadrilateral()
             return
         }
-        quadView.drawQuadrilateral(quad: quad, imageSize: imageSize)
+        
+        let portraitImageSize = CGSize(width: imageSize.height, height: imageSize.width)
+        
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: portraitImageSize, aspectFillInSize: quadView.bounds.size)
+        let scaledImageSize = imageSize.applying(scaleTransform)
+        
+        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
+
+        let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height).applying(rotationTransform)
+        let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
+
+        let transforms = [scaleTransform, rotationTransform, translationTransform]
+        
+        let transformedQuad = quad.applyTransforms(transforms)
+        
+        quadView.drawQuadrilateral(quad: transformedQuad)
     }
     
 }

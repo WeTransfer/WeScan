@@ -39,10 +39,9 @@ internal final class QuadrilateralView: UIView {
     
     // MARK: - Drawings
     
-    public func drawQuadrilateral(quad: Quadrilateral, imageSize: CGSize) {
-        let deskewedQuad = quad.deskew(withImageSize: imageSize, inViewSize: bounds.size)
-        self.quad = deskewedQuad
-        drawQuad(deskewedQuad)
+    public func drawQuadrilateral(quad: Quadrilateral) {
+        self.quad = quad
+        drawQuad(quad)
         
         if editable {
             layoutCornerButtons(forQuad: quad)
