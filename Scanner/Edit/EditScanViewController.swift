@@ -29,6 +29,12 @@ class EditScanViewController: UIViewController {
         return quadView
     }()
     
+    private lazy var nextButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Next", for: .normal)
+        return button
+    }()
+
     private let image: UIImage
     private let quad: Quadrilateral
     
@@ -50,6 +56,9 @@ class EditScanViewController: UIViewController {
         
         setupViews()
         setupConstraints()
+        
+        title = "Edit scan"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: nextButton)
     }
     
     override func viewDidLayoutSubviews() {
