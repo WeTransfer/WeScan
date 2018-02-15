@@ -24,6 +24,7 @@ class EditScanViewController: UIViewController {
     
     private lazy var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
+        quadView.editable = true
         quadView.translatesAutoresizingMaskIntoConstraints = false
         return quadView
     }()
@@ -88,8 +89,6 @@ class EditScanViewController: UIViewController {
         let imageSize = image.size
         let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: quadView.bounds.size)
         let scaledImageSize = imageSize.applying(scaleTransform)
-        
-//        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
         
         let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height)
         let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
