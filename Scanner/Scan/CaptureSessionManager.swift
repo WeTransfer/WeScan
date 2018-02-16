@@ -90,8 +90,6 @@ internal class CaptureSessionManager: NSObject  {
         
         if let photoOutputConnection = self.photoOutput.connection(with: .video) {
             photoOutputConnection.videoOrientation = UIDevice.current.orientation.toAVCaptureVideoOrientation()
-            print(UIDevice.current.orientation.rawValue)
-            print(photoOutputConnection.videoOrientation.rawValue)
         }
         
        photoOutput.capturePhoto(with: photoSettings, delegate: self)
@@ -154,7 +152,6 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         
         if let error = error {
             // TODO: Handle Errors
-            print("Error capturing photo: \(error)")
         } else {
             if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
                 if let image = UIImage(data: imageData) {

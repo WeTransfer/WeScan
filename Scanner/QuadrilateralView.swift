@@ -12,9 +12,36 @@ import AVFoundation
 internal final class QuadrilateralView: UIView {
     
     private let quadLayer = CAShapeLayer()
-    private var quad: Quadrilateral?
+    private(set) var quad: Quadrilateral?
     
-    public var editable = false
+    public var editable = false {
+        didSet {
+            editable == true ? showCornerButtons() : hideCornerButtons()
+            guard let quad = quad else {
+                return
+            }
+            layoutCornerButtons(forQuad: quad)
+        }
+    }
+    
+    private lazy var topLeftCornerButton: EditScanCornerView = {
+        let cornerButton = self.cornerButton(atPosition: .topLeft)
+        return cornerButton
+    }()
+    
+    private lazy var topRightCornerButton: EditScanCornerView = {
+        let cornerButton = self.cornerButton(atPosition: .topRight)
+        return cornerButton
+    }()
+    
+    private lazy var bottomRightCornerButton: EditScanCornerView = {
+        let cornerButton = self.cornerButton(atPosition: .bottomRight)
+        return cornerButton
+    }()
+    private lazy var bottomLeftCornerButton: EditScanCornerView = {
+        let cornerButton = self.cornerButton(atPosition: .bottomLeft)
+        return cornerButton
+    }()
     
     // MARK: - Life Cycle
     
@@ -29,12 +56,23 @@ internal final class QuadrilateralView: UIView {
     
     private func commonInit() {
         layer.addSublayer(quadLayer)
+        setupCornerButtons()
+    }
+    
+    private func setupCornerButtons() {
+        addSubview(topLeftCornerButton)
+        addSubview(topRightCornerButton)
+        addSubview(bottomRightCornerButton)
+        addSubview(bottomLeftCornerButton)
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
         
         quadLayer.frame = bounds
+        if let quad = quad {
+            layoutCornerButtons(forQuad: quad)
+        }
     }
     
     // MARK: - Drawings
@@ -42,8 +80,8 @@ internal final class QuadrilateralView: UIView {
     public func drawQuadrilateral(quad: Quadrilateral) {
         self.quad = quad
         drawQuad(quad)
-        
         if editable {
+            showCornerButtons()
             layoutCornerButtons(forQuad: quad)
         }
     }
@@ -61,21 +99,10 @@ internal final class QuadrilateralView: UIView {
     private func layoutCornerButtons(forQuad quad: Quadrilateral) {
         let buttonSize = min(min(bounds.size.width, bounds.size.height) / 10.0, 44.0)
         
-        let topLeftButton = cornerButton(atPosition: .topLeft)
-        topLeftButton.frame = CGRect(x: quad.topLeft.x - buttonSize / 2.0, y: quad.topLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        addSubview(topLeftButton)
-        
-        let topRightButton = cornerButton(atPosition: .topRight)
-        topRightButton.frame = CGRect(x: quad.topRight.x - buttonSize / 2.0, y: quad.topRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        addSubview(topRightButton)
-        
-        let bottomRightButton = cornerButton(atPosition: .bottomRight)
-        bottomRightButton.frame = CGRect(x: quad.bottomRight.x - buttonSize / 2.0, y: quad.bottomRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        addSubview(bottomRightButton)
-        
-        let bottomLeftButton = cornerButton(atPosition: .bottomLeft)
-        bottomLeftButton.frame = CGRect(x: quad.bottomLeft.x - buttonSize / 2.0, y: quad.bottomLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        addSubview(bottomLeftButton)
+        topLeftCornerButton.frame = CGRect(x: quad.topLeft.x - buttonSize / 2.0, y: quad.topLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
+        topRightCornerButton.frame = CGRect(x: quad.topRight.x - buttonSize / 2.0, y: quad.topRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
+        bottomRightCornerButton.frame = CGRect(x: quad.bottomRight.x - buttonSize / 2.0, y: quad.bottomRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
+        bottomLeftCornerButton.frame = CGRect(x: quad.bottomLeft.x - buttonSize / 2.0, y: quad.bottomLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
     }
     
     func removeQuadrilateral() {
@@ -125,11 +152,26 @@ internal final class QuadrilateralView: UIView {
     private func cornerButton(atPosition position: CornerPosition) -> EditScanCornerView {
         let button = EditScanCornerView(frame: CGRect.zero, position: position)
         button.backgroundColor = UIColor.blue
+        button.isHidden = true
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(panGesture:)))
         button.addGestureRecognizer(panGesture)
         
         return button
+    }
+    
+    private func hideCornerButtons() {
+        topLeftCornerButton.isHidden = true
+        topRightCornerButton.isHidden = true
+        bottomRightCornerButton.isHidden = true
+        bottomLeftCornerButton.isHidden = true
+    }
+    
+    private func showCornerButtons() {
+        topLeftCornerButton.isHidden = false
+        topRightCornerButton.isHidden = false
+        bottomRightCornerButton.isHidden = false
+        bottomLeftCornerButton.isHidden = false
     }
     
     private func updated(_ quad: Quadrilateral, withPosition position: CGPoint, forCorner corner: CornerPosition) -> Quadrilateral {
