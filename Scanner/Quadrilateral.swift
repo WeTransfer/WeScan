@@ -51,10 +51,10 @@ struct Quadrilateral: Transformable {
     }
     
     func toCartesian(withHeight height: CGFloat) -> Quadrilateral {
-        let topLeft = cartesianForPoint(point: self.topLeft, height: height)
-        let topRight = cartesianForPoint(point: self.topRight, height: height)
-        let bottomRight = cartesianForPoint(point: self.bottomRight, height: height)
-        let bottomLeft = cartesianForPoint(point: self.bottomLeft, height: height)
+        let topLeft = self.topLeft.cartesian(withHeight: height)
+        let topRight = self.topRight.cartesian(withHeight: height)
+        let bottomRight = self.bottomRight.cartesian(withHeight: height)
+        let bottomLeft = self.bottomLeft.cartesian(withHeight: height)
         
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
@@ -92,10 +92,5 @@ struct Quadrilateral: Transformable {
         
         return transformedQuad
     }
-        // MARK: Convenience Functions
-        
-    private func cartesianForPoint(point:CGPoint, height: CGFloat) -> CGPoint {
-        return CGPoint(x: point.x, y: height - point.y)
-    }
-    
+
 }

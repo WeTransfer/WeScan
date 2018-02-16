@@ -18,4 +18,8 @@ extension CGPoint {
         return (fabs(self.x - point.x) < delta) && (fabs(self.y - point.y) < delta)
     }
     
+    func cartesian(withHeight height: CGFloat) -> CGPoint {
+        return CGPoint(x: x, y: height - y)
+    }
+    
 }
