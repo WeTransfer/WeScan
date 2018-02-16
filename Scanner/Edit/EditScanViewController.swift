@@ -17,7 +17,7 @@ class EditScanViewController: UIViewController {
         imageView.isOpaque = true
         imageView.image = image
         imageView.backgroundColor = .black
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -32,11 +32,15 @@ class EditScanViewController: UIViewController {
     private lazy var nextButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Next", for: .normal)
+        button.addTarget(self, action: #selector(handleTapNext(sender:)), for: .touchUpInside)
         return button
     }()
 
     private let image: UIImage
     private let quad: Quadrilateral
+    
+    private var quadViewWidthConstraint: NSLayoutConstraint?
+    private var quadViewHeightConstraint: NSLayoutConstraint?
     
     // MARK: - Life Cycle
     
@@ -63,8 +67,9 @@ class EditScanViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        adjustQuadViewConstraints()
         displayQuad()
+        
     }
     
     // MARK: - Setups
@@ -84,28 +89,60 @@ class EditScanViewController: UIViewController {
         
         NSLayoutConstraint.activate(imageViewConstraints)
         
+        quadViewWidthConstraint = quadView.widthAnchor.constraint(equalToConstant: 0.0)
+        quadViewHeightConstraint = quadView.heightAnchor.constraint(equalToConstant: 0.0)
+        
         let quadViewConstraints = [
             quadView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quadView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            quadView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            quadView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            quadViewWidthConstraint!,
+            quadViewHeightConstraint!
         ]
         
         NSLayoutConstraint.activate(quadViewConstraints)
     }
     
+    // MARK - Actions
+    
+    @objc func handleTapNext(sender: UIButton) {
+        guard let quad = quadView.quad,
+            var ciImage = CIImage(image: image),
+            var scaledQuad = quad.scale(quadView.bounds.size, image.size) else {
+            // TODO: Handle Error
+            return
+        }
+        
+        let orientationTransform = ciImage.orientationTransform(forExifOrientation: 6)
+        ciImage = ciImage.transformed(by: orientationTransform)
+        
+        scaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
+        scaledQuad.reorganize()
+        
+        let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
+            "inputTopLeft": CIVector(cgPoint: scaledQuad.topLeft),
+            "inputTopRight": CIVector(cgPoint: scaledQuad.topRight),
+            "inputBottomLeft": CIVector(cgPoint: scaledQuad.bottomLeft),
+            "inputBottomRight": CIVector(cgPoint: scaledQuad.bottomRight)
+            ])
+        
+        self.imageView.image = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .left)
+    }
+    
     private func displayQuad() {
         let imageSize = image.size
-        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: quadView.bounds.size)
-        let scaledImageSize = imageSize.applying(scaleTransform)
+        let imageFrame = CGRect(x: quadView.frame.origin.x, y: quadView.frame.origin.y, width: quadViewWidthConstraint!.constant, height: quadViewHeightConstraint!.constant)
         
-        let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height)
-        let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
-        
-        let transforms = [scaleTransform, translationTransform]
-        
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
+        let transforms = [scaleTransform]
         let transformedQuad = quad.applyTransforms(transforms)
-                
+        
         quadView.drawQuadrilateral(quad: transformedQuad)
     }
+    
+    private func adjustQuadViewConstraints() {
+        let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
+        quadViewWidthConstraint?.constant = frame.size.width
+        quadViewHeightConstraint?.constant = frame.size.height
+    }
+
 }
