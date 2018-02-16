@@ -20,6 +20,7 @@ internal final class QuadrilateralView: UIView {
             guard let quad = quad else {
                 return
             }
+            drawQuad(quad)
             layoutCornerButtons(forQuad: quad)
         }
     }
@@ -87,9 +88,15 @@ internal final class QuadrilateralView: UIView {
     }
     
     private func drawQuad(_ quad: Quadrilateral) {
-        let path = quad.path()
+        let path = quad.path().reversing()
+        
+        if editable {
+            let rectPath = UIBezierPath(rect: bounds)
+            path.append(rectPath)
+        }
+        
         quadLayer.path = path.cgPath
-        quadLayer.fillColor = UIColor.blue.cgColor
+        quadLayer.fillColor = editable ? UIColor.black.cgColor : UIColor.blue.cgColor
         quadLayer.strokeColor = UIColor.white.cgColor
         quadLayer.lineWidth = 2.0
         quadLayer.opacity = 0.5
@@ -97,12 +104,19 @@ internal final class QuadrilateralView: UIView {
     }
     
     private func layoutCornerButtons(forQuad quad: Quadrilateral) {
-        let buttonSize = min(min(bounds.size.width, bounds.size.height) / 10.0, 44.0)
+        let buttonSize: CGFloat = 30.0
         
         topLeftCornerButton.frame = CGRect(x: quad.topLeft.x - buttonSize / 2.0, y: quad.topLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
+        topLeftCornerButton.layer.cornerRadius = buttonSize / 2.0
+        
         topRightCornerButton.frame = CGRect(x: quad.topRight.x - buttonSize / 2.0, y: quad.topRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
+        topRightCornerButton.layer.cornerRadius = buttonSize / 2.0
+        
         bottomRightCornerButton.frame = CGRect(x: quad.bottomRight.x - buttonSize / 2.0, y: quad.bottomRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
+        bottomRightCornerButton.layer.cornerRadius = buttonSize / 2.0
+        
         bottomLeftCornerButton.frame = CGRect(x: quad.bottomLeft.x - buttonSize / 2.0, y: quad.bottomLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
+        bottomLeftCornerButton.layer.cornerRadius = buttonSize / 2.0
     }
     
     func removeQuadrilateral() {
@@ -151,7 +165,12 @@ internal final class QuadrilateralView: UIView {
     
     private func cornerButton(atPosition position: CornerPosition) -> EditScanCornerView {
         let button = EditScanCornerView(frame: CGRect.zero, position: position)
-        button.backgroundColor = UIColor.blue
+        button.backgroundColor = UIColor.white
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        button.layer.shadowRadius = 3.0
+        button.layer.shadowOpacity = 0.5
+        button.layer.masksToBounds = false
         button.isHidden = true
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(panGesture:)))

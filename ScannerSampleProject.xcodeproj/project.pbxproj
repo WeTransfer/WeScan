@@ -227,11 +227,11 @@
 		A1D4BCEE202C4F4100FCDDEC /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
+				A1DF90F720371A0800841A11 /* Common Views */,
 				A1DF90E220358C9E00841A11 /* Protocols */,
 				A1F22ED020319A03001723AD /* Edit */,
 				A1F22ECF203199E7001723AD /* Scan */,
 				A1D4BD11202C6C7900FCDDEC /* Extensions */,
-				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
 				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
 				A1DF90A320331A0B00841A11 /* RectangleDetector.swift */,
 				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
@@ -269,6 +269,14 @@
 				A1DF90E320358CB000841A11 /* Transformable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		A1DF90F720371A0800841A11 /* Common Views */ = {
+			isa = PBXGroup;
+			children = (
+				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
+			);
+			path = "Common Views";
 			sourceTree = "<group>";
 		};
 		A1F22ECF203199E7001723AD /* Scan */ = {
