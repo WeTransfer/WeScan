@@ -172,10 +172,10 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             let image = UIImage(data: imageData) {
             
             detects = false
-            
+
             let quad = displayRectangleResult(rectangleResult: displayedRectangleResult)
             
-            guard let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, fixRotation: true) else {
+            guard let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: CGFloat(Double.pi/2)) else {
                 // TODO: HANDLE ERROR
                 return
             }
