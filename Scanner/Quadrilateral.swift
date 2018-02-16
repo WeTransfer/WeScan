@@ -59,6 +59,20 @@ struct Quadrilateral: Transformable {
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
     
+    mutating func reorganize() {
+        let points = [topLeft, topRight, bottomRight, bottomLeft]
+        let ySortedPoints = sortPointsByYValue(points)
+        let topMostPoints = Array(ySortedPoints[0..<2])
+        let bottomMostPoints = Array(ySortedPoints[2..<4])
+        let xSortedTopMostPoints = sortPointsByXValue(topMostPoints)
+        let xSortedBottomMostPoints = sortPointsByXValue(bottomMostPoints)
+        
+        topLeft = xSortedTopMostPoints[0]
+        topRight = xSortedTopMostPoints[1]
+        bottomRight = xSortedBottomMostPoints[1]
+        bottomLeft = xSortedBottomMostPoints[0]
+    }
+    
     func scale(_ fromImageSize: CGSize, _ toImageSize: CGSize, withRotationAngle rotationAngle: CGFloat = 0.0) -> Quadrilateral? {
         var invertedFromImageSize = fromImageSize
         
@@ -92,5 +106,27 @@ struct Quadrilateral: Transformable {
         
         return transformedQuad
     }
+    
+    // Convenience functions
+    
+    private func sortPointsByYValue(_ points: [CGPoint]) -> [CGPoint] {
+        return points.sorted { (point1, point2) -> Bool in
+            point1.y < point2.y
+        }
+    }
+    
+    private func sortPointsByXValue(_ points: [CGPoint]) -> [CGPoint] {
+        return points.sorted { (point1, point2) -> Bool in
+            point1.x < point2.x
+        }
+    }
 
+}
+
+extension Quadrilateral: Equatable {
+    
+    static func ==(lhs: Quadrilateral, rhs: Quadrilateral) -> Bool {
+        return lhs.topLeft == rhs.topLeft && lhs.topRight == rhs.topRight && lhs.bottomRight == rhs.bottomRight && lhs.bottomLeft == rhs.bottomLeft
+    }
+    
 }
