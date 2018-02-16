@@ -119,13 +119,19 @@ class EditScanViewController: UIViewController {
         scaledQuad.reorganize()
         
         let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
-            "inputTopLeft": CIVector(cgPoint: scaledQuad.topLeft),
-            "inputTopRight": CIVector(cgPoint: scaledQuad.topRight),
-            "inputBottomLeft": CIVector(cgPoint: scaledQuad.bottomLeft),
-            "inputBottomRight": CIVector(cgPoint: scaledQuad.bottomRight)
+            "inputTopLeft": CIVector(cgPoint: scaledQuad.bottomLeft),
+            "inputTopRight": CIVector(cgPoint: scaledQuad.bottomRight),
+            "inputBottomLeft": CIVector(cgPoint: scaledQuad.topLeft),
+            "inputBottomRight": CIVector(cgPoint: scaledQuad.topRight)
             ])
+ 
+        var uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+        uiImage = uiImage.imageWithPortraitOrientation()
+
+       self.imageView.image = uiImage
         
-        self.imageView.image = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .left)
+        quadView.isHidden = true
+        quadView.removeQuadrilateral()
     }
     
     private func displayQuad() {
