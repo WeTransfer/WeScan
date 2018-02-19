@@ -9,14 +9,19 @@
 import Foundation
 import AVFoundation
 
+/// A data structure representing a quadrilateral and its position. This class exists to bypass the fact that CIRectangleFeature is read-only.
 struct Quadrilateral: Transformable {
     
+    /// A point that specifies the top left corner of the quadrilateral.
     var topLeft: CGPoint
     
+    /// A point that specifies the top right corner of the quadrilateral.
     var topRight: CGPoint
     
+    /// A point that specifies the bottom right corner of the quadrilateral.
     var bottomRight: CGPoint
-    
+
+    /// A point that specifies the bottom left corner of the quadrilateral.
     var bottomLeft: CGPoint
         
     init(rectangleFeature: CIRectangleFeature) {
@@ -33,6 +38,7 @@ struct Quadrilateral: Transformable {
         self.bottomLeft = bottomLeft
     }
     
+    /// Generates a `UIBezierPath` of the quadrilateral.
     func path() -> UIBezierPath {
         let path = UIBezierPath()
         path.move(to: topLeft)
@@ -44,12 +50,22 @@ struct Quadrilateral: Transformable {
         return path
     }
     
+    /// Applies a `CGAffineTransform` to the quadrilateral.
+    ///
+    /// - Parameters:
+    ///   - t: the transform to apply.
+    /// - Returns: The transformed quadrilateral.
     func applying(_ t: CGAffineTransform) -> Quadrilateral {
         let quadrilateral = Quadrilateral(topLeft: topLeft.applying(t), topRight: topRight.applying(t), bottomRight: bottomRight.applying(t), bottomLeft: bottomLeft.applying(t))
         
         return quadrilateral
     }
     
+    /// Converts the current to the cartesian coordinate system (where 0 on the y axis is at the bottom).
+    ///
+    /// - Parameters:
+    ///   - height: The height of the rect containing the quadrilateral.
+    /// - Returns: The same quadrilateral in the cartesian corrdinate system.
     func toCartesian(withHeight height: CGFloat) -> Quadrilateral {
         let topLeft = self.topLeft.cartesian(withHeight: height)
         let topRight = self.topRight.cartesian(withHeight: height)
@@ -59,6 +75,7 @@ struct Quadrilateral: Transformable {
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
     
+    /// Reorganizes the current quadrilateal, making sure that the points are at their appropriate positions. For example, it ensures that the top left point is actually the top and left point point of the quadrilateral.
     mutating func reorganize() {
         let points = [topLeft, topRight, bottomRight, bottomLeft]
         let ySortedPoints = sortPointsByYValue(points)
@@ -73,8 +90,15 @@ struct Quadrilateral: Transformable {
         bottomLeft = xSortedBottomMostPoints[0]
     }
     
-    func scale(_ fromImageSize: CGSize, _ toImageSize: CGSize, withRotationAngle rotationAngle: CGFloat = 0.0) -> Quadrilateral? {
-        var invertedFromImageSize = fromImageSize
+    /// Scales the quadrilateral based on the ratio of two given sizes, and optionnaly applies a rotation.
+    ///
+    /// - Parameters:
+    ///   - fromSize: The size the quadrilateral is currently related to.
+    ///   - toSize: The size to scale the quadrilateral to.
+    ///   - rotationAngle: The optional rotation to apply.
+    /// - Returns: The newly scaled and potentially rotated quadrilateral.
+    func scale(_ fromSize: CGSize, _ toSize: CGSize, withRotationAngle rotationAngle: CGFloat = 0.0) -> Quadrilateral? {
+        var invertedfromSize = fromSize
         
         if rotationAngle == 0.0 {
             guard fromImageSize.width / toImageSize.width == fromImageSize.height / toImageSize.height else {
@@ -109,12 +133,20 @@ struct Quadrilateral: Transformable {
     
     // Convenience functions
     
+    /// Sorts the given `CGPoints` based on their y value.
+    /// - Parameters:
+    ///   - points: The poinmts to sort.
+    /// - Returns: The points sorted based on their y value.
     private func sortPointsByYValue(_ points: [CGPoint]) -> [CGPoint] {
         return points.sorted { (point1, point2) -> Bool in
             point1.y < point2.y
         }
     }
     
+    /// Sorts the given `CGPoints` based on their x value.
+    /// - Parameters:
+    ///   - points: The poinmts to sort.
+    /// - Returns: The points sorted based on their x value.
     private func sortPointsByXValue(_ points: [CGPoint]) -> [CGPoint] {
         return points.sorted { (point1, point2) -> Bool in
             point1.x < point2.x
