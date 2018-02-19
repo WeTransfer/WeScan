@@ -15,7 +15,7 @@ extension CGPoint {
     }
     
     func isWithin(delta: CGFloat, ofPoint point: CGPoint) -> Bool {
-        return (fabs(self.x - point.x) < delta) && (fabs(self.y - point.y) < delta)
+        return (fabs(x - point.x) <= delta) && (fabs(y - point.y) <= delta)
     }
     
     func cartesian(withHeight height: CGFloat) -> CGPoint {
