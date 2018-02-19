@@ -29,6 +29,7 @@
 		A1DF90E420358CB100841A11 /* Transformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90E320358CB000841A11 /* Transformable.swift */; };
 		A1DF90F22035992A00841A11 /* CGAffineTransform+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90F12035992A00841A11 /* CGAffineTransform+Utils.swift */; };
 		A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90F52037187500841A11 /* UIImage+Orientation.swift */; };
+		A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90FC203B412600841A11 /* CGPointTests.swift */; };
 		A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E98202C7B66001723AD /* QuadrilateralView.swift */; };
 		A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E9E202C8D70001723AD /* Quadrilateral.swift */; };
 		A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */; };
@@ -120,6 +121,7 @@
 		A1DF90E320358CB000841A11 /* Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformable.swift; sourceTree = "<group>"; };
 		A1DF90F12035992A00841A11 /* CGAffineTransform+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGAffineTransform+Utils.swift"; sourceTree = "<group>"; };
 		A1DF90F52037187500841A11 /* UIImage+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
+		A1DF90FC203B412600841A11 /* CGPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointTests.swift; sourceTree = "<group>"; };
 		A1F22E98202C7B66001723AD /* QuadrilateralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
 		A1F22E9E202C8D70001723AD /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
 		A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIRectangleFeature+Utils.swift"; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 			children = (
 				A1D4BCFE202C4F4100FCDDEC /* Info.plist */,
 				A1DF90C22034919400841A11 /* QuadrilateralTests.swift */,
+				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
 				A1DF90C12034919300841A11 /* ScannerTests-Bridging-Header.h */,
 			);
 			path = ScannerTests;
@@ -558,6 +561,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */,
 				A1DF90C32034919400841A11 /* QuadrilateralTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
