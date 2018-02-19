@@ -23,4 +23,17 @@ class CGPointTests: XCTestCase {
         XCTAssert(rect == expectedRect)
     }
     
+    func testIsWithinDelta() {
+        let point1 = CGPoint.zero
+        var point2 = CGPoint.zero
+        
+        XCTAssert(point1.isWithin(delta: 10.0, ofPoint: point2) == true)
+        XCTAssert(point1.isWithin(delta: 0.0, ofPoint: point2) == true)
+        
+        point2 = CGPoint(x: 1.0, y: 1.0)
+        
+        XCTAssert(point1.isWithin(delta: 1.1, ofPoint: point2) == true)
+        XCTAssert(point1.isWithin(delta: 0.9, ofPoint: point2) == false)
+    }
+    
 }
