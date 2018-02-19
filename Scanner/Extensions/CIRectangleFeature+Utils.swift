@@ -17,22 +17,22 @@ extension CIRectangleFeature {
     
     func isWithin(_ distance: CGFloat, ofRectangleFeature rectangleFeature: CIRectangleFeature) -> Bool {
         
-        let topLeftRect = topLeft.surroundingRect(withDistance: distance)
+        let topLeftRect = topLeft.surroundingSquare(withSize: distance)
         if !topLeftRect.contains(rectangleFeature.topLeft) {
             return false
         }
         
-        let topRightRect = topRight.surroundingRect(withDistance: distance)
+        let topRightRect = topRight.surroundingSquare(withSize: distance)
         if !topRightRect.contains(rectangleFeature.topRight) {
             return false
         }
         
-        let bottomRightRect = bottomRight.surroundingRect(withDistance: distance)
+        let bottomRightRect = bottomRight.surroundingSquare(withSize: distance)
         if !bottomRightRect.contains(rectangleFeature.bottomRight) {
             return false
         }
 
-        let bottomLeftRect = bottomLeft.surroundingRect(withDistance: distance)
+        let bottomLeftRect = bottomLeft.surroundingSquare(withSize: distance)
         if !bottomLeftRect.contains(rectangleFeature.bottomLeft) {
             return false
         }

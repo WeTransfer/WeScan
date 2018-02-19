@@ -10,8 +10,8 @@ import Foundation
 
 extension CGPoint {
     
-    func surroundingRect(withDistance distance: CGFloat) -> CGRect {
-        return CGRect(x: x - distance / 2.0, y: y - distance / 2.0, width: distance, height: distance)
+    func surroundingSquare(withSize size: CGFloat) -> CGRect {
+        return CGRect(x: x - size / 2.0, y: y - size / 2.0, width: size, height: size)
     }
     
     func isWithin(delta: CGFloat, ofPoint point: CGPoint) -> Bool {
