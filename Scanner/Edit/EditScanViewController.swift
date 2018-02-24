@@ -69,7 +69,6 @@ class EditScanViewController: UIViewController {
         super.viewDidLayoutSubviews()
         adjustQuadViewConstraints()
         displayQuad()
-        
     }
     
     // MARK: - Setups

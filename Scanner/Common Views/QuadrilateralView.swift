@@ -72,7 +72,7 @@ internal final class QuadrilateralView: UIView {
         
         quadLayer.frame = bounds
         if let quad = quad {
-            layoutCornerButtons(forQuad: quad)
+            drawQuadrilateral(quad: quad)
         }
     }
     
@@ -88,9 +88,10 @@ internal final class QuadrilateralView: UIView {
     }
     
     private func drawQuad(_ quad: Quadrilateral) {
-        let path = quad.path().reversing()
+        var path = quad.path()
         
         if editable {
+            path = path.reversing()
             let rectPath = UIBezierPath(rect: bounds)
             path.append(rectPath)
         }
