@@ -21,8 +21,10 @@ internal class ScannerViewController: UIViewController {
         button.addTarget(self, action: #selector(handleTapShutterButton(_:)), for: .touchUpInside)
         return button
     }()
+    
+    // MARK: - Life Cycle
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
@@ -32,17 +34,29 @@ internal class ScannerViewController: UIViewController {
         captureSessionManager?.delegate = self
     }
     
-    override public func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         captureSessionManager?.start()
     }
     
-    override public func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         videoPreviewlayer.frame = view.layer.bounds
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    // MARK: - Setups
     
     private func setupViews() {
         view.layer.addSublayer(videoPreviewlayer)
@@ -71,6 +85,8 @@ internal class ScannerViewController: UIViewController {
         
         NSLayoutConstraint.activate(shutterButtonConstraints)
     }
+    
+    // MARK: - Actions
     
     @objc private func handleTapShutterButton(_ sender: UIButton?) {
         captureSessionManager?.capturePhoto()
