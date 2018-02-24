@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1675BAB2041693A00852865 /* Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1675BAA2041693A00852865 /* Square.jpg */; };
+		A1675BAD2041698A00852865 /* RectangleFeaturesFunnelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */; };
+		A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */; };
 		A1D4BCBB202C4F3800FCDDEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */; };
 		A1D4BCBD202C4F3800FCDDEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */; };
 		A1D4BCC0202C4F3800FCDDEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCBE202C4F3800FCDDEC /* Main.storyboard */; };
@@ -91,6 +94,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A1675BAA2041693A00852865 /* Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Square.jpg; sourceTree = "<group>"; };
+		A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RectangleFeaturesFunnelTests.swift; path = ScannerTests/RectangleFeaturesFunnelTests.swift; sourceTree = SOURCE_ROOT; };
+		A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeatureTestHelpers.swift; sourceTree = "<group>"; };
 		A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScannerSampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +177,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A1675BA92041692800852865 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A1675BAA2041693A00852865 /* Square.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A1D4BCAE202C4F3800FCDDEC = {
 			isa = PBXGroup;
 			children = (
@@ -246,10 +260,13 @@
 		A1D4BCFB202C4F4100FCDDEC /* ScannerTests */ = {
 			isa = PBXGroup;
 			children = (
+				A1675BA92041692800852865 /* Resources */,
 				A1D4BCFE202C4F4100FCDDEC /* Info.plist */,
+				A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */,
 				A1DF90C22034919400841A11 /* QuadrilateralTests.swift */,
 				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
 				A1DF90C12034919300841A11 /* ScannerTests-Bridging-Header.h */,
+				A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */,
 			);
 			path = ScannerTests;
 			sourceTree = "<group>";
@@ -503,6 +520,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1675BAB2041693A00852865 /* Square.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +581,8 @@
 			files = (
 				A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */,
 				A1DF90C32034919400841A11 /* QuadrilateralTests.swift in Sources */,
+				A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */,
+				A1675BAD2041698A00852865 /* RectangleFeaturesFunnelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
