@@ -26,19 +26,17 @@ final class RectangleFeaturesFunnel {
         }
     }
     
-    private(set) var isOpen = false
-    
     private var rectanglesQueue = [RectangleMatch]()
     
-    private let maxNumberOfRectangles = 5
-    private let minNumberOfRectangles = 2
+    let maxNumberOfRectangles = 5
+    let minNumberOfRectangles = 3
 
-    func add(_ rectangleFeature: CIRectangleFeature, previouslyDisplayedRectangle previousRectangle: CIRectangleFeature?, completion: (CIRectangleFeature) -> Void) {
+    func add(_ rectangleFeature: CIRectangleFeature, currentlyDisplayedRectangle previousRectangle: CIRectangleFeature?, completion: (CIRectangleFeature) -> Void) {
         let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
 
         rectanglesQueue.append(rectangleMatch)
         
-        guard rectanglesQueue.count > minNumberOfRectangles else {
+        guard rectanglesQueue.count >= minNumberOfRectangles else {
             return
         }
         
@@ -51,6 +49,7 @@ final class RectangleFeaturesFunnel {
         if let bestRectangle = self.bestRectangle() {
             if let previousRectangle = previousRectangle,
                 bestRectangle.rectangleFeature.isWithin(50.0, ofRectangleFeature: previousRectangle) {
+                return
             } else {
                 completion(bestRectangle.rectangleFeature)
             }

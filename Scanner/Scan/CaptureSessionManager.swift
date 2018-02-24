@@ -122,7 +122,7 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        rectangleFunnel.add(rectangle, previouslyDisplayedRectangle: displayedRectangleResult?.rectangle) { (rectangle) in
+        rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: displayedRectangleResult?.rectangle) { (rectangle) in
             displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
         }
     }
