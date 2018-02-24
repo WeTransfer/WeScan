@@ -11,11 +11,18 @@ import Scanner
 
 class ViewController: UIViewController {
     
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
         let scannerVC = ImageScannerController()
-        present(scannerVC, animated: true, completion: nil)
+        present(scannerVC, animated: true, completion: nil)        
     }
+    
+    
 
 }

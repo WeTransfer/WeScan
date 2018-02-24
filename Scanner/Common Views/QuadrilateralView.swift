@@ -46,7 +46,7 @@ internal final class QuadrilateralView: UIView {
     
     // MARK: - Life Cycle
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }

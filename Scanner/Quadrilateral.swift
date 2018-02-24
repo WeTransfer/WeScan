@@ -101,28 +101,25 @@ struct Quadrilateral: Transformable {
         var invertedfromSize = fromSize
         
         if rotationAngle == 0.0 {
-            guard fromImageSize.width / toImageSize.width == fromImageSize.height / toImageSize.height else {
+            guard fromSize.width / toSize.width == fromSize.height / toSize.height else {
                 return nil
             }
         } else {
-            guard fromImageSize.height / toImageSize.width == fromImageSize.width / toImageSize.height else {
-                return nil
-            }
-            invertedFromImageSize = CGSize(width: fromImageSize.height, height: fromImageSize.width)
+            invertedfromSize = CGSize(width: fromSize.height, height: fromSize.width)
         }
         
         var transformedQuad = self
         
-        let scale = toImageSize.width / invertedFromImageSize.width
+        let scale = toSize.width / invertedfromSize.width
         let scaledTransform = CGAffineTransform(scaleX: scale, y: scale)
         transformedQuad = transformedQuad.applying(scaledTransform)
         
         if rotationAngle != 0.0 {
             let rotationTransform = CGAffineTransform(rotationAngle: rotationAngle)
             
-            let fromImageBounds = CGRect(x: 0.0, y: 0.0, width: fromImageSize.width, height: fromImageSize.height).applying(scaledTransform).applying(rotationTransform)
+            let fromImageBounds = CGRect(x: 0.0, y: 0.0, width: fromSize.width, height: fromSize.height).applying(scaledTransform).applying(rotationTransform)
             
-            let toImageBounds = CGRect(x: 0.0, y: 0.0, width: toImageSize.width, height: toImageSize.height)
+            let toImageBounds = CGRect(x: 0.0, y: 0.0, width: toSize.width, height: toSize.height)
             let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: fromImageBounds, toCenterOfRect: toImageBounds)
             
             transformedQuad = transformedQuad.applyTransforms([rotationTransform, translationTransform])
@@ -157,7 +154,7 @@ struct Quadrilateral: Transformable {
 
 extension Quadrilateral: Equatable {
     
-    static func ==(lhs: Quadrilateral, rhs: Quadrilateral) -> Bool {
+    public static func ==(lhs: Quadrilateral, rhs: Quadrilateral) -> Bool {
         return lhs.topLeft == rhs.topLeft && lhs.topRight == rhs.topRight && lhs.bottomRight == rhs.bottomRight && lhs.bottomLeft == rhs.bottomLeft
     }
     

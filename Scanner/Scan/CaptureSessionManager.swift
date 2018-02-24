@@ -127,7 +127,7 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
     
-     private func displayRectangleResult(rectangleResult: RectangleDetectorResult) -> Quadrilateral {
+     @discardableResult private func displayRectangleResult(rectangleResult: RectangleDetectorResult) -> Quadrilateral {
         displayedRectangleResult = rectangleResult
         
         let quad = Quadrilateral(rectangleFeature: rectangleResult.rectangle).toCartesian(withHeight: rectangleResult.imageSize.height)
@@ -169,13 +169,32 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         }
         
         if let imageData = photo.fileDataRepresentation(),
-            let image = UIImage(data: imageData) {
+            var image = UIImage(data: imageData) {
             
             detects = false
-
+            
+            var angle: CGFloat = 0.0
+            
+            switch image.imageOrientation {
+            case .right:
+                angle = CGFloat.pi / 2
+                break
+            case .left:
+                angle = CGFloat.pi
+                break
+            case .up:
+                angle = CGFloat.pi
+                break
+            default:
+                angle = 0.0
+                break
+            }
+            
+            image = image.fixedOrientation(withOrientation: image.imageOrientation)
+            
             let quad = displayRectangleResult(rectangleResult: displayedRectangleResult)
             
-            guard let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: CGFloat(Double.pi/2)) else {
+            guard let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle) else {
                 // TODO: HANDLE ERROR
                 return
             }

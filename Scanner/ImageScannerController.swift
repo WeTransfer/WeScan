@@ -39,6 +39,10 @@ public class ImageScannerController: UINavigationController {
         
     }
     
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
 }
 
 public struct ImageScannerResults {
