@@ -14,7 +14,6 @@ final class RectangleFeaturesFunnel {
     class RectangleMatch: NSObject {
         let rectangleFeature: CIRectangleFeature
         var matchingScore = 0
-        let treshold: CGFloat = 50.0
 
         init(rectangleFeature: CIRectangleFeature) {
             self.rectangleFeature = rectangleFeature
@@ -24,8 +23,8 @@ final class RectangleFeaturesFunnel {
             return "Matching score: \(matchingScore) - Rectangle: \(rectangleFeature)"
         }
         
-        func matches(_ rectangle: CIRectangleFeature) -> Bool {
-            return rectangleFeature.isWithin(treshold, ofRectangleFeature: rectangle)
+        func matches(_ rectangle: CIRectangleFeature, withThreshold threshold: CGFloat) -> Bool {
+            return rectangleFeature.isWithin(threshold, ofRectangleFeature: rectangle)
         }
     }
     
@@ -33,6 +32,7 @@ final class RectangleFeaturesFunnel {
     
     let maxNumberOfRectangles = 6
     let minNumberOfRectangles = 3
+    let matchingThreshold: CGFloat = 50.0
 
     func add(_ rectangleFeature: CIRectangleFeature, currentlyDisplayedRectangle previousRectangle: CIRectangleFeature?, completion: (CIRectangleFeature) -> Void) {
         let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
@@ -81,7 +81,7 @@ final class RectangleFeaturesFunnel {
         
         for (i, currentRect) in rectanglesQueue.enumerated() {
             for (j, rect) in rectanglesQueue.enumerated() {
-                if j > i  && currentRect.matches(rect.rectangleFeature) {
+                if j > i  && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
                     currentRect.matchingScore += 1
                 }
             }
