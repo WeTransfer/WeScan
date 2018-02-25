@@ -14,7 +14,7 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral)
 }
 
-internal class CaptureSessionManager: NSObject  {
+internal class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate  {
     
     private let videoPreviewLayer: AVCaptureVideoPreviewLayer
     private let captureSession = AVCaptureSession()
@@ -23,6 +23,12 @@ internal class CaptureSessionManager: NSObject  {
     private var displayedRectangleResult: RectangleDetectorResult?
     private var photoOutput = AVCapturePhotoOutput()
     private var detects = true
+    
+    /// The number of times no rectangles have been found in a row.
+    private var noRectangleCount = 0
+    
+    /// The minimum number of time required by `noRectangleCount` to validate that no rectangles have been found.
+    private let noRectangleThreshold = 3
     
     // MARK: Life Cycle
     
@@ -94,10 +100,8 @@ internal class CaptureSessionManager: NSObject  {
         
        photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
-
-}
-
-extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard detects == true else {
@@ -110,24 +114,30 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let videoOutputImage = CIImage(cvPixelBuffer: pixelBuffer)
         let imageSize = videoOutputImage.extent.size
-
+        
         guard let rectangle = RectangleDetector.rectangle(forImage: videoOutputImage) else {
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.displayedRectangleResult = nil
-                strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
+                strongSelf.noRectangleCount += 1
+                
+                if strongSelf.noRectangleCount > strongSelf.noRectangleThreshold {
+                    strongSelf.displayedRectangleResult = nil
+                    strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
+                }
             }
             return
         }
+        
+        noRectangleCount = 0
         
         rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: displayedRectangleResult?.rectangle) { (rectangle) in
             displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
         }
     }
     
-     @discardableResult private func displayRectangleResult(rectangleResult: RectangleDetectorResult) -> Quadrilateral {
+    @discardableResult private func displayRectangleResult(rectangleResult: RectangleDetectorResult) -> Quadrilateral {
         displayedRectangleResult = rectangleResult
         
         let quad = Quadrilateral(rectangleFeature: rectangleResult.rectangle).toCartesian(withHeight: rectangleResult.imageSize.height)
@@ -142,6 +152,7 @@ extension CaptureSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         return quad
     }
+
 }
 
 extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
