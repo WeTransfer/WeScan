@@ -10,19 +10,24 @@ import UIKit
 import AVFoundation
 @testable import Scanner
 
+enum ResourceImage: String {
+    case rect1 = "Square.jpg"
+    case rect2 = "Rectangle.jpg"
+}
+
 final class ImageFeatureTestHelpers: NSObject {
     
-    static func getIdenticalRectangleFeatures(withCount count: Int) -> [CIRectangleFeature] {
+    static func getRectangleFeatures(from resourceImage: ResourceImage, withCount count: Int) -> [CIRectangleFeature] {
         var rectangleFeatures = [CIRectangleFeature]()
         for _ in 0 ..< count {
-            rectangleFeatures.append(ImageFeatureTestHelpers.getRectangleFeature())
+            rectangleFeatures.append(ImageFeatureTestHelpers.getRectangleFeature(from: resourceImage))
         }
         
         return rectangleFeatures
     }
     
-    static func getRectangleFeature() -> CIRectangleFeature {
-        let image = UIImage(named: "Square.jpg", in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    static func getRectangleFeature(from resourceImage: ResourceImage) -> CIRectangleFeature {
+        let image = UIImage(named: resourceImage.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
         let ciImage = CIImage(image: image!)!
         let rectangleFeature = RectangleDetector.rectangle(forImage: ciImage)
 
