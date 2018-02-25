@@ -11,6 +11,7 @@
 		A1675BAD2041698A00852865 /* RectangleFeaturesFunnelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */; };
 		A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */; };
 		A194E96F2042BD77003493E2 /* Rectangle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A194E96E2042BD77003493E2 /* Rectangle.jpg */; };
+		A194E97220431DD7003493E2 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A194E97120431DD7003493E2 /* ReviewViewController.swift */; };
 		A1D4BCBB202C4F3800FCDDEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */; };
 		A1D4BCBD202C4F3800FCDDEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */; };
 		A1D4BCC0202C4F3800FCDDEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCBE202C4F3800FCDDEC /* Main.storyboard */; };
@@ -97,6 +98,7 @@
 		A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RectangleFeaturesFunnelTests.swift; path = ScannerTests/RectangleFeaturesFunnelTests.swift; sourceTree = SOURCE_ROOT; };
 		A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeatureTestHelpers.swift; sourceTree = "<group>"; };
 		A194E96E2042BD77003493E2 /* Rectangle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rectangle.jpg; sourceTree = "<group>"; };
+		A194E97120431DD7003493E2 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScannerSampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +186,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		A194E97020431DB1003493E2 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				A194E97120431DD7003493E2 /* ReviewViewController.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
 		A1D4BCAE202C4F3800FCDDEC = {
 			isa = PBXGroup;
 			children = (
@@ -242,8 +252,9 @@
 			children = (
 				A1DF90F720371A0800841A11 /* Common Views */,
 				A1DF90E220358C9E00841A11 /* Protocols */,
-				A1F22ED020319A03001723AD /* Edit */,
 				A1F22ECF203199E7001723AD /* Scan */,
+				A1F22ED020319A03001723AD /* Edit */,
+				A194E97020431DB1003493E2 /* Review */,
 				A1D4BD11202C6C7900FCDDEC /* Extensions */,
 				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
 				A1DF90A320331A0B00841A11 /* RectangleDetector.swift */,
@@ -566,6 +577,7 @@
 				A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */,
 				A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */,
 				A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */,
+				A194E97220431DD7003493E2 /* ReviewViewController.swift in Sources */,
 				A1DF90A62033321B00841A11 /* EditScanCornerView.swift in Sources */,
 				A1DF90A22032F98000841A11 /* UIDeviceOrientation+Utils.swift in Sources */,
 			);

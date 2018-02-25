@@ -127,10 +127,8 @@ class EditScanViewController: UIViewController {
         var uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         uiImage = uiImage.imageWithPortraitOrientation()
 
-       self.imageView.image = uiImage
-        
-        quadView.isHidden = true
-        quadView.removeQuadrilateral()
+        let reviewViewController = ReviewViewController(image: uiImage)
+        navigationController?.pushViewController(reviewViewController, animated: true)
     }
     
     private func displayQuad() {

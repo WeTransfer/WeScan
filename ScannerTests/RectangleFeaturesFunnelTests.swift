@@ -40,7 +40,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Funnel add callback")
         
         for i in 0 ..< rectangleFeatures.count {
-            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (rectFeature) in
+	            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (rectFeature) in
                 expectation.fulfill()
             }
         }
