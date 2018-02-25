@@ -11,15 +11,18 @@ import AVFoundation
 
 final class RectangleFeaturesFunnel {
     
-    class RectangleMatch {
+    class RectangleMatch: NSObject {
         let rectangleFeature: CIRectangleFeature
         var matchingScore = 0
-        
+        let treshold: CGFloat = 50.0
+
         init(rectangleFeature: CIRectangleFeature) {
             self.rectangleFeature = rectangleFeature
         }
         
-        let treshold: CGFloat = 50.0
+        override var description : String {
+            return "Matching score: \(matchingScore) - Rectangle: \(rectangleFeature)"
+        }
         
         func matches(_ rectangle: CIRectangleFeature) -> Bool {
             return rectangleFeature.isWithin(treshold, ofRectangleFeature: rectangle)
@@ -28,7 +31,7 @@ final class RectangleFeaturesFunnel {
     
     private var rectanglesQueue = [RectangleMatch]()
     
-    let maxNumberOfRectangles = 5
+    let maxNumberOfRectangles = 6
     let minNumberOfRectangles = 3
 
     func add(_ rectangleFeature: CIRectangleFeature, currentlyDisplayedRectangle previousRectangle: CIRectangleFeature?, completion: (CIRectangleFeature) -> Void) {
