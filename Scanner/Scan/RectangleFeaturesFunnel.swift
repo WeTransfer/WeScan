@@ -30,13 +30,13 @@ final class RectangleFeaturesFunnel {
     
     private var rectanglesQueue = [RectangleMatch]()
     
-    let maxNumberOfRectangles = 6
+    let maxNumberOfRectangles = 8
     let minNumberOfRectangles = 3
-    let matchingThreshold: CGFloat = 50.0
+    let matchingThreshold: CGFloat = 40.0
+    let minNumberOfMatches = 2
 
-    func add(_ rectangleFeature: CIRectangleFeature, currentlyDisplayedRectangle previousRectangle: CIRectangleFeature?, completion: (CIRectangleFeature) -> Void) {
+    func add(_ rectangleFeature: CIRectangleFeature, currentlyDisplayedRectangle currentRectangle: CIRectangleFeature?, completion: (CIRectangleFeature) -> Void) {
         let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
-
         rectanglesQueue.append(rectangleMatch)
         
         guard rectanglesQueue.count >= minNumberOfRectangles else {
@@ -49,24 +49,38 @@ final class RectangleFeaturesFunnel {
         
         updateRectangleMatches()
         
-        if let bestRectangle = self.bestRectangle() {
-            if let previousRectangle = previousRectangle,
-                bestRectangle.rectangleFeature.isWithin(50.0, ofRectangleFeature: previousRectangle) {
+        if let bestRectangle = self.bestRectangle(withCurrentlyDisplayedRectangle: currentRectangle) {
+            if let previousRectangle = currentRectangle,
+                bestRectangle.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: previousRectangle) {
                 return
-            } else {
+            } else if bestRectangle.matchingScore >= minNumberOfMatches {
                 completion(bestRectangle.rectangleFeature)
             }
         }
         
     }
     
-    private func bestRectangle() -> RectangleMatch? {
-        
+    private func bestRectangle(withCurrentlyDisplayedRectangle currentRectangle: CIRectangleFeature?) -> RectangleMatch? {
         var bestMatch: RectangleMatch?
         
         rectanglesQueue.reversed().forEach { (rectangle) in
-            if rectangle.matchingScore > (bestMatch?.matchingScore ?? -1) {
+            guard let best = bestMatch else {
                 bestMatch = rectangle
+                return
+            }
+            
+            if rectangle.matchingScore > best.matchingScore {
+                return
+            } else if rectangle.matchingScore == best.matchingScore {
+                guard let currentRectangle = currentRectangle else {
+                    return
+                }
+                
+                if best.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: currentRectangle) {
+                    return
+                } else if rectangle.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: currentRectangle) {
+                    bestMatch = rectangle
+                }
             }
         }
         
@@ -74,17 +88,22 @@ final class RectangleFeaturesFunnel {
     }
     
     private func updateRectangleMatches() {
-        rectanglesQueue = rectanglesQueue.map { (rectange) -> RectangleMatch in
-            rectange.matchingScore = 0
-            return rectange
-        }
+        resetMatchingScores()
         
         for (i, currentRect) in rectanglesQueue.enumerated() {
             for (j, rect) in rectanglesQueue.enumerated() {
                 if j > i  && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
                     currentRect.matchingScore += 1
+                    rect.matchingScore += 1
                 }
             }
+        }
+    }
+    
+    private func resetMatchingScores() {
+        rectanglesQueue = rectanglesQueue.map { (rectange) -> RectangleMatch in
+            rectange.matchingScore = 0
+            return rectange
         }
     }
     
