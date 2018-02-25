@@ -10,13 +10,12 @@
 		A1675BAB2041693A00852865 /* Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1675BAA2041693A00852865 /* Square.jpg */; };
 		A1675BAD2041698A00852865 /* RectangleFeaturesFunnelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */; };
 		A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */; };
+		A194E96F2042BD77003493E2 /* Rectangle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A194E96E2042BD77003493E2 /* Rectangle.jpg */; };
 		A1D4BCBB202C4F3800FCDDEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */; };
 		A1D4BCBD202C4F3800FCDDEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */; };
 		A1D4BCC0202C4F3800FCDDEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCBE202C4F3800FCDDEC /* Main.storyboard */; };
 		A1D4BCC2202C4F3800FCDDEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCC1202C4F3800FCDDEC /* Assets.xcassets */; };
 		A1D4BCC5202C4F3800FCDDEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCC3202C4F3800FCDDEC /* LaunchScreen.storyboard */; };
-		A1D4BCD0202C4F3800FCDDEC /* ScannerSampleProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCCF202C4F3800FCDDEC /* ScannerSampleProjectTests.swift */; };
-		A1D4BCDB202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCDA202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift */; };
 		A1D4BCF6202C4F4100FCDDEC /* Scanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */; };
 		A1D4BCFF202C4F4100FCDDEC /* Scanner.h in Headers */ = {isa = PBXBuildFile; fileRef = A1D4BCEF202C4F4100FCDDEC /* Scanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A1D4BD02202C4F4100FCDDEC /* Scanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* Scanner.framework */; };
@@ -97,6 +96,7 @@
 		A1675BAA2041693A00852865 /* Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Square.jpg; sourceTree = "<group>"; };
 		A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RectangleFeaturesFunnelTests.swift; path = ScannerTests/RectangleFeaturesFunnelTests.swift; sourceTree = SOURCE_ROOT; };
 		A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeatureTestHelpers.swift; sourceTree = "<group>"; };
+		A194E96E2042BD77003493E2 /* Rectangle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rectangle.jpg; sourceTree = "<group>"; };
 		A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScannerSampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,10 +105,8 @@
 		A1D4BCC4202C4F3800FCDDEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1D4BCC6202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1D4BCCB202C4F3800FCDDEC /* ScannerSampleProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScannerSampleProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1D4BCCF202C4F3800FCDDEC /* ScannerSampleProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerSampleProjectTests.swift; sourceTree = "<group>"; };
 		A1D4BCD1202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1D4BCD6202C4F3800FCDDEC /* ScannerSampleProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScannerSampleProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1D4BCDA202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerSampleProjectUITests.swift; sourceTree = "<group>"; };
 		A1D4BCDC202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1D4BCED202C4F4100FCDDEC /* Scanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Scanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCEF202C4F4100FCDDEC /* Scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scanner.h; sourceTree = "<group>"; };
@@ -181,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				A1675BAA2041693A00852865 /* Square.jpg */,
+				A194E96E2042BD77003493E2 /* Rectangle.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -225,7 +224,6 @@
 		A1D4BCCE202C4F3800FCDDEC /* ScannerSampleProjectTests */ = {
 			isa = PBXGroup;
 			children = (
-				A1D4BCCF202C4F3800FCDDEC /* ScannerSampleProjectTests.swift */,
 				A1D4BCD1202C4F3800FCDDEC /* Info.plist */,
 			);
 			path = ScannerSampleProjectTests;
@@ -234,7 +232,6 @@
 		A1D4BCD9202C4F3800FCDDEC /* ScannerSampleProjectUITests */ = {
 			isa = PBXGroup;
 			children = (
-				A1D4BCDA202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift */,
 				A1D4BCDC202C4F3800FCDDEC /* Info.plist */,
 			);
 			path = ScannerSampleProjectUITests;
@@ -521,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1675BAB2041693A00852865 /* Square.jpg in Resources */,
+				A194E96F2042BD77003493E2 /* Rectangle.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,7 +538,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1D4BCD0202C4F3800FCDDEC /* ScannerSampleProjectTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,7 +545,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1D4BCDB202C4F3800FCDDEC /* ScannerSampleProjectUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
