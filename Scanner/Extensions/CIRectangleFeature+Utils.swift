@@ -39,5 +39,10 @@ extension CIRectangleFeature {
         
         return true
     }
+    
+    override open var description: String {
+        return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
+    }
+    
 }
 
