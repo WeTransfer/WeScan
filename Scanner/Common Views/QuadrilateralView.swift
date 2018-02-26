@@ -97,10 +97,10 @@ internal final class QuadrilateralView: UIView {
         }
         
         quadLayer.path = path.cgPath
-        quadLayer.fillColor = editable ? UIColor.black.cgColor : UIColor.blue.cgColor
+        quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
         quadLayer.strokeColor = UIColor.white.cgColor
         quadLayer.lineWidth = 2.0
-        quadLayer.opacity = 0.5
+        quadLayer.opacity = 1.0
         quadLayer.isHidden = false
     }
     
