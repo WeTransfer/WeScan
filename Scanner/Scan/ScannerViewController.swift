@@ -36,6 +36,7 @@ internal class ScannerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        quadView.removeQuadrilateral()
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
