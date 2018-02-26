@@ -71,6 +71,12 @@ class EditScanViewController: UIViewController {
         displayQuad()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        displayQuad()
+    }
+    
     // MARK: - Setups
     
     private func setupViews() {
@@ -105,14 +111,17 @@ class EditScanViewController: UIViewController {
     
     @objc func handleTapNext(sender: UIButton) {
         guard let quad = quadView.quad,
-            var ciImage = CIImage(image: image),
-            var scaledQuad = quad.scale(quadView.bounds.size, image.size) else {
+            var ciImage = CIImage(image: image) else {
             // TODO: Handle Error
             return
         }
         
-        let orientationTransform = ciImage.orientationTransform(forExifOrientation: 6)
-        ciImage = ciImage.transformed(by: orientationTransform)
+        var scaledQuad = quad.scale(quadView.bounds.size, image.size)
+        
+        if image.size.width < image.size.height {
+            let orientationTransform = ciImage.orientationTransform(forExifOrientation: 6)
+            ciImage = ciImage.transformed(by: orientationTransform)
+        }
         
         scaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         scaledQuad.reorganize()
@@ -123,9 +132,8 @@ class EditScanViewController: UIViewController {
             "inputBottomLeft": CIVector(cgPoint: scaledQuad.topLeft),
             "inputBottomRight": CIVector(cgPoint: scaledQuad.topRight)
             ])
- 
-        var uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
-        uiImage = uiImage.imageWithPortraitOrientation()
+        
+        let uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
 
         let reviewViewController = ReviewViewController(image: uiImage)
         navigationController?.pushViewController(reviewViewController, animated: true)

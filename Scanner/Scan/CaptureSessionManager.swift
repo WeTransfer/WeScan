@@ -190,26 +190,18 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             case .right:
                 angle = CGFloat.pi / 2
                 break
-            case .left:
-                angle = CGFloat.pi
-                break
             case .up:
                 angle = CGFloat.pi
                 break
             default:
-                angle = 0.0
                 break
             }
             
-            image = image.fixedOrientation(withOrientation: image.imageOrientation)
+            image = image.withPortraitOrientation()
             
             let quad = displayRectangleResult(rectangleResult: displayedRectangleResult)
-            
-            guard let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle) else {
-                // TODO: HANDLE ERROR
-                return
-            }
-            
+            let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
+
             delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: scaledQuad)
         }
         // TODO: Handle Error

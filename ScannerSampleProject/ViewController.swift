@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         super.viewDidAppear(true)
         
         let scannerVC = ImageScannerController()
-        present(scannerVC, animated: true, completion: nil)        
+        present(scannerVC, animated: true, completion: nil)
     }
     
     

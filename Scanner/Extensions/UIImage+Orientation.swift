@@ -10,52 +10,50 @@ import Foundation
 
 extension UIImage {
     
-    func imageWithPortraitOrientation() -> UIImage {
-        UIGraphicsBeginImageContext(size)
-        draw(at: .zero)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage ?? self
+    func withPortraitOrientation() -> UIImage {
+        switch imageOrientation {
+        case .up:
+            return rotated(by: Measurement(value: Double.pi, unit: .radians), options: []) ?? self
+        case .down:
+            return rotated(by: Measurement(value: Double.pi, unit: .radians), options: [.flipOnVerticalAxis, .flipOnHorizontalAxis]) ?? self
+        default:
+            return self
+        }        
     }
     
-    func fixedOrientation(withOrientation orientation: UIImageOrientation) -> UIImage {
-        if orientation == .right {
-            return self
-        }
+    struct RotationOptions: OptionSet {
+        let rawValue: Int
         
-        var transform: CGAffineTransform = CGAffineTransform.identity
-        
-        switch orientation {
-        case .up:
-            transform = transform.translatedBy(x: size.width, y: size.height)
-            transform = transform.rotated(by: CGFloat.pi)
-            break
-        case .left:
-            transform = transform.translatedBy(x: size.width, y: 0)
-            transform = transform.rotated(by: CGFloat.pi / 2.0)
-            break
-        default:
-            break
-        }
-        switch orientation {
-        case .down, .up:
-            transform.translatedBy(x: size.width, y: 0)
-            transform.scaledBy(x: -1, y: 1)
-            break
-        default:
-            break
-        }
-        
-        let ctx: CGContext = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: self.cgImage!.bitsPerComponent, bytesPerRow: 0, space: self.cgImage!.colorSpace!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
-        
-        ctx.concatenate(transform)
-        
-        ctx.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        
-        return UIImage(cgImage: ctx.makeImage()!)
+        static let flipOnVerticalAxis = RotationOptions(rawValue: 1)
+        static let flipOnHorizontalAxis = RotationOptions(rawValue: 2)
     }
-
+    
+    func rotated(by rotationAngle: Measurement<UnitAngle>, options: RotationOptions = []) -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        
+        let rotationInRadians = CGFloat(rotationAngle.converted(to: .radians).value)
+        let transform = CGAffineTransform(rotationAngle: rotationInRadians)
+        var rect = CGRect(origin: .zero, size: self.size).applying(transform)
+        rect.origin = .zero
+        
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        
+        let renderer = UIGraphicsImageRenderer(size: rect.size, format: format)
+        
+        let image = renderer.image { renderContext in
+            renderContext.cgContext.translateBy(x: rect.midX, y: rect.midY)
+            renderContext.cgContext.rotate(by: rotationInRadians)
+            
+            let x = options.contains(.flipOnVerticalAxis) ? -1.0 : 1.0
+            let y = options.contains(.flipOnHorizontalAxis) ? 1.0 : -1.0
+            renderContext.cgContext.scaleBy(x: CGFloat(x), y: CGFloat(y))
+            
+            let drawRect = CGRect(origin: CGPoint(x: -self.size.width / 2.0, y: -self.size.height / 2.0), size: self.size)
+            renderContext.cgContext.draw(cgImage, in: drawRect)
+        }
+        
+        return image
+    }
     
 }
-
