@@ -39,10 +39,10 @@ class QuadrilateralTests: XCTestCase {
         
         var scaledQuad = quad.scale(fromImageSize, toImageSize)
         
-        XCTAssert(scaledQuad?.topLeft == CGPoint(x: 0.0, y: 0.0))
-        XCTAssert(scaledQuad?.topRight == CGPoint(x: 200.0, y: 0.0))
-        XCTAssert(scaledQuad?.bottomRight == CGPoint(x: 200.0, y: 200.0))
-        XCTAssert(scaledQuad?.bottomLeft == CGPoint(x: 0.0, y: 200.0))
+        XCTAssert(scaledQuad.topLeft == CGPoint(x: 0.0, y: 0.0))
+        XCTAssert(scaledQuad.topRight == CGPoint(x: 200.0, y: 0.0))
+        XCTAssert(scaledQuad.bottomRight == CGPoint(x: 200.0, y: 200.0))
+        XCTAssert(scaledQuad.bottomLeft == CGPoint(x: 0.0, y: 200.0))
         
         topLeft = CGPoint(x: 50.0, y: 75.0)
         topRight = CGPoint(x: 100.0, y: 25.0)
@@ -52,26 +52,23 @@ class QuadrilateralTests: XCTestCase {
         quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
         scaledQuad = quad.scale(fromImageSize, toImageSize)
         
-        XCTAssert(scaledQuad?.topLeft == CGPoint(x: 100.0, y: 150.0))
-        XCTAssert(scaledQuad?.topRight == CGPoint(x: 200.0, y: 50.0))
-        XCTAssert(scaledQuad?.bottomRight == CGPoint(x: 150.0, y: 200.0))
-        XCTAssert(scaledQuad?.bottomLeft == CGPoint(x: 50.0, y: 400.0))
+        XCTAssert(scaledQuad.topLeft == CGPoint(x: 100.0, y: 150.0))
+        XCTAssert(scaledQuad.topRight == CGPoint(x: 200.0, y: 50.0))
+        XCTAssert(scaledQuad.bottomRight == CGPoint(x: 150.0, y: 200.0))
+        XCTAssert(scaledQuad.bottomLeft == CGPoint(x: 50.0, y: 400.0))
         
         fromImageSize = CGSize(width: 500.0, height: 500.0)
         toImageSize = CGSize(width: 250.0, height: 250.0)
         
         scaledQuad = quad.scale(fromImageSize, toImageSize)
         
-        XCTAssert(scaledQuad?.topLeft == CGPoint(x: 25.0, y: 37.5))
-        XCTAssert(scaledQuad?.topRight == CGPoint(x: 50.0, y: 12.5))
-        XCTAssert(scaledQuad?.bottomRight == CGPoint(x: 37.5, y: 50.0))
-        XCTAssert(scaledQuad?.bottomLeft == CGPoint(x: 12.5, y: 100.0))
+        XCTAssert(scaledQuad.topLeft == CGPoint(x: 25.0, y: 37.5))
+        XCTAssert(scaledQuad.topRight == CGPoint(x: 50.0, y: 12.5))
+        XCTAssert(scaledQuad.bottomRight == CGPoint(x: 37.5, y: 50.0))
+        XCTAssert(scaledQuad.bottomLeft == CGPoint(x: 12.5, y: 100.0))
         
         fromImageSize = CGSize(width: 100.0, height: 200.0)
         toImageSize = CGSize(width: 300.0, height: 100.0)
-        
-        scaledQuad = quad.scale(fromImageSize, toImageSize)
-        XCTAssertNil(scaledQuad)
     }
     
     func testScaleFixRotation() {
@@ -86,10 +83,10 @@ class QuadrilateralTests: XCTestCase {
         
         var scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
         
-        XCTAssertTrue(scaledQuad!.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 0.0)))
-        XCTAssertTrue(scaledQuad!.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
-        XCTAssertTrue(scaledQuad!.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 500.0)))
-        XCTAssertTrue(scaledQuad!.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
+        XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 0.0)))
+        XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
         
         topLeft = CGPoint(x: 0.0, y: 500.0)
         topRight = CGPoint(x: 1000.0, y: 500.0)
@@ -103,10 +100,10 @@ class QuadrilateralTests: XCTestCase {
         
         scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
         
-        XCTAssertTrue(scaledQuad!.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
-        XCTAssertTrue(scaledQuad!.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 1000.0)))
-        XCTAssertTrue(scaledQuad!.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 1000.0)))
-        XCTAssertTrue(scaledQuad!.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 0.0)))
+        XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
+        XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 1000.0)))
+        XCTAssertTrue(scaledQuad.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 1000.0)))
+        XCTAssertTrue(scaledQuad.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 0.0)))
         
         topLeft = CGPoint(x: 0.0, y: 500.0)
         topRight = CGPoint(x: 1000.0, y: 500.0)
@@ -120,10 +117,10 @@ class QuadrilateralTests: XCTestCase {
         
         scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
         
-        XCTAssertTrue(scaledQuad!.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
-        XCTAssertTrue(scaledQuad!.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 500.0)))
-        XCTAssertTrue(scaledQuad!.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 500.0)))
-        XCTAssertTrue(scaledQuad!.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 0.0)))
+        XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
+        XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 0.0)))
         
         topLeft = CGPoint(x: 250.0, y: 500.0)
         topRight = CGPoint(x: 500.0, y: 500.0)
@@ -137,10 +134,10 @@ class QuadrilateralTests: XCTestCase {
         
         scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
         
-        XCTAssertTrue(scaledQuad!.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 250.0)))
-        XCTAssertTrue(scaledQuad!.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 500.0)))
-        XCTAssertTrue(scaledQuad!.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
-        XCTAssertTrue(scaledQuad!.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 250.0)))
+        XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 250.0)))
+        XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 250.0)))
         
         topLeft = CGPoint(x: 250.0, y: 500.0)
         topRight = CGPoint(x: 750.0, y: 500.0)
@@ -154,10 +151,10 @@ class QuadrilateralTests: XCTestCase {
         
         scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
         
-        XCTAssertTrue(scaledQuad!.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
-        XCTAssertTrue(scaledQuad!.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 1500.0)))
-        XCTAssertTrue(scaledQuad!.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 1000.0, y: 1500.0)))
-        XCTAssertTrue(scaledQuad!.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 1000.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
+        XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 1500.0)))
+        XCTAssertTrue(scaledQuad.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 1000.0, y: 1500.0)))
+        XCTAssertTrue(scaledQuad.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 1000.0, y: 500.0)))
         
         topLeft = CGPoint(x: 100.0, y: 400.0)
         topRight = CGPoint(x: 200.0, y: 400.0)
@@ -171,10 +168,10 @@ class QuadrilateralTests: XCTestCase {
         
         scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
         
-        XCTAssertTrue(scaledQuad!.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 200.0, y: 200.0)))
-        XCTAssertTrue(scaledQuad!.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 200.0, y: 400.0)))
-        XCTAssertTrue(scaledQuad!.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 400.0, y: 400.0)))
-        XCTAssertTrue(scaledQuad!.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 400.0, y: 200.0)))
+        XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 200.0, y: 200.0)))
+        XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 200.0, y: 400.0)))
+        XCTAssertTrue(scaledQuad.bottomRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 400.0, y: 400.0)))
+        XCTAssertTrue(scaledQuad.bottomLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 400.0, y: 200.0)))
     }
     
     func testReorganize() {
