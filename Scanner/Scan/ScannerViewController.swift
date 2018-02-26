@@ -15,9 +15,8 @@ internal class ScannerViewController: UIViewController {
     private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
     private let quadView = QuadrilateralView()
     
-    private lazy var shutterButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("SHUTTER", for: .normal)
+    private lazy var shutterButton: ShutterButton = {
+        let button = ShutterButton()
         button.addTarget(self, action: #selector(handleTapShutterButton(_:)), for: .touchUpInside)
         return button
     }()
@@ -88,8 +87,8 @@ internal class ScannerViewController: UIViewController {
         let shutterButtonConstraints = [
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 20.0),
-            shutterButton.widthAnchor.constraint(equalToConstant: 44.0),
-            shutterButton.heightAnchor.constraint(equalToConstant: 44.0)
+            shutterButton.widthAnchor.constraint(equalToConstant: 75.0),
+            shutterButton.heightAnchor.constraint(equalToConstant: 75.0)
         ]
         
         NSLayoutConstraint.activate(shutterButtonConstraints)

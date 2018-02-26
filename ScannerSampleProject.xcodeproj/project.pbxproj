@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165F67D2044741B002D5ED6 /* ShutterButton.swift */; };
 		A1675BAB2041693A00852865 /* Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1675BAA2041693A00852865 /* Square.jpg */; };
 		A1675BAD2041698A00852865 /* RectangleFeaturesFunnelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */; };
 		A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */; };
@@ -94,6 +95,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A165F67D2044741B002D5ED6 /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		A1675BAA2041693A00852865 /* Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Square.jpg; sourceTree = "<group>"; };
 		A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RectangleFeaturesFunnelTests.swift; path = ScannerTests/RectangleFeaturesFunnelTests.swift; sourceTree = SOURCE_ROOT; };
 		A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeatureTestHelpers.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
+				A165F67D2044741B002D5ED6 /* ShutterButton.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				A1DF90E420358CB100841A11 /* Transformable.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,
 				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
+				A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */,
 				A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */,
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
 				A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */,
