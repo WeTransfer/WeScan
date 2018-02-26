@@ -32,6 +32,7 @@ class EditScanViewController: UIViewController {
     private lazy var nextButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Next", for: .normal)
+        button.setTitleColor(navigationController?.navigationBar.tintColor, for: .normal)
         button.addTarget(self, action: #selector(handleTapNext(sender:)), for: .touchUpInside)
         return button
     }()

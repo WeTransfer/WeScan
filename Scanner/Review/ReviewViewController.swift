@@ -24,6 +24,7 @@ class ReviewViewController: UIViewController {
     private lazy var doneButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Done", for: .normal)
+        button.setTitleColor(navigationController?.navigationBar.tintColor, for: .normal)
         button.addTarget(self, action: #selector(handleTapDone(sender:)), for: .touchUpInside)
         return button
     }()

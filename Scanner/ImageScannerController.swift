@@ -26,6 +26,7 @@ public class ImageScannerController: UINavigationController {
     public required init() {
         let scannerViewController = ScannerViewController()
         super.init(rootViewController: scannerViewController)
+        navigationBar.tintColor = .black
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -34,11 +35,6 @@ public class ImageScannerController: UINavigationController {
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        
     }
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
