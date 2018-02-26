@@ -8,13 +8,18 @@
 
 import UIKit
 
-class ShutterButton: UIControl {
+final class ShutterButton: UIControl {
     
-    let circleLayer = CAShapeLayer()
+    private let outterRingLayer = CAShapeLayer()
+    private let innerCircleLayer = CAShapeLayer()
+    
+    private let outterRingRatio: CGFloat = 0.80
+    private let innerRingRatio: CGFloat = 0.75
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.addSublayer(circleLayer)
+        layer.addSublayer(outterRingLayer)
+        layer.addSublayer(innerCircleLayer)
         backgroundColor = .clear
     }
     
@@ -23,10 +28,35 @@ class ShutterButton: UIControl {
     }
     
     override func draw(_ rect: CGRect) {
-        circleLayer.frame = rect
-        let path = CGPath(ellipseIn: rect, transform: nil)
-        circleLayer.path = path
-        circleLayer.fillColor = UIColor.white.cgColor
+        outterRingLayer.frame = rect
+        outterRingLayer.path = pathForOutterRing(inRect: rect).cgPath
+        outterRingLayer.fillColor = UIColor.white.cgColor
+        outterRingLayer.rasterizationScale = UIScreen.main.scale
+        outterRingLayer.shouldRasterize = true
+        
+        innerCircleLayer.frame = rect
+        innerCircleLayer.path = pathForInnerCircle(inRect: rect).cgPath
+        innerCircleLayer.fillColor = UIColor.white.cgColor
+        innerCircleLayer.rasterizationScale = UIScreen.main.scale
+        innerCircleLayer.shouldRasterize = true
     }
- 
+    
+    private func pathForOutterRing(inRect rect: CGRect) -> UIBezierPath {
+        let path = UIBezierPath(ovalIn: rect)
+        
+        let innerRect = rect.scaleAndCenter(withRatio: outterRingRatio)
+        let innerPath = UIBezierPath(ovalIn: innerRect).reversing()
+        
+        path.append(innerPath)
+        
+        return path
+    }
+    
+    private func pathForInnerCircle(inRect rect: CGRect) -> UIBezierPath {
+        let rect = rect.scaleAndCenter(withRatio: innerRingRatio)
+        let path = UIBezierPath(ovalIn: rect)
+        
+        return path
+    }
+    
 }

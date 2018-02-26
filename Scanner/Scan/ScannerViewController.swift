@@ -86,9 +86,9 @@ internal class ScannerViewController: UIViewController {
         
         let shutterButtonConstraints = [
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 20.0),
-            shutterButton.widthAnchor.constraint(equalToConstant: 75.0),
-            shutterButton.heightAnchor.constraint(equalToConstant: 75.0)
+            view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0),
+            shutterButton.widthAnchor.constraint(equalToConstant: 65.0),
+            shutterButton.heightAnchor.constraint(equalToConstant: 65.0)
         ]
         
         NSLayoutConstraint.activate(shutterButtonConstraints)
