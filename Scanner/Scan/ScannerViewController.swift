@@ -22,6 +22,12 @@ internal class ScannerViewController: UIViewController {
         return button
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -65,6 +71,8 @@ internal class ScannerViewController: UIViewController {
         view.addSubview(quadView)
         shutterButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(shutterButton)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(activityIndicator)
     }
     
     private func setupConstraints() {
@@ -85,6 +93,13 @@ internal class ScannerViewController: UIViewController {
         ]
         
         NSLayoutConstraint.activate(shutterButtonConstraints)
+        
+        let activityIndicatorConstraints = [
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(activityIndicatorConstraints)
     }
     
     // MARK: - Actions
@@ -96,10 +111,18 @@ internal class ScannerViewController: UIViewController {
 }
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
+    func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {
+        activityIndicator.startAnimating()
+        shutterButton.isUserInteractionEnabled = false
+    }
+    
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral) {
-        let editVC = EditScanViewController(image: picture, quad: quad)
+        activityIndicator.stopAnimating()
         
+        let editVC = EditScanViewController(image: picture, quad: quad)
         navigationController?.pushViewController(editVC, animated: false)
+        
+        shutterButton.isUserInteractionEnabled = true
     }
         
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize) {

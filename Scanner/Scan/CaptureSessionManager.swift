@@ -10,6 +10,7 @@ import Foundation
 import AVFoundation
 
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
+    func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager)
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize)
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral)
 }
@@ -179,30 +180,37 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        if let imageData = photo.fileDataRepresentation(),
-            var image = UIImage(data: imageData) {
-            
-            detects = false
-            
-            var angle: CGFloat = 0.0
-            
-            switch image.imageOrientation {
-            case .right:
-                angle = CGFloat.pi / 2
-                break
-            case .up:
-                angle = CGFloat.pi
-                break
-            default:
-                break
+        delegate?.didStartCapturingPicture(for: self)
+        
+        DispatchQueue.global(qos: .background).async {
+            if let imageData = photo.fileDataRepresentation(),
+                var image = UIImage(data: imageData) {
+                
+                self.detects = false
+                
+                var angle: CGFloat = 0.0
+                
+                switch image.imageOrientation {
+                case .right:
+                    angle = CGFloat.pi / 2
+                    break
+                case .up:
+                    angle = CGFloat.pi
+                    break
+                default:
+                    break
+                }
+                
+                image = image.withPortraitOrientation()
+                
+                let quad = self.displayRectangleResult(rectangleResult: displayedRectangleResult)
+                let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
+                
+                DispatchQueue.main.async {
+                    self.delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: scaledQuad)
+                }
             }
             
-            image = image.withPortraitOrientation()
-            
-            let quad = displayRectangleResult(rectangleResult: displayedRectangleResult)
-            let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
-
-            delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: scaledQuad)
         }
         // TODO: Handle Error
     }
