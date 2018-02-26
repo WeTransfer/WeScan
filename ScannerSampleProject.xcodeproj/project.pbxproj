@@ -45,20 +45,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A1D4BCCC202C4F3800FCDDEC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A1D4BCAF202C4F3800FCDDEC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A1D4BCB6202C4F3800FCDDEC;
-			remoteInfo = ScannerSampleProject;
-		};
-		A1D4BCD7202C4F3800FCDDEC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A1D4BCAF202C4F3800FCDDEC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A1D4BCB6202C4F3800FCDDEC;
-			remoteInfo = ScannerSampleProject;
-		};
 		A1D4BCF7202C4F4100FCDDEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A1D4BCAF202C4F3800FCDDEC /* Project object */;
@@ -112,9 +98,7 @@
 		A1D4BCC1202C4F3800FCDDEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1D4BCC4202C4F3800FCDDEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1D4BCC6202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1D4BCCB202C4F3800FCDDEC /* ScannerSampleProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScannerSampleProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCD1202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1D4BCD6202C4F3800FCDDEC /* ScannerSampleProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScannerSampleProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCDC202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1D4BCED202C4F4100FCDDEC /* Scanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Scanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCEF202C4F4100FCDDEC /* Scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scanner.h; sourceTree = "<group>"; };
@@ -148,20 +132,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1D4BD02202C4F4100FCDDEC /* Scanner.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A1D4BCC8202C4F3800FCDDEC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A1D4BCD3202C4F3800FCDDEC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,8 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */,
-				A1D4BCCB202C4F3800FCDDEC /* ScannerSampleProjectTests.xctest */,
-				A1D4BCD6202C4F3800FCDDEC /* ScannerSampleProjectUITests.xctest */,
 				A1D4BCED202C4F4100FCDDEC /* Scanner.framework */,
 				A1D4BCF5202C4F4100FCDDEC /* ScannerTests.xctest */,
 			);
@@ -369,42 +337,6 @@
 			productReference = A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A1D4BCCA202C4F3800FCDDEC /* ScannerSampleProjectTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A1D4BCE2202C4F3800FCDDEC /* Build configuration list for PBXNativeTarget "ScannerSampleProjectTests" */;
-			buildPhases = (
-				A1D4BCC7202C4F3800FCDDEC /* Sources */,
-				A1D4BCC8202C4F3800FCDDEC /* Frameworks */,
-				A1D4BCC9202C4F3800FCDDEC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A1D4BCCD202C4F3800FCDDEC /* PBXTargetDependency */,
-			);
-			name = ScannerSampleProjectTests;
-			productName = ScannerSampleProjectTests;
-			productReference = A1D4BCCB202C4F3800FCDDEC /* ScannerSampleProjectTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		A1D4BCD5202C4F3800FCDDEC /* ScannerSampleProjectUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A1D4BCE5202C4F3800FCDDEC /* Build configuration list for PBXNativeTarget "ScannerSampleProjectUITests" */;
-			buildPhases = (
-				A1D4BCD2202C4F3800FCDDEC /* Sources */,
-				A1D4BCD3202C4F3800FCDDEC /* Frameworks */,
-				A1D4BCD4202C4F3800FCDDEC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A1D4BCD8202C4F3800FCDDEC /* PBXTargetDependency */,
-			);
-			name = ScannerSampleProjectUITests;
-			productName = ScannerSampleProjectUITests;
-			productReference = A1D4BCD6202C4F3800FCDDEC /* ScannerSampleProjectUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		A1D4BCEC202C4F4100FCDDEC /* Scanner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A1D4BD04202C4F4100FCDDEC /* Build configuration list for PBXNativeTarget "Scanner" */;
@@ -456,16 +388,6 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
-					A1D4BCCA202C4F3800FCDDEC = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = A1D4BCB6202C4F3800FCDDEC;
-					};
-					A1D4BCD5202C4F3800FCDDEC = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = A1D4BCB6202C4F3800FCDDEC;
-					};
 					A1D4BCEC202C4F4100FCDDEC = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
@@ -475,7 +397,6 @@
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
-						TestTargetID = A1D4BCB6202C4F3800FCDDEC;
 					};
 				};
 			};
@@ -493,8 +414,6 @@
 			projectRoot = "";
 			targets = (
 				A1D4BCB6202C4F3800FCDDEC /* ScannerSampleProject */,
-				A1D4BCCA202C4F3800FCDDEC /* ScannerSampleProjectTests */,
-				A1D4BCD5202C4F3800FCDDEC /* ScannerSampleProjectUITests */,
 				A1D4BCEC202C4F4100FCDDEC /* Scanner */,
 				A1D4BCF4202C4F4100FCDDEC /* ScannerTests */,
 			);
@@ -509,20 +428,6 @@
 				A1D4BCC5202C4F3800FCDDEC /* LaunchScreen.storyboard in Resources */,
 				A1D4BCC2202C4F3800FCDDEC /* Assets.xcassets in Resources */,
 				A1D4BCC0202C4F3800FCDDEC /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A1D4BCC9202C4F3800FCDDEC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A1D4BCD4202C4F3800FCDDEC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,20 +456,6 @@
 			files = (
 				A1D4BCBD202C4F3800FCDDEC /* ViewController.swift in Sources */,
 				A1D4BCBB202C4F3800FCDDEC /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A1D4BCC7202C4F3800FCDDEC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A1D4BCD2202C4F3800FCDDEC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,16 +500,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A1D4BCCD202C4F3800FCDDEC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A1D4BCB6202C4F3800FCDDEC /* ScannerSampleProject */;
-			targetProxy = A1D4BCCC202C4F3800FCDDEC /* PBXContainerItemProxy */;
-		};
-		A1D4BCD8202C4F3800FCDDEC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A1D4BCB6202C4F3800FCDDEC /* ScannerSampleProject */;
-			targetProxy = A1D4BCD7202C4F3800FCDDEC /* PBXContainerItemProxy */;
-		};
 		A1D4BCF8202C4F4100FCDDEC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A1D4BCEC202C4F4100FCDDEC /* Scanner */;
@@ -797,72 +678,6 @@
 			};
 			name = Release;
 		};
-		A1D4BCE3202C4F3800FCDDEC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 67V847367C;
-				INFOPLIST_FILE = ScannerSampleProjectTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.ScannerSampleProjectTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScannerSampleProject.app/ScannerSampleProject";
-			};
-			name = Debug;
-		};
-		A1D4BCE4202C4F3800FCDDEC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 67V847367C;
-				INFOPLIST_FILE = ScannerSampleProjectTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.ScannerSampleProjectTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScannerSampleProject.app/ScannerSampleProject";
-			};
-			name = Release;
-		};
-		A1D4BCE6202C4F3800FCDDEC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 67V847367C;
-				INFOPLIST_FILE = ScannerSampleProjectUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.ScannerSampleProjectUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ScannerSampleProject;
-			};
-			name = Debug;
-		};
-		A1D4BCE7202C4F3800FCDDEC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 67V847367C;
-				INFOPLIST_FILE = ScannerSampleProjectUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.ScannerSampleProjectUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ScannerSampleProject;
-			};
-			name = Release;
-		};
 		A1D4BD05202C4F4100FCDDEC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -931,7 +746,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScannerSampleProject.app/ScannerSampleProject";
 			};
 			name = Debug;
 		};
@@ -949,7 +763,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "ScannerTests/ScannerTests-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScannerSampleProject.app/ScannerSampleProject";
 			};
 			name = Release;
 		};
@@ -970,24 +783,6 @@
 			buildConfigurations = (
 				A1D4BCE0202C4F3800FCDDEC /* Debug */,
 				A1D4BCE1202C4F3800FCDDEC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A1D4BCE2202C4F3800FCDDEC /* Build configuration list for PBXNativeTarget "ScannerSampleProjectTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A1D4BCE3202C4F3800FCDDEC /* Debug */,
-				A1D4BCE4202C4F3800FCDDEC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A1D4BCE5202C4F3800FCDDEC /* Build configuration list for PBXNativeTarget "ScannerSampleProjectUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A1D4BCE6202C4F3800FCDDEC /* Debug */,
-				A1D4BCE7202C4F3800FCDDEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
