@@ -14,6 +14,7 @@
 		A194E96F2042BD77003493E2 /* Rectangle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A194E96E2042BD77003493E2 /* Rectangle.jpg */; };
 		A194E97220431DD7003493E2 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A194E97120431DD7003493E2 /* ReviewViewController.swift */; };
 		A1C4DD4E2044ADE600D36684 /* CGRect+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C4DD4D2044ADE600D36684 /* CGRect+Utils.swift */; };
+		A1C4DD502044B1D500D36684 /* CGRectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */; };
 		A1D4BCBB202C4F3800FCDDEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */; };
 		A1D4BCBD202C4F3800FCDDEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */; };
 		A1D4BCC0202C4F3800FCDDEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCBE202C4F3800FCDDEC /* Main.storyboard */; };
@@ -103,6 +104,7 @@
 		A194E96E2042BD77003493E2 /* Rectangle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rectangle.jpg; sourceTree = "<group>"; };
 		A194E97120431DD7003493E2 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		A1C4DD4D2044ADE600D36684 /* CGRect+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Utils.swift"; sourceTree = "<group>"; };
+		A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectTests.swift; sourceTree = "<group>"; };
 		A1D4BCB7202C4F3800FCDDEC /* ScannerSampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScannerSampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1D4BCBC202C4F3800FCDDEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
 				A1DF90C12034919300841A11 /* ScannerTests-Bridging-Header.h */,
 				A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */,
+				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
 			);
 			path = ScannerTests;
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */,
+				A1C4DD502044B1D500D36684 /* CGRectTests.swift in Sources */,
 				A1DF90C32034919400841A11 /* QuadrilateralTests.swift in Sources */,
 				A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */,
 				A1675BAD2041698A00852865 /* RectangleFeaturesFunnelTests.swift in Sources */,
