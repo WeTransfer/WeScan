@@ -10,7 +10,9 @@ import UIKit
 import AVFoundation
 
 public protocol ImageScannerControllerDelegate: NSObjectProtocol {
+    
     func scanner(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults)
+    
 }
 
 public class ImageScannerController: UINavigationController {
@@ -51,6 +53,6 @@ public struct ImageScannerResults {
     
     var scannedImage: UIImage
     
-    var detectedRectangle: CIRectangleFeature
+    var detectedRectangle: Quadrilateral
     
 }

@@ -10,7 +10,6 @@ import UIKit
 import Scanner
 
 class ViewController: UIViewController {
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +22,4 @@ class ViewController: UIViewController {
         present(scannerVC, animated: true, completion: nil)
     }
     
-    
-
 }

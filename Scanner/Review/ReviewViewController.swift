@@ -14,7 +14,7 @@ class ReviewViewController: UIViewController {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
-        imageView.image = image
+        imageView.image = results.scannedImage
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,12 +28,12 @@ class ReviewViewController: UIViewController {
         return button
     }()
     
-    private let image: UIImage
+    private let results: ImageScannerResults
     
     // MARK: - Life Cycle
     
-    init(image: UIImage) {
-        self.image = image
+    init(results: ImageScannerResults) {
+        self.results = results
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -72,7 +72,9 @@ class ReviewViewController: UIViewController {
     // MARK - Actions
     
     @objc func handleTapDone(sender: UIButton) {
-
+        if let navigationController = navigationController as? ImageScannerController {
+            navigationController.imageScannerDelegate?.scanner(navigationController, didFinishScanningWithResults: results)
+        }
     }
 
 }
