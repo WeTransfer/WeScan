@@ -37,7 +37,7 @@ class EditScanViewController: UIViewController {
     }()
 
     private let image: UIImage
-    private let quad: Quadrilateral
+    private var quad: Quadrilateral
     
     private var quadViewWidthConstraint: NSLayoutConstraint?
     private var quadViewHeightConstraint: NSLayoutConstraint?
@@ -116,21 +116,22 @@ class EditScanViewController: UIViewController {
             return
         }
         
-        var scaledQuad = quad.scale(quadView.bounds.size, image.size)
+        let scaledQuad = quad.scale(quadView.bounds.size, image.size)
+        self.quad = scaledQuad
         
         if image.size.width < image.size.height {
             let orientationTransform = ciImage.orientationTransform(forExifOrientation: 6)
             ciImage = ciImage.transformed(by: orientationTransform)
         }
         
-        scaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
-        scaledQuad.reorganize()
+        var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
+        cartesianScaledQuad.reorganize()
         
         let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
-            "inputTopLeft": CIVector(cgPoint: scaledQuad.bottomLeft),
-            "inputTopRight": CIVector(cgPoint: scaledQuad.bottomRight),
-            "inputBottomLeft": CIVector(cgPoint: scaledQuad.topLeft),
-            "inputBottomRight": CIVector(cgPoint: scaledQuad.topRight)
+            "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
+            "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
+            "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
+            "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
         
         let uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
