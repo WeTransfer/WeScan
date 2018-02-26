@@ -282,6 +282,7 @@
 		A1D4BD11202C6C7900FCDDEC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */,
 				A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */,
 				A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */,
 				A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */,
@@ -312,7 +313,6 @@
 			children = (
 				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
-				A1DF90A12032F98000841A11 /* UIDeviceOrientation+Utils.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 			);
 			path = Scan;
