@@ -23,7 +23,7 @@ final class ReviewViewController: UIViewController {
     }()
     
     lazy private var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(handleTapDone(sender:)))
+        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(finishScan(sender:)))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
@@ -71,7 +71,7 @@ final class ReviewViewController: UIViewController {
     
     // MARK - Actions
     
-    @objc func handleTapDone(sender: UIButton) {
+    @objc func finishScan(sender: UIButton) {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
         }

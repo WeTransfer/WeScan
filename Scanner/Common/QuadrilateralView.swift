@@ -130,7 +130,7 @@ final class QuadrilateralView: UIView {
     
     // MARK: - Actions
     
-    @objc func handlePanGesture(panGesture: UIPanGestureRecognizer) {
+    @objc func dragCorner(panGesture: UIPanGestureRecognizer) {
         guard let cornerButton = panGesture.view as? EditScanCornerView,
             let quad = quad else {
                 return
@@ -178,7 +178,7 @@ final class QuadrilateralView: UIView {
         button.layer.masksToBounds = false
         button.isHidden = true
         
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(panGesture:)))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(dragCorner(panGesture:)))
         button.addGestureRecognizer(panGesture)
         
         return button

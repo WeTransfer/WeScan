@@ -31,7 +31,7 @@ final class EditScanViewController: UIViewController {
     }()
     
     lazy private var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleTapNext(sender:)))
+        let button = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(pushReviewController(sender:)))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
@@ -114,7 +114,7 @@ final class EditScanViewController: UIViewController {
     
     // MARK - Actions
     
-    @objc func handleTapNext(sender: UIButton) {
+    @objc func pushReviewController(sender: UIButton) {
         guard let quad = quadView.quad,
             var ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {

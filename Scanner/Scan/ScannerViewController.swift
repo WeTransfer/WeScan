@@ -21,7 +21,7 @@ final class ScannerViewController: UIViewController {
     lazy private var shutterButton: ShutterButton = {
         let button = ShutterButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(handleTapShutterButton(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -35,7 +35,7 @@ final class ScannerViewController: UIViewController {
     lazy private var closeButton: CloseButton = {
         let button = CloseButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(handleTapCloseButton(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cancelImageScannerController(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -118,11 +118,11 @@ final class ScannerViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func handleTapShutterButton(_ sender: UIButton?) {
+    @objc private func captureImage(_ sender: UIButton?) {
         captureSessionManager?.capturePhoto()
     }
     
-    @objc private func handleTapCloseButton(_ sender: UIButton?) {
+    @objc private func cancelImageScannerController(_ sender: UIButton?) {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
         }
