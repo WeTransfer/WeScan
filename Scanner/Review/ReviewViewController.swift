@@ -74,7 +74,7 @@ class ReviewViewController: UIViewController {
     
     @objc func handleTapDone(sender: UIButton) {
         if let navigationController = navigationController as? ImageScannerController {
-            navigationController.imageScannerDelegate?.scanner(navigationController, didFinishScanningWithResults: results)
+            navigationController.imageScannerDelegate?.imageScannerController(navigationController, didFinishScanningWithResults: results)
         }
     }
 
