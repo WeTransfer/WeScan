@@ -164,6 +164,9 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
+        detects = false
+        delegate?.didStartCapturingPicture(for: self)
+        
         if let sampleBuffer = photoSampleBuffer,
             let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil)
             {
@@ -184,6 +187,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
+        detects = false
         delegate?.didStartCapturingPicture(for: self)
         
         if let imageData = photo.fileDataRepresentation() {
@@ -196,11 +200,15 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     }
     
     private func completeImageCapture(with imageData: Data) {
-        detects = false
+        guard let displayedRectangleResult = self.displayedRectangleResult else {
+            let error = NSError(domain: "No Rectangle Detected", code: 1, userInfo: nil)
+            detects = true
+            self.delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
         
         DispatchQueue.global(qos: .background).async {
-            guard var image = UIImage(data: imageData),
-            let displayedRectangleResult = self.displayedRectangleResult else {
+            guard var image = UIImage(data: imageData) else {
                 let error = NSError(domain: "Could not capture picture", code: 0, userInfo: nil)
                 DispatchQueue.main.async {
                     self.delegate?.captureSessionManager(self, didFailWithError: error)

@@ -129,6 +129,10 @@ final class ScannerViewController: UIViewController {
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error) {
+        
+        activityIndicator.stopAnimating()
+        shutterButton.isUserInteractionEnabled = true
+        
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
         }
