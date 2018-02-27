@@ -19,7 +19,7 @@ extension Array where Element: CIRectangleFeature {
         var biggestRectanglePerimeter: CGFloat = -1
         var biggestRectangle: CIRectangleFeature?
         
-        self.forEach { (rectangle) in
+        forEach { (rectangle) in
             let perimeter = rectangle.perimeter()
             if biggestRectanglePerimeter < perimeter {
                 biggestRectanglePerimeter = perimeter
