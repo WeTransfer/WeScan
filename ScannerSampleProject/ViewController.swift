@@ -9,7 +9,7 @@
 import UIKit
 import Scanner
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     private lazy var scanButton: UIButton = {
         let button = UIButton(type: .custom)
