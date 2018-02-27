@@ -101,8 +101,6 @@
 		A1D4BCC1202C4F3800FCDDEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1D4BCC4202C4F3800FCDDEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1D4BCC6202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1D4BCD1202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1D4BCDC202C4F3800FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1D4BCED202C4F4100FCDDEC /* Scanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Scanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCEF202C4F4100FCDDEC /* Scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scanner.h; sourceTree = "<group>"; };
 		A1D4BCF0202C4F4100FCDDEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -176,8 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				A1D4BCB9202C4F3800FCDDEC /* ScannerSampleProject */,
-				A1D4BCCE202C4F3800FCDDEC /* ScannerSampleProjectTests */,
-				A1D4BCD9202C4F3800FCDDEC /* ScannerSampleProjectUITests */,
 				A1D4BCEE202C4F4100FCDDEC /* Scanner */,
 				A1D4BCFB202C4F4100FCDDEC /* ScannerTests */,
 				A1D4BCB8202C4F3800FCDDEC /* Products */,
@@ -205,22 +201,6 @@
 				A1D4BCC6202C4F3800FCDDEC /* Info.plist */,
 			);
 			path = ScannerSampleProject;
-			sourceTree = "<group>";
-		};
-		A1D4BCCE202C4F3800FCDDEC /* ScannerSampleProjectTests */ = {
-			isa = PBXGroup;
-			children = (
-				A1D4BCD1202C4F3800FCDDEC /* Info.plist */,
-			);
-			path = ScannerSampleProjectTests;
-			sourceTree = "<group>";
-		};
-		A1D4BCD9202C4F3800FCDDEC /* ScannerSampleProjectUITests */ = {
-			isa = PBXGroup;
-			children = (
-				A1D4BCDC202C4F3800FCDDEC /* Info.plist */,
-			);
-			path = ScannerSampleProjectUITests;
 			sourceTree = "<group>";
 		};
 		A1D4BCEE202C4F4100FCDDEC /* Scanner */ = {
