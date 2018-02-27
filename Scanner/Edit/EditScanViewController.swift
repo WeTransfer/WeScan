@@ -75,6 +75,8 @@ final class EditScanViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         // Work around for an iOS 11.2 bug where UIBarButtonItems don't get back to their normal state after being pressed.
         navigationController?.navigationBar.tintAdjustmentMode = .normal
         navigationController?.navigationBar.tintAdjustmentMode = .automatic
