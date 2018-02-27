@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-internal class ScannerViewController: UIViewController {
+final class ScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
@@ -56,7 +56,7 @@ internal class ScannerViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         captureSessionManager?.start()
     }
     

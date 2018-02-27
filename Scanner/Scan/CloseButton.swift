@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CloseButton: UIControl {
+final class CloseButton: UIControl {
     
     let xLayer = CAShapeLayer()
     

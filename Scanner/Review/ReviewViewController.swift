@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ReviewViewController: UIViewController {
+final class ReviewViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()

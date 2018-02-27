@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class EditScanViewController: UIViewController {
+final class EditScanViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()

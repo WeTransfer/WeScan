@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-internal final class QuadrilateralView: UIView {
+final class QuadrilateralView: UIView {
     
     private let quadLayer = CAShapeLayer()
     private(set) var quad: Quadrilateral?

@@ -9,7 +9,7 @@
 import XCTest
 @testable import Scanner
 
-class CGRectTests: XCTestCase {
+final class CGRectTests: XCTestCase {
     
     func testScaleAndCenter() {
         var rect = CGRect(x: 0.0, y: 0.0, width: 100.0, height: 100.0)

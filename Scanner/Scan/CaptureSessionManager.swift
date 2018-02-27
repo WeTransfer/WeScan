@@ -15,7 +15,7 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral)
 }
 
-internal class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate  {
+final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate  {
     
     private let videoPreviewLayer: AVCaptureVideoPreviewLayer
     private let captureSession = AVCaptureSession()

@@ -9,7 +9,7 @@
 import XCTest
 @testable import Scanner
 
-class QuadrilateralTests: XCTestCase {
+final class QuadrilateralTests: XCTestCase {
     
     func testEquatable() {
         let topLeft = CGPoint(x: 0.0, y: 100.0)

@@ -9,7 +9,7 @@
 import XCTest
 @testable import Scanner
 
-class CGPointTests: XCTestCase {
+final class CGPointTests: XCTestCase {
     
     func testSurroundingRect() {
         var point = CGPoint.zero

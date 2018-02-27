@@ -15,7 +15,7 @@ enum CornerPosition {
     case bottomLeft
 }
 
-class EditScanCornerView: UIView {
+final class EditScanCornerView: UIView {
     
     let position: CornerPosition
     
