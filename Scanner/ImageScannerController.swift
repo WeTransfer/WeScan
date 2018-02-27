@@ -26,6 +26,8 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     ///   - scanner: The scanner controller object managing the scanning interface.
     /// - Discussion: Your delegate's implementation of this method should dismiss the image scanner controller.
     func imageScannerControllerDidCancel(_ scanner: ImageScannerController)
+    
+    func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error)
 }
 
 /// The `ImageScannerController` class is meant to be presented. It consists of a series of 3 different screens which guide the user:

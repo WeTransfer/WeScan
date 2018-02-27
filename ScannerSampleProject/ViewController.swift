@@ -58,6 +58,10 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ImageScannerControllerDelegate {
+    func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
+        print(error)
+    }
+    
     
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
         scanner.dismiss(animated: true, completion: nil)

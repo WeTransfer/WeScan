@@ -13,6 +13,7 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager)
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize)
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral)
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error)
 }
 
 final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate  {
@@ -50,7 +51,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
-                // TODO: Handle Error
+                let error = NSError(domain: "Could not setup input device.", code: 0, userInfo: nil)
+                delegate?.captureSessionManager(self, didFailWithError: error)
                 return
         }
         
@@ -72,17 +74,15 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         if authorizationStatus == .notDetermined {
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {[weak self] (granted) in
-                if granted {
-                    self?.captureSession.startRunning()
-                }
+                self?.start()
             })
         }
         else if authorizationStatus == .authorized {
             self.captureSession.startRunning()
             detects = true
-        }
-        else {
-            //TODO: present error
+        } else {
+            let error = NSError(domain: "Not authorized to use Camera.", code: 0, userInfo: ["authorizationStatus" : authorizationStatus])
+            delegate?.captureSessionManager(self, didFailWithError: error)
         }
     }
     
@@ -176,6 +176,11 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     
     @available(iOS 11.0, *)
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let error = error {
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
         guard let displayedRectangleResult = displayedRectangleResult else {
             return
         }
@@ -212,7 +217,6 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             }
             
         }
-        // TODO: Handle Error
     }
 }
 
