@@ -50,6 +50,7 @@ public final class ImageScannerController: UINavigationController {
         let scannerViewController = ScannerViewController()
         super.init(rootViewController: scannerViewController)
         navigationBar.tintColor = .black
+        navigationBar.isTranslucent = false
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
