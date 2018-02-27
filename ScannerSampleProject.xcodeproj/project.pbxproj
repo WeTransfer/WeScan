@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1265C822045BFEB009C4D3E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1265C812045BFEB009C4D3E /* Localizable.strings */; };
 		A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165F67D2044741B002D5ED6 /* ShutterButton.swift */; };
 		A1675BAB2041693A00852865 /* Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1675BAA2041693A00852865 /* Square.jpg */; };
 		A1675BAD2041698A00852865 /* RectangleFeaturesFunnelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */; };
@@ -83,6 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A1265C812045BFEB009C4D3E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		A165F67D2044741B002D5ED6 /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		A1675BAA2041693A00852865 /* Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Square.jpg; sourceTree = "<group>"; };
 		A1675BAC2041698A00852865 /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RectangleFeaturesFunnelTests.swift; path = ScannerTests/RectangleFeaturesFunnelTests.swift; sourceTree = SOURCE_ROOT; };
@@ -233,6 +235,7 @@
 				A1DF90F720371A0800841A11 /* Common */,
 				A1D4BCEF202C4F4100FCDDEC /* Scanner.h */,
 				A1D4BCF0202C4F4100FCDDEC /* Info.plist */,
+				A1265C812045BFEB009C4D3E /* Localizable.strings */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1265C822045BFEB009C4D3E /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,7 +654,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-                DEVELOPMENT_TEAM = 67V847367C;
+				DEVELOPMENT_TEAM = 67V847367C;
 				INFOPLIST_FILE = ScannerSampleProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -667,7 +671,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-                DEVELOPMENT_TEAM = 67V847367C;
+				DEVELOPMENT_TEAM = 67V847367C;
 				INFOPLIST_FILE = ScannerSampleProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
