@@ -22,7 +22,7 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     ///
     /// - Parameters:
     ///   - The scanner controller object managing the scanning interface.
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
+    func imagePickerControllerDidCancel(_ picker: ImageScannerController)
 }
 
 /// The `ImageScannerController` class is meant to be presented. It consists of a series of 3 different screens which guide the user:
