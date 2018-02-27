@@ -175,7 +175,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         
         let transformedQuad = quad.applyTransforms(transforms)
         
-        quadView.drawQuadrilateral(quad: transformedQuad)
+        quadView.drawQuadrilateral(quad: transformedQuad, animated: true)
     }
     
 }

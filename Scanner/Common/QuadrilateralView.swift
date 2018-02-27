@@ -23,7 +23,7 @@ final class QuadrilateralView: UIView {
             guard let quad = quad else {
                 return
             }
-            drawQuad(quad)
+            drawQuad(quad, animated: false)
             layoutCornerButtons(forQuad: quad)
         }
     }
@@ -72,7 +72,7 @@ final class QuadrilateralView: UIView {
         
         quadLayer.frame = bounds
         if let quad = quad {
-            drawQuadrilateral(quad: quad)
+            drawQuadrilateral(quad: quad, animated: false)
         }
     }
     
@@ -82,16 +82,16 @@ final class QuadrilateralView: UIView {
     ///
     /// - Parameters:
     ///   - quad: The quadrilateral to draw on the view. It should be in the coordinates of the current `QuadrilateralView` instance.
-    func drawQuadrilateral(quad: Quadrilateral) {
+    func drawQuadrilateral(quad: Quadrilateral, animated: Bool) {
         self.quad = quad
-        drawQuad(quad)
+        drawQuad(quad, animated: animated)
         if editable {
             showCornerButtons()
             layoutCornerButtons(forQuad: quad)
         }
     }
     
-    private func drawQuad(_ quad: Quadrilateral) {
+    private func drawQuad(_ quad: Quadrilateral, animated: Bool) {
         var path = quad.path()
         
         if editable {
@@ -100,9 +100,11 @@ final class QuadrilateralView: UIView {
             path.append(rectPath)
         }
         
-        let pathAnimation = CABasicAnimation(keyPath: "path")
-        pathAnimation.duration = 0.2
-        quadLayer.add(pathAnimation, forKey: "path")
+        if animated == true {
+            let pathAnimation = CABasicAnimation(keyPath: "path")
+            pathAnimation.duration = 0.2
+            quadLayer.add(pathAnimation, forKey: "path")
+        }
         
         quadLayer.path = path.cgPath
         quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
@@ -148,7 +150,7 @@ final class QuadrilateralView: UIView {
         let updatedQuad = updated(quad, withPosition: center, forCorner: cornerButton.position)
         
         self.quad = updatedQuad
-        drawQuad(updatedQuad)
+        drawQuad(updatedQuad, animated: false)
     }
     
     // MARK: Validation

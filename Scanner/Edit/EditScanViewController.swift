@@ -158,7 +158,7 @@ final class EditScanViewController: UIViewController {
         let transforms = [scaleTransform]
         let transformedQuad = quad.applyTransforms(transforms)
         
-        quadView.drawQuadrilateral(quad: transformedQuad)
+        quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
     }
     
     private func adjustQuadViewConstraints() {
