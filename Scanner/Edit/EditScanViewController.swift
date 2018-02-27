@@ -29,11 +29,9 @@ final class EditScanViewController: UIViewController {
         return quadView
     }()
     
-    private lazy var nextButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("Next", for: .normal)
-        button.setTitleColor(navigationController?.navigationBar.tintColor, for: .normal)
-        button.addTarget(self, action: #selector(handleTapNext(sender:)), for: .touchUpInside)
+    private lazy var nextButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleTapNext(sender:)))
+        button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
 
@@ -63,7 +61,7 @@ final class EditScanViewController: UIViewController {
         setupConstraints()
         
         title = "Edit scan"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: nextButton)
+        navigationItem.rightBarButtonItem = nextButton
     }
     
     override func viewDidLayoutSubviews() {
@@ -72,10 +70,10 @@ final class EditScanViewController: UIViewController {
         displayQuad()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        displayQuad()
+    override func viewWillDisappear(_ animated: Bool) {
+        // Work around for an iOS 11.2 bug where UIBarButtonItems don't get back to their normal state after being pressed.
+        navigationController?.navigationBar.tintAdjustmentMode = .normal
+        navigationController?.navigationBar.tintAdjustmentMode = .automatic
     }
     
     // MARK: - Setups

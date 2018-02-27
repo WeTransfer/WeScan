@@ -46,13 +46,12 @@ final class ScannerViewController: UIViewController {
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewlayer)
         captureSessionManager?.delegate = self
-        captureSessionManager?.start()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         quadView.removeQuadrilateral()
+        captureSessionManager?.start()
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     

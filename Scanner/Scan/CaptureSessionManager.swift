@@ -159,17 +159,20 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
 extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
 
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
-        
-        // TODO: FIX iOS 10.0
-        
         if let error = error {
-            // TODO: Handle Errors
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
+        if let sampleBuffer = photoSampleBuffer,
+            let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil)
+            {
+                completeImageCapture(with: imageData)
+            
         } else {
-            if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
-                if let image = UIImage(data: imageData) {
-//                    delegate?.captureSessionManager(self, didCapturePicture:  image)
-                }
-            }
+            let error = NSError(domain: "Could not capture picture", code: 0, userInfo: nil)
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
         }
         
     }
@@ -181,41 +184,51 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        guard let displayedRectangleResult = displayedRectangleResult else {
-            return
-        }
-        
         delegate?.didStartCapturingPicture(for: self)
         
+        if let imageData = photo.fileDataRepresentation() {
+            completeImageCapture(with: imageData)
+        } else {
+            let error = NSError(domain: "Could not capture picture", code: 0, userInfo: nil)
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+    }
+    
+    private func completeImageCapture(with imageData: Data) {
+        detects = false
+        
         DispatchQueue.global(qos: .background).async {
-            if let imageData = photo.fileDataRepresentation(),
-                var image = UIImage(data: imageData) {
-                
-                self.detects = false
-                
-                var angle: CGFloat = 0.0
-                
-                switch image.imageOrientation {
-                case .right:
-                    angle = CGFloat.pi / 2
-                    break
-                case .up:
-                    angle = CGFloat.pi
-                    break
-                default:
-                    break
-                }
-                
-                image = image.withPortraitOrientation()
-                
-                let quad = self.displayRectangleResult(rectangleResult: displayedRectangleResult)
-                let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
-                
+            guard var image = UIImage(data: imageData),
+            let displayedRectangleResult = self.displayedRectangleResult else {
+                let error = NSError(domain: "Could not capture picture", code: 0, userInfo: nil)
                 DispatchQueue.main.async {
-                    self.delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: scaledQuad)
+                    self.delegate?.captureSessionManager(self, didFailWithError: error)
                 }
+                return
             }
             
+            var angle: CGFloat = 0.0
+            
+            switch image.imageOrientation {
+            case .right:
+                angle = CGFloat.pi / 2
+                break
+            case .up:
+                angle = CGFloat.pi
+                break
+            default:
+                break
+            }
+            
+            image = image.withPortraitOrientation()
+            
+            let quad = self.displayRectangleResult(rectangleResult: displayedRectangleResult)
+            let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
+            
+            DispatchQueue.main.async {
+                self.delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: scaledQuad)
+            }
         }
     }
 }

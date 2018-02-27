@@ -21,11 +21,9 @@ final class ReviewViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var doneButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("Done", for: .normal)
-        button.setTitleColor(navigationController?.navigationBar.tintColor, for: .normal)
-        button.addTarget(self, action: #selector(handleTapDone(sender:)), for: .touchUpInside)
+    private lazy var doneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(handleTapDone(sender:)))
+        button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
     
@@ -50,7 +48,7 @@ final class ReviewViewController: UIViewController {
         setupConstraints()
         
         title = "Review"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
+        navigationItem.rightBarButtonItem = doneButton
     }
     
     // MARK: Setups
