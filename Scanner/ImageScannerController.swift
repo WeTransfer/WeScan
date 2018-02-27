@@ -16,13 +16,15 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     /// - Parameters:
     ///   - scanner: The scanner controller object managing the scanning interface.
     ///   - results: The results of the user scanning with the camera.
-    func scanner(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults)
+    /// - Discussion: Your delegate's implementation of this method should dismiss the image scanner controller.
+    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults)
     
     /// Tells the delegate that the user cancelled the scan operation.
     ///
     /// - Parameters:
-    ///   - The scanner controller object managing the scanning interface.
-    func imagePickerControllerDidCancel(_ picker: ImageScannerController)
+    ///   - scanner: The scanner controller object managing the scanning interface.
+    /// - Discussion: Your delegate's implementation of this method should dismiss the image scanner controller.
+    func imageScannerControllerDidCancel(_ scanner: ImageScannerController)
 }
 
 /// The `ImageScannerController` class is meant to be presented. It consists of a series of 3 different screens which guide the user:
