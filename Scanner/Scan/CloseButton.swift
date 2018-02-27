@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A simple close button shaped like an "X".
 final class CloseButton: UIControl {
     
     let xLayer = CAShapeLayer()

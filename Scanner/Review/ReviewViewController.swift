@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {

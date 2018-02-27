@@ -35,6 +35,7 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error)
 }
 
+/// A view controller that manages the full flow for scanning documents.
 /// The `ImageScannerController` class is meant to be presented. It consists of a series of 3 different screens which guide the user:
 /// 1. Uses the camera to capture an image with a rectangle that has been detected.
 /// 2. Edit the detected rectangle.

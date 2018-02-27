@@ -9,10 +9,13 @@
 import UIKit
 import AVFoundation
 
+/// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
 final class ScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
+    
+    /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
     
     private lazy var shutterButton: ShutterButton = {

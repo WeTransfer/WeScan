@@ -10,7 +10,7 @@ import Foundation
 
 extension Array where Element: CIRectangleFeature {
     
-    /// Finds the biggest rectangle within an array of CIRectangleFeature objects.
+    /// Finds the biggest rectangle within an array of `CIRectangleFeature` objects.
     func biggestRectangle() -> CIRectangleFeature? {
         guard count > 1 else {
             return first

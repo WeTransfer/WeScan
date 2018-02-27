@@ -11,15 +11,15 @@ import AVFoundation
 
 extension CIRectangleFeature {
     
-    /// The perimeter of the rectangle.
+    /// The perimeter of the quadrilateral.
     func perimeter() -> CGFloat {
         return (topRight.x - topLeft.x) + (bottomRight.y - topRight.y) + (bottomRight.x - bottomLeft.x) + (bottomLeft.y - topLeft.y)
     }
     
-    /// Checks wether the rectangle is withing a given distance of another rectangle.
+    /// Checks whether the quadrilateral is withing a given distance of another quadrilateral.
     ///
     /// - Parameters:
-    ///   - distance: The distance (threshold) to use for the condition.
+    ///   - distance: The distance (threshold) to use for the condition to be met.
     ///   - rectangleFeature: The other rectangle to compare this instance with.
     /// - Returns: True if the given rectangle is within the given distance of this rectangle instance.
     func isWithin(_ distance: CGFloat, ofRectangleFeature rectangleFeature: CIRectangleFeature) -> Bool {

@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+/// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
 final class EditScanViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
@@ -35,7 +36,10 @@ final class EditScanViewController: UIViewController {
         return button
     }()
 
+    /// The image the quadrilateral was detected on.
     private let image: UIImage
+    
+    /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
     
     private var quadViewWidthConstraint: NSLayoutConstraint?
@@ -142,7 +146,7 @@ final class EditScanViewController: UIViewController {
         
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
-    
+
     private func displayQuad() {
         let imageSize = image.size
         let imageFrame = CGRect(x: quadView.frame.origin.x, y: quadView.frame.origin.y, width: quadViewWidthConstraint!.constant, height: quadViewHeightConstraint!.constant)

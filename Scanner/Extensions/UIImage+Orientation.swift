@@ -10,6 +10,7 @@ import Foundation
 
 extension UIImage {
     
+    /// Returns the same image with a portrait orientation.
     func withPortraitOrientation() -> UIImage {
         switch imageOrientation {
         case .up:
@@ -21,6 +22,7 @@ extension UIImage {
         }        
     }
     
+    /// Data structure to easily express rotation options.
     struct RotationOptions: OptionSet {
         let rawValue: Int
         
@@ -28,6 +30,12 @@ extension UIImage {
         static let flipOnHorizontalAxis = RotationOptions(rawValue: 2)
     }
     
+    /// Rotate the image by the given angle, and perform other transformations based on the passed in options.
+    ///
+    /// - Parameters:
+    ///   - rotationAngle: The angle to rotate the image by.
+    ///   - options: Options to apply to the image.
+    /// - Returns: The new image rotated and optentially flipped (@see options).
     func rotated(by rotationAngle: Measurement<UnitAngle>, options: RotationOptions = []) -> UIImage? {
         guard let cgImage = self.cgImage else { return nil }
         

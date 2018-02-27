@@ -9,9 +9,12 @@
 import UIKit
 import AVFoundation
 
+/// The `QuadrilateralView` is a simple `UIView` subclass that can draw a quadrilateral, and optionally edit it.
 final class QuadrilateralView: UIView {
     
     private let quadLayer = CAShapeLayer()
+    
+    /// The quadrilateral drawn on the view.
     private(set) var quad: Quadrilateral?
     
     public var editable = false {
@@ -78,7 +81,11 @@ final class QuadrilateralView: UIView {
     
     // MARK: - Drawings
     
-    public func drawQuadrilateral(quad: Quadrilateral) {
+    /// Draws the passed in quadrilateral.
+    ///
+    /// - Parameters:
+    ///   - quad: The quadrilateral to draw on the view. It should be in the coordinates of the current `QuadrilateralView` instance.
+    func drawQuadrilateral(quad: Quadrilateral) {
         self.quad = quad
         drawQuad(quad)
         if editable {
@@ -217,4 +224,28 @@ final class QuadrilateralView: UIView {
         
         return quad
     }
+}
+
+/// Simple enum to keep track of the position of the corners of a quadrilateral.
+fileprivate enum CornerPosition {
+    case topLeft
+    case topRight
+    case bottomRight
+    case bottomLeft
+}
+
+/// A UIView used by corners of a quadrilateral that is aware of its position.
+final fileprivate class EditScanCornerView: UIView {
+    
+    let position: CornerPosition
+    
+    init(frame: CGRect, position: CornerPosition) {
+        self.position = position
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

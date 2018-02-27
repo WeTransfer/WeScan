@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A simple button used for the shutter.
 final class ShutterButton: UIControl {
     
     private let outterRingLayer = CAShapeLayer()

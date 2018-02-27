@@ -9,8 +9,14 @@
 import Foundation
 import AVFoundation
 
+/// Class used to detect rectangles from an image.
 struct RectangleDetector {
     
+    /// Detects rectangles from the given image.
+    ///
+    /// - Parameters:
+    ///   - image: The image to detect rectangles on.
+    /// - Returns: The biggest detected rectangle on the image.
     static func rectangle(forImage image: CIImage) -> CIRectangleFeature? {
         let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
         

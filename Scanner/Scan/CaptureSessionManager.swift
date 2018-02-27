@@ -9,10 +9,34 @@
 import Foundation
 import AVFoundation
 
+/// A set of functions that inform the delegate object of the state of the detection.
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
+    
+    /// Called when the capture of a picture has started.
+    ///
+    /// - Parameters:
+    ///   - captureSessionManager: The `CaptureSessionManager` instance that started capturing a picture.
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager)
+    
+    /// Called when a quadrilateral has been detected.
+    /// - Parameters:
+    ///   - captureSessionManager: The `CaptureSessionManager` instance that has detected a quadrilateral.
+    ///   - quad: The detected quadrilateral in the coordinates of the image.
+    ///   - imageSize: The size of the image the quadrilateral has been detected on.
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize)
+    
+    /// Called when a picture with a quadrilateral has been captured.
+    ///
+    /// - Parameters:
+    ///   - captureSessionManager: The `CaptureSessionManager` instance that has captured a picture.
+    ///   - picture: The picture that has been captured.
+    ///   - quad: The quadrilateral that was detected in the picture's coordinates.
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral)
+    
+    /// Called when an error occured with the capture session manager.
+    /// - Parameters:
+    ///   - captureSessionManager: The `CaptureSessionManager` that encountered an error.
+    ///   - error: The encountered error.
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error)
 }
 
@@ -24,6 +48,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     weak var delegate: RectangleDetectionDelegateProtocol?
     private var displayedRectangleResult: RectangleDetectorResult?
     private var photoOutput = AVCapturePhotoOutput()
+    
+    /// Whether the CaptureSessionManager should be detecting quadrilaterals.
     private var detects = true
     
     /// The number of times no rectangles have been found in a row.
@@ -70,6 +96,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     
     // MARK: Capture Session Life Cycle
     
+    /// Starts the camera and detecting quadrilaterals.
     internal func start() {
         let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         if authorizationStatus == .notDetermined {
@@ -241,9 +268,13 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     }
 }
 
-struct RectangleDetectorResult {
+/// Data structure representing the result of the detection of a quadrilateral.
+fileprivate struct RectangleDetectorResult {
     
+    /// The detected quadrilateral.
     let rectangle: CIRectangleFeature
+    
+    /// The size of the image the quadrilateral was detected on.
     let imageSize: CGSize
     
 }

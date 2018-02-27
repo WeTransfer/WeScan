@@ -11,6 +11,9 @@ import AVFoundation
 
 extension UIDeviceOrientation {
     
+    /// Maps `UIDeviceOrientation` to `AVCaptureVideoOrientation`.
+    ///
+    /// - Returns: The `AVCaptureVideoOrientation` that maps to the `UIDeviceOrientation`.
     func toAVCaptureVideoOrientation() -> AVCaptureVideoOrientation {
         switch self {
         case .portrait:
