@@ -100,6 +100,10 @@ final class QuadrilateralView: UIView {
             path.append(rectPath)
         }
         
+        let pathAnimation = CABasicAnimation(keyPath: "path")
+        pathAnimation.duration = 0.2
+        quadLayer.add(pathAnimation, forKey: "path")
+        
         quadLayer.path = path.cgPath
         quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
         quadLayer.strokeColor = UIColor.white.cgColor
