@@ -11,7 +11,7 @@ import Scanner
 
 final class ViewController: UIViewController {
     
-    private lazy var scanButton: UIButton = {
+    lazy private var scanButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Scan Now!", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false

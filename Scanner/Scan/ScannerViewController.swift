@@ -18,21 +18,21 @@ final class ScannerViewController: UIViewController {
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
     
-    private lazy var shutterButton: ShutterButton = {
+    lazy private var shutterButton: ShutterButton = {
         let button = ShutterButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handleTapShutterButton(_:)), for: .touchUpInside)
         return button
     }()
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
+    lazy private var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
     
-    private lazy var closeButton: CloseButton = {
+    lazy private var closeButton: CloseButton = {
         let button = CloseButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handleTapCloseButton(_:)), for: .touchUpInside)

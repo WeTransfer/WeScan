@@ -28,21 +28,21 @@ final class QuadrilateralView: UIView {
         }
     }
     
-    private lazy var topLeftCornerButton: EditScanCornerView = {
+    lazy private var topLeftCornerButton: EditScanCornerView = {
         let cornerButton = self.cornerButton(atPosition: .topLeft)
         return cornerButton
     }()
     
-    private lazy var topRightCornerButton: EditScanCornerView = {
+    lazy private var topRightCornerButton: EditScanCornerView = {
         let cornerButton = self.cornerButton(atPosition: .topRight)
         return cornerButton
     }()
     
-    private lazy var bottomRightCornerButton: EditScanCornerView = {
+    lazy private var bottomRightCornerButton: EditScanCornerView = {
         let cornerButton = self.cornerButton(atPosition: .bottomRight)
         return cornerButton
     }()
-    private lazy var bottomLeftCornerButton: EditScanCornerView = {
+    lazy private var bottomLeftCornerButton: EditScanCornerView = {
         let cornerButton = self.cornerButton(atPosition: .bottomLeft)
         return cornerButton
     }()

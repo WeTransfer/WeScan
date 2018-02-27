@@ -11,7 +11,7 @@ import UIKit
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
-    private lazy var imageView: UIImageView = {
+    lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
@@ -22,7 +22,7 @@ final class ReviewViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var doneButton: UIBarButtonItem = {
+    lazy private var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(handleTapDone(sender:)))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
