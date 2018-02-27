@@ -126,7 +126,7 @@ final class ScannerViewController: UIViewController {
     
     @objc private func handleTapCloseButton(_ sender: UIButton?) {
         if let navigationController = navigationController as? ImageScannerController {
-            navigationController.imageScannerDelegate?.imagePickerControllerDidCancel(navigationController)
+            navigationController.imageScannerDelegate?.imageScannerControllerDidCancel(navigationController)
         }
     }
 
