@@ -11,13 +11,18 @@ import AVFoundation
 
 public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     
-    /// Called by the image scanner when the user has scanned an image.
+    /// Tells the delegate that the user scanned a document.
     ///
     /// - Parameters:
-    ///   - scanner: The scanner object calling this function.
+    ///   - scanner: The scanner controller object managing the scanning interface.
     ///   - results: The results of the user scanning with the camera.
     func scanner(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults)
     
+    /// Tells the delegate that the user cancelled the scan operation.
+    ///
+    /// - Parameters:
+    ///   - The scanner controller object managing the scanning interface.
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
 }
 
 /// The `ImageScannerController` class is meant to be presented. It consists of a series of 3 different screens which guide the user:
