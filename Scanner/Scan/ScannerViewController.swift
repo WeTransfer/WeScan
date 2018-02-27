@@ -17,6 +17,7 @@ internal class ScannerViewController: UIViewController {
     
     private lazy var shutterButton: ShutterButton = {
         let button = ShutterButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handleTapShutterButton(_:)), for: .touchUpInside)
         return button
     }()
@@ -24,7 +25,15 @@ internal class ScannerViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
+    }()
+    
+    private lazy var closeButton: CloseButton = {
+        let button = CloseButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleTapCloseButton(_:)), for: .touchUpInside)
+        return button
     }()
     
     // MARK: - Life Cycle
@@ -68,10 +77,9 @@ internal class ScannerViewController: UIViewController {
         view.layer.addSublayer(videoPreviewlayer)
         quadView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(quadView)
-        shutterButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(shutterButton)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(activityIndicator)
+        view.addSubview(closeButton)
     }
     
     private func setupConstraints() {
@@ -99,12 +107,27 @@ internal class ScannerViewController: UIViewController {
         ]
         
         NSLayoutConstraint.activate(activityIndicatorConstraints)
+        
+        let closeButtonConstraints = [
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0),
+            closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
+            closeButton.widthAnchor.constraint(equalToConstant: 20.0),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(closeButtonConstraints)
     }
     
     // MARK: - Actions
     
     @objc private func handleTapShutterButton(_ sender: UIButton?) {
         captureSessionManager?.capturePhoto()
+    }
+    
+    @objc private func handleTapCloseButton(_ sender: UIButton?) {
+        if let navigationController = navigationController as? ImageScannerController {
+            navigationController.imageScannerDelegate?.imagePickerControllerDidCancel(navigationController)
+        }
     }
 
 }
