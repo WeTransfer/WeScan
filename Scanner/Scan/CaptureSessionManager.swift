@@ -77,7 +77,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
-                let error = NSError(domain: "Could not setup input device.", code: 0, userInfo: nil)
+                let error = WeScanError.inputDevice
                 delegate?.captureSessionManager(self, didFailWithError: error)
                 return
         }
@@ -108,7 +108,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             self.captureSession.startRunning()
             detects = true
         } else {
-            let error = NSError(domain: "Not authorized to use Camera.", code: 0, userInfo: ["authorizationStatus" : authorizationStatus])
+            let error = WeScanError.authorization
             delegate?.captureSessionManager(self, didFailWithError: error)
         }
     }
@@ -200,7 +200,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
                 completeImageCapture(with: imageData)
             
         } else {
-            let error = NSError(domain: "Could not capture picture", code: 0, userInfo: nil)
+            let error = WeScanError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
@@ -220,7 +220,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         if let imageData = photo.fileDataRepresentation() {
             completeImageCapture(with: imageData)
         } else {
-            let error = NSError(domain: "Could not capture picture", code: 0, userInfo: nil)
+            let error = WeScanError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
@@ -228,15 +228,15 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     
     private func completeImageCapture(with imageData: Data) {
         guard let displayedRectangleResult = self.displayedRectangleResult else {
-            let error = NSError(domain: "No Rectangle Detected", code: 1, userInfo: nil)
             detects = true
+            let error = WeScanError.noRectangle
             self.delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
         
         DispatchQueue.global(qos: .background).async {
             guard var image = UIImage(data: imageData) else {
-                let error = NSError(domain: "Could not capture picture", code: 0, userInfo: nil)
+                let error = WeScanError.capture
                 DispatchQueue.main.async {
                     self.delegate?.captureSessionManager(self, didFailWithError: error)
                 }

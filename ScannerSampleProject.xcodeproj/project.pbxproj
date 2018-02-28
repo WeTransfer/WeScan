@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A11C5B9C2046A20C005075FE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11C5B9B2046A20C005075FE /* Error.swift */; };
 		A1265C822045BFEB009C4D3E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1265C812045BFEB009C4D3E /* Localizable.strings */; };
 		A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165F67D2044741B002D5ED6 /* ShutterButton.swift */; };
 		A1675BAB2041693A00852865 /* Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1675BAA2041693A00852865 /* Square.jpg */; };
@@ -84,6 +85,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A11C5B9B2046A20C005075FE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		A1265C812045BFEB009C4D3E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		A165F67D2044741B002D5ED6 /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		A1675BAA2041693A00852865 /* Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Square.jpg; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				A1DF90A320331A0B00841A11 /* RectangleDetector.swift */,
 				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
 				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
+				A11C5B9B2046A20C005075FE /* Error.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */,
 				A1DF90E420358CB100841A11 /* Transformable.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,
+				A11C5B9C2046A20C005075FE /* Error.swift in Sources */,
 				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
 				A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */,
 				A1C4DD52204554F800D36684 /* CloseButton.swift in Sources */,

@@ -119,7 +119,7 @@ final class EditScanViewController: UIViewController {
         guard let quad = quadView.quad,
             var ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {
-                    let error = NSError(domain: "Internal Error - Could not create CIImage", code: 0, userInfo: nil)
+                    let error = WeScanError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
                 }
             return
