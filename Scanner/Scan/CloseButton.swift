@@ -17,6 +17,8 @@ final class CloseButton: UIControl {
         super.init(frame: frame)
         layer.addSublayer(xLayer)
         backgroundColor = .clear
+        isAccessibilityElement = true
+        accessibilityTraits = UIAccessibilityTraitButton
     }
     
     required init?(coder aDecoder: NSCoder) {

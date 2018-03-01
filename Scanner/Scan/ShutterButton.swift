@@ -22,6 +22,8 @@ final class ShutterButton: UIControl {
         layer.addSublayer(outterRingLayer)
         layer.addSublayer(innerCircleLayer)
         backgroundColor = .clear
+        isAccessibilityElement = true
+        accessibilityTraits = UIAccessibilityTraitButton
     }
     
     required init?(coder aDecoder: NSCoder) {
