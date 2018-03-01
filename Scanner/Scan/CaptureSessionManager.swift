@@ -40,7 +40,7 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error)
 }
 
-final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate  {
+final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private let videoPreviewLayer: AVCaptureVideoPreviewLayer
     private let captureSession = AVCaptureSession()
@@ -101,10 +101,14 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         if authorizationStatus == .notDetermined {
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {[weak self] (granted) in
-                self?.start()
+                if granted {
+                    self?.start()
+                } else if let strongSelf = self {
+                    let error = WeScanError.authorization
+                    strongSelf.delegate?.captureSessionManager(strongSelf, didFailWithError: error)
+                }
             })
-        }
-        else if authorizationStatus == .authorized {
+        } else if authorizationStatus == .authorized {
             self.captureSession.startRunning()
             detects = true
         } else {
@@ -195,8 +199,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         delegate?.didStartCapturingPicture(for: self)
         
         if let sampleBuffer = photoSampleBuffer,
-            let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil)
-            {
+            let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil) {
                 completeImageCapture(with: imageData)
             
         } else {
@@ -248,10 +251,8 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             switch image.imageOrientation {
             case .right:
                 angle = CGFloat.pi / 2
-                break
             case .up:
                 angle = CGFloat.pi
-                break
             default:
                 break
             }

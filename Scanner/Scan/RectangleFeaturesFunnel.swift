@@ -26,7 +26,7 @@ final class RectangleFeaturesFunnel {
             self.rectangleFeature = rectangleFeature
         }
         
-        override var description : String {
+        override var description: String {
             return "Matching score: \(matchingScore) - Rectangle: \(rectangleFeature)"
         }
         
@@ -148,7 +148,7 @@ final class RectangleFeaturesFunnel {
         
         for (i, currentRect) in rectangles.enumerated() {
             for (j, rect) in rectangles.enumerated() {
-                if j > i  && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
+                if j > i && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
                     currentRect.matchingScore += 1
                     rect.matchingScore += 1
                 }

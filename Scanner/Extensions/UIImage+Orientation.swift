@@ -19,7 +19,7 @@ extension UIImage {
             return rotated(by: Measurement(value: Double.pi, unit: .radians), options: [.flipOnVerticalAxis, .flipOnHorizontalAxis]) ?? self
         default:
             return self
-        }        
+        }
     }
     
     /// Data structure to easily express rotation options.

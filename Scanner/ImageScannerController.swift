@@ -45,7 +45,7 @@ public final class ImageScannerController: UINavigationController {
     /// The object that acts as the delegate of the `ImageScannerController`.
     weak public var imageScannerDelegate: ImageScannerControllerDelegate?
     
-    // MARK - Life Cycle
+    // MARK: - Life Cycle
     
     public required init() {
         let scannerViewController = ScannerViewController()

@@ -43,8 +43,8 @@ final class EditScanViewController: UIViewController {
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
     
-    private var quadViewWidthConstraint: NSLayoutConstraint?
-    private var quadViewHeightConstraint: NSLayoutConstraint?
+    private var quadViewWidthConstraint = NSLayoutConstraint()
+    private var quadViewHeightConstraint = NSLayoutConstraint()
     
     // MARK: - Life Cycle
     
@@ -106,14 +106,14 @@ final class EditScanViewController: UIViewController {
         let quadViewConstraints = [
             quadView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quadView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            quadViewWidthConstraint!,
-            quadViewHeightConstraint!
+            quadViewWidthConstraint,
+            quadViewHeightConstraint
         ]
         
         NSLayoutConstraint.activate(quadViewConstraints)
     }
     
-    // MARK - Actions
+    // MARK: - Actions
     
     @objc func pushReviewController(sender: UIButton) {
         guard let quad = quadView.quad,
@@ -152,7 +152,7 @@ final class EditScanViewController: UIViewController {
 
     private func displayQuad() {
         let imageSize = image.size
-        let imageFrame = CGRect(x: quadView.frame.origin.x, y: quadView.frame.origin.y, width: quadViewWidthConstraint!.constant, height: quadViewHeightConstraint!.constant)
+        let imageFrame = CGRect(x: quadView.frame.origin.x, y: quadView.frame.origin.y, width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
         
         let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
         let transforms = [scaleTransform]
@@ -163,8 +163,8 @@ final class EditScanViewController: UIViewController {
     
     private func adjustQuadViewConstraints() {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
-        quadViewWidthConstraint?.constant = frame.size.width
-        quadViewHeightConstraint?.constant = frame.size.height
+        quadViewWidthConstraint.constant = frame.size.width
+        quadViewHeightConstraint.constant = frame.size.height
     }
 
 }

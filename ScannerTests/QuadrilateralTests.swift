@@ -81,7 +81,7 @@ final class QuadrilateralTests: XCTestCase {
         var fromImageSize = CGSize(width: 500.0, height: 500.0)
         var toImageSize = CGSize(width: 500.0, height: 500.0)
         
-        var scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
+        var scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi / 2.0))
         
         XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 0.0)))
         XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
@@ -98,7 +98,7 @@ final class QuadrilateralTests: XCTestCase {
         fromImageSize = CGSize(width: 1000.0, height: 500.0)
         toImageSize = CGSize(width: 500.0, height: 1000.0)
         
-        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
+        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi / 2.0))
         
         XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
         XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 1000.0)))
@@ -115,7 +115,7 @@ final class QuadrilateralTests: XCTestCase {
         fromImageSize = CGSize(width: 1000.0, height: 500.0)
         toImageSize = CGSize(width: 250.0, height: 500.0)
         
-        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
+        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi / 2.0))
         
         XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 0.0)))
         XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 0.0, y: 500.0)))
@@ -132,7 +132,7 @@ final class QuadrilateralTests: XCTestCase {
         fromImageSize = CGSize(width: 750.0, height: 750.0)
         toImageSize = CGSize(width: 750.0, height: 750.0)
         
-        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
+        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi / 2.0))
         
         XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 250.0)))
         XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 250.0, y: 500.0)))
@@ -149,7 +149,7 @@ final class QuadrilateralTests: XCTestCase {
         fromImageSize = CGSize(width: 1000.0, height: 750.0)
         toImageSize = CGSize(width: 1500.0, height: 2000.0)
         
-        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
+        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi / 2.0))
         
         XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 500.0)))
         XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 500.0, y: 1500.0)))
@@ -166,7 +166,7 @@ final class QuadrilateralTests: XCTestCase {
         fromImageSize = CGSize(width: 1000.0, height: 500.0)
         toImageSize = CGSize(width: 1000.0, height: 2000.0)
         
-        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi/2))
+        scaledQuad = quad.scale(fromImageSize, toImageSize, withRotationAngle: CGFloat(Double.pi / 2.0))
         
         XCTAssertTrue(scaledQuad.topLeft.isWithin(delta: 0.01, ofPoint: CGPoint(x: 200.0, y: 200.0)))
         XCTAssertTrue(scaledQuad.topRight.isWithin(delta: 0.01, ofPoint: CGPoint(x: 200.0, y: 400.0)))

@@ -173,7 +173,7 @@ final class QuadrilateralView: UIView {
         return validPoint
     }
     
-    // MARK - Convenience
+    // MARK: - Convenience
     
     private func cornerButton(atPosition position: CornerPosition) -> EditScanCornerView {
         let button = EditScanCornerView(frame: CGRect.zero, position: position)
@@ -211,19 +211,15 @@ final class QuadrilateralView: UIView {
         switch corner {
         case .topLeft:
             quad.topLeft = position
-            break
             
         case .topRight:
             quad.topRight = position
-            break
             
         case .bottomRight:
             quad.bottomRight = position
-            break
             
         case .bottomLeft:
             quad.bottomLeft = position
-            break
         }
         
         return quad

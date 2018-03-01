@@ -70,7 +70,7 @@ final class ReviewViewController: UIViewController {
         NSLayoutConstraint.activate(imageViewConstraints)
     }
     
-    // MARK - Actions
+    // MARK: - Actions
     
     @objc func finishScan(sender: UIButton) {
         if let imageScannerController = navigationController as? ImageScannerController {

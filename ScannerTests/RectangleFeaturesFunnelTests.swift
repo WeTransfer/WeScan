@@ -14,6 +14,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
     var funnel = RectangleFeaturesFunnel()
     
     override func setUp() {
+        super.setUp()
         funnel = RectangleFeaturesFunnel()
     }
     
@@ -25,7 +26,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         expectation.isInverted = true
         
         for i in 0 ..< rectangleFeatures.count {
-            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (rectFeature) in
+            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_) in
                 expectation.fulfill()
             }
         }
@@ -40,7 +41,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Funnel add callback")
         
         for i in 0 ..< rectangleFeatures.count {
-	            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (rectFeature) in
+	            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_) in
                 expectation.fulfill()
             }
         }
@@ -56,7 +57,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         expectation.expectedFulfillmentCount = rectangleFeatures.count - funnel.minNumberOfRectangles
         
         for i in 0 ..< rectangleFeatures.count {
-            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (rectFeature) in
+            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_) in
                 expectation.fulfill()
             }
         }
@@ -74,7 +75,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         let currentlyDisplayedRect = rectangleFeatures.first!
         
         for i in 0 ..< rectangleFeatures.count {
-            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: currentlyDisplayedRect) { (rectFeature) in
+            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: currentlyDisplayedRect) { (_) in
                 expectation.fulfill()
             }
         }

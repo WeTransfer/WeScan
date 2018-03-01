@@ -150,7 +150,7 @@ struct Quadrilateral: Transformable {
 
 extension Quadrilateral: Equatable {
     
-    public static func ==(lhs: Quadrilateral, rhs: Quadrilateral) -> Bool {
+    public static func == (lhs: Quadrilateral, rhs: Quadrilateral) -> Bool {
         return lhs.topLeft == rhs.topLeft && lhs.topRight == rhs.topRight && lhs.bottomRight == rhs.bottomRight && lhs.bottomLeft == rhs.bottomLeft
     }
     
