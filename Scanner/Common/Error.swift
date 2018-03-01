@@ -16,9 +16,9 @@ enum WeScanError: Error {
     case ciImageCreation
 }
 
-extension WeScanError {
+extension WeScanError: LocalizedError {
     
-    var description: String {
+    var errorDescription: String {
         switch self {
         case .authorization:
             return "Failed to get the user's authorization for camera."
