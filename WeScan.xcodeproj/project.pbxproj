@@ -386,7 +386,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A1D4BCB2202C4F3800FCDDEC /* Build configuration list for PBXProject "WeScanSampleProject" */;
+			buildConfigurationList = A1D4BCB2202C4F3800FCDDEC /* Build configuration list for PBXProject "WeScan" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -757,7 +757,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A1D4BCB2202C4F3800FCDDEC /* Build configuration list for PBXProject "WeScanSampleProject" */ = {
+		A1D4BCB2202C4F3800FCDDEC /* Build configuration list for PBXProject "WeScan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A1D4BCDD202C4F3800FCDDEC /* Debug */,
