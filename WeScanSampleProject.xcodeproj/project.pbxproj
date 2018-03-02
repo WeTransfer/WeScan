@@ -86,8 +86,8 @@
 
 /* Begin PBXFileReference section */
 		A11C5B9B2046A20C005075FE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RectangleFeaturesFunnelTests.swift; path = ../../Coyote/Submodules/WeScan/ScannerTests/RectangleFeaturesFunnelTests.swift; sourceTree = "<group>"; };
-		A11C5CDA20495EC9005075FE /* UIDeviceOrientation+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIDeviceOrientation+Utils.swift"; path = "../../../Coyote/Submodules/WeScan/Scanner/Extensions/UIDeviceOrientation+Utils.swift"; sourceTree = "<group>"; };
+		A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnelTests.swift; sourceTree = "<group>"; };
+		A11C5CDA20495EC9005075FE /* UIDeviceOrientation+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDeviceOrientation+Utils.swift"; sourceTree = "<group>"; };
 		A1265C812045BFEB009C4D3E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		A165F67D2044741B002D5ED6 /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		A1675BAA2041693A00852865 /* Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Square.jpg; sourceTree = "<group>"; };
