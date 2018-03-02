@@ -137,6 +137,11 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         shutterButton.isUserInteractionEnabled = true
         
         if let imageScannerController = navigationController as? ImageScannerController {
+            if let error = error as? WeScanError {
+                guard error != .noRectangle else {
+                    return
+                }
+            }
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
         }
     }
