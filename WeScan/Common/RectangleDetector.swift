@@ -24,7 +24,7 @@ struct RectangleDetector {
             return nil
         }
         
-        guard let biggestRectangle = rectangeFeatures.biggestRectangle() else {
+        guard let biggestRectangle = rectangeFeatures.biggest() else {
             return nil
         }
         
