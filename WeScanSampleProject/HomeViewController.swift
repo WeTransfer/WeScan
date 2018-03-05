@@ -9,7 +9,7 @@
 import UIKit
 import WeScan
 
-final class ViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
     lazy private var scanButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -57,7 +57,7 @@ final class ViewController: UIViewController {
     
 }
 
-extension ViewController: ImageScannerControllerDelegate {
+extension HomeViewController: ImageScannerControllerDelegate {
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
         print(error)
     }
