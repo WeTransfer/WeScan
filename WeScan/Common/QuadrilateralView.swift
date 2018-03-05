@@ -234,25 +234,9 @@ final class QuadrilateralView: UIView {
 }
 
 /// Simple enum to keep track of the position of the corners of a quadrilateral.
-fileprivate enum CornerPosition {
+enum CornerPosition {
     case topLeft
     case topRight
     case bottomRight
     case bottomLeft
-}
-
-/// A UIView used by corners of a quadrilateral that is aware of its position.
-final fileprivate class EditScanCornerView: UIView {
-    
-    let position: CornerPosition
-    
-    init(frame: CGRect, position: CornerPosition) {
-        self.position = position
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
