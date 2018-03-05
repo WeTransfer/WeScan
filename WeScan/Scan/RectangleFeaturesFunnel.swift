@@ -89,7 +89,6 @@ final class RectangleFeaturesFunnel {
                 completion(bestRectangle.rectangleFeature)
             }
         }
-        
     }
     
     /// Determines which rectangle is best to displayed.
