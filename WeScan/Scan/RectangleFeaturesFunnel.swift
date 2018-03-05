@@ -115,7 +115,7 @@ final class RectangleFeaturesFunnel {
                     return
                 }
                 
-                bestMatch = breakTie(forRectangles: best, rect2: rectangle, currentRectangle: currentRectangle)
+                bestMatch = breakTie(between: best, rect2: rectangle, currentRectangle: currentRectangle)
             }
         }
         
@@ -132,7 +132,7 @@ final class RectangleFeaturesFunnel {
     ///   - rect2: The second rectangle to compare.
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
     /// - Returns: The best rectangle to display between two rectangles with the same matching score.
-    private func breakTie(forRectangles rect1: RectangleMatch, rect2: RectangleMatch, currentRectangle: CIRectangleFeature) -> RectangleMatch {
+    private func breakTie(between rect1: RectangleMatch, rect2: RectangleMatch, currentRectangle: CIRectangleFeature) -> RectangleMatch {
         if rect1.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: currentRectangle) {
             return rect1
         } else if rect2.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: currentRectangle) {
