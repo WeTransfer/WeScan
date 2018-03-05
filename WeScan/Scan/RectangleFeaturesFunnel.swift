@@ -158,9 +158,9 @@ final class RectangleFeaturesFunnel {
     
     /// Resets the matching score of all of the rectangles in the queue to 0
     private func resetMatchingScores() {
-        rectangles = rectangles.map { (rectange) -> RectangleMatch in
-            rectange.matchingScore = 0
-            return rectange
+        rectangles = rectangles.map { (rectangle) -> RectangleMatch in
+            rectangle.matchingScore = 0
+            return rectangle
         }
     }
     

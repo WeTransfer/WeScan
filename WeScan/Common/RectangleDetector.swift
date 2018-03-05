@@ -20,11 +20,11 @@ struct RectangleDetector {
     static func rectangle(forImage image: CIImage) -> CIRectangleFeature? {
         let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
         
-        guard let rectangeFeatures = rectangleDetector?.features(in: image) as? [CIRectangleFeature] else {
+        guard let rectangleFeatures = rectangleDetector?.features(in: image) as? [CIRectangleFeature] else {
             return nil
         }
         
-        guard let biggestRectangle = rectangeFeatures.biggest() else {
+        guard let biggestRectangle = rectangleFeatures.biggest() else {
             return nil
         }
         
