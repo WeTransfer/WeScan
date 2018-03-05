@@ -117,7 +117,7 @@ final class EditScanViewController: UIViewController {
         guard let quad = quadView.quad,
             var ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {
-                    let error = WeScanError.ciImageCreation
+                    let error = ImageScannerControllerError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
                 }
             return

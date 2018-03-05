@@ -78,7 +78,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
-                let error = WeScanError.inputDevice
+                let error = ImageScannerControllerError.inputDevice
                 delegate?.captureSessionManager(self, didFailWithError: error)
                 return
         }
@@ -105,7 +105,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 if granted {
                     self?.start()
                 } else if let strongSelf = self {
-                    let error = WeScanError.authorization
+                    let error = ImageScannerControllerError.authorization
                     strongSelf.delegate?.captureSessionManager(strongSelf, didFailWithError: error)
                 }
             })
@@ -113,7 +113,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             self.captureSession.startRunning()
             isDetecting = true
         } else {
-            let error = WeScanError.authorization
+            let error = ImageScannerControllerError.authorization
             delegate?.captureSessionManager(self, didFailWithError: error)
         }
     }
@@ -204,7 +204,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
                 completeImageCapture(with: imageData)
             
         } else {
-            let error = WeScanError.capture
+            let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
@@ -224,7 +224,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         if let imageData = photo.fileDataRepresentation() {
             completeImageCapture(with: imageData)
         } else {
-            let error = WeScanError.capture
+            let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
@@ -233,14 +233,14 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     private func completeImageCapture(with imageData: Data) {
         guard let displayedRectangleResult = self.displayedRectangleResult else {
             isDetecting = true
-            let error = WeScanError.noRectangle
+            let error = ImageScannerControllerError.noRectangle
             self.delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
         
         DispatchQueue.global(qos: .background).async {
             guard var image = UIImage(data: imageData) else {
-                let error = WeScanError.capture
+                let error = ImageScannerControllerError.capture
                 DispatchQueue.main.async {
                     self.delegate?.captureSessionManager(self, didFailWithError: error)
                 }

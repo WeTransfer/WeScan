@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum WeScanError: Error {
+public enum ImageScannerControllerError: Error {
     case authorization
     case inputDevice
     case capture
@@ -16,7 +16,7 @@ public enum WeScanError: Error {
     case ciImageCreation
 }
 
-extension WeScanError: LocalizedError {
+extension ImageScannerControllerError: LocalizedError {
     
     var errorDescription: String {
         switch self {
