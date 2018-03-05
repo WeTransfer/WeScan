@@ -65,10 +65,20 @@ struct Quadrilateral: Transformable {
     mutating func reorganize() {
         let points = [topLeft, topRight, bottomRight, bottomLeft]
         let ySortedPoints = sortPointsByYValue(points)
+        
+        guard ySortedPoints.count == 4 else {
+            return
+        }
+        
         let topMostPoints = Array(ySortedPoints[0..<2])
         let bottomMostPoints = Array(ySortedPoints[2..<4])
         let xSortedTopMostPoints = sortPointsByXValue(topMostPoints)
         let xSortedBottomMostPoints = sortPointsByXValue(bottomMostPoints)
+        
+        guard xSortedTopMostPoints.count >= 1,
+        xSortedBottomMostPoints.count >= 1 else {
+            return
+        }
         
         topLeft = xSortedTopMostPoints[0]
         topRight = xSortedTopMostPoints[1]
