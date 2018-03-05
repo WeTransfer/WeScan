@@ -116,18 +116,19 @@ final class QuadrilateralView: UIView {
     
     private func layoutCornerButtons(forQuad quad: Quadrilateral) {
         let buttonSize: CGFloat = 30.0
+        let cornerRadius = buttonSize / 2.0
         
         topLeftCornerButton.frame = CGRect(x: quad.topLeft.x - buttonSize / 2.0, y: quad.topLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        topLeftCornerButton.layer.cornerRadius = buttonSize / 2.0
+        topLeftCornerButton.layer.cornerRadius = cornerRadius
         
         topRightCornerButton.frame = CGRect(x: quad.topRight.x - buttonSize / 2.0, y: quad.topRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        topRightCornerButton.layer.cornerRadius = buttonSize / 2.0
+        topRightCornerButton.layer.cornerRadius = cornerRadius
         
         bottomRightCornerButton.frame = CGRect(x: quad.bottomRight.x - buttonSize / 2.0, y: quad.bottomRight.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        bottomRightCornerButton.layer.cornerRadius = buttonSize / 2.0
+        bottomRightCornerButton.layer.cornerRadius = cornerRadius
         
         bottomLeftCornerButton.frame = CGRect(x: quad.bottomLeft.x - buttonSize / 2.0, y: quad.bottomLeft.y - buttonSize / 2.0, width: buttonSize, height: buttonSize)
-        bottomLeftCornerButton.layer.cornerRadius = buttonSize / 2.0
+        bottomLeftCornerButton.layer.cornerRadius = cornerRadius
     }
     
     func removeQuadrilateral() {
