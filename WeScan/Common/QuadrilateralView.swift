@@ -193,8 +193,8 @@ final class QuadrilateralView: UIView {
         button.layer.masksToBounds = false
         button.isHidden = true
         
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(dragCorner(panGesture:)))
-        button.addGestureRecognizer(panGesture)
+        let dragCornerGesture = UIPanGestureRecognizer(target: self, action: #selector(dragCorner(panGesture:)))
+        button.addGestureRecognizer(dragCornerGesture)
         
         return button
     }
