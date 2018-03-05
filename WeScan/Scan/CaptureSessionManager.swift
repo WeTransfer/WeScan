@@ -51,7 +51,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     private var photoOutput = AVCapturePhotoOutput()
     
     /// Whether the CaptureSessionManager should be detecting quadrilaterals.
-    private var detects = true
+    private var isDetecting = true
     
     /// The number of times no rectangles have been found in a row.
     private var noRectangleCount = 0
@@ -111,7 +111,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             })
         } else if authorizationStatus == .authorized {
             self.captureSession.startRunning()
-            detects = true
+            isDetecting = true
         } else {
             let error = WeScanError.authorization
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -137,7 +137,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard detects == true else {
+        guard isDetecting == true else {
             return
         }
         
@@ -196,7 +196,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        detects = false
+        isDetecting = false
         delegate?.didStartCapturingPicture(for: self)
         
         if let sampleBuffer = photoSampleBuffer,
@@ -218,7 +218,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        detects = false
+        isDetecting = false
         delegate?.didStartCapturingPicture(for: self)
         
         if let imageData = photo.fileDataRepresentation() {
@@ -232,7 +232,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     
     private func completeImageCapture(with imageData: Data) {
         guard let displayedRectangleResult = self.displayedRectangleResult else {
-            detects = true
+            isDetecting = true
             let error = WeScanError.noRectangle
             self.delegate?.captureSessionManager(self, didFailWithError: error)
             return
