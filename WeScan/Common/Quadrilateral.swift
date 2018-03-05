@@ -61,20 +61,6 @@ struct Quadrilateral: Transformable {
         return quadrilateral
     }
     
-    /// Converts the current to the cartesian coordinate system (where 0 on the y axis is at the bottom).
-    ///
-    /// - Parameters:
-    ///   - height: The height of the rect containing the quadrilateral.
-    /// - Returns: The same quadrilateral in the cartesian corrdinate system.
-    func toCartesian(withHeight height: CGFloat) -> Quadrilateral {
-        let topLeft = self.topLeft.cartesian(withHeight: height)
-        let topRight = self.topRight.cartesian(withHeight: height)
-        let bottomRight = self.bottomRight.cartesian(withHeight: height)
-        let bottomLeft = self.bottomLeft.cartesian(withHeight: height)
-        
-        return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-    }
-    
     /// Reorganizes the current quadrilateal, making sure that the points are at their appropriate positions. For example, it ensures that the top left point is actually the top and left point point of the quadrilateral.
     mutating func reorganize() {
         let points = [topLeft, topRight, bottomRight, bottomLeft]
@@ -146,6 +132,24 @@ struct Quadrilateral: Transformable {
         }
     }
 
+}
+
+extension Quadrilateral {
+    
+    /// Converts the current to the cartesian coordinate system (where 0 on the y axis is at the bottom).
+    ///
+    /// - Parameters:
+    ///   - height: The height of the rect containing the quadrilateral.
+    /// - Returns: The same quadrilateral in the cartesian corrdinate system.
+    func toCartesian(withHeight height: CGFloat) -> Quadrilateral {
+        let topLeft = self.topLeft.cartesian(withHeight: height)
+        let topRight = self.topRight.cartesian(withHeight: height)
+        let bottomRight = self.bottomRight.cartesian(withHeight: height)
+        let bottomLeft = self.bottomLeft.cartesian(withHeight: height)
+        
+        return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
+    }
+    
 }
 
 extension Quadrilateral: Equatable {
