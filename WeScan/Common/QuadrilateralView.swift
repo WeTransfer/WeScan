@@ -191,7 +191,6 @@ final class QuadrilateralView: UIView {
         button.layer.shadowRadius = 3.0
         button.layer.shadowOpacity = 0.5
         button.layer.masksToBounds = false
-        button.isHidden = true
         
         let dragCornerGesture = UIPanGestureRecognizer(target: self, action: #selector(dragCorner(panGesture:)))
         button.addGestureRecognizer(dragCornerGesture)
