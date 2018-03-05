@@ -82,10 +82,9 @@ final class RectangleFeaturesFunnel {
         
         updateRectangleMatches()
         
-        if let bestRectangle = self.bestRectangle(withCurrentlyDisplayedRectangle: currentRectangle) {
+        if let bestRectangle = bestRectangle(withCurrentlyDisplayedRectangle: currentRectangle) {
             if let previousRectangle = currentRectangle,
                 bestRectangle.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: previousRectangle) {
-                return
             } else if bestRectangle.matchingScore >= minNumberOfMatches {
                 completion(bestRectangle.rectangleFeature)
             }
