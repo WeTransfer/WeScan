@@ -240,11 +240,14 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard var image = UIImage(data: imageData) else {
                 let error = ImageScannerControllerError.capture
                 DispatchQueue.main.async {
-                    self.delegate?.captureSessionManager(self, didFailWithError: error)
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.delegate?.captureSessionManager(strongSelf, didFailWithError: error)
                 }
                 return
             }
@@ -262,11 +265,14 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             
             image = image.withPortraitOrientation()
             
-            let quad = self.displayRectangleResult(rectangleResult: displayedRectangleResult)
-            let scaledQuad = quad.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
+            let quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
+            let scaledQuad = quad?.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
             
             DispatchQueue.main.async {
-                self.delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: scaledQuad)
+                guard let strongSelf = self, let scaledQuad = scaledQuad else {
+                    return
+                }
+                strongSelf.delegate?.captureSessionManager(strongSelf, didCapturePicture: image, withQuad: scaledQuad)
             }
         }
     }
