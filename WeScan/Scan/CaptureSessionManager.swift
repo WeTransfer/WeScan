@@ -234,7 +234,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         guard let displayedRectangleResult = self.displayedRectangleResult else {
             isDetecting = true
             let error = ImageScannerControllerError.noRectangle
-            self.delegate?.captureSessionManager(self, didFailWithError: error)
+            delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
         
