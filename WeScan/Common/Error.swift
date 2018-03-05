@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum WeScanError: Error {
+public enum WeScanError: Error {
     case authorization
     case inputDevice
     case capture
