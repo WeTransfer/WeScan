@@ -95,8 +95,9 @@ struct Quadrilateral: Transformable {
     /// - Returns: The newly scaled and potentially rotated quadrilateral.
     func scale(_ fromSize: CGSize, _ toSize: CGSize, withRotationAngle rotationAngle: CGFloat = 0.0) -> Quadrilateral {
         var invertedfromSize = fromSize
+        let rotated = rotationAngle != 0.0
         
-        if rotationAngle != 0.0 && rotationAngle != CGFloat.pi {
+        if rotated && rotationAngle != CGFloat.pi {
             invertedfromSize = CGSize(width: fromSize.height, height: fromSize.width)
         }
         
@@ -106,7 +107,7 @@ struct Quadrilateral: Transformable {
         let scaledTransform = CGAffineTransform(scaleX: scale, y: scale)
         transformedQuad = transformedQuad.applying(scaledTransform)
         
-        if rotationAngle != 0.0 {
+        if rotated {
             let rotationTransform = CGAffineTransform(rotationAngle: rotationAngle)
             
             let fromImageBounds = CGRect(x: 0.0, y: 0.0, width: fromSize.width, height: fromSize.height).applying(scaledTransform).applying(rotationTransform)
