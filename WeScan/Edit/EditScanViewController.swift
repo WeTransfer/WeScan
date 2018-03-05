@@ -32,7 +32,7 @@ final class EditScanViewController: UIViewController {
     
     lazy private var nextButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController(sender:)))
+        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
@@ -113,7 +113,7 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func pushReviewController(sender: UIButton) {
+    @objc func pushReviewController() {
         guard let quad = quadView.quad,
             var ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {
