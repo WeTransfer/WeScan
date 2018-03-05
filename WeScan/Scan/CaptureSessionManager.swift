@@ -40,6 +40,7 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error)
 }
 
+/// The CaptureSessionManager is responsible for setting up and managing the AVCaptureSession and the functions related to capturing.
 final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private let videoPreviewLayer: AVCaptureVideoPreviewLayer
