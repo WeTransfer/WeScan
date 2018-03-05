@@ -159,6 +159,8 @@ final class EditScanViewController: UIViewController {
         quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
     }
     
+    /// The quadView should be lined up on top of the actual image displayed by the imageView.
+    /// Since there is no way to know the size of that image before run time, we adjust the constraints to make sure that the quadView is on top of the displayed image.
     private func adjustQuadViewConstraints() {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
         quadViewWidthConstraint.constant = frame.size.width
