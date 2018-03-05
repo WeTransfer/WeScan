@@ -230,6 +230,8 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         }
     }
     
+    /// Completes the image capture by processing the image, and passing it to the delegate object.
+    /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
     private func completeImageCapture(with imageData: Data) {
         guard let displayedRectangleResult = displayedRectangleResult else {
             isDetecting = true
