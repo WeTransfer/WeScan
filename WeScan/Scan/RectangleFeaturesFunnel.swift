@@ -45,17 +45,17 @@ final class RectangleFeaturesFunnel {
     private var rectangles = [RectangleMatch]()
     
     /// The maximum number of rectangles to compare newly added rectangles with. Determines the maximum size of `rectangles`. Increasing this value will impact performance.
-    let maxNumberOfRectangles = 8
+    private let maxNumberOfRectangles = 8
     
     /// The minimum number of rectangles needed to start making comparaisons and determining which rectangle to display. This value should always be inferior than `maxNumberOfRectangles`.
     /// A higher value will delay the first time a rectangle is displayed.
-    let minNumberOfRectangles = 3
+    private let minNumberOfRectangles = 3
     
     /// The value in pixels used to determine if two rectangle match or not. A higher value will prevent displayed rectangles to be refreshed. On the opposite, a smaller value will make new rectangles be displayed constantly.
-    let matchingThreshold: CGFloat = 40.0
+    private let matchingThreshold: CGFloat = 40.0
     
     /// The minumum number of matching rectangles (within the `rectangle` queue), to be confident enough to display a rectangle.
-    let minNumberOfMatches = 2
+    private let minNumberOfMatches = 2
 
     /// Add a rectangle to the funnel, and if a new rectangle should be displayed, the completion block will be called.
     /// The algorithm works the following way:
