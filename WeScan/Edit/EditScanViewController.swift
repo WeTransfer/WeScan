@@ -97,9 +97,7 @@ final class EditScanViewController: UIViewController {
             view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         ]
-        
-        NSLayoutConstraint.activate(imageViewConstraints)
-        
+                
         quadViewWidthConstraint = quadView.widthAnchor.constraint(equalToConstant: 0.0)
         quadViewHeightConstraint = quadView.heightAnchor.constraint(equalToConstant: 0.0)
         
@@ -110,7 +108,7 @@ final class EditScanViewController: UIViewController {
             quadViewHeightConstraint
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints)
     }
     
     // MARK: - Actions

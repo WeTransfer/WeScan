@@ -88,8 +88,6 @@ final class ScannerViewController: UIViewController {
             quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints)
-        
         let shutterButtonConstraints = [
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0),
@@ -97,14 +95,10 @@ final class ScannerViewController: UIViewController {
             shutterButton.heightAnchor.constraint(equalToConstant: 65.0)
         ]
         
-        NSLayoutConstraint.activate(shutterButtonConstraints)
-        
         let activityIndicatorConstraints = [
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
-        
-        NSLayoutConstraint.activate(activityIndicatorConstraints)
         
         let closeButtonConstraints = [
             closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0),
@@ -113,7 +107,7 @@ final class ScannerViewController: UIViewController {
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
         ]
         
-        NSLayoutConstraint.activate(closeButtonConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints + closeButtonConstraints)
     }
     
     // MARK: - Actions
