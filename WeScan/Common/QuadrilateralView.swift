@@ -145,7 +145,7 @@ final class QuadrilateralView: UIView {
         }
         
         var center = panGesture.location(in: self)
-        center = validPoint(center, forCornerViewOfSize: cornerButton.bounds.size, withQuad: quad, inView: self)
+        center = validPoint(center, forCornerViewOfSize: cornerButton.bounds.size, inView: self)
         
         panGesture.view?.center = center
         let updatedQuad = updated(quad, withPosition: center, forCorner: cornerButton.position)
@@ -156,7 +156,14 @@ final class QuadrilateralView: UIView {
     
     // MARK: Validation
     
-    private func validPoint(_ point: CGPoint, forCornerViewOfSize cornerViewSize: CGSize, withQuad quad: Quadrilateral, inView view: UIView) -> CGPoint {
+    /// Ensures that the given point is valid - meaning that it is within the bounds of the passed in `UIView`.
+    ///
+    /// - Parameters:
+    ///   - point: The point that needs to be validated.
+    ///   - cornerViewSize: The size of the corner view representing the given point.
+    ///   - view: The view which should include the point.
+    /// - Returns: A new point which is within the passed in view.
+    private func validPoint(_ point: CGPoint, forCornerViewOfSize cornerViewSize: CGSize, inView view: UIView) -> CGPoint {
         var validPoint = point
         
         if point.x > view.bounds.width {
