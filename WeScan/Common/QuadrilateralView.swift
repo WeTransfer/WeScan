@@ -9,6 +9,14 @@
 import UIKit
 import AVFoundation
 
+/// Simple enum to keep track of the position of the corners of a quadrilateral.
+enum CornerPosition {
+    case topLeft
+    case topRight
+    case bottomRight
+    case bottomLeft
+}
+
 /// The `QuadrilateralView` is a simple `UIView` subclass that can draw a quadrilateral, and optionally edit it.
 final class QuadrilateralView: UIView {
     
@@ -231,12 +239,4 @@ final class QuadrilateralView: UIView {
         
         return quad
     }
-}
-
-/// Simple enum to keep track of the position of the corners of a quadrilateral.
-enum CornerPosition {
-    case topLeft
-    case topRight
-    case bottomRight
-    case bottomLeft
 }
