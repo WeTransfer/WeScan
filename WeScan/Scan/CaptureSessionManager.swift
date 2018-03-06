@@ -100,19 +100,18 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     /// Starts the camera and detecting quadrilaterals.
     internal func start() {
         let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
-        if authorizationStatus == .notDetermined {
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {[weak self] (granted) in
-                if granted {
-                    self?.start()
-                } else if let strongSelf = self {
-                    let error = ImageScannerControllerError.authorization
-                    strongSelf.delegate?.captureSessionManager(strongSelf, didFailWithError: error)
-                }
-            })
-        } else if authorizationStatus == .authorized {
+        
+        switch authorizationStatus {
+        case .authorized:
             self.captureSession.startRunning()
             isDetecting = true
-        } else {
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (_) in
+                DispatchQueue.main.async { [weak self] in
+                    self?.start()
+                }
+            })
+        default:
             let error = ImageScannerControllerError.authorization
             delegate?.captureSessionManager(self, didFailWithError: error)
         }
