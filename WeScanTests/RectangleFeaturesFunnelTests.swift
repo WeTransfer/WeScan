@@ -107,4 +107,24 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
+    func testAddMultipleImages() {
+        let count = max(funnel.minNumberOfMatches + 2, funnel.minNumberOfRectangles)
+        
+        let rectangleFeaturesType1 = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect1, withCount: count - 1)
+        let rectangleFeatureType2 = ImageFeatureTestHelpers.getRectangleFeature(from: .rect2)
+        
+        for i in 0 ..< rectangleFeaturesType1.count {
+            funnel.add(rectangleFeaturesType1[i], currentlyDisplayedRectangle: nil, completion: { (rectange) in
+            })
+        }
+        
+        let expectationType1 = XCTestExpectation(description: "Funnel add callback")
+        
+        funnel.add(rectangleFeatureType2, currentlyDisplayedRectangle: nil) { (rectangle) in
+            XCTAssert(rectangle.isWithin(1.0, ofRectangleFeature: rectangleFeaturesType1[0]))
+            expectationType1.fulfill()
+        }
+        wait(for: [expectationType1], timeout: 3.0)
+    }
+    
 }
