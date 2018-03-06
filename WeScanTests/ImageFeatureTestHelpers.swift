@@ -13,6 +13,7 @@ import AVFoundation
 enum ResourceImage: String {
     case rect1 = "Square.jpg"
     case rect2 = "Rectangle.jpg"
+    case rect3 = "BigRectangle.jpg"
 }
 
 final class ImageFeatureTestHelpers: NSObject {

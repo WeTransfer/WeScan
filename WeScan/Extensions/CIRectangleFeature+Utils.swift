@@ -13,7 +13,7 @@ extension CIRectangleFeature {
     
     /// The perimeter of the quadrilateral.
     func perimeter() -> CGFloat {
-        return (topRight.x - topLeft.x) + (bottomRight.y - topRight.y) + (bottomRight.x - bottomLeft.x) + (bottomLeft.y - topLeft.y)
+        return (topRight.x - topLeft.x) + (topRight.y - bottomRight.y) + (bottomRight.x - bottomLeft.x) + (topLeft.y - bottomLeft.y)
     }
     
     /// Checks whether the quadrilateral is withing a given distance of another quadrilateral.

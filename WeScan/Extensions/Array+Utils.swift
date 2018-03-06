@@ -15,17 +15,10 @@ extension Array where Element: CIRectangleFeature {
         guard count > 1 else {
             return first
         }
-                
-        var biggestRectanglePerimeter: CGFloat = -1
-        var biggestRectangle: CIRectangleFeature?
         
-        forEach { (rectangle) in
-            let perimeter = rectangle.perimeter()
-            if biggestRectanglePerimeter < perimeter {
-                biggestRectanglePerimeter = perimeter
-                biggestRectangle = rectangle
-            }
-        }
+        let biggestRectangle = self.max(by: { (rect1, rect2) -> Bool in
+            return rect1.perimeter() < rect2.perimeter()
+        })
         
         return biggestRectangle
     }

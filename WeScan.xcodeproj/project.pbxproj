@@ -12,6 +12,8 @@
 		A11C5CDB20495EC9005075FE /* UIDeviceOrientation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11C5CDA20495EC9005075FE /* UIDeviceOrientation+Utils.swift */; };
 		A1265C822045BFEB009C4D3E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1265C812045BFEB009C4D3E /* Localizable.strings */; };
 		A14089BA204D92EA0009530F /* EditScanCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14089B9204D92EA0009530F /* EditScanCornerView.swift */; };
+		A14089EE204EAA180009530F /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14089ED204EAA180009530F /* ArrayTests.swift */; };
+		A14089F0204EAC050009530F /* BigRectangle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A14089EF204EAC040009530F /* BigRectangle.jpg */; };
 		A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165F67D2044741B002D5ED6 /* ShutterButton.swift */; };
 		A1675BAB2041693A00852865 /* Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1675BAA2041693A00852865 /* Square.jpg */; };
 		A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */; };
@@ -91,6 +93,8 @@
 		A11C5CDA20495EC9005075FE /* UIDeviceOrientation+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDeviceOrientation+Utils.swift"; sourceTree = "<group>"; };
 		A1265C812045BFEB009C4D3E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		A14089B9204D92EA0009530F /* EditScanCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanCornerView.swift; sourceTree = "<group>"; };
+		A14089ED204EAA180009530F /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
+		A14089EF204EAC040009530F /* BigRectangle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BigRectangle.jpg; sourceTree = "<group>"; };
 		A165F67D2044741B002D5ED6 /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		A1675BAA2041693A00852865 /* Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Square.jpg; sourceTree = "<group>"; };
 		A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeatureTestHelpers.swift; sourceTree = "<group>"; };
@@ -160,6 +164,7 @@
 		A1675BA92041692800852865 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A14089EF204EAC040009530F /* BigRectangle.jpg */,
 				A1675BAA2041693A00852865 /* Square.jpg */,
 				A194E96E2042BD77003493E2 /* Rectangle.jpg */,
 			);
@@ -235,6 +240,7 @@
 				A1DF90C12034919300841A11 /* WeScanTests-Bridging-Header.h */,
 				A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */,
 				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
+				A14089ED204EAA180009530F /* ArrayTests.swift */,
 			);
 			path = WeScanTests;
 			sourceTree = "<group>";
@@ -434,6 +440,7 @@
 			files = (
 				A1675BAB2041693A00852865 /* Square.jpg in Resources */,
 				A194E96F2042BD77003493E2 /* Rectangle.jpg in Resources */,
+				A14089F0204EAC050009530F /* BigRectangle.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +491,7 @@
 				A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */,
 				A1C4DD502044B1D500D36684 /* CGRectTests.swift in Sources */,
 				A11C5CD920495EA1005075FE /* RectangleFeaturesFunnelTests.swift in Sources */,
+				A14089EE204EAA180009530F /* ArrayTests.swift in Sources */,
 				A1DF90C32034919400841A11 /* QuadrilateralTests.swift in Sources */,
 				A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */,
 			);
