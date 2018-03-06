@@ -15,7 +15,7 @@ final class HomeViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setTitle("Scan Now!", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(presentScanController), for: .touchUpInside)
+        button.addTarget(self, action: #selector(presentScanController(_:)), for: .touchUpInside)
         button.backgroundColor = UIColor(red: 64.0 / 255.0, green: 159 / 255.0, blue: 255 / 255.0, alpha: 1.0)
         button.layer.cornerRadius = 20.0
         return button
@@ -49,7 +49,7 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func presentScanController() {
+    @objc func presentScanController(_ sender: UIButton) {
         let scannerVC = ImageScannerController()
         scannerVC.imageScannerDelegate = self
         present(scannerVC, animated: true, completion: nil)

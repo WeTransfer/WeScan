@@ -112,11 +112,11 @@ final class ScannerViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func captureImage(_ sender: UIButton?) {
+    @objc private func captureImage(_ sender: UIButton) {
         captureSessionManager?.capturePhoto()
     }
     
-    @objc private func cancelImageScannerController(_ sender: UIButton?) {
+    @objc private func cancelImageScannerController(_ sender: UIButton) {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
         }
