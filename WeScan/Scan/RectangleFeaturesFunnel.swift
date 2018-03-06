@@ -109,6 +109,7 @@ final class RectangleFeaturesFunnel {
             }
             
             if rectangle.matchingScore > best.matchingScore {
+                bestMatch = rectangle
                 return
             } else if rectangle.matchingScore == best.matchingScore {
                 guard let currentRectangle = currentRectangle else {
