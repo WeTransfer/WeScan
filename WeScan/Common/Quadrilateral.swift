@@ -55,8 +55,8 @@ struct Quadrilateral: Transformable {
     /// - Parameters:
     ///   - t: the transform to apply.
     /// - Returns: The transformed quadrilateral.
-    func applying(_ t: CGAffineTransform) -> Quadrilateral {
-        let quadrilateral = Quadrilateral(topLeft: topLeft.applying(t), topRight: topRight.applying(t), bottomRight: bottomRight.applying(t), bottomLeft: bottomLeft.applying(t))
+    func applying(_ transform: CGAffineTransform) -> Quadrilateral {
+        let quadrilateral = Quadrilateral(topLeft: topLeft.applying(transform), topRight: topRight.applying(transform), bottomRight: bottomRight.applying(transform), bottomLeft: bottomLeft.applying(transform))
         
         return quadrilateral
     }
