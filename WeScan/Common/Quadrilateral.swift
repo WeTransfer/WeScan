@@ -75,8 +75,8 @@ struct Quadrilateral: Transformable {
         let xSortedTopMostPoints = sortPointsByXValue(topMostPoints)
         let xSortedBottomMostPoints = sortPointsByXValue(bottomMostPoints)
         
-        guard xSortedTopMostPoints.count >= 1,
-        xSortedBottomMostPoints.count >= 1 else {
+        guard xSortedTopMostPoints.count > 1,
+        xSortedBottomMostPoints.count > 1 else {
             return
         }
         
