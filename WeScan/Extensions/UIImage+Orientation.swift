@@ -11,7 +11,7 @@ import Foundation
 extension UIImage {
     
     /// Returns the same image with a portrait orientation.
-    func withPortraitOrientation() -> UIImage {
+    func applyingPortraitOrientation() -> UIImage {
         switch imageOrientation {
         case .up:
             return rotated(by: Measurement(value: Double.pi, unit: .radians), options: []) ?? self

@@ -263,7 +263,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
                 break
             }
             
-            image = image.withPortraitOrientation()
+            image = image.applyingPortraitOrientation()
             
             let quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
             let scaledQuad = quad?.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
