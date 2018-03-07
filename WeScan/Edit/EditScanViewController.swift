@@ -143,6 +143,7 @@ final class EditScanViewController: UIViewController {
         
         var uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         
+        // Our UIImage probably doesn't have a CGImage since it comes from a CIImage. Let's try to generate one.
         if uiImage.cgImage == nil, let ciImage = uiImage.ciImage, let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent) {
             uiImage = UIImage(cgImage: cgImage)
         }
