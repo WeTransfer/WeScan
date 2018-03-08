@@ -39,9 +39,6 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
-    private var closeButtonTopAnchorConstraint: NSLayoutConstraint?
-    private var shutterButtonBottomAnchorConstraints: NSLayoutConstraint?
-    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -59,6 +56,7 @@ final class ScannerViewController: UIViewController {
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
         navigationController?.setNavigationBarHidden(true, animated: false)
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -70,13 +68,7 @@ final class ScannerViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    @available(iOS 11, *)
-    override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-        closeButtonTopAnchorConstraint?.constant = view.safeAreaInsets.top + 7.0
-        shutterButtonBottomAnchorConstraints?.constant = view.safeAreaInsets.bottom + 15.0
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     // MARK: - Setups
@@ -98,8 +90,13 @@ final class ScannerViewController: UIViewController {
             quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ]
         
-        let shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
-        shutterButtonBottomAnchorConstraints = shutterButtonBottomConstraint
+        var shutterButtonBottomConstraint: NSLayoutConstraint
+
+        if #available(iOS 11.0, *) {
+            shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
+        } else {
+            shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
+        }
         
         let shutterButtonConstraints = [
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -113,8 +110,13 @@ final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        let closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0)
-        closeButtonTopAnchorConstraint = closeButtonTopConstraint
+        var closeButtonTopConstraint: NSLayoutConstraint
+        
+        if #available(iOS 11.0, *) {
+            closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10.0)
+        } else {
+            closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0)
+        }
         
         let closeButtonConstraints = [
             closeButtonTopConstraint,
