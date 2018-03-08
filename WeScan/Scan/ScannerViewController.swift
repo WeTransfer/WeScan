@@ -39,6 +39,9 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
+    private var closeButtonTopAnchorConstraint: NSLayoutConstraint?
+    private var shutterButtonBottomAnchorConstraints: NSLayoutConstraint?
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -69,6 +72,13 @@ final class ScannerViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    @available(iOS 11, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        closeButtonTopAnchorConstraint?.constant = view.safeAreaInsets.top + 7.0
+        shutterButtonBottomAnchorConstraints?.constant = view.safeAreaInsets.bottom + 15.0
+    }
+    
     // MARK: - Setups
     
     private func setupViews() {
@@ -88,9 +98,12 @@ final class ScannerViewController: UIViewController {
             quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ]
         
+        let shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
+        shutterButtonBottomAnchorConstraints = shutterButtonBottomConstraint
+        
         let shutterButtonConstraints = [
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0),
+            shutterButtonBottomConstraint,
             shutterButton.widthAnchor.constraint(equalToConstant: 65.0),
             shutterButton.heightAnchor.constraint(equalToConstant: 65.0)
         ]
@@ -100,8 +113,11 @@ final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
+        let closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0)
+        closeButtonTopAnchorConstraint = closeButtonTopConstraint
+        
         let closeButtonConstraints = [
-            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0),
+            closeButtonTopConstraint,
             closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
             closeButton.widthAnchor.constraint(equalToConstant: 20.0),
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
