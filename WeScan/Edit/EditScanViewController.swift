@@ -141,7 +141,15 @@ final class EditScanViewController: UIViewController {
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
         
-        let uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+        var uiImage: UIImage!
+        
+        // Let's try to generate the CGImage from the CIImage before creating a UIImage.
+        if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
+            uiImage = UIImage(cgImage: cgImage)
+        } else {
+            uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+        }
+        
         let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
         let reviewViewController = ReviewViewController(results: results)
         

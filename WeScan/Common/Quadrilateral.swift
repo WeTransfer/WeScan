@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 
 /// A data structure representing a quadrilateral and its position. This class exists to bypass the fact that CIRectangleFeature is read-only.
-struct Quadrilateral: Transformable {
+public struct Quadrilateral: Transformable {
     
     /// A point that specifies the top left corner of the quadrilateral.
     var topLeft: CGPoint

@@ -72,12 +72,12 @@ public final class ImageScannerController: UINavigationController {
 public struct ImageScannerResults {
     
     /// The original image taken by the user.
-    var originalImage: UIImage
+    public var originalImage: UIImage
     
     /// The deskewed and cropped orignal image using the detected rectangle.
-    var scannedImage: UIImage
+    public var scannedImage: UIImage
     
     /// The detected rectangle which was used to generate the `scannedImage`.
-    var detectedRectangle: Quadrilateral
+    public var detectedRectangle: Quadrilateral
     
 }
