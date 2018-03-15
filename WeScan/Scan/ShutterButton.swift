@@ -17,6 +17,18 @@ final class ShutterButton: UIControl {
     private let outterRingRatio: CGFloat = 0.80
     private let innerRingRatio: CGFloat = 0.75
     
+    private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    
+    override var isHighlighted: Bool {
+        didSet {
+            if oldValue != isHighlighted {
+                animateInnerCircleLayer(forHighlightedState: isHighlighted)
+            }
+        }
+    }
+    
+    // MARL: Life Cycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.addSublayer(outterRingLayer)
@@ -24,11 +36,14 @@ final class ShutterButton: UIControl {
         backgroundColor = .clear
         isAccessibilityElement = true
         accessibilityTraits = UIAccessibilityTraitButton
+        impactFeedbackGenerator.prepare()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Drawing
     
     override func draw(_ rect: CGRect) {
         outterRingLayer.frame = rect
@@ -43,6 +58,25 @@ final class ShutterButton: UIControl {
         innerCircleLayer.rasterizationScale = UIScreen.main.scale
         innerCircleLayer.shouldRasterize = true
     }
+    
+    // MARK: - Animation
+    
+    private func animateInnerCircleLayer(forHighlightedState isHighlighted: Bool) {
+        let animation = CAKeyframeAnimation(keyPath: "transform")
+        var values = [CATransform3DMakeScale(1.0, 1.0, 1.0), CATransform3DMakeScale(0.9, 0.9, 0.9), CATransform3DMakeScale(0.93, 0.93, 0.93), CATransform3DMakeScale(0.9, 0.9, 0.9)]
+        if isHighlighted == false {
+            values = [CATransform3DMakeScale(0.9, 0.9, 0.9), CATransform3DMakeScale(1.0, 1.0, 1.0)]
+        }
+        animation.values = values
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = kCAFillModeForwards
+        animation.duration = isHighlighted ? 0.35 : 0.10
+        
+        innerCircleLayer.add(animation, forKey: "transform")
+        impactFeedbackGenerator.impactOccurred()
+    }
+    
+    // MARK: - Paths
     
     private func pathForOutterRing(inRect rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath(ovalIn: rect)
