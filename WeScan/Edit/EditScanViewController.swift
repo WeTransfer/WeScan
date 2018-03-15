@@ -48,9 +48,9 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(image: UIImage, quad: Quadrilateral) {
+    init(image: UIImage, quad: Quadrilateral?) {
         self.image = image
-        self.quad = quad
+        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -173,6 +173,17 @@ final class EditScanViewController: UIViewController {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
         quadViewWidthConstraint.constant = frame.size.width
         quadViewHeightConstraint.constant = frame.size.height
+    }
+    
+    private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
+        let topLeft = CGPoint(x: image.size.width / 3.0, y: image.size.height / 3.0)
+        let topRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: image.size.height / 3.0)
+        let bottomRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
+        let bottomLeft = CGPoint(x: image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
+        
+        let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
+        
+        return quad
     }
 
 }

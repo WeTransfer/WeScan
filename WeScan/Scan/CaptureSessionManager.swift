@@ -25,13 +25,13 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     ///   - imageSize: The size of the image the quadrilateral has been detected on.
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize)
     
-    /// Called when a picture with a quadrilateral has been captured.
+    /// Called when a picture with or without a quadrilateral has been captured.
     ///
     /// - Parameters:
     ///   - captureSessionManager: The `CaptureSessionManager` instance that has captured a picture.
     ///   - picture: The picture that has been captured.
-    ///   - quad: The quadrilateral that was detected in the picture's coordinates.
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral)
+    ///   - quad: The quadrilateral that was detected in the picture's coordinates if any.
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?)
     
     /// Called when an error occured with the capture session manager.
     /// - Parameters:
@@ -232,13 +232,6 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     /// Completes the image capture by processing the image, and passing it to the delegate object.
     /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
     private func completeImageCapture(with imageData: Data) {
-        guard let displayedRectangleResult = displayedRectangleResult else {
-            isDetecting = true
-            let error = ImageScannerControllerError.noRectangle
-            delegate?.captureSessionManager(self, didFailWithError: error)
-            return
-        }
-        
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard var image = UIImage(data: imageData) else {
                 let error = ImageScannerControllerError.capture
@@ -264,14 +257,17 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             
             image = image.applyingPortraitOrientation()
             
-            let quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
-            let scaledQuad = quad?.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
+            var quad: Quadrilateral?
+            if let displayedRectangleResult = self?.displayedRectangleResult {
+                quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
+                quad = quad?.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
+            }
             
             DispatchQueue.main.async {
-                guard let strongSelf = self, let scaledQuad = scaledQuad else {
+                guard let strongSelf = self else {
                     return
                 }
-                strongSelf.delegate?.captureSessionManager(strongSelf, didCapturePicture: image, withQuad: scaledQuad)
+                strongSelf.delegate?.captureSessionManager(strongSelf, didCapturePicture: image, withQuad: quad)
             }
         }
     }
