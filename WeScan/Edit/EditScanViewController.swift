@@ -65,7 +65,7 @@ final class EditScanViewController: UIViewController {
         setupViews()
         setupConstraints()
         
-        title = NSLocalizedString("wescan.edit.title.edit", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
+        title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
     }
     
