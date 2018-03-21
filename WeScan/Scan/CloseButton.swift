@@ -28,11 +28,11 @@ final class CloseButton: UIControl {
     override func draw(_ rect: CGRect) {
         self.clipsToBounds = false
         xLayer.frame = rect
-        xLayer.path = pathForX(inRect: rect).cgPath
-        xLayer.fillColor = UIColor.clear.cgColor
         xLayer.lineWidth = 3.0
-        xLayer.strokeColor = UIColor.white.cgColor
-        xLayer.lineCap = "round"
+        xLayer.path = pathForX(inRect: rect.insetBy(dx: xLayer.lineWidth / 2, dy: xLayer.lineWidth / 2)).cgPath
+        xLayer.fillColor = UIColor.clear.cgColor
+        xLayer.strokeColor = UIColor.black.cgColor
+        xLayer.lineCap = kCALineCapRound
     }
     
     private func pathForX(inRect rect: CGRect) -> UIBezierPath {

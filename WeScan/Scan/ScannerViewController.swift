@@ -31,19 +31,22 @@ final class ScannerViewController: UIViewController {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
-    
+
     lazy private var closeButton: CloseButton = {
-        let button = CloseButton()
+        let button = CloseButton(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelImageScannerController(_:)), for: .touchUpInside)
         return button
     }()
-    
+
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
+
         setupViews()
         setupConstraints()
         
@@ -55,7 +58,6 @@ final class ScannerViewController: UIViewController {
         super.viewWillAppear(animated)
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
-        navigationController?.setNavigationBarHidden(true, animated: false)
         UIApplication.shared.isIdleTimerDisabled = true
     }
     
@@ -67,7 +69,6 @@ final class ScannerViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
         UIApplication.shared.isIdleTimerDisabled = false
     }
     
@@ -79,7 +80,6 @@ final class ScannerViewController: UIViewController {
         view.addSubview(quadView)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
-        view.addSubview(closeButton)
     }
     
     private func setupConstraints() {
@@ -110,22 +110,7 @@ final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        var closeButtonTopConstraint: NSLayoutConstraint
-        
-        if #available(iOS 11.0, *) {
-            closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10.0)
-        } else {
-            closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30.0)
-        }
-        
-        let closeButtonConstraints = [
-            closeButtonTopConstraint,
-            closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
-            closeButton.widthAnchor.constraint(equalToConstant: 20.0),
-            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints + closeButtonConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints)
     }
     
     // MARK: - Actions
