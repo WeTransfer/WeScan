@@ -149,11 +149,6 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         shutterButton.isUserInteractionEnabled = true
         
         if let imageScannerController = navigationController as? ImageScannerController {
-            if let error = error as? ImageScannerControllerError {
-                guard error != .noRectangle else {
-                    return
-                }
-            }
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
         }
     }
@@ -163,7 +158,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         shutterButton.isUserInteractionEnabled = false
     }
     
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral) {
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
         
         let editVC = EditScanViewController(image: picture, quad: quad)
