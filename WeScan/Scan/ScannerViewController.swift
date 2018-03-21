@@ -44,7 +44,7 @@ final class ScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
+        title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
 
         setupViews()
