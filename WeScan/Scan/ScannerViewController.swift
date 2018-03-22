@@ -34,7 +34,6 @@ final class ScannerViewController: UIViewController {
 
     lazy private var closeButton: CloseButton = {
         let button = CloseButton(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelImageScannerController(_:)), for: .touchUpInside)
         return button
     }()
