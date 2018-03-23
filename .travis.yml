@@ -1,10 +1,4 @@
 language: objective-c
 osx_image: xcode9.2
 script:
-  - bundle exec fastlane test project_name:WeScan
-before_install:
-  - git submodule sync && git submodule update --init --recursive
-  - brew update
-  - brew outdated swiftlint || brew upgrade swiftlint
-  - bundle install
-  
+  - "./Submodules/WeTransfer-iOS-CI/Scripts/travis.sh" # Run WeTransfer iOS CI Travis script
