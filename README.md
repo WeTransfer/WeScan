@@ -14,6 +14,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [License](#license)
 
 ## Features
+
 - [x] Live scanning of documents
 - [x] Edit detected rectangle
 - [ ] Batch scanning
@@ -21,6 +22,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 ## Example
 
 ## Requirements
+
 - Swift 4.0
 - iOS 10.0+
 - Xcode 9.x
@@ -30,10 +32,23 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 ### Cocoapods
 ### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+To integrate **WeScan** into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "WeTransfer/WeScan" >= 1.00
+```
+
+Run `carthage update` to build the framework and drag the built `WeScan.framework` into your Xcode project.
+
 ### Manually
+
 Just download the project, and drag and drop the "WeScan" folder in your project.
 
 ## Usage
+
 1. Make sure that your ViewController conforms to the `ImageScannerControllerDelegate` protocol
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
