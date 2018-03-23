@@ -1,5 +1,7 @@
 # WeScan
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
@@ -29,9 +31,10 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 ### Cocoapods
 ### Carthage
 ### Manually
+Just download the project, and drag and drop the "WeScan" folder in your project.
 
 ## Usage
-1. Make sure that your ViewController conforms to the ImageScannerControllerDelegate protocol
+1. Make sure that your ViewController conforms to the `ImageScannerControllerDelegate` protocol
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
 
@@ -55,7 +58,7 @@ func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
 }
 ```
 
-3. Simply present the ImageScannerController in your `ViewController`
+3. Simply present the `ImageScannerController` instance on your `ViewController`
 
 ```swift
 // Somewhere on your ViewController
@@ -65,10 +68,10 @@ self.present(scannerVC, animated: true, completion: nil)
 ```
 ## Communication
 
-- If you **found a bug**, open an issue.
-- If you **have a feature request**, open an issue.
-- If you **want to contribute**, submit a pull request.
+- If you **found a bug**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
+- If you **have a feature request**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
+- If you **want to contribute**, submit a [pull request](https://github.com/WeTransfer/WeScan/pulls).
 
 ## License
 
-**WeScan** is available under the MIT license. See the LICENSE file for more info.
+**WeScan** is available under the MIT license. See the [LICENSE](https://github.com/WeTransfer/WeScan/blob/develop/LICENSE) file for more info.
