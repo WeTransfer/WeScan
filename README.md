@@ -1,6 +1,17 @@
 # WeScan
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+<p align="center">
+    <img width="900px" src="Assets/WeScan-Banner.jpg">
+</p>
+
+<p align="center">
+<img src="https://travis-ci.com/WeTransfer/WeScan.svg?token=Ur5V2zzKmBJLmMYHKJTF&branch=master"/>
+<img src="https://img.shields.io/cocoapods/v/WeScan.svg?style=flat"/>
+<img src="https://img.shields.io/cocoapods/l/WeScan.svg?style=flat"/>
+<img src="https://img.shields.io/cocoapods/p/WeScan.svg?style=flat"/>
+<img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/>
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat"/>
+</p>
 
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
@@ -14,6 +25,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [License](#license)
 
 ## Features
+
 - [x] Live scanning of documents
 - [x] Edit detected rectangle
 - [ ] Batch scanning
@@ -21,6 +33,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 ## Example
 
 ## Requirements
+
 - Swift 4.0
 - iOS 10.0+
 - Xcode 9.x
@@ -29,11 +42,45 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 ## Installation
 
 ### Cocoapods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
+
+To integrate **WeScan** into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```rubygi
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+use_frameworks!
+
+target '<Your Target Name>' do
+    pod 'WeScan', '~> 1.0.0'
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
+
 ### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+To integrate **WeScan** into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "WeTransfer/WeScan" >= 1.00
+```
+
+Run `carthage update` to build the framework and drag the built `WeScan.framework` into your Xcode project.
+
 ### Manually
+
 Just download the project, and drag and drop the "WeScan" folder in your project.
 
 ## Usage
+
 1. Make sure that your ViewController conforms to the `ImageScannerControllerDelegate` protocol
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
