@@ -31,7 +31,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 ### Manually
 
 ## Usage
-1. Make sure that your ViewController conforms to the ImageScannerControllerDelegate protocol
+1. Make sure that your ViewController conforms to the `ImageScannerControllerDelegate` protocol
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
 
@@ -55,7 +55,7 @@ func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
 }
 ```
 
-3. Simply present the ImageScannerController in your `ViewController`
+3. Simply present the `ImageScannerController` instance on your `ViewController`
 
 ```swift
 // Somewhere on your ViewController
