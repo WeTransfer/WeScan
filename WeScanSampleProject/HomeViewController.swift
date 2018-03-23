@@ -11,6 +11,22 @@ import WeScan
 
 final class HomeViewController: UIViewController {
     
+    lazy private var logoImageView: UIImageView = {
+        let image = UIImage(named: "WeScanLogo")
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy private var logoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "WeScan"
+        label.font = UIFont.systemFont(ofSize: 25.0, weight: .bold)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy private var scanButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Scan Now!", for: .normal)
@@ -33,18 +49,33 @@ final class HomeViewController: UIViewController {
     // MARK: - Setups
     
     private func setupViews() {
+        view.addSubview(logoImageView)
+        view.addSubview(logoLabel)
         view.addSubview(scanButton)
     }
     
     private func setupConstraints() {
+        
+        let logoImageViewConstraints = [
+            logoImageView.widthAnchor.constraint(equalToConstant: 150.0),
+            logoImageView.heightAnchor.constraint(equalToConstant: 150.0),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            NSLayoutConstraint(item: logoImageView, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 0.75, constant: 0.0)
+        ]
+        
+        let logoLabelConstraints = [
+            logoLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 20.0),
+            logoLabel.centerXAnchor.constraint(equalTo: logoImageView.centerXAnchor)
+        ]
+        
         let scanButtonConstraints = [
-            view.bottomAnchor.constraint(equalTo: scanButton.bottomAnchor, constant: 40.0),
+            view.bottomAnchor.constraint(equalTo: scanButton.bottomAnchor, constant: 50.0),
             scanButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             scanButton.heightAnchor.constraint(equalToConstant: 40.0),
             scanButton.widthAnchor.constraint(equalToConstant: 150.0)
         ]
         
-        NSLayoutConstraint.activate(scanButtonConstraints)
+        NSLayoutConstraint.activate(scanButtonConstraints + logoLabelConstraints + logoImageViewConstraints)
     }
     
     // MARK: - Actions
