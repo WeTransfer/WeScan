@@ -65,9 +65,9 @@ self.present(scannerVC, animated: true, completion: nil)
 ```
 ## Communication
 
-- If you **found a bug**, open an issue.
-- If you **have a feature request**, open an issue.
-- If you **want to contribute**, submit a pull request.
+- If you **found a bug**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
+- If you **have a feature request**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
+- If you **want to contribute**, submit a [pull request](https://github.com/WeTransfer/WeScan/pulls).
 
 ## License
 
