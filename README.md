@@ -1,6 +1,12 @@
 # WeScan
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+<p align="center">
+    <img width="900px" src="Assets/WeScan-Banner.jpg">
+</p>
+
+<p align="center">
+<img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/>
+</p>
 
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
