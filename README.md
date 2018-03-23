@@ -5,7 +5,12 @@
 </p>
 
 <p align="center">
+<img src="https://travis-ci.com/WeTransfer/WeScan.svg?token=Ur5V2zzKmBJLmMYHKJTF&branch=master"/>
+<img src="https://img.shields.io/cocoapods/v/WeScan.svg?style=flat"/>
+<img src="https://img.shields.io/cocoapods/l/WeScan.svg?style=flat"/>
+<img src="https://img.shields.io/cocoapods/p/WeScan.svg?style=flat"/>
 <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/>
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat"/>
 </p>
 
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
@@ -42,7 +47,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 To integrate **WeScan** into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
-```ruby
+```rubygi
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
 use_frameworks!
