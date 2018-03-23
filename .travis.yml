@@ -6,4 +6,4 @@ before_install:
   - git submodule sync && git submodule update --init --recursive
   - brew update
   - brew outdated swiftlint || brew upgrade swiftlint
-  - bundle install --verbose
+  - bundle install
