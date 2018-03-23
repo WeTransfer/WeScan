@@ -71,4 +71,4 @@ self.present(scannerVC, animated: true, completion: nil)
 
 ## License
 
-**WeScan** is available under the MIT license. See the LICENSE file for more info.
+**WeScan** is available under the MIT license. See the [LICENSE](https://github.com/WeTransfer/WeScan/blob/develop/LICENSE) file for more info.
