@@ -71,6 +71,7 @@ Carthage/Build
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/test_output
+fastlane/Readme.md
 screenshots/
 screenshots/.DS_Store
 !*/screenshots/

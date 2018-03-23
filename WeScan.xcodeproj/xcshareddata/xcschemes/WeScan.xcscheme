@@ -27,15 +27,26 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       language = ""
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A1D4BCF4202C4F4100FCDDEC"
+               BuildableName = "WeScanTests.xctest"
+               BlueprintName = "WeScanTests"
+               ReferencedContainer = "container:WeScan.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A1D4BCB6202C4F3800FCDDEC"
-            BuildableName = "WeScanSampleProject.app"
-            BlueprintName = "WeScanSampleProject"
+            BlueprintIdentifier = "A1D4BCEC202C4F4100FCDDEC"
+            BuildableName = "WeScan.framework"
+            BlueprintName = "WeScan"
             ReferencedContainer = "container:WeScan.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
