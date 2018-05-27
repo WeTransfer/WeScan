@@ -17,6 +17,10 @@ extension UIImage {
             return rotated(by: Measurement(value: Double.pi, unit: .radians), options: []) ?? self
         case .down:
             return rotated(by: Measurement(value: Double.pi, unit: .radians), options: [.flipOnVerticalAxis, .flipOnHorizontalAxis]) ?? self
+        case .left:
+            return self
+        case .right:
+            return rotated(by: Measurement(value: Double.pi / 2.0, unit: .radians), options: []) ?? self
         default:
             return self
         }
@@ -41,7 +45,8 @@ extension UIImage {
         
         let rotationInRadians = CGFloat(rotationAngle.converted(to: .radians).value)
         let transform = CGAffineTransform(rotationAngle: rotationInRadians)
-        var rect = CGRect(origin: .zero, size: self.size).applying(transform)
+        let cgImageSize = CGSize(width: cgImage.width, height: cgImage.height)
+        var rect = CGRect(origin: .zero, size: cgImageSize).applying(transform)
         rect.origin = .zero
         
         let format = UIGraphicsImageRendererFormat()
@@ -57,7 +62,7 @@ extension UIImage {
             let y = options.contains(.flipOnHorizontalAxis) ? 1.0 : -1.0
             renderContext.cgContext.scaleBy(x: CGFloat(x), y: CGFloat(y))
             
-            let drawRect = CGRect(origin: CGPoint(x: -self.size.width / 2.0, y: -self.size.height / 2.0), size: self.size)
+            let drawRect = CGRect(origin: CGPoint(x: -cgImageSize.width / 2.0, y: -cgImageSize.height / 2.0), size: cgImageSize)
             renderContext.cgContext.draw(cgImage, in: drawRect)
         }
         

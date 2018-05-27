@@ -23,6 +23,16 @@ final class EditScanViewController: UIViewController {
         return imageView
     }()
     
+    lazy private var zoomedImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.isOpaque = true
+        imageView.backgroundColor = .black
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     lazy private var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
         quadView.editable = true
@@ -49,7 +59,7 @@ final class EditScanViewController: UIViewController {
     // MARK: - Life Cycle
     
     init(image: UIImage, quad: Quadrilateral?) {
-        self.image = image
+        self.image = image.applyingPortraitOrientation()
         self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
         
         super.init(nibName: nil, bundle: nil)
@@ -64,9 +74,11 @@ final class EditScanViewController: UIViewController {
         
         setupViews()
         setupConstraints()
-        
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
+        
+        let tap = UIPanGestureRecognizer(target: self, action: #selector(handle(pan:)))
+        self.view.addGestureRecognizer(tap)
     }
     
     override func viewDidLayoutSubviews() {
@@ -87,6 +99,7 @@ final class EditScanViewController: UIViewController {
     
     private func setupViews() {
         view.addSubview(imageView)
+        view.addSubview(zoomedImageView)
         view.addSubview(quadView)
     }
     
@@ -96,6 +109,13 @@ final class EditScanViewController: UIViewController {
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
+        ]
+        
+        let zoomedImageViewConstraints = [
+            zoomedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            zoomedImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            zoomedImageView.heightAnchor.constraint(equalToConstant: 100.0),
+            zoomedImageView.widthAnchor.constraint(equalToConstant: 100.0)
         ]
                 
         quadViewWidthConstraint = quadView.widthAnchor.constraint(equalToConstant: 0.0)
@@ -108,14 +128,32 @@ final class EditScanViewController: UIViewController {
             quadViewHeightConstraint
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints + zoomedImageViewConstraints)
     }
     
     // MARK: - Actions
     
+    @objc func handle(pan: UIPanGestureRecognizer) {
+        var position = pan.location(in: imageView)
+
+        // TODO: SHOULDNT CACLULATE EVERY TIME
+        let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.frame)
+        frame.offsetBy(dx: imageView.frame.origin.x, dy: imageView.frame.origin.y)
+        
+        guard frame.contains(position) else {
+            return
+        }
+        
+        position = CGPoint(x: position.x - frame.origin.x, y: position.y - frame.origin.y)
+        let scale = image.size.width / frame.size.width
+        let scaledPosition = CGPoint(x: position.x * scale, y: position.y * scale)
+        
+        let zoomedImage = image.scaledImage(atPoint: scaledPosition, scaleFactor: 2.5, targetSize: frame.size)
+        zoomedImageView.image = zoomedImage
+    }
+    
     @objc func pushReviewController() {
-        guard let quad = quadView.quad,
-            var ciImage = CIImage(image: image) else {
+        guard let quad = quadView.quad else {
                 if let imageScannerController = navigationController as? ImageScannerController {
                     let error = ImageScannerControllerError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
@@ -125,11 +163,6 @@ final class EditScanViewController: UIViewController {
         
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
         self.quad = scaledQuad
-        
-        if image.size.width < image.size.height {
-            let orientationTransform = ciImage.orientationTransform(forExifOrientation: 6)
-            ciImage = ciImage.transformed(by: orientationTransform)
-        }
         
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
