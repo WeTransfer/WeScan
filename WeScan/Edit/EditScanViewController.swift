@@ -153,7 +153,8 @@ final class EditScanViewController: UIViewController {
     }
     
     @objc func pushReviewController() {
-        guard let quad = quadView.quad else {
+        guard let quad = quadView.quad,
+            let ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {
                     let error = ImageScannerControllerError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
