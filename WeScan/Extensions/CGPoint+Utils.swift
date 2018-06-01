@@ -38,4 +38,32 @@ extension CGPoint {
         return CGPoint(x: x, y: height - y)
     }
     
+    /// Returns the distance between two points
+    func distanceTo(point: CGPoint) -> CGFloat {
+        return hypot((self.x - point.x), (self.y - point.y))
+    }
+    
+    /// Returns the closest corner from the point
+    func closestCornerFrom(quad: Quadrilateral) -> CornerPosition {
+        var smallestDistance = distanceTo(point: quad.topLeft)
+        var closestCorner = CornerPosition.topLeft
+        
+        if distanceTo(point: quad.topRight) < smallestDistance {
+            smallestDistance = distanceTo(point: quad.topRight)
+            closestCorner = .topRight
+        }
+        
+        if distanceTo(point: quad.bottomRight) < smallestDistance {
+            smallestDistance = distanceTo(point: quad.bottomRight)
+            closestCorner = .bottomRight
+        }
+        
+        if distanceTo(point: quad.bottomLeft) < smallestDistance {
+            smallestDistance = distanceTo(point: quad.bottomLeft)
+            closestCorner = .bottomLeft
+        }
+        
+        return closestCorner
+    }
+    
 }
