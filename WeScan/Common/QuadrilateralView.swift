@@ -146,17 +146,41 @@ final class QuadrilateralView: UIView {
     
     // MARK: - Actions
     
+    func dragCorner(corner: CornerPosition, withOffset offset: CGAffineTransform) {
+        switch corner {
+        case .topLeft:
+            let point = topLeftCornerButton.center.applying(offset)
+            dragCorner(cornerButton: topLeftCornerButton, atPoint: point)
+        case .topRight:
+            let point = topRightCornerButton.center.applying(offset)
+            dragCorner(cornerButton: topRightCornerButton, atPoint: point)
+        case .bottomLeft:
+            let point = bottomLeftCornerButton.center.applying(offset)
+            dragCorner(cornerButton: bottomLeftCornerButton, atPoint: point)
+        case .bottomRight:
+            let point = bottomRightCornerButton.center.applying(offset)
+            dragCorner(cornerButton: bottomRightCornerButton, atPoint: point)
+        }
+    }
+    
     @objc func dragCorner(panGesture: UIPanGestureRecognizer) {
-        guard let cornerButton = panGesture.view as? EditScanCornerView,
-            let quad = quad else {
+        guard let cornerButton = panGesture.view as? EditScanCornerView else {
                 return
         }
         
-        var center = panGesture.location(in: self)
-        center = validPoint(center, forCornerViewOfSize: cornerButton.bounds.size, inView: self)
+        let center = panGesture.location(in: self)
+        dragCorner(cornerButton: cornerButton, atPoint: center)
+    }
         
-        panGesture.view?.center = center
-        let updatedQuad = updated(quad, withPosition: center, forCorner: cornerButton.position)
+    private func dragCorner(cornerButton: EditScanCornerView, atPoint point: CGPoint) {
+        guard let quad = quad else {
+            return
+        }
+        
+        let validPoint = self.validPoint(point, forCornerViewOfSize: cornerButton.bounds.size, inView: self)
+        
+        cornerButton.center = validPoint
+        let updatedQuad = updated(quad, withPosition: validPoint, forCorner: cornerButton.position)
         
         self.quad = updatedQuad
         drawQuad(updatedQuad, animated: false)

@@ -55,13 +55,13 @@ final class EditScanViewController: UIViewController {
     
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
+    private var zoomPanController: ZoomPanController!
     
     // MARK: - Life Cycle
     
     init(image: UIImage, quad: Quadrilateral?) {
         self.image = image.applyingPortraitOrientation()
         self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -72,12 +72,13 @@ final class EditScanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        zoomPanController = ZoomPanController(image: image, quadView: quadView)
         setupViews()
         setupConstraints()
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
         
-        let tap = UIPanGestureRecognizer(target: self, action: #selector(handle(pan:)))
+        let tap = UIPanGestureRecognizer(target: zoomPanController, action: #selector(zoomPanController.handle(pan:)))
         self.view.addGestureRecognizer(tap)
     }
     
@@ -132,25 +133,6 @@ final class EditScanViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
-    @objc func handle(pan: UIPanGestureRecognizer) {
-        var position = pan.location(in: imageView)
-
-        // TODO: SHOULDNT CACLULATE EVERY TIME
-        let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.frame)
-        frame.offsetBy(dx: imageView.frame.origin.x, dy: imageView.frame.origin.y)
-        
-        guard frame.contains(position) else {
-            return
-        }
-        
-        position = CGPoint(x: position.x - frame.origin.x, y: position.y - frame.origin.y)
-        let scale = image.size.width / frame.size.width
-        let scaledPosition = CGPoint(x: position.x * scale, y: position.y * scale)
-        
-        let zoomedImage = image.scaledImage(atPoint: scaledPosition, scaleFactor: 2.5, targetSize: frame.size)
-        zoomedImageView.image = zoomedImage
-    }
     
     @objc func pushReviewController() {
         guard let quad = quadView.quad,
