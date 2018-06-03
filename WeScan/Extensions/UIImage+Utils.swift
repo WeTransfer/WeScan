@@ -24,7 +24,7 @@ extension UIImage {
         
         let scaledSize = CGSize(width: size.width / scaleFactor, height: size.height / scaleFactor)
         
-        guard let croppedImage = cgImage.cropping(to: CGRect(x: point.x, y: point.y, width: scaledSize.width, height: scaledSize.height)) else {
+        guard let croppedImage = cgImage.cropping(to: CGRect(x: point.x - scaledSize.width / 2.0, y: point.y - scaledSize.height / 2.0, width: scaledSize.width, height: scaledSize.height)) else {
             return nil
         }
         

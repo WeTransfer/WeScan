@@ -30,10 +30,11 @@ final class ZoomPanController {
         guard pan.state != .ended else {
             previousPanPosition = nil
             closestCorner = nil
+            quadView.resetHighlightedCornerViews()
             return
         }
         
-        var position = pan.location(in: quadView)
+        let position = pan.location(in: quadView)
         
         guard let previousPanPosition = previousPanPosition,
             let closestCorner = closestCorner else {
@@ -43,14 +44,20 @@ final class ZoomPanController {
         }
         
         let offset = CGAffineTransform(translationX: position.x - previousPanPosition.x, y: position.y - previousPanPosition.y)
-        quadView.dragCorner(corner: closestCorner, withOffset: offset)
-        self.previousPanPosition = position
+        let cornerView = quadView.cornerViewForCornerPosition(position: closestCorner)
+        let draggedCornerViewCenter = cornerView.center.applying(offset)
 
-        position = CGPoint(x: position.x - quadView.frame.origin.x, y: position.y - quadView.frame.origin.y)
-        let scale = image.size.width / quadView.frame.size.width
-        let scaledPosition = CGPoint(x: position.x * scale, y: position.y * scale)
+        quadView.moveCorner(cornerView: cornerView, atPoint: draggedCornerViewCenter)
         
-        let zoomedImage = image.scaledImage(atPoint: scaledPosition, scaleFactor: 2.5, targetSize: quadView.frame.size)
+        self.previousPanPosition = position
+        
+        let scale = image.size.width / quadView.bounds.size.width
+        let scaledDraggedCornerViewCenter = CGPoint(x: draggedCornerViewCenter.x * scale, y: draggedCornerViewCenter.y * scale)
+        guard let zoomedImage = image.scaledImage(atPoint: scaledDraggedCornerViewCenter, scaleFactor: 2.5, targetSize: quadView.bounds.size) else {
+            return
+        }
+        
+        quadView.highlight(position: closestCorner, with: zoomedImage)
     }
 
 }

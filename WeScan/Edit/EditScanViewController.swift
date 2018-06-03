@@ -23,16 +23,6 @@ final class EditScanViewController: UIViewController {
         return imageView
     }()
     
-    lazy private var zoomedImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.isOpaque = true
-        imageView.backgroundColor = .black
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
     lazy private var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
         quadView.editable = true
@@ -100,7 +90,6 @@ final class EditScanViewController: UIViewController {
     
     private func setupViews() {
         view.addSubview(imageView)
-        view.addSubview(zoomedImageView)
         view.addSubview(quadView)
     }
     
@@ -111,14 +100,7 @@ final class EditScanViewController: UIViewController {
             view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         ]
-        
-        let zoomedImageViewConstraints = [
-            zoomedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            zoomedImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            zoomedImageView.heightAnchor.constraint(equalToConstant: 100.0),
-            zoomedImageView.widthAnchor.constraint(equalToConstant: 100.0)
-        ]
-                
+
         quadViewWidthConstraint = quadView.widthAnchor.constraint(equalToConstant: 0.0)
         quadViewHeightConstraint = quadView.heightAnchor.constraint(equalToConstant: 0.0)
         
@@ -129,7 +111,7 @@ final class EditScanViewController: UIViewController {
             quadViewHeightConstraint
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints + zoomedImageViewConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints)
     }
     
     // MARK: - Actions
