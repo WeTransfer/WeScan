@@ -1,5 +1,5 @@
 //
-//  ZoomQuadrilateralViewController.swift
+//  ZoomGestureController.swift
 //  WeScan
 //
 //  Created by Bobo on 5/31/18.
@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-final class ZoomPanController {
+final class ZoomGestureController {
     
     private let image: UIImage
     private let quadView: QuadrilateralView
@@ -22,26 +22,25 @@ final class ZoomPanController {
     private var previousPanPosition: CGPoint?
     private var closestCorner: CornerPosition?
     
-    @objc func handle(pan: UIPanGestureRecognizer) {
+    @objc func handle(pan: UIGestureRecognizer) {
+        print("GO")
         guard let drawnQuad = quadView.quad else {
             return
         }
         
         guard pan.state != .ended else {
-            previousPanPosition = nil
-            closestCorner = nil
+            self.previousPanPosition = nil
+            self.closestCorner = nil
             quadView.resetHighlightedCornerViews()
             return
         }
         
         let position = pan.location(in: quadView)
+        print(position)
+        handleTapAtPosition(position: position)
         
-        guard let previousPanPosition = previousPanPosition,
-            let closestCorner = closestCorner else {
-                self.previousPanPosition = position
-                self.closestCorner = position.closestCornerFrom(quad: drawnQuad)
-                return
-        }
+        let previousPanPosition = self.previousPanPosition ?? position
+        let closestCorner = self.closestCorner ?? position.closestCornerFrom(quad: drawnQuad)
         
         let offset = CGAffineTransform(translationX: position.x - previousPanPosition.x, y: position.y - previousPanPosition.y)
         let cornerView = quadView.cornerViewForCornerPosition(position: closestCorner)
@@ -50,6 +49,7 @@ final class ZoomPanController {
         quadView.moveCorner(cornerView: cornerView, atPoint: draggedCornerViewCenter)
         
         self.previousPanPosition = position
+        self.closestCorner = closestCorner
         
         let scale = image.size.width / quadView.bounds.size.width
         let scaledDraggedCornerViewCenter = CGPoint(x: draggedCornerViewCenter.x * scale, y: draggedCornerViewCenter.y * scale)
@@ -58,6 +58,18 @@ final class ZoomPanController {
         }
         
         quadView.highlight(position: closestCorner, with: zoomedImage)
+    }
+    
+    @objc func handle(tap: UITapGestureRecognizer) {
+        guard let drawnQuad = quadView.quad else {
+            return
+        }
+
+        
+    }
+    
+    private func handleTapAtPosition(position: CGPoint) {
+        
     }
 
 }

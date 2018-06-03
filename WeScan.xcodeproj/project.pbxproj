@@ -47,7 +47,7 @@
 		A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */; };
 		A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */; };
 		A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22ECD2031937E001723AD /* EditScanViewController.swift */; };
-		C31DD8A320C087D80072D439 /* ZoomPanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomPanController.swift */; };
+		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -134,7 +134,7 @@
 		A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnel.swift; sourceTree = "<group>"; };
 		A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Utils.swift"; sourceTree = "<group>"; };
 		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
-		C31DD8A220C087D80072D439 /* ZoomPanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomPanController.swift; sourceTree = "<group>"; };
+		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -300,7 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				A1F22ECD2031937E001723AD /* EditScanViewController.swift */,
-				C31DD8A220C087D80072D439 /* ZoomPanController.swift */,
+				C31DD8A220C087D80072D439 /* ZoomGestureController.swift */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
@@ -501,7 +501,7 @@
 				A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */,
 				A14089BA204D92EA0009530F /* EditScanCornerView.swift in Sources */,
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
-				C31DD8A320C087D80072D439 /* ZoomPanController.swift in Sources */,
+				C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */,
 				A1C4DD4E2044ADE600D36684 /* CGRect+Utils.swift in Sources */,
 				A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */,
 				A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */,

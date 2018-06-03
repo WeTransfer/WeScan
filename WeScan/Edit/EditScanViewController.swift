@@ -43,9 +43,10 @@ final class EditScanViewController: UIViewController {
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
     
+    private var zoomGestureController: ZoomGestureController!
+    
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
-    private var zoomPanController: ZoomPanController!
     
     // MARK: - Life Cycle
     
@@ -62,14 +63,16 @@ final class EditScanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        zoomPanController = ZoomPanController(image: image, quadView: quadView)
         setupViews()
         setupConstraints()
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
         
-        let tap = UIPanGestureRecognizer(target: zoomPanController, action: #selector(zoomPanController.handle(pan:)))
-        self.view.addGestureRecognizer(tap)
+        zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
+        
+        let touchDown = UILongPressGestureRecognizer(target:zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
+        touchDown.minimumPressDuration = 0
+        view.addGestureRecognizer(touchDown)
     }
     
     override func viewDidLayoutSubviews() {
