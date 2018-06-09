@@ -19,6 +19,7 @@ final class EditScanCornerView: UIView {
         let layer = CAShapeLayer()
         layer.fillColor = UIColor.clear.cgColor
         layer.strokeColor = UIColor.white.cgColor
+        layer.lineWidth = 1.0
         return layer
     }()
     
@@ -38,6 +39,7 @@ final class EditScanCornerView: UIView {
         self.position = position
         super.init(frame: frame)
         backgroundColor = UIColor.clear
+        clipsToBounds = true
         layer.addSublayer(circleLayer)
     }
     
@@ -45,11 +47,14 @@ final class EditScanCornerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        layer.cornerRadius = bounds.width / 2.0
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        let bezierPath = UIBezierPath(ovalIn: rect)
-        
+        let bezierPath = UIBezierPath(ovalIn: rect.expandRect(byOffset: -circleLayer.lineWidth))
         circleLayer.frame = rect
         circleLayer.path = bezierPath.cgPath
         
