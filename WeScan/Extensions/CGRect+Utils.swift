@@ -24,4 +24,13 @@ extension CGRect {
         return translatedRect
     }
     
+    /// Returns a new `CGRect` instance with the same center, with its width and height offset by the passed in value.
+    ///
+    /// - Parameters:
+    ///   - offset: The number of points the rect should be shrinked or expanded by
+    /// - Returns: A new instanec of `CGRect` shrinked or expanded by the number of points passed in.
+    func expandRect(byOffset offset: CGFloat) -> CGRect {
+        return CGRect(x: origin.x - offset / 2.0, y: origin.y - offset / 2.0, width: width + offset, height: height + offset)
+    }
+    
 }

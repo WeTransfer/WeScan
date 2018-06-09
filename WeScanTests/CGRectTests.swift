@@ -31,4 +31,20 @@ final class CGRectTests: XCTestCase {
         XCTAssert(rect == expectedRect)
     }
     
+    func testExpandRect() {
+        var originalRect = CGRect(x: 0.0, y: 0.0, width: 100.0, height: 100.0)
+        var expandedRect = originalRect.expandRect(byOffset: 2)
+        var expectedRect = CGRect(x: -1.0, y: -1.0, width: 102.0, height: 102.0)
+        
+        XCTAssert(expandedRect == expectedRect)
+        XCTAssert(CGPoint(x: originalRect.midX, y: originalRect.midY) == CGPoint(x: expandedRect.midX, y: expandedRect.midY))
+        
+        originalRect = CGRect(x: 100.0, y: 100.0, width: 200.0, height: 200.0)
+        expandedRect = originalRect.expandRect(byOffset: -1)
+        expectedRect = CGRect(x: 100.5, y: 100.5, width: 199.0, height: 199.0)
+        
+        XCTAssert(expandedRect == expectedRect)
+        XCTAssert(CGPoint(x: originalRect.midX, y: originalRect.midY) == CGPoint(x: expandedRect.midX, y: expandedRect.midY))
+    }
+    
 }
