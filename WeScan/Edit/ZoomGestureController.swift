@@ -23,7 +23,6 @@ final class ZoomGestureController {
     private var closestCorner: CornerPosition?
     
     @objc func handle(pan: UIGestureRecognizer) {
-        print("GO")
         guard let drawnQuad = quadView.quad else {
             return
         }
@@ -36,8 +35,6 @@ final class ZoomGestureController {
         }
         
         let position = pan.location(in: quadView)
-        print(position)
-        handleTapAtPosition(position: position)
         
         let previousPanPosition = self.previousPanPosition ?? position
         let closestCorner = self.closestCorner ?? position.closestCornerFrom(quad: drawnQuad)
@@ -58,18 +55,6 @@ final class ZoomGestureController {
         }
         
         quadView.highlight(position: closestCorner, with: zoomedImage)
-    }
-    
-    @objc func handle(tap: UITapGestureRecognizer) {
-        guard let drawnQuad = quadView.quad else {
-            return
-        }
-
-        
-    }
-    
-    private func handleTapAtPosition(position: CGPoint) {
-        
     }
 
 }

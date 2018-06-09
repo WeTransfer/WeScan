@@ -20,7 +20,24 @@ enum CornerPosition {
 /// The `QuadrilateralView` is a simple `UIView` subclass that can draw a quadrilateral, and optionally edit it.
 final class QuadrilateralView: UIView {
     
-    private let quadLayer = CAShapeLayer()
+    private let quadLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.strokeColor = UIColor.white.cgColor
+        layer.lineWidth = 1.0
+        layer.opacity = 1.0
+        layer.isHidden = true
+        
+        return layer
+    }()
+    
+    /// We want the corner views to be displayed under the outline of the quadrilateral.
+    /// Because of that, we need the quadrilateral to be drawn on a UIView above them.
+    private let quadView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     /// The quadrilateral drawn on the view.
     private(set) var quad: Quadrilateral?
@@ -28,11 +45,22 @@ final class QuadrilateralView: UIView {
     public var editable = false {
         didSet {
             editable == true ? showCornerViews() : hideCornerViews()
+            quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
             guard let quad = quad else {
                 return
             }
             drawQuad(quad, animated: false)
             layoutCornerViews(forQuad: quad)
+        }
+    }
+    
+    private var isHighlighted = false {
+        didSet (oldValue) {
+            guard oldValue != isHighlighted else {
+                return
+            }
+            quadLayer.fillColor = isHighlighted ? UIColor.clear.cgColor : UIColor(white: 0.0, alpha: 0.6).cgColor
+            isHighlighted ? bringSubview(toFront: quadView) : sendSubview(toBack: quadView)
         }
     }
     
@@ -67,8 +95,21 @@ final class QuadrilateralView: UIView {
     }
     
     private func commonInit() {
-        layer.addSublayer(quadLayer)
+        addSubview(quadView)
         setupCornerViews()
+        setupConstraints()
+        quadView.layer.addSublayer(quadLayer)
+    }
+    
+    private func setupConstraints() {
+        let quadViewConstraints = [
+            quadView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            quadView.topAnchor.constraint(equalTo: topAnchor),
+            trailingAnchor.constraint(equalTo: quadView.trailingAnchor),
+            bottomAnchor.constraint(equalTo: quadView.bottomAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(quadViewConstraints)
     }
     
     private func setupCornerViews() {
@@ -121,10 +162,6 @@ final class QuadrilateralView: UIView {
         }
         
         quadLayer.path = path.cgPath
-        quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
-        quadLayer.strokeColor = UIColor.white.cgColor
-        quadLayer.lineWidth = 2.0
-        quadLayer.opacity = 1.0
         quadLayer.isHidden = false
     }
     
@@ -160,6 +197,7 @@ final class QuadrilateralView: UIView {
         guard editable else {
             return
         }
+        isHighlighted = true
         
         let cornerView = cornerViewForCornerPosition(position: position)
         guard cornerView.isHighlighted == false else {
@@ -172,6 +210,7 @@ final class QuadrilateralView: UIView {
     }
     
     func resetHighlightedCornerViews() {
+        isHighlighted = false
         resetHighlightedCornerViews(cornerViews: [topLeftCornerView, topRightCornerView, bottomLeftCornerView, bottomRightCornerView])
     }
     
