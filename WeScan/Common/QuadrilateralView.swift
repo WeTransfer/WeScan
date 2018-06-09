@@ -205,7 +205,7 @@ final class QuadrilateralView: UIView {
             return
         }
         
-        cornerView.frame = CGRect(x: cornerView.frame.origin.x - highlightedCornerViewSize / 2.0, y: cornerView.frame.origin.y - highlightedCornerViewSize / 2.0, width: highlightedCornerViewSize, height: highlightedCornerViewSize)
+        cornerView.frame = CGRect(x: cornerView.frame.origin.x - (highlightedCornerViewSize - cornerViewSize) / 2.0, y: cornerView.frame.origin.y - (highlightedCornerViewSize - cornerViewSize) / 2.0, width: highlightedCornerViewSize, height: highlightedCornerViewSize)
         cornerView.highlightWithImage(image: image)
     }
     
