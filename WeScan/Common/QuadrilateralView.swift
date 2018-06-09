@@ -187,13 +187,13 @@ final class QuadrilateralView: UIView {
         let validPoint = self.validPoint(point, forCornerViewOfSize: cornerView.bounds.size, inView: self)
         
         cornerView.center = validPoint
-        let updatedQuad = updated(quad, withPosition: validPoint, forCorner: cornerView.position)
+        let updatedQuad = update(quad, withPosition: validPoint, forCorner: cornerView.position)
         
         self.quad = updatedQuad
         drawQuad(updatedQuad, animated: false)
     }
     
-    func highlight(position: CornerPosition, with image: UIImage) {
+    func highlightCornerAtPosition(position: CornerPosition, with image: UIImage) {
         guard editable else {
             return
         }
@@ -269,7 +269,7 @@ final class QuadrilateralView: UIView {
         bottomLeftCornerView.isHidden = false
     }
     
-    private func updated(_ quad: Quadrilateral, withPosition position: CGPoint, forCorner corner: CornerPosition) -> Quadrilateral {
+    private func update(_ quad: Quadrilateral, withPosition position: CGPoint, forCorner corner: CornerPosition) -> Quadrilateral {
         var quad = quad
         
         switch corner {

@@ -54,7 +54,7 @@ final class ZoomGestureController {
             return
         }
         
-        quadView.highlight(position: closestCorner, with: zoomedImage)
+        quadView.highlightCornerAtPosition(position: closestCorner, with: zoomedImage)
     }
 
 }
