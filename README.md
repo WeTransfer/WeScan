@@ -28,6 +28,8 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 - [x] Live scanning of documents
 - [x] Edit detected rectangle
+- [x] Fast
+- [x] Lightweight dependency
 - [ ] Batch scanning
 
 ## Example
