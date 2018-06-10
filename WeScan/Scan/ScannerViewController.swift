@@ -115,6 +115,7 @@ final class ScannerViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
+        (navigationController as? ImageScannerController)?.flashToBlack()
         captureSessionManager?.capturePhoto()
     }
     
