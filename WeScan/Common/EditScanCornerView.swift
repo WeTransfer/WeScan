@@ -59,8 +59,8 @@ final class EditScanCornerView: UIView {
     
     func reset() {
         isHighlighted = false
-        self.image = nil
-        self.setNeedsDisplay()
+        image = nil
+        setNeedsDisplay()
     }
     
 }
