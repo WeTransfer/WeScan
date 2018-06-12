@@ -75,10 +75,10 @@ public final class ImageScannerController: UINavigationController {
     
     private func setupConstraints() {
         let blackFlashViewConstraints = [
-            blackFlashView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             blackFlashView.topAnchor.constraint(equalTo: view.topAnchor),
-            view.trailingAnchor.constraint(equalTo: blackFlashView.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: blackFlashView.bottomAnchor)
+            blackFlashView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            view.bottomAnchor.constraint(equalTo: blackFlashView.bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: blackFlashView.trailingAnchor)
         ]
         
         NSLayoutConstraint.activate(blackFlashViewConstraints)
