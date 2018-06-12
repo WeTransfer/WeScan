@@ -45,7 +45,7 @@ final class EditScanCornerView: UIView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        let bezierPath = UIBezierPath(ovalIn: rect.expandRect(byOffset: -circleLayer.lineWidth))
+        let bezierPath = UIBezierPath(ovalIn: rect.insetBy(dx: circleLayer.lineWidth, dy: circleLayer.lineWidth))
         circleLayer.frame = rect
         circleLayer.path = bezierPath.cgPath
         
