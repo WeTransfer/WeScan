@@ -114,7 +114,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         let rectangleFeatureType2 = ImageFeatureTestHelpers.getRectangleFeature(from: .rect2)
         
         for i in 0 ..< rectangleFeaturesType1.count {
-            funnel.add(rectangleFeaturesType1[i], currentlyDisplayedRectangle: nil, completion: { (rectange) in
+            funnel.add(rectangleFeaturesType1[i], currentlyDisplayedRectangle: nil, completion: { _ in
             })
         }
         

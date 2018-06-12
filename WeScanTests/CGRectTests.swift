@@ -30,5 +30,5 @@ final class CGRectTests: XCTestCase {
         
         XCTAssert(rect == expectedRect)
     }
-    
+
 }

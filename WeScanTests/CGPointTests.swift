@@ -36,4 +36,17 @@ final class CGPointTests: XCTestCase {
         XCTAssert(point1.isWithin(delta: 0.9, ofPoint: point2) == false)
     }
     
+    func testDistanceTo() {
+        var point1 = CGPoint(x: 0.0, y: 0.0)
+        var point2 = CGPoint(x: 10.0, y: 10.0)
+        
+        var distance = point1.distanceTo(point: point2)
+        XCTAssertTrue(distance == 14.142135623730951)
+        
+        point1 = CGPoint(x: -1, y: 3)
+        point2 = CGPoint(x: 3, y: -4)
+        distance = point1.distanceTo(point: point2)
+        XCTAssertTrue(distance == 8.06225774829855)
+    }
+
 }

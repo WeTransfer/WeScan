@@ -76,6 +76,7 @@ final class ScannerViewController: UIViewController {
     private func setupViews() {
         view.layer.addSublayer(videoPreviewlayer)
         quadView.translatesAutoresizingMaskIntoConstraints = false
+        quadView.editable = false
         view.addSubview(quadView)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
