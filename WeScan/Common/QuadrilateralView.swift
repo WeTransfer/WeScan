@@ -103,10 +103,10 @@ final class QuadrilateralView: UIView {
     
     private func setupConstraints() {
         let quadViewConstraints = [
-            quadView.leadingAnchor.constraint(equalTo: leadingAnchor),
             quadView.topAnchor.constraint(equalTo: topAnchor),
-            trailingAnchor.constraint(equalTo: quadView.trailingAnchor),
-            bottomAnchor.constraint(equalTo: quadView.bottomAnchor)
+            quadView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomAnchor.constraint(equalTo: quadView.bottomAnchor),
+            trailingAnchor.constraint(equalTo: quadView.trailingAnchor)
         ]
         
         NSLayoutConstraint.activate(quadViewConstraints)
