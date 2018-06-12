@@ -116,6 +116,8 @@ final class ScannerViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
+        (navigationController as? ImageScannerController)?.flashToBlack()
+        shutterButton.isUserInteractionEnabled = false
         captureSessionManager?.capturePhoto()
     }
     
