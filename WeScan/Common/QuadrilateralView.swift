@@ -201,12 +201,12 @@ final class QuadrilateralView: UIView {
         
         let cornerView = cornerViewForCornerPosition(position: position)
         guard cornerView.isHighlighted == false else {
-            cornerView.highlightWithImage(image: image)
+            cornerView.highlightWithImage(image)
             return
         }
         
         cornerView.frame = CGRect(x: cornerView.frame.origin.x - (highlightedCornerViewSize - cornerViewSize) / 2.0, y: cornerView.frame.origin.y - (highlightedCornerViewSize - cornerViewSize) / 2.0, width: highlightedCornerViewSize, height: highlightedCornerViewSize)
-        cornerView.highlightWithImage(image: image)
+        cornerView.highlightWithImage(image)
     }
     
     func resetHighlightedCornerViews() {

@@ -52,7 +52,7 @@ final class EditScanCornerView: UIView {
         image?.draw(in: rect)
     }
     
-    func highlightWithImage(image: UIImage) {
+    func highlightWithImage(_ image: UIImage) {
         isHighlighted = true
         self.image = image
         self.setNeedsDisplay()
