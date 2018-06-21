@@ -98,17 +98,3 @@ public final class ImageScannerController: UINavigationController {
     }
     
 }
-
-/// Data structure containing information about a scan.
-public struct ImageScannerResults {
-    
-    /// The original image taken by the user.
-    public var originalImage: UIImage
-    
-    /// The deskewed and cropped orignal image using the detected rectangle.
-    public var scannedImage: UIImage
-    
-    /// The detected rectangle which was used to generate the `scannedImage`.
-    public var detectedRectangle: Quadrilateral
-    
-}
