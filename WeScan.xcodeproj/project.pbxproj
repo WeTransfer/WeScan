@@ -41,6 +41,9 @@
 		A1DF90F22035992A00841A11 /* CGAffineTransform+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90F12035992A00841A11 /* CGAffineTransform+Utils.swift */; };
 		A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90F52037187500841A11 /* UIImage+Orientation.swift */; };
 		A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90FC203B412600841A11 /* CGPointTests.swift */; };
+		A1E2231A20D4036700660899 /* ImageScannerResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E2231920D4036700660899 /* ImageScannerResults.swift */; };
+		A1E2242020DC408600660899 /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E2241F20DC408600660899 /* ScanOperation.swift */; };
+		A1E2242220DC48E300660899 /* ScanOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E2242120DC48E300660899 /* ScanOperationTests.swift */; };
 		A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E98202C7B66001723AD /* QuadrilateralView.swift */; };
 		A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E9E202C8D70001723AD /* Quadrilateral.swift */; };
 		A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */; };
@@ -129,6 +132,9 @@
 		A1DF90F12035992A00841A11 /* CGAffineTransform+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGAffineTransform+Utils.swift"; sourceTree = "<group>"; };
 		A1DF90F52037187500841A11 /* UIImage+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
 		A1DF90FC203B412600841A11 /* CGPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointTests.swift; sourceTree = "<group>"; };
+		A1E2231920D4036700660899 /* ImageScannerResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScannerResults.swift; sourceTree = "<group>"; };
+		A1E2241F20DC408600660899 /* ScanOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
+		A1E2242120DC48E300660899 /* ScanOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanOperationTests.swift; sourceTree = "<group>"; };
 		A1F22E98202C7B66001723AD /* QuadrilateralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
 		A1F22E9E202C8D70001723AD /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
 		A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIRectangleFeature+Utils.swift"; sourceTree = "<group>"; };
@@ -248,6 +254,7 @@
 				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
 				A14089ED204EAA180009530F /* ArrayTests.swift */,
 				C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */,
+				A1E2242120DC48E300660899 /* ScanOperationTests.swift */,
 			);
 			path = WeScanTests;
 			sourceTree = "<group>";
@@ -283,6 +290,7 @@
 				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
 				A11C5B9B2046A20C005075FE /* Error.swift */,
 				A14089B9204D92EA0009530F /* EditScanCornerView.swift */,
+				A1E2231920D4036700660899 /* ImageScannerResults.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -295,6 +303,7 @@
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 				A165F67D2044741B002D5ED6 /* ShutterButton.swift */,
 				A1C4DD51204554F800D36684 /* CloseButton.swift */,
+				A1E2241F20DC408600660899 /* ScanOperation.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -498,9 +507,11 @@
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,
 				A11C5B9C2046A20C005075FE /* Error.swift in Sources */,
 				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
+				A1E2231A20D4036700660899 /* ImageScannerResults.swift in Sources */,
 				C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */,
 				A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */,
 				A1C4DD52204554F800D36684 /* CloseButton.swift in Sources */,
+				A1E2242020DC408600660899 /* ScanOperation.swift in Sources */,
 				A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */,
 				A14089BA204D92EA0009530F /* EditScanCornerView.swift in Sources */,
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
@@ -521,6 +532,7 @@
 				A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */,
 				A1C4DD502044B1D500D36684 /* CGRectTests.swift in Sources */,
 				A11C5CD920495EA1005075FE /* RectangleFeaturesFunnelTests.swift in Sources */,
+				A1E2242220DC48E300660899 /* ScanOperationTests.swift in Sources */,
 				A14089EE204EAA180009530F /* ArrayTests.swift in Sources */,
 				A1DF90C32034919400841A11 /* QuadrilateralTests.swift in Sources */,
 				A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */,

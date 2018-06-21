@@ -50,9 +50,9 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(image: UIImage, quad: Quadrilateral?) {
+    init(image: UIImage, quad: Quadrilateral) {
         self.image = image.applyingPortraitOrientation()
-        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        self.quad = quad
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -70,7 +70,7 @@ final class EditScanViewController: UIViewController {
         
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
         
-        let touchDown = UILongPressGestureRecognizer(target:zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
+        let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
         touchDown.minimumPressDuration = 0
         view.addGestureRecognizer(touchDown)
     }
@@ -151,10 +151,10 @@ final class EditScanViewController: UIViewController {
             uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         }
         
-        let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
-        let reviewViewController = ReviewViewController(results: results)
-        
-        navigationController?.pushViewController(reviewViewController, animated: true)
+//        let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
+//        let reviewViewController = ReviewViewController(results: results)
+//        
+//        navigationController?.pushViewController(reviewViewController, animated: true)
     }
 
     private func displayQuad() {
@@ -174,18 +174,6 @@ final class EditScanViewController: UIViewController {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
         quadViewWidthConstraint.constant = frame.size.width
         quadViewHeightConstraint.constant = frame.size.height
-    }
-    
-    /// Generates a `Quadrilateral` object that's centered and one third of the size of the passed in image.
-    private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
-        let topLeft = CGPoint(x: image.size.width / 3.0, y: image.size.height / 3.0)
-        let topRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: image.size.height / 3.0)
-        let bottomRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-        let bottomLeft = CGPoint(x: image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-        
-        let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        
-        return quad
     }
 
 }

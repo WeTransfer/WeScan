@@ -37,12 +37,24 @@ final class ScannerViewController: UIViewController {
         button.addTarget(self, action: #selector(cancelImageScannerController(_:)), for: .touchUpInside)
         return button
     }()
-
+    
+    lazy private var scansButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.alpha = 0.0
+        button.layer.cornerRadius = 5.0
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.1
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor.green
+        button.imageView?.contentMode = .scaleAspectFill
+        return button
+    }()
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
 
@@ -80,6 +92,7 @@ final class ScannerViewController: UIViewController {
         view.addSubview(quadView)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
+        view.addSubview(scansButton)
     }
     
     private func setupConstraints() {
@@ -110,7 +123,14 @@ final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints)
+        let scansButtonConstraints = [
+            scansButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15.0),
+            view.bottomAnchor.constraint(equalTo: scansButton.bottomAnchor, constant: 15.0),
+            scansButton.widthAnchor.constraint(equalToConstant: 44.0),
+            scansButton.heightAnchor.constraint(equalToConstant: 44.0)
+        ]
+        
+        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints + scansButtonConstraints)
     }
     
     // MARK: - Actions
@@ -147,16 +167,30 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
-        
-        let editVC = EditScanViewController(image: picture, quad: quad)
-        navigationController?.pushViewController(editVC, animated: false)
-        
         shutterButton.isUserInteractionEnabled = true
+        
+        scansButton.alpha = 1.0
+        scansButton.setImage(picture, for: .normal)
+        
+        let quad = quad ?? Quadrilateral.defaultQuad(forImage: picture)
+        let result = ImageScannerResults(originalImage: picture, detectedRectangle: quad)
+        DispatchQueue.global(qos: .background).async {
+            do {
+                try result.generateScannedImage()
+            } catch {
+                guard let imageScannerController = self.navigationController as? ImageScannerController else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
+                }
+            }
+        }
     }
         
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize) {
         guard let quad = quad else {
-            // If no quad has been detected, we remove the currently displayed on on the quadView.
+            // If no quad has been detected, we remove the currently displayed one on the quadView.
             quadView.removeQuadrilateral()
             return
         }
