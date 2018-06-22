@@ -15,6 +15,9 @@ final class ScannerViewController: UIViewController {
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
     
+    private var results = [ImageScannerResults]()
+    private let scanOperationQueue = OperationQueue()
+    
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
     
@@ -173,19 +176,12 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         scansButton.setImage(picture, for: .normal)
         
         let quad = quad ?? Quadrilateral.defaultQuad(forImage: picture)
+        
         let result = ImageScannerResults(originalImage: picture, detectedRectangle: quad)
-        DispatchQueue.global(qos: .background).async {
-            do {
-                try result.generateScannedImage()
-            } catch {
-                guard let imageScannerController = self.navigationController as? ImageScannerController else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
-                }
-            }
-        }
+        results.append(result)
+        
+        let scanOperation = ScanOperation(withResults: result)
+        scanOperationQueue.addOperation(scanOperation)
     }
         
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize) {
