@@ -56,10 +56,11 @@ final class ScanOperation: Operation {
     
     private func execute(completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            try? self?.imageScannerResults.generateScannedImage()
-            DispatchQueue.main.async {
-                completion()
-            }
+            try? self?.imageScannerResults.generateScannedImage(completion: {
+                DispatchQueue.main.async {
+                    completion()
+                }
+            })
         }
     }
     
