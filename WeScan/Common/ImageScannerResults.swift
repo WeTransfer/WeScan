@@ -25,7 +25,7 @@ public class ImageScannerResults: NSObject {
         super.init()
     }
     
-    internal func generateScannedImage() throws {
+    internal func generateScannedImage(completion: (() -> Void)?) throws {
         guard let ciImage = CIImage(image: originalImage) else {
             let error = ImageScannerControllerError.ciImageCreation
             throw(error)
@@ -51,6 +51,7 @@ public class ImageScannerResults: NSObject {
         }
         
         scannedImage = uiImage
+        completion?()
     }
     
 }
