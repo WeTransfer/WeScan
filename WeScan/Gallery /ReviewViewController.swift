@@ -22,14 +22,7 @@ final class ReviewViewController: UIViewController {
         return imageView
     }()
     
-    lazy private var doneButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.review.button.done", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Done", comment: "A generic done button")
-        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(finishScan))
-        button.tintColor = navigationController?.navigationBar.tintColor
-        return button
-    }()
-    
-    private let results: ImageScannerResults
+    let results: ImageScannerResults
     
     // MARK: - Life Cycle
     
@@ -45,12 +38,9 @@ final class ReviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupViews()
         setupConstraints()
-        
-        title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
-        navigationItem.rightBarButtonItem = doneButton
     }
     
     // MARK: Setups
@@ -68,14 +58,6 @@ final class ReviewViewController: UIViewController {
         ]
         
         NSLayoutConstraint.activate(imageViewConstraints)
-    }
-    
-    // MARK: - Actions
-    
-    @objc private func finishScan() {
-        if let imageScannerController = navigationController as? ImageScannerController {
-            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
-        }
     }
 
 }

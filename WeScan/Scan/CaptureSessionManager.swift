@@ -233,7 +233,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
     private func completeImageCapture(with imageData: Data) {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let image = UIImage(data: imageData) else {
+            guard let image = UIImage(data: imageData)?.applyingPortraitOrientation() else {
                 let error = ImageScannerControllerError.capture
                 DispatchQueue.main.async {
                     guard let strongSelf = self else {
@@ -244,19 +244,9 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
                 return
             }
             
-            var angle: CGFloat = 0.0
-            
-            switch image.imageOrientation {
-            case .right:
-                angle = CGFloat.pi / 2
-            case .up:
-                angle = CGFloat.pi
-            default:
-                break
-            }
-                        
             var quad: Quadrilateral?
             if let displayedRectangleResult = self?.displayedRectangleResult {
+                let angle: CGFloat = CGFloat.pi / 2
                 quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
                 quad = quad?.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
             }
@@ -265,6 +255,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
                 guard let strongSelf = self else {
                     return
                 }
+                
                 strongSelf.delegate?.captureSessionManager(strongSelf, didCapturePicture: image, withQuad: quad)
             }
         }

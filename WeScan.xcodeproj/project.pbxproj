@@ -52,6 +52,7 @@
 		A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22ECD2031937E001723AD /* EditScanViewController.swift */; };
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
+		C3B4164120DD8CA700D490F9 /* ScanGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B4164020DD8CA700D490F9 /* ScanGalleryViewController.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -143,6 +144,7 @@
 		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
+		C3B4164020DD8CA700D490F9 /* ScanGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanGalleryViewController.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,14 +183,6 @@
 				A194E96E2042BD77003493E2 /* Rectangle.jpg */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		A194E97020431DB1003493E2 /* Review */ = {
-			isa = PBXGroup;
-			children = (
-				A194E97120431DD7003493E2 /* ReviewViewController.swift */,
-			);
-			path = Review;
 			sourceTree = "<group>";
 		};
 		A1D4BCAE202C4F3800FCDDEC = {
@@ -230,8 +224,8 @@
 				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
 				A1DF90E220358C9E00841A11 /* Protocols */,
 				A1F22ECF203199E7001723AD /* Scan */,
+				C3B4163F20DD8C7700D490F9 /* Gallery  */,
 				A1F22ED020319A03001723AD /* Edit */,
-				A194E97020431DB1003493E2 /* Review */,
 				A1D4BD11202C6C7900FCDDEC /* Extensions */,
 				A1DF90F720371A0800841A11 /* Common */,
 				A1D4BCEF202C4F4100FCDDEC /* WeScan.h */,
@@ -315,6 +309,15 @@
 				C31DD8A220C087D80072D439 /* ZoomGestureController.swift */,
 			);
 			path = Edit;
+			sourceTree = "<group>";
+		};
+		C3B4163F20DD8C7700D490F9 /* Gallery  */ = {
+			isa = PBXGroup;
+			children = (
+				C3B4164020DD8CA700D490F9 /* ScanGalleryViewController.swift */,
+				A194E97120431DD7003493E2 /* ReviewViewController.swift */,
+			);
+			path = "Gallery ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -516,6 +519,7 @@
 				A14089BA204D92EA0009530F /* EditScanCornerView.swift in Sources */,
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
 				C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */,
+				C3B4164120DD8CA700D490F9 /* ScanGalleryViewController.swift in Sources */,
 				A1C4DD4E2044ADE600D36684 /* CGRect+Utils.swift in Sources */,
 				A1DF90A420331A0B00841A11 /* RectangleDetector.swift in Sources */,
 				A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */,

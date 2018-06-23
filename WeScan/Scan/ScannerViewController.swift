@@ -50,6 +50,7 @@ final class ScannerViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor.green
         button.imageView?.contentMode = .scaleAspectFill
+        button.addTarget(self, action: #selector(pushGalleryViewController(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -148,6 +149,11 @@ final class ScannerViewController: UIViewController {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
         }
+    }
+    
+    @objc private func pushGalleryViewController(_ sender: UIButton) {
+        let galleryViewController = ScanGalleryViewController(with: results)
+        navigationController?.pushViewController(galleryViewController, animated: true)
     }
 
 }
