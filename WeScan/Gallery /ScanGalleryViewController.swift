@@ -8,9 +8,25 @@
 
 import UIKit
 
-class ScanGalleryViewController: UIPageViewController {
+protocol ScanGalleryDelegateProtocol: NSObjectProtocol {
     
-    let results: [ImageScannerResults]
+    func didUpdateResults(results: [ImageScannerResults])
+    
+}
+
+final class ScanGalleryViewController: UIPageViewController {
+    
+    var results: [ImageScannerResults]
+    
+    weak var scanGalleryDelegate: ScanGalleryDelegateProtocol?
+    
+    let deleteButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(deleteCurrentImage(_:)), for: .touchUpInside)
+        button.backgroundColor = UIColor.green
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     init(with results: [ImageScannerResults]) {
         self.results = results
@@ -30,8 +46,43 @@ class ScanGalleryViewController: UIPageViewController {
         
         dataSource = self
         
+        view.addSubview(deleteButton)
+        setupConstraints()
+        
         let viewController = ReviewViewController(results: result)
         setViewControllers([viewController], direction: .forward, animated: false, completion: nil)
+    }
+    
+    private func setupConstraints() {
+        let deleteButtonConstraints = [
+            deleteButton.heightAnchor.constraint(equalToConstant: 44.0),
+            deleteButton.widthAnchor.constraint(lessThanOrEqualToConstant: 44.0),
+            view.trailingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: 10.0),
+            view.bottomAnchor.constraint(equalTo: deleteButton.bottomAnchor, constant: 10.0)
+        ]
+        
+        NSLayoutConstraint.activate(deleteButtonConstraints)
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func deleteCurrentImage(_ sender: Any?) {
+        guard let currentReviewViewController = viewControllers?.first as? ReviewViewController,
+        let index = results.index(of: currentReviewViewController.results) else {
+            return
+        }
+        
+        results.remove(at: index)
+        scanGalleryDelegate?.didUpdateResults(results: results)
+
+        guard results.isEmpty == false else {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        let viewController = ReviewViewController(results: results[max(index - 1, 0)])
+        let direction = (index > 0) ? UIPageViewControllerNavigationDirection.reverse : UIPageViewControllerNavigationDirection.forward
+        setViewControllers([viewController], direction: direction, animated: true, completion: nil)
     }
 
 }
@@ -39,8 +90,8 @@ class ScanGalleryViewController: UIPageViewController {
 extension ScanGalleryViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? ReviewViewController,
-        let index = results.index(of: viewController.results),
+        guard let reviewViewController = viewController as? ReviewViewController,
+        let index = results.index(of: reviewViewController.results),
         index > 0 else {
             return nil
         }
@@ -49,8 +100,8 @@ extension ScanGalleryViewController: UIPageViewControllerDataSource {
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? ReviewViewController,
-            let index = results.index(of: viewController.results),
+        guard let reviewViewController = viewController as? ReviewViewController,
+            let index = results.index(of: reviewViewController.results),
             index < results.count - 1 else {
                 return nil
         }

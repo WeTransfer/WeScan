@@ -137,6 +137,16 @@ final class ScannerViewController: UIViewController {
         NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints + scansButtonConstraints)
     }
     
+    private func updateScansButton() {
+        guard let image = results.last?.originalImage else {
+            scansButton.alpha = 0.0
+            return
+        }
+        
+        scansButton.alpha = 1.0
+        scansButton.setImage(image, for: .normal)
+    }
+    
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
@@ -153,6 +163,7 @@ final class ScannerViewController: UIViewController {
     
     @objc private func pushGalleryViewController(_ sender: UIButton) {
         let galleryViewController = ScanGalleryViewController(with: results)
+        galleryViewController.scanGalleryDelegate = self
         navigationController?.pushViewController(galleryViewController, animated: true)
     }
 
@@ -178,13 +189,13 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         activityIndicator.stopAnimating()
         shutterButton.isUserInteractionEnabled = true
         
-        scansButton.alpha = 1.0
-        scansButton.setImage(picture, for: .normal)
         
         let quad = quad ?? Quadrilateral.defaultQuad(forImage: picture)
         
         let result = ImageScannerResults(originalImage: picture, detectedRectangle: quad)
         results.append(result)
+        
+        updateScansButton()
         
         let scanOperation = ScanOperation(withResults: result)
         scanOperationQueue.addOperation(scanOperation)
@@ -212,6 +223,15 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         let transformedQuad = quad.applyTransforms(transforms)
         
         quadView.drawQuadrilateral(quad: transformedQuad, animated: true)
+    }
+    
+}
+
+extension ScannerViewController: ScanGalleryDelegateProtocol {
+    
+    func didUpdateResults(results: [ImageScannerResults]) {
+        self.results = results
+        updateScansButton()
     }
     
 }
