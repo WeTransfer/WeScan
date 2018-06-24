@@ -21,6 +21,7 @@ final class ScanGalleryViewController: UIPageViewController {
     weak var scanGalleryDelegate: ScanGalleryDelegateProtocol?
     
     let deleteButton: UIButton = {
+        // TODO: Use actual design
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(deleteCurrentImage(_:)), for: .touchUpInside)
         button.backgroundColor = UIColor.green
