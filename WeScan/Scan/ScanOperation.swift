@@ -11,9 +11,9 @@ import UIKit
 final class ScanOperation: Operation {
     
     @objc enum OperationState: Int {
-        case Ready
-        case Executing
-        case Finished
+        case ready
+        case executing
+        case finished
     }
     
     let imageScannerResults: ImageScannerResults
@@ -25,25 +25,25 @@ final class ScanOperation: Operation {
     }
     
     override var isReady: Bool {
-        return state == .Ready
+        return state == .ready
     }
     
     override var isExecuting: Bool {
-        return state == .Executing
+        return state == .executing
     }
     
     override var isFinished: Bool {
-        return state == .Finished
+        return state == .finished
     }
     
     required init(withResults imageScannerResults: ImageScannerResults) {
-        self.state = .Ready
+        self.state = .ready
         self.imageScannerResults = imageScannerResults
         super.init()
     }
     
     override func start() {
-        self.state = .Executing
+        self.state = .executing
         guard isCancelled == false else {
             finish()
             return
@@ -65,7 +65,7 @@ final class ScanOperation: Operation {
     }
     
     private func finish() {
-        state = .Finished
+        state = .finished
         completionBlock?()
     }
     
