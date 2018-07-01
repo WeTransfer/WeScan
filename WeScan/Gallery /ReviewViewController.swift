@@ -43,6 +43,10 @@ final class ReviewViewController: UIViewController {
         setupConstraints()
     }
     
+    func reloadImage() {
+        imageView.image = results.scannedImage
+    }
+    
     // MARK: Setups
     
     private func setupViews() {

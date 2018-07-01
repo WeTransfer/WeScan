@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol ImageScannerResultsDelegateProtocol: NSObjectProtocol {
+    
+    func didUpdateResults(results: [ImageScannerResults])
+    
+}
+
 public class ImageScannerResults: NSObject {
     
     /// The original image taken by the user.

@@ -227,7 +227,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
 }
 
-extension ScannerViewController: ScanGalleryDelegateProtocol {
+extension ScannerViewController: ImageScannerResultsDelegateProtocol {
     
     func didUpdateResults(results: [ImageScannerResults]) {
         self.results = results

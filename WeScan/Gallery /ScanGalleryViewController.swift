@@ -8,23 +8,26 @@
 
 import UIKit
 
-protocol ScanGalleryDelegateProtocol: NSObjectProtocol {
-    
-    func didUpdateResults(results: [ImageScannerResults])
-    
-}
-
 final class ScanGalleryViewController: UIPageViewController {
     
     var results: [ImageScannerResults]
     
-    weak var scanGalleryDelegate: ScanGalleryDelegateProtocol?
+    weak var scanGalleryDelegate: ImageScannerResultsDelegateProtocol?
     
     let deleteButton: UIButton = {
         // TODO: Use actual design
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(deleteCurrentImage(_:)), for: .touchUpInside)
         button.backgroundColor = UIColor.green
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let editButton: UIButton = {
+        // TODO: Use actual design
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(editCurrentImage(_:)), for: .touchUpInside)
+        button.backgroundColor = UIColor.purple
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -48,6 +51,7 @@ final class ScanGalleryViewController: UIPageViewController {
         dataSource = self
         
         view.addSubview(deleteButton)
+        view.addSubview(editButton)
         setupConstraints()
         
         let viewController = ReviewViewController(results: result)
@@ -62,7 +66,14 @@ final class ScanGalleryViewController: UIPageViewController {
             view.bottomAnchor.constraint(equalTo: deleteButton.bottomAnchor, constant: 10.0)
         ]
         
-        NSLayoutConstraint.activate(deleteButtonConstraints)
+        let editButtonConstraints = [
+            editButton.heightAnchor.constraint(equalToConstant: 44.0),
+            editButton.widthAnchor.constraint(lessThanOrEqualToConstant: 44.0),
+            deleteButton.leadingAnchor.constraint(equalTo: editButton.trailingAnchor, constant: 10.0),
+            view.bottomAnchor.constraint(equalTo: editButton.bottomAnchor, constant: 10.0)
+        ]
+        
+        NSLayoutConstraint.activate(deleteButtonConstraints + editButtonConstraints)
     }
     
     // MARK: - Actions
@@ -84,6 +95,17 @@ final class ScanGalleryViewController: UIPageViewController {
         let viewController = ReviewViewController(results: results[max(index - 1, 0)])
         let direction = (index > 0) ? UIPageViewControllerNavigationDirection.reverse : UIPageViewControllerNavigationDirection.forward
         setViewControllers([viewController], direction: direction, animated: true, completion: nil)
+    }
+    
+    @objc private func editCurrentImage(_ sender: Any?) {
+        guard let currentReviewViewController = viewControllers?.first as? ReviewViewController else {
+                return
+        }
+
+        let editViewController = EditScanViewController(result: currentReviewViewController.results)
+        editViewController.delegate = self
+        editViewController.modalTransitionStyle = .crossDissolve
+        present(editViewController, animated: true, completion: nil)
     }
 
 }
@@ -108,6 +130,18 @@ extension ScanGalleryViewController: UIPageViewControllerDataSource {
         }
         
         return ReviewViewController(results: results[index + 1])
+    }
+    
+}
+
+extension ScanGalleryViewController: ImageScannerResultsDelegateProtocol {
+    
+    func didUpdateResults(results: [ImageScannerResults]) {
+        guard let currentReviewViewController = viewControllers?.first as? ReviewViewController else {
+            return
+        }
+        
+        currentReviewViewController.reloadImage()
     }
     
 }
