@@ -147,6 +147,16 @@ final class ScannerViewController: UIViewController {
         scansButton.setImage(image, for: .normal)
     }
     
+    private func enableUserInterface() {
+        scansButton.isUserInteractionEnabled = true
+        shutterButton.isUserInteractionEnabled = true
+    }
+    
+    private func disableUserInterface() {
+        scansButton.isUserInteractionEnabled = false
+        shutterButton.isUserInteractionEnabled = false
+    }
+    
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
@@ -171,9 +181,8 @@ final class ScannerViewController: UIViewController {
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error) {
-        
         activityIndicator.stopAnimating()
-        shutterButton.isUserInteractionEnabled = true
+        enableUserInterface()
         
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
@@ -182,13 +191,13 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {
         activityIndicator.startAnimating()
-        shutterButton.isUserInteractionEnabled = false
+        quadView.removeQuadrilateral()
+        disableUserInterface()
     }
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
-        shutterButton.isUserInteractionEnabled = true
-        
+        enableUserInterface()
         
         let quad = quad ?? Quadrilateral.defaultQuad(forImage: picture)
         

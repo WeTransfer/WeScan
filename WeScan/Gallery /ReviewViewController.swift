@@ -15,20 +15,27 @@ final class ReviewViewController: UIViewController {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
-        imageView.image = results.scannedImage
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
+    lazy private var activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.hidesWhenStopped = true
+        return activityIndicatorView
+    }()
+    
     let results: ImageScannerResults
+    
+    var resultsObservation: NSKeyValueObservation?
     
     // MARK: - Life Cycle
     
     init(results: ImageScannerResults) {
         self.results = results
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,17 +47,28 @@ final class ReviewViewController: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        reloadImage()
         setupConstraints()
     }
     
     func reloadImage() {
-        imageView.image = results.scannedImage
+        if let scannedImage = results.scannedImage {
+            imageView.image = scannedImage
+            resultsObservation = nil
+            activityIndicatorView.stopAnimating()
+        } else {
+            activityIndicatorView.startAnimating()
+            resultsObservation = results.observe(\.scannedImage) { [weak self] (result, _) in
+                self?.reloadImage()
+            }
+        }
     }
     
     // MARK: Setups
     
     private func setupViews() {
         view.addSubview(imageView)
+        view.addSubview(activityIndicatorView)
     }
     
     private func setupConstraints() {
@@ -61,7 +79,12 @@ final class ReviewViewController: UIViewController {
             view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         ]
         
-        NSLayoutConstraint.activate(imageViewConstraints)
+        let activityIndicatorViewConstraints = [
+            activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ]
+        
+        NSLayoutConstraint.activate(imageViewConstraints + activityIndicatorViewConstraints)
     }
 
 }

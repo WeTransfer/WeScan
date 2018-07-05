@@ -122,6 +122,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
+        isDetecting = false
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
         photoSettings.isAutoStillImageStabilizationEnabled = true
@@ -195,13 +196,12 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        isDetecting = false
+        isDetecting = true
         delegate?.didStartCapturingPicture(for: self)
         
         if let sampleBuffer = photoSampleBuffer,
             let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil) {
                 completeImageCapture(with: imageData)
-            
         } else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -217,7 +217,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        isDetecting = false
+        isDetecting = true
         delegate?.didStartCapturingPicture(for: self)
         
         if let imageData = photo.fileDataRepresentation() {

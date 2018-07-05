@@ -20,7 +20,7 @@ public class ImageScannerResults: NSObject {
     public var originalImage: UIImage
     
     /// The deskewed and cropped orignal image using the detected rectangle.
-    public var scannedImage: UIImage?
+    @objc dynamic public var scannedImage: UIImage?
     
     /// The detected rectangle which was used to generate the `scannedImage`.
     public var detectedRectangle: Quadrilateral
@@ -56,7 +56,7 @@ public class ImageScannerResults: NSObject {
             uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         }
         
-        scannedImage = uiImage
+        self.scannedImage = uiImage
         completion?()
     }
     
