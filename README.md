@@ -83,14 +83,14 @@ Just download the project, and drag and drop the "WeScan" folder in your project
 
 
 <p align="center">
-    <img width="900px" src="Assets/Add into project.png">
+    <img width="900px" src="Assets/project.png">
 </p>
 
 
 Simply Add the WeScan FrameWork into project `Embedded Binaries` and `Linked Frameworks and Libraries`.
 
 <p align="center">
-    <img width="900px" src="Assets/added into binaries.png">
+    <img width="900px" src="Assets/Binaries.png">
 </p>
 
 
