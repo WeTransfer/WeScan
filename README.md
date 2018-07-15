@@ -83,7 +83,7 @@ Just download the project, and drag and drop the "WeScan" folder in your project
 
 
 <p align="center">
-    <img width="900px" src="Assets/Import.png">
+    <img width="900px" src="Assets/project.png">
 </p>
 
 
