@@ -41,6 +41,12 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
+    lazy private var doneBarButtonItem: UIBarButtonItem = {
+        let title = NSLocalizedString("wescan.review.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScannerViewController")
+        let barButtonItem = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.done, target: self, action: #selector(saveImageScannerController(_:)))
+        return barButtonItem
+    }()
+    
     lazy private var scansButton: UIButton = {
         let button = UIButton(type: .custom)
         button.alpha = 0.0
@@ -48,7 +54,6 @@ final class ScannerViewController: UIViewController {
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.1
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.green
         button.imageView?.contentMode = .scaleAspectFill
         button.addTarget(self, action: #selector(pushGalleryViewController(_:)), for: .touchUpInside)
         return button
@@ -61,6 +66,7 @@ final class ScannerViewController: UIViewController {
         
         title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
+        navigationItem.rightBarButtonItem = doneBarButtonItem
 
         setupViews()
         setupConstraints()
@@ -169,6 +175,9 @@ final class ScannerViewController: UIViewController {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
         }
+    }
+    
+    @objc private func saveImageScannerController(_ sender: UIButton) {
     }
     
     @objc private func pushGalleryViewController(_ sender: UIButton) {
