@@ -50,9 +50,8 @@ final class ScannerViewController: UIViewController {
     lazy private var scansButton: UIButton = {
         let button = UIButton(type: .custom)
         button.alpha = 0.0
-        button.layer.cornerRadius = 5.0
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.1
+        button.layer.cornerRadius = 3.0
+        button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageView?.contentMode = .scaleAspectFill
         button.addTarget(self, action: #selector(pushGalleryViewController(_:)), for: .touchUpInside)
@@ -134,10 +133,10 @@ final class ScannerViewController: UIViewController {
         ]
         
         let scansButtonConstraints = [
+            scansButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor),
             scansButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15.0),
-            view.bottomAnchor.constraint(equalTo: scansButton.bottomAnchor, constant: 15.0),
-            scansButton.widthAnchor.constraint(equalToConstant: 44.0),
-            scansButton.heightAnchor.constraint(equalToConstant: 44.0)
+            scansButton.widthAnchor.constraint(equalToConstant: 50.0),
+            scansButton.heightAnchor.constraint(equalToConstant: 50.0)
         ]
         
         NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints + scansButtonConstraints)
