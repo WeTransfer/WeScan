@@ -2,7 +2,7 @@
 source "https://rubygems.org"
 
 # Needed for Fastlane & Danger
-gem 'fastlane', '~>2.86.2'
+gem 'fastlane'
 gem 'danger'
 gem 'danger-swiftlint', '~>0.13.1'
 gem 'danger-xcov'
