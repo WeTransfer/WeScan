@@ -104,6 +104,7 @@ final class ScanGalleryViewController: UIPageViewController {
         let viewController = ReviewViewController(results: results[max(currentIndex - 1, 0)])
         let direction = (currentIndex > 0) ? UIPageViewControllerNavigationDirection.reverse : UIPageViewControllerNavigationDirection.forward
         setViewControllers([viewController], direction: direction, animated: true, completion: nil)
+        updateTitleForCurrentIndex()
     }
     
     @objc private func editCurrentImage(_ sender: Any?) {
@@ -124,6 +125,13 @@ final class ScanGalleryViewController: UIPageViewController {
     }
     
     // MARK: - Convenience Functions
+    
+    private func updateTitleForCurrentIndex() {
+        guard let currentIndex = currentIndex else {
+            return
+        }
+        updateTitleFor(index: currentIndex)
+    }
 
     private func updateTitleFor(index: Int) {
         title = String(format: NSLocalizedString("wescan.gallery.title", tableName: nil, bundle: Bundle(for: ImageScannerController.self), value: "%i of %i", comment: "The title indicating the index of the current image and the total number of images"), index + 1, results.count)
@@ -166,10 +174,7 @@ extension ScanGalleryViewController: UIPageViewControllerDataSource {
 extension ScanGalleryViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        guard let currentIndex = currentIndex else {
-            return
-        }
-        updateTitleFor(index: currentIndex)
+        updateTitleForCurrentIndex()
     }
     
 }
