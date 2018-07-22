@@ -93,7 +93,7 @@ extension HomeViewController: ImageScannerControllerDelegate {
         print(error)
     }
     
-    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
+    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: [ImageScannerResults]) {
         scanner.dismiss(animated: true, completion: nil)
     }
     
