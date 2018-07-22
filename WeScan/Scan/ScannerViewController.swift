@@ -42,7 +42,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     lazy private var doneBarButtonItem: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScannerViewController")
+        let title = NSLocalizedString("wescan.button.done", tableName: nil, bundle: Bundle(for: ImageScannerController.self), value: "Done", comment: "The right button of the ScannerViewController")
         let barButtonItem = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.done, target: self, action: #selector(saveImageScannerController(_:)))
         return barButtonItem
     }()
@@ -64,7 +64,7 @@ final class ScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
+        title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: ImageScannerController.self), value: "Scanning", comment: "The title of the ScannerViewController")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
         navigationItem.rightBarButtonItem = doneBarButtonItem
 

@@ -15,7 +15,7 @@ final class ScanGalleryViewController: UIPageViewController {
     weak var scanGalleryDelegate: ImageScannerResultsDelegateProtocol?
     
     lazy private var doneBarButtonItem: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScanGalleryViewController")
+        let title = NSLocalizedString("wescan.button.done", tableName: nil, bundle: Bundle(for: ImageScannerController.self), value: "Done", comment: "The right button of the ScanGalleryViewController")
         let barButtonItem = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.done, target: self, action: #selector(saveImageScannerController(_:)))
         return barButtonItem
     }()

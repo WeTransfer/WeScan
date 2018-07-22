@@ -31,7 +31,7 @@ final class EditScanViewController: UIViewController {
     }()
     
     lazy private var cancelButton: UIButton = {
-        let title = NSLocalizedString("wescan.edit.button.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
+        let title = NSLocalizedString("wescan.edit.button.cancel", tableName: nil, bundle: Bundle(for: ImageScannerController.self), value: "Cancel", comment: "A generic cancel button")
         let button = UIButton(type: .custom)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(cancel(sender:)), for: .touchUpInside)
@@ -41,7 +41,7 @@ final class EditScanViewController: UIViewController {
     }()
     
     lazy private var saveButton: UIButton = {
-        let title = NSLocalizedString("wescan.edit.button.save", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Save", comment: "A generic save button")
+        let title = NSLocalizedString("wescan.edit.button.save", tableName: nil, bundle: Bundle(for: ImageScannerController.self), value: "Save", comment: "A generic save button")
         let button = UIButton(type: .custom)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(save(sender:)), for: .touchUpInside)
