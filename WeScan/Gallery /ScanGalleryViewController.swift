@@ -15,7 +15,7 @@ final class ScanGalleryViewController: UIPageViewController {
     weak var scanGalleryDelegate: ImageScannerResultsDelegateProtocol?
     
     lazy private var doneBarButtonItem: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.review.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScannerViewController")
+        let title = NSLocalizedString("wescan.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScanGalleryViewController")
         let barButtonItem = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.done, target: self, action: #selector(saveImageScannerController(_:)))
         return barButtonItem
     }()
@@ -55,7 +55,10 @@ final class ScanGalleryViewController: UIPageViewController {
         }
         
         dataSource = self
+        delegate = self
+        
         navigationItem.rightBarButtonItem = doneBarButtonItem
+        updateTitleFor(index: 0)
         
         view.addSubview(deleteButton)
         view.addSubview(editButton)
@@ -86,12 +89,11 @@ final class ScanGalleryViewController: UIPageViewController {
     // MARK: - Actions
     
     @objc private func deleteCurrentImage(_ sender: Any?) {
-        guard let currentReviewViewController = viewControllers?.first as? ReviewViewController,
-        let index = results.index(of: currentReviewViewController.results) else {
+        guard let currentIndex = currentIndex else {
             return
         }
         
-        results.remove(at: index)
+        results.remove(at: currentIndex)
         scanGalleryDelegate?.didUpdateResults(results: results)
 
         guard results.isEmpty == false else {
@@ -99,8 +101,8 @@ final class ScanGalleryViewController: UIPageViewController {
             return
         }
         
-        let viewController = ReviewViewController(results: results[max(index - 1, 0)])
-        let direction = (index > 0) ? UIPageViewControllerNavigationDirection.reverse : UIPageViewControllerNavigationDirection.forward
+        let viewController = ReviewViewController(results: results[max(currentIndex - 1, 0)])
+        let direction = (currentIndex > 0) ? UIPageViewControllerNavigationDirection.reverse : UIPageViewControllerNavigationDirection.forward
         setViewControllers([viewController], direction: direction, animated: true, completion: nil)
     }
     
@@ -120,7 +122,21 @@ final class ScanGalleryViewController: UIPageViewController {
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
         }
     }
+    
+    // MARK: - Convenience Functions
 
+    private func updateTitleFor(index: Int) {
+        title = String(format: NSLocalizedString("wescan.gallery.title", tableName: nil, bundle: Bundle(for: ImageScannerController.self), value: "%i of %i", comment: "The title indicating the index of the current image and the total number of images"), index + 1, results.count)
+    }
+    
+    private var currentIndex: Int? {
+        guard let currentReviewViewController = viewControllers?.first as? ReviewViewController else {
+                return nil
+        }
+
+        return results.index(of: currentReviewViewController.results)
+    }
+    
 }
 
 extension ScanGalleryViewController: UIPageViewControllerDataSource {
@@ -143,6 +159,17 @@ extension ScanGalleryViewController: UIPageViewControllerDataSource {
         }
         
         return ReviewViewController(results: results[index + 1])
+    }
+    
+}
+
+extension ScanGalleryViewController: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let currentIndex = currentIndex else {
+            return
+        }
+        updateTitleFor(index: currentIndex)
     }
     
 }
