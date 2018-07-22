@@ -42,7 +42,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     lazy private var doneBarButtonItem: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.review.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScannerViewController")
+        let title = NSLocalizedString("wescan.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScannerViewController")
         let barButtonItem = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.done, target: self, action: #selector(saveImageScannerController(_:)))
         return barButtonItem
     }()
