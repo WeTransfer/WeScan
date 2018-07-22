@@ -178,6 +178,9 @@ final class ScannerViewController: UIViewController {
     }
     
     @objc private func saveImageScannerController(_ sender: UIButton) {
+        if let imageScannerController = navigationController as? ImageScannerController {
+            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
+        }
     }
     
     @objc private func pushGalleryViewController(_ sender: UIButton) {
