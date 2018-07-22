@@ -14,6 +14,12 @@ final class ScanGalleryViewController: UIPageViewController {
     
     weak var scanGalleryDelegate: ImageScannerResultsDelegateProtocol?
     
+    lazy private var doneBarButtonItem: UIBarButtonItem = {
+        let title = NSLocalizedString("wescan.review.button.done", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Done", comment: "The right button of the ScannerViewController")
+        let barButtonItem = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.done, target: self, action: #selector(saveImageScannerController(_:)))
+        return barButtonItem
+    }()
+    
     let deleteButton: UIButton = {
         // TODO: Use actual design
         let button = UIButton(type: .custom)
@@ -49,6 +55,7 @@ final class ScanGalleryViewController: UIPageViewController {
         }
         
         dataSource = self
+        navigationItem.rightBarButtonItem = doneBarButtonItem
         
         view.addSubview(deleteButton)
         view.addSubview(editButton)
@@ -106,6 +113,12 @@ final class ScanGalleryViewController: UIPageViewController {
         editViewController.delegate = self
         editViewController.modalTransitionStyle = .crossDissolve
         present(editViewController, animated: true, completion: nil)
+    }
+    
+    @objc private func saveImageScannerController(_ sender: UIButton) {
+        if let imageScannerController = navigationController as? ImageScannerController {
+            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
+        }
     }
 
 }
