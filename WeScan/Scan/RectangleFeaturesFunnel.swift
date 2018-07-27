@@ -16,13 +16,13 @@ final class RectangleFeaturesFunnel {
     /// `RectangleMatch` is a class used to assign matching scores to rectangles.
     private final class RectangleMatch: NSObject {
         /// The rectangle feature object associated to this `RectangleMatch` instance.
-        let rectangleFeature: CIRectangleFeature
+        let rectangleFeature: Quadrilateral
         
         /// The score to indicate how strongly the rectangle of this instance matches other recently added rectangles.
         /// A higher score indicates that many recently added rectangles are very close to the rectangle of this instance.
         var matchingScore = 0
-
-        init(rectangleFeature: CIRectangleFeature) {
+        
+        init(rectangleFeature: Quadrilateral) {
             self.rectangleFeature = rectangleFeature
         }
         
@@ -36,7 +36,7 @@ final class RectangleFeaturesFunnel {
         ///   - rectangle: The rectangle to compare the rectangle of this instance with.
         ///   - threshold: The distance used to determinate if the rectangles match in pixels.
         /// - Returns: True if both rectangles are within the given distance of each other.
-        func matches(_ rectangle: CIRectangleFeature, withThreshold threshold: CGFloat) -> Bool {
+        func matches(_ rectangle: Quadrilateral, withThreshold threshold: CGFloat) -> Bool {
             return rectangleFeature.isWithin(threshold, ofRectangleFeature: rectangle)
         }
     }
@@ -68,8 +68,9 @@ final class RectangleFeaturesFunnel {
     ///   - rectangleFeature: The rectangle to feed to the funnel.
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
     ///   - completion: The completion block called when a new rectangle should be displayed.
-    func add(_ rectangleFeature: CIRectangleFeature, currentlyDisplayedRectangle currentRectangle: CIRectangleFeature?, completion: (CIRectangleFeature) -> Void) {
-        let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
+    func add(_ rectangleFeature: Quadrilateral, currentlyDisplayedRectangle currentRectangle: Quadrilateral?, completion: (Quadrilateral) -> Void) {
+        completion(rectangleFeature)
+        /*let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
         rectangles.append(rectangleMatch)
         
         guard rectangles.count >= minNumberOfRectangles else {
@@ -90,7 +91,7 @@ final class RectangleFeaturesFunnel {
             bestRectangle.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: previousRectangle) {
         } else if bestRectangle.matchingScore >= minNumberOfMatches {
             completion(bestRectangle.rectangleFeature)
-        }
+        }*/
     }
     
     /// Determines which rectangle is best to displayed.
@@ -99,7 +100,7 @@ final class RectangleFeaturesFunnel {
     /// Parameters:
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
     /// Returns: The best rectangle to display given the current history.
-    private func bestRectangle(withCurrentlyDisplayedRectangle currentRectangle: CIRectangleFeature?) -> RectangleMatch? {
+    private func bestRectangle(withCurrentlyDisplayedRectangle currentRectangle: Quadrilateral?) -> RectangleMatch? {
         var bestMatch: RectangleMatch?
         
         rectangles.reversed().forEach { (rectangle) in
@@ -133,7 +134,7 @@ final class RectangleFeaturesFunnel {
     ///   - rect2: The second rectangle to compare.
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
     /// - Returns: The best rectangle to display between two rectangles with the same matching score.
-    private func breakTie(between rect1: RectangleMatch, rect2: RectangleMatch, currentRectangle: CIRectangleFeature) -> RectangleMatch {
+    private func breakTie(between rect1: RectangleMatch, rect2: RectangleMatch, currentRectangle: Quadrilateral) -> RectangleMatch {
         if rect1.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: currentRectangle) {
             return rect1
         } else if rect2.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: currentRectangle) {

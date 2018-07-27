@@ -126,7 +126,7 @@ final class EditScanViewController: UIViewController {
                     let error = ImageScannerControllerError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
                 }
-            return
+                return
         }
         
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
