@@ -55,7 +55,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'WeScan', '~> 1.0.0'
+    pod 'WeScan', '>= 0.9'
 end
 ```
 
@@ -72,7 +72,7 @@ $ pod install
 To integrate **WeScan** into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "WeTransfer/WeScan" >= 1.00
+github "WeTransfer/WeScan" >= 0.9
 ```
 
 Run `carthage update` to build the framework and drag the built `WeScan.framework` into your Xcode project.
@@ -98,12 +98,12 @@ func imageScannerController(_ scanner: ImageScannerController, didFailWithError 
 
 func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
     // Your ViewController is responsible for dismissing the ImageScannerController
-    scanner.dismiss(animated: true, completion: nil)
+    scanner.dismiss(animated: true)
 }
 
 func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
     // Your ViewController is responsible for dismissing the ImageScannerController
-    scanner.dismiss(animated: true, completion: nil)
+    scanner.dismiss(animated: true)
 }
 ```
 
@@ -113,7 +113,7 @@ func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
 // Somewhere on your ViewController
 let scannerVC = ImageScannerController()
 scannerVC.imageScannerDelegate = self
-self.present(scannerVC, animated: true, completion: nil)
+self.present(scannerVC, animated: true)
 ```
 ## Communication
 
