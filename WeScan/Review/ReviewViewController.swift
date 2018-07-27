@@ -93,7 +93,7 @@ final class ReviewViewController: UIViewController {
         if let imageScannerController = navigationController as? ImageScannerController {
             var newResults = results
             newResults.scannedImage = finalImage
-            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
+            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
         }
     }
 
