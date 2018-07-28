@@ -30,7 +30,7 @@ final class ScannerViewController: UIViewController {
     
     lazy private var autoScanButton: UIButton = {
         let button = UIButton()
-        let image = UIImage(named: "manual.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
+        let image = UIImage(named: "auto.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(toggleAutoScan(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -147,10 +147,10 @@ final class ScannerViewController: UIViewController {
     @objc private func toggleAutoScan(_ sender: UIButton) {
         if autoScanEnabled {
             autoScanEnabled = false
-            autoScanButton.setImage(UIImage(named: "auto.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil), for: .normal)
+            autoScanButton.setImage(UIImage(named: "manual.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil), for: .normal)
         } else {
             autoScanEnabled = true
-            autoScanButton.setImage(UIImage(named: "manual.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil), for: .normal)
+            autoScanButton.setImage(UIImage(named: "auto.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil), for: .normal)
         }
     }
     
