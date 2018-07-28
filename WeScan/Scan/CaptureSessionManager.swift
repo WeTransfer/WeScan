@@ -189,7 +189,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             self.noRectangleCount = 0
             self.rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: self.displayedRectangleResult?.rectangle) { (rectangle, shouldAutoScan) in
                 self.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan {
+                if shouldAutoScan && autoScanEnabled {
                     capturePhoto()
                     stop()
                 }
