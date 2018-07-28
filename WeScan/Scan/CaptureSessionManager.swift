@@ -172,27 +172,40 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
         let imageSize = finalImage.extent.size
         
-        RectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
-            if let rectangle = rectangle {
-                self.noRectangleCount = 0
-                
-                self.rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: self.displayedRectangleResult?.rectangle) { (rectangle) in
-                    self.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                }
-            } else {
-                DispatchQueue.main.async { [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.noRectangleCount += 1
-                    
-                    if strongSelf.noRectangleCount > strongSelf.noRectangleThreshold {
-                        strongSelf.displayedRectangleResult = nil
-                        strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
-                    }
-                }
-                return
+        if #available(iOS 11.0, *) {
+            VisionRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
+                self.processRectangle(rectangle: rectangle, imageSize: imageSize)
             }
+        } else {
+            CIRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
+                self.processRectangle(rectangle: rectangle, imageSize: imageSize)
+            }
+        }
+    }
+    
+    func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
+        if let rectangle = rectangle {
+            
+            self.noRectangleCount = 0
+            self.rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: self.displayedRectangleResult?.rectangle) { (rectangle) in
+                self.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
+            }
+            
+        } else {
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.noRectangleCount += 1
+                
+                if strongSelf.noRectangleCount > strongSelf.noRectangleThreshold {
+                    strongSelf.displayedRectangleResult = nil
+                    strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
+                }
+            }
+            return
+            
         }
     }
     
