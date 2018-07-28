@@ -52,7 +52,7 @@ final class RectangleFeaturesFunnel {
     let minNumberOfRectangles = 3
     
     /// The value in pixels used to determine if two rectangle match or not. A higher value will prevent displayed rectangles to be refreshed. On the opposite, a smaller value will make new rectangles be displayed constantly.
-    let matchingThreshold: CGFloat = 40.0
+    let matchingThreshold: CGFloat = 10.0
     
     /// The minumum number of matching rectangles (within the `rectangle` queue), to be confident enough to display a rectangle.
     let minNumberOfMatches = 2
@@ -69,7 +69,6 @@ final class RectangleFeaturesFunnel {
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
     ///   - completion: The completion block called when a new rectangle should be displayed.
     func add(_ rectangleFeature: Quadrilateral, currentlyDisplayedRectangle currentRectangle: Quadrilateral?, completion: (Quadrilateral) -> Void) {
-        completion(rectangleFeature)
         /*let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
         rectangles.append(rectangleMatch)
         
@@ -92,6 +91,7 @@ final class RectangleFeaturesFunnel {
         } else if bestRectangle.matchingScore >= minNumberOfMatches {
             completion(bestRectangle.rectangleFeature)
         }*/
+        completion(rectangleFeature)
     }
     
     /// Determines which rectangle is best to displayed.
