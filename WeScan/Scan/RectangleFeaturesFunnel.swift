@@ -52,10 +52,13 @@ final class RectangleFeaturesFunnel {
     let minNumberOfRectangles = 3
     
     /// The value in pixels used to determine if two rectangle match or not. A higher value will prevent displayed rectangles to be refreshed. On the opposite, a smaller value will make new rectangles be displayed constantly.
-    let matchingThreshold: CGFloat = 10.0
+    let matchingThreshold: CGFloat = 40.0
     
     /// The minumum number of matching rectangles (within the `rectangle` queue), to be confident enough to display a rectangle.
-    let minNumberOfMatches = 2
+    let minNumberOfMatches = 3
+    
+    /// The number of times the rectangle has passed the threshold to be auto-scanned
+    var thresholdPassed = 0
 
     /// Add a rectangle to the funnel, and if a new rectangle should be displayed, the completion block will be called.
     /// The algorithm works the following way:
@@ -68,8 +71,8 @@ final class RectangleFeaturesFunnel {
     ///   - rectangleFeature: The rectangle to feed to the funnel.
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
     ///   - completion: The completion block called when a new rectangle should be displayed.
-    func add(_ rectangleFeature: Quadrilateral, currentlyDisplayedRectangle currentRectangle: Quadrilateral?, completion: (Quadrilateral) -> Void) {
-        /*let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
+    func add(_ rectangleFeature: Quadrilateral, currentlyDisplayedRectangle currentRectangle: Quadrilateral?, completion: (Quadrilateral, Bool) -> Void) {
+        let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
         rectangles.append(rectangleMatch)
         
         guard rectangles.count >= minNumberOfRectangles else {
@@ -86,12 +89,22 @@ final class RectangleFeaturesFunnel {
             return
         }
         
-        if let previousRectangle = currentRectangle,
-            bestRectangle.rectangleFeature.isWithin(matchingThreshold, ofRectangleFeature: previousRectangle) {
+        if let previousRectangle = currentRectangle, bestRectangle.matchingScore >= minNumberOfMatches && bestRectangle.rectangleFeature.isWithin(10.0, ofRectangleFeature: previousRectangle) {
+            
+            thresholdPassed += 1
+            
+            if thresholdPassed > 30 {
+                thresholdPassed = 0
+                completion(bestRectangle.rectangleFeature, true)
+                // Scan the rectangle automatically by passing True to the completion
+            }
+            
         } else if bestRectangle.matchingScore >= minNumberOfMatches {
-            completion(bestRectangle.rectangleFeature)
-        }*/
-        completion(rectangleFeature)
+            
+            completion(bestRectangle.rectangleFeature, false)
+            // Show the new rectangle, but don't scan it yet
+            
+        }
     }
     
     /// Determines which rectangle is best to displayed.

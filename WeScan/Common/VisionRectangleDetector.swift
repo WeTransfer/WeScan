@@ -30,8 +30,6 @@ struct VisionRectangleDetector {
                     guard let biggest = results.count > 1 ? results.biggest() : results.first else { return }
                     
                     let transform = CGAffineTransform.identity
-                        .scaledBy(x: 1, y: -1)
-                        .translatedBy(x: 0, y: -image.extent.size.height)
                         .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
                     
                     biggestRectangle = Quadrilateral(topLeft: biggest.topLeft.applying(transform), topRight: biggest.topRight.applying(transform), bottomRight: biggest.bottomRight.applying(transform), bottomLeft: biggest.bottomLeft.applying(transform))
