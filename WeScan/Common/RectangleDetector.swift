@@ -40,7 +40,7 @@ struct RectangleDetector {
                         
                     } else { completion(nil) }
                 })
-                rectDetectRequest.minimumConfidence = 0.7 // Be confident.
+                rectDetectRequest.minimumConfidence = 0.7
                 rectDetectRequest.maximumObservations = 8
                 return rectDetectRequest
             }()
