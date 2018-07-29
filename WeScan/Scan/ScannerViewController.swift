@@ -21,6 +21,13 @@ final class ScannerViewController: UIViewController {
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
     
+    /// Whether flash is enabled
+    private var flashEnabled = false
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     lazy private var shutterButton: ShutterButton = {
         let button = ShutterButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -28,13 +35,22 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
-    lazy private var autoScanButton: UIButton = {
-        let button = UIButton()
-        let image = UIImage(named: "auto.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
-        button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(toggleAutoScan(_:)), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    lazy private var toolbar: UIToolbar = {
+        let toolbar = UIToolbar()
+        toolbar.barStyle = .blackTranslucent
+        toolbar.tintColor = .white
+        toolbar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+        return toolbar
+    }()
+    
+    lazy private var autoScanButton: UIBarButtonItem = {
+        return UIBarButtonItem(title: "Auto", style: .plain, target: self, action: #selector(toggleAutoScan))
+    }()
+    
+    lazy private var flashButton: UIBarButtonItem = {
+        let flashImage = UIImage(named: "flashoff.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
+        let flashButton = UIBarButtonItem(image: flashImage, style: .plain, target: self, action: #selector(toggleFlash))
+        return flashButton
     }()
     
     lazy private var activityIndicator: UIActivityIndicatorView = {
@@ -46,7 +62,7 @@ final class ScannerViewController: UIViewController {
     
     lazy private var closeButton: CloseButton = {
         let button = CloseButton(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
-        button.addTarget(self, action: #selector(cancelImageScannerController(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
         return button
     }()
     
@@ -59,6 +75,7 @@ final class ScannerViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
         
         setupViews()
+        setupToolbar()
         setupConstraints()
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewlayer)
@@ -70,6 +87,7 @@ final class ScannerViewController: UIViewController {
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidLayoutSubviews() {
@@ -81,6 +99,11 @@ final class ScannerViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
+        
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        if device.torchMode == .on {
+            toggleFlash()
+        }
     }
     
     // MARK: - Setups
@@ -91,8 +114,19 @@ final class ScannerViewController: UIViewController {
         quadView.editable = false
         view.addSubview(quadView)
         view.addSubview(shutterButton)
-        view.addSubview(autoScanButton)
         view.addSubview(activityIndicator)
+        view.addSubview(toolbar)
+    }
+    
+    private func setupToolbar() {
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelImageScannerController))
+        
+        if UIImagePickerController.isFlashAvailable(for: .rear) {
+            toolbar.setItems([spacer, cancelButton, spacer, spacer, spacer, spacer, flashButton, spacer, spacer, spacer, spacer, autoScanButton, spacer], animated: false)
+        } else {
+            toolbar.setItems([spacer, cancelButton, spacer, spacer, spacer, spacer, autoScanButton, spacer], animated: false)
+        }
     }
     
     private func setupConstraints() {
@@ -104,36 +138,26 @@ final class ScannerViewController: UIViewController {
         ]
         
         var shutterButtonBottomConstraint: NSLayoutConstraint
-        var autoScanButtonBottomConstraint: NSLayoutConstraint
         
         if #available(iOS 11.0, *) {
             shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
-            autoScanButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: autoScanButton.bottomAnchor, constant: 31.25)
         } else {
             shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
-            autoScanButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: autoScanButton.bottomAnchor, constant: 31.25)
         }
         
         let shutterButtonConstraints = [
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             shutterButtonBottomConstraint,
             shutterButton.widthAnchor.constraint(equalToConstant: 65.0),
-            shutterButton.heightAnchor.constraint(equalToConstant: 65.0)
-        ]
-        
-        let autoScanButtonConstraints = [
-            autoScanButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: (view.frame.width / 4) - 40),
-            autoScanButtonBottomConstraint,
-            autoScanButton.widthAnchor.constraint(equalToConstant: 36.0),
-            autoScanButton.heightAnchor.constraint(equalToConstant: 36.0)
-        ]
+            shutterButton.heightAnchor.constraint(equalToConstant: 65.0),
+            ]
         
         let activityIndicatorConstraints = [
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + autoScanButtonConstraints + activityIndicatorConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints)
     }
     
     // MARK: - Actions
@@ -144,17 +168,52 @@ final class ScannerViewController: UIViewController {
         captureSessionManager?.capturePhoto()
     }
     
-    @objc private func toggleAutoScan(_ sender: UIButton) {
+    @objc private func toggleAutoScan() {
         if autoScanEnabled {
             autoScanEnabled = false
-            autoScanButton.setImage(UIImage(named: "manual.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil), for: .normal)
+            autoScanButton.title = "Manual"
         } else {
             autoScanEnabled = true
-            autoScanButton.setImage(UIImage(named: "auto.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil), for: .normal)
+            autoScanButton.title = "Auto"
         }
     }
     
-    @objc private func cancelImageScannerController(_ sender: UIButton) {
+    @objc private func toggleFlash() {
+        if !UIImagePickerController.isFlashAvailable(for: .rear) { return }
+        
+        let flashImage = UIImage(named: "flash.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
+        let flashOffImage = UIImage(named: "flashoff.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
+        
+        if flashEnabled {
+            flashEnabled = false
+            flashButton.image = flashOffImage
+            flashButton.tintColor = .white
+            
+            toggleTorch(shouldTurnOn: false)
+        } else {
+            flashEnabled = true
+            flashButton.image = flashImage
+            flashButton.tintColor = .yellow
+            
+            toggleTorch(shouldTurnOn: true)
+        }
+    }
+    
+    func toggleTorch(shouldTurnOn: Bool) {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                device.torchMode = shouldTurnOn ? .on : .off
+                device.unlockForConfiguration()
+            } catch {
+                return
+            }
+        }
+    }
+    
+    @objc private func cancelImageScannerController() {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
         }
