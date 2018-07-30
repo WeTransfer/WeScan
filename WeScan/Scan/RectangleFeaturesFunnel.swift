@@ -9,6 +9,11 @@
 import Foundation
 import AVFoundation
 
+enum AddResult {
+    case showAndAutoScan
+    case showOnly
+}
+
 /// `RectangleFeaturesFunnel` is used to improve the confidence of the detected rectangles.
 /// Feed rectangles to a `RectangleFeaturesFunnel` instance, and it will call the completion block with a rectangle whose confidence is high enough to be displayed.
 final class RectangleFeaturesFunnel {
@@ -54,6 +59,9 @@ final class RectangleFeaturesFunnel {
     /// The value in pixels used to determine if two rectangle match or not. A higher value will prevent displayed rectangles to be refreshed. On the opposite, a smaller value will make new rectangles be displayed constantly.
     let matchingThreshold: CGFloat = 40.0
     
+    /// The number of similar rectangles that need to be found to auto scan.
+    let autoScanThreshold = 30
+    
     /// The minumum number of matching rectangles (within the `rectangle` queue), to be confident enough to display a rectangle.
     let minNumberOfMatches = 3
     
@@ -71,7 +79,7 @@ final class RectangleFeaturesFunnel {
     ///   - rectangleFeature: The rectangle to feed to the funnel.
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
     ///   - completion: The completion block called when a new rectangle should be displayed.
-    func add(_ rectangleFeature: Quadrilateral, currentlyDisplayedRectangle currentRectangle: Quadrilateral?, completion: (Quadrilateral, Bool) -> Void) {
+    func add(_ rectangleFeature: Quadrilateral, currentlyDisplayedRectangle currentRectangle: Quadrilateral?, completion: (AddResult, Quadrilateral) -> Void) {
         let rectangleMatch = RectangleMatch(rectangleFeature: rectangleFeature)
         rectangles.append(rectangleMatch)
         
@@ -92,18 +100,13 @@ final class RectangleFeaturesFunnel {
         if let previousRectangle = currentRectangle, bestRectangle.matchingScore >= minNumberOfMatches && bestRectangle.rectangleFeature.isWithin(10.0, ofRectangleFeature: previousRectangle) {
             
             thresholdPassed += 1
-            
-            if thresholdPassed > 30 {
+            if thresholdPassed > autoScanThreshold {
                 thresholdPassed = 0
-                completion(bestRectangle.rectangleFeature, true)
-                // Scan the rectangle automatically by passing True to the completion
+                completion(AddResult.showAndAutoScan, bestRectangle.rectangleFeature)
             }
             
         } else if bestRectangle.matchingScore >= minNumberOfMatches {
-            
-            completion(bestRectangle.rectangleFeature, false)
-            // Show the new rectangle, but don't scan it yet
-            
+            completion(AddResult.showOnly, bestRectangle.rectangleFeature)
         }
     }
     

@@ -187,8 +187,12 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         if let rectangle = rectangle {
             
             self.noRectangleCount = 0
-            self.rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: self.displayedRectangleResult?.rectangle) { (rectangle, shouldAutoScan) in
-                self.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
+            self.rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: self.displayedRectangleResult?.rectangle) { [weak self] (result, rectangle) in
+                guard let strongSelf = self else {
+                    return
+                }
+                let shouldAutoScan = result == .showAndAutoScan
+                strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
                 if shouldAutoScan && autoScanEnabled {
                     capturePhoto()
                     stop()

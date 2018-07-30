@@ -35,6 +35,14 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
+    lazy private var cancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Cancel", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
+        return button
+    }()
+    
     lazy private var toolbar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.barStyle = .blackTranslucent
@@ -60,19 +68,12 @@ final class ScannerViewController: UIViewController {
         return activityIndicator
     }()
     
-    lazy private var closeButton: CloseButton = {
-        let button = CloseButton(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
-        button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
-        return button
-    }()
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
         
         setupViews()
         setupToolbar()
@@ -113,19 +114,20 @@ final class ScannerViewController: UIViewController {
         quadView.translatesAutoresizingMaskIntoConstraints = false
         quadView.editable = false
         view.addSubview(quadView)
+        view.addSubview(cancelButton)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
         view.addSubview(toolbar)
     }
     
     private func setupToolbar() {
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelImageScannerController))
+        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) {
-            toolbar.setItems([spacer, cancelButton, spacer, spacer, spacer, spacer, flashButton, spacer, spacer, spacer, spacer, autoScanButton, spacer], animated: false)
+            toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
         } else {
-            toolbar.setItems([spacer, cancelButton, spacer, spacer, spacer, spacer, autoScanButton, spacer], animated: false)
+            toolbar.setItems([fixedSpace, autoScanButton], animated: false)
         }
     }
     
@@ -137,13 +139,21 @@ final class ScannerViewController: UIViewController {
             quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ]
         
+        var cancelButtonBottomConstraint: NSLayoutConstraint
         var shutterButtonBottomConstraint: NSLayoutConstraint
         
         if #available(iOS 11.0, *) {
-            shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
+            cancelButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+            shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
         } else {
-            shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 15.0)
+            cancelButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+            shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
         }
+        
+        let cancelButtonConstraints = [
+            cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
+            cancelButtonBottomConstraint
+            ]
         
         let shutterButtonConstraints = [
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -157,7 +167,7 @@ final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints + shutterButtonConstraints + activityIndicatorConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
     }
     
     // MARK: - Actions
@@ -200,17 +210,11 @@ final class ScannerViewController: UIViewController {
     }
     
     func toggleTorch(shouldTurnOn: Bool) {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video), device.hasTorch else { return }
+        guard (try? device.lockForConfiguration()) != nil else { return }
         
-        if device.hasTorch {
-            do {
-                try device.lockForConfiguration()
-                device.torchMode = shouldTurnOn ? .on : .off
-                device.unlockForConfiguration()
-            } catch {
-                return
-            }
-        }
+        device.torchMode = shouldTurnOn ? .on : .off
+        device.unlockForConfiguration()
     }
     
     @objc private func cancelImageScannerController() {
