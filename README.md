@@ -95,7 +95,7 @@ Simply Add the WeScan FrameWork into project `Embedded Binaries` and `Linked Fra
 
 ## Usage
 
-1. Make sure that your ViewController conforms to the `ImageScannerControllerDelegate` protocol
+1. Make sure that your ViewController confirms to the `ImageScannerControllerDelegate` protocol
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
 
