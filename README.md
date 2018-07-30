@@ -98,12 +98,12 @@ func imageScannerController(_ scanner: ImageScannerController, didFailWithError 
 
 func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
     // Your ViewController is responsible for dismissing the ImageScannerController
-    scanner.dismiss(animated: true, completion: nil)
+    scanner.dismiss(animated: true)
 }
 
 func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
     // Your ViewController is responsible for dismissing the ImageScannerController
-    scanner.dismiss(animated: true, completion: nil)
+    scanner.dismiss(animated: true)
 }
 ```
 
@@ -113,7 +113,7 @@ func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
 // Somewhere on your ViewController
 let scannerVC = ImageScannerController()
 scannerVC.imageScannerDelegate = self
-self.present(scannerVC, animated: true, completion: nil)
+self.present(scannerVC, animated: true)
 ```
 ## Communication
 
