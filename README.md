@@ -34,6 +34,10 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 ## Example
 
+<p align="center">
+    <img src="Assets/WeScan.gif">
+</p>
+
 ## Requirements
 
 - Swift 4.0
