@@ -10,8 +10,6 @@ import Foundation
 import CoreMotion
 import AVFoundation
 
-var editImageOrientation: CGImagePropertyOrientation = .downMirrored
-
 /// A set of functions that inform the delegate object of the state of the detection.
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     
@@ -152,20 +150,20 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         motion.accelerometerUpdateInterval = 0.2
         motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
             guard let data = data else {
-                editImageOrientation = .up
+                CaptureSession.current.editImageOrientation = .up
                 return
             }
                 if abs(data.acceleration.y) < abs(data.acceleration.x) {
                     if data.acceleration.x > 0 {
-                        editImageOrientation = .left
+                        CaptureSession.current.editImageOrientation = .left
                     } else {
-                        editImageOrientation = .right
+                        CaptureSession.current.editImageOrientation = .right
                     }
                 } else {
                     if data.acceleration.y > 0 {
-                        editImageOrientation = .down
+                        CaptureSession.current.editImageOrientation = .down
                     } else {
-                        editImageOrientation = .up
+                        CaptureSession.current.editImageOrientation = .up
                     }
                 }
                 motion.stopAccelerometerUpdates()
@@ -195,7 +193,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 }
                 let shouldAutoScan = result == .showAndAutoScan
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan && autoScanEnabled {
+                if shouldAutoScan && CaptureSession.current.autoScanEnabled {
                     capturePhoto()
                     stop()
                 }

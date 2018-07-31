@@ -9,9 +9,6 @@
 import UIKit
 import AVFoundation
 
-/// Whether auto scan is enabled or not (has to be public to be seen by CaptureSessionManager)
-var autoScanEnabled = true
-
 /// An enum used to know if the flashlight was toggled successfully.
 enum FlashResult {
     case successful
@@ -187,11 +184,11 @@ final class ScannerViewController: UIViewController {
     }
     
     @objc private func toggleAutoScan() {
-        if autoScanEnabled {
-            autoScanEnabled = false
+        if CaptureSession.current.autoScanEnabled {
+            CaptureSession.current.autoScanEnabled = false
             autoScanButton.title = "Manual"
         } else {
-            autoScanEnabled = true
+            CaptureSession.current.autoScanEnabled = true
             autoScanButton.title = "Auto"
         }
     }

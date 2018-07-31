@@ -167,7 +167,7 @@ final class EditScanViewController: UIViewController {
         var imageAngle: Double = 0.0
         
         var rotate = true
-        switch editImageOrientation {
+        switch CaptureSession.current.editImageOrientation {
         case .up:
             rotate = false
         case .left:
