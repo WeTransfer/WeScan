@@ -150,23 +150,25 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         var motion: CMMotionManager!
         motion = CMMotionManager()
         motion.accelerometerUpdateInterval = 0.2
-        motion.startAccelerometerUpdates(to: OperationQueue()) { p, _ in
-            if let a = p {
-                if abs(a.acceleration.y) < abs(a.acceleration.x) {
-                    if a.acceleration.x > 0 {
+        motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
+            guard let data = data else {
+                editImageOrientation = .up
+                return
+            }
+                if abs(data.acceleration.y) < abs(data.acceleration.x) {
+                    if data.acceleration.x > 0 {
                         editImageOrientation = .left
                     } else {
                         editImageOrientation = .right
                     }
                 } else {
-                    if a.acceleration.y > 0 {
+                    if data.acceleration.y > 0 {
                         editImageOrientation = .down
                     } else {
                         editImageOrientation = .up
                     }
                 }
                 motion.stopAccelerometerUpdates()
-            }
         }
         
         let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -183,7 +185,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
     }
     
-    func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
+    private func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
         if let rectangle = rectangle {
             
             self.noRectangleCount = 0

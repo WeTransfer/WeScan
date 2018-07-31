@@ -15,7 +15,7 @@ final class ReviewViewController: UIViewController {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
-        imageView.image = finalImage
+        imageView.image = results.scannedImage
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,29 +30,11 @@ final class ReviewViewController: UIViewController {
     }()
     
     private let results: ImageScannerResults
-    let finalImage: UIImage
     
     // MARK: - Life Cycle
     
     init(results: ImageScannerResults) {
         self.results = results
-        
-        var imageAngle: Double = 0.0
-        var rotate = true
-        switch editImageOrientation {
-        case .up:
-            rotate = false
-        case .left:
-            imageAngle = Double.pi / 2
-        case .right:
-            imageAngle = -(Double.pi / 2)
-        case .down:
-            imageAngle = Double.pi
-        default:
-            rotate = false
-        }
-        finalImage = rotate ? results.scannedImage.rotated(by: Measurement(value: imageAngle, unit: .radians))! : results.scannedImage
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -92,7 +74,7 @@ final class ReviewViewController: UIViewController {
     @objc private func finishScan() {
         if let imageScannerController = navigationController as? ImageScannerController {
             var newResults = results
-            newResults.scannedImage = finalImage
+            newResults.scannedImage = results.scannedImage
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
         }
     }
