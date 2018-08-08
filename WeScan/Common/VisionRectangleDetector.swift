@@ -27,7 +27,12 @@ struct VisionRectangleDetector {
             let rectDetectRequest = VNDetectRectanglesRequest(completionHandler: { (request, error) in
                 if error == nil {
                     guard let results = request.results as? [VNRectangleObservation] else { return }
-                    guard let biggest = results.count > 1 ? results.biggest() : results.first else { return }
+                
+                  //                    TODO: Fix all of this
+                  
+                    let quads: [Quadrilateral] = []
+
+                    guard let biggest = results.count > 1 ? quads.biggest() : quads.first else { return }
                     
                     let transform = CGAffineTransform.identity
                         .scaledBy(x: image.extent.size.width, y: image.extent.size.height)

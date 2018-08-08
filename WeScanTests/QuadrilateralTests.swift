@@ -27,7 +27,7 @@ final class QuadrilateralTests: XCTestCase {
         XCTAssertFalse(quad1 == quad2)
     }
     
-    func testSquale() {
+    func testScale() {
         var topLeft = CGPoint(x: 0.0, y: 0.0)
         var topRight = CGPoint(x: 100.0, y: 0.0)
         var bottomRight = CGPoint(x: 100.0, y: 100.0)

@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 
 /// A data structure representing a quadrilateral and its position. This class exists to bypass the fact that CIRectangleFeature is read-only.
-public struct Quadrilateral: Transformable {
+public class Quadrilateral: Transformable {
     
     /// A point that specifies the top left corner of the quadrilateral.
     var topLeft: CGPoint
@@ -55,10 +55,14 @@ public struct Quadrilateral: Transformable {
     /// - Parameters:
     ///   - t: the transform to apply.
     /// - Returns: The transformed quadrilateral.
-    func applying(_ transform: CGAffineTransform) -> Quadrilateral {
-        let quadrilateral = Quadrilateral(topLeft: topLeft.applying(transform), topRight: topRight.applying(transform), bottomRight: bottomRight.applying(transform), bottomLeft: bottomLeft.applying(transform))
-        
-        return quadrilateral
+    func applying(_ transform: CGAffineTransform) -> Self {
+      
+        topLeft = topLeft.applying(transform)
+        topRight = topRight.applying(transform)
+        bottomLeft = bottomLeft.applying(transform)
+        bottomRight = bottomRight.applying(transform)
+      
+        return self
     }
     
     /// Checks whether the quadrilateral is withing a given distance of another quadrilateral.
@@ -93,7 +97,7 @@ public struct Quadrilateral: Transformable {
     }
     
     /// Reorganizes the current quadrilateal, making sure that the points are at their appropriate positions. For example, it ensures that the top left point is actually the top and left point point of the quadrilateral.
-    mutating func reorganize() {
+    func reorganize() {
         let points = [topLeft, topRight, bottomRight, bottomLeft]
         let ySortedPoints = sortPointsByYValue(points)
         
@@ -174,7 +178,6 @@ public struct Quadrilateral: Transformable {
             point1.x < point2.x
         }
     }
-
 }
 
 extension Quadrilateral {
@@ -192,7 +195,14 @@ extension Quadrilateral {
         
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
-    
+  
+    func perimeter() -> Double {
+      
+      let width = abs(self.topLeft.x - self.topRight.x)
+      let height = abs(self.topLeft.y - self.bottomLeft.y)
+      
+      return Double((width + height) * 2.0)
+    }
 }
 
 extension Quadrilateral: Equatable {
