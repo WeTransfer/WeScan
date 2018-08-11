@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74E354BD211F7249008AF786 /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E354BC211F7249008AF786 /* CaptureSession.swift */; };
 		74F7D034211ACBD90046AF7E /* CIRectangleDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */; };
 		74F7D036211ACBEE0046AF7E /* CaptureSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */; };
 		74F7D038211ACBF90046AF7E /* VisionRectangleDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */; };
@@ -106,6 +107,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		74E354BC211F7249008AF786 /* CaptureSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 		74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIRectangleDetectorTests.swift; sourceTree = "<group>"; };
 		74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionTests.swift; sourceTree = "<group>"; };
 		74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionRectangleDetectorTests.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 		A1DF90F720371A0800841A11 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				74E354BC211F7249008AF786 /* CaptureSession.swift */,
 				A1DF90A320331A0B00841A11 /* CIRectangleDetector.swift */,
 				B992E830210C36A400C33A21 /* VisionRectangleDetector.swift */,
 				A1F22E9E202C8D70001723AD /* Quadrilateral.swift */,
@@ -536,6 +539,7 @@
 				A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */,
 				A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */,
 				A1DF90E420358CB100841A11 /* Transformable.swift in Sources */,
+				74E354BD211F7249008AF786 /* CaptureSession.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,
 				A11C5B9C2046A20C005075FE /* Error.swift in Sources */,
 				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
