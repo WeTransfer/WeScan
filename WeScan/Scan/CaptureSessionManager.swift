@@ -10,8 +10,6 @@ import Foundation
 import CoreMotion
 import AVFoundation
 
-var editImageOrientation: CGImagePropertyOrientation = .downMirrored
-
 /// A set of functions that inform the delegate object of the state of the detection.
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     
@@ -150,23 +148,25 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         var motion: CMMotionManager!
         motion = CMMotionManager()
         motion.accelerometerUpdateInterval = 0.2
-        motion.startAccelerometerUpdates(to: OperationQueue()) { p, _ in
-            if let a = p {
-                if abs(a.acceleration.y) < abs(a.acceleration.x) {
-                    if a.acceleration.x > 0 {
-                        editImageOrientation = .left
+        motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
+            guard let data = data else {
+                CaptureSession.current.editImageOrientation = .up
+                return
+            }
+                if abs(data.acceleration.y) < abs(data.acceleration.x) {
+                    if data.acceleration.x > 0 {
+                        CaptureSession.current.editImageOrientation = .left
                     } else {
-                        editImageOrientation = .right
+                        CaptureSession.current.editImageOrientation = .right
                     }
                 } else {
-                    if a.acceleration.y > 0 {
-                        editImageOrientation = .down
+                    if data.acceleration.y > 0 {
+                        CaptureSession.current.editImageOrientation = .down
                     } else {
-                        editImageOrientation = .up
+                        CaptureSession.current.editImageOrientation = .up
                     }
                 }
                 motion.stopAccelerometerUpdates()
-            }
         }
         
         let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -183,7 +183,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
     }
     
-    func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
+    private func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
         if let rectangle = rectangle {
             
             self.noRectangleCount = 0
@@ -193,7 +193,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 }
                 let shouldAutoScan = result == .showAndAutoScan
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan && autoScanEnabled {
+                if shouldAutoScan && CaptureSession.current.autoScanEnabled {
                     capturePhoto()
                     stop()
                 }

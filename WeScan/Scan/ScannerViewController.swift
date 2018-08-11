@@ -9,8 +9,11 @@
 import UIKit
 import AVFoundation
 
-/// Whether auto scan is enabled or not (has to be public to be seen by CaptureSessionManager)
-var autoScanEnabled = true
+/// An enum used to know if the flashlight was toggled successfully.
+enum FlashResult {
+    case successful
+    case notSuccessful
+}
 
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
 final class ScannerViewController: UIViewController {
@@ -56,7 +59,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     lazy private var flashButton: UIBarButtonItem = {
-        let flashImage = UIImage(named: "flashoff.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
+        let flashImage = UIImage(named: "flash.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
         let flashButton = UIBarButtonItem(image: flashImage, style: .plain, target: self, action: #selector(toggleFlash))
         return flashButton
     }()
@@ -123,11 +126,13 @@ final class ScannerViewController: UIViewController {
     private func setupToolbar() {
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
         
-        if UIImagePickerController.isFlashAvailable(for: .rear) {
-            toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
-        } else {
-            toolbar.setItems([fixedSpace, autoScanButton], animated: false)
+        
+        if UIImagePickerController.isFlashAvailable(for: .rear) == false {
+            let flashOffImage = UIImage(named: "flashoff.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
+            flashButton.image = flashOffImage
+            flashButton.tintColor = UIColor.lightGray
         }
     }
     
@@ -179,11 +184,11 @@ final class ScannerViewController: UIViewController {
     }
     
     @objc private func toggleAutoScan() {
-        if autoScanEnabled {
-            autoScanEnabled = false
+        if CaptureSession.current.autoScanEnabled {
+            CaptureSession.current.autoScanEnabled = false
             autoScanButton.title = "Manual"
         } else {
-            autoScanEnabled = true
+            CaptureSession.current.autoScanEnabled = true
             autoScanButton.title = "Auto"
         }
     }
@@ -191,30 +196,24 @@ final class ScannerViewController: UIViewController {
     @objc private func toggleFlash() {
         if !UIImagePickerController.isFlashAvailable(for: .rear) { return }
         
-        let flashImage = UIImage(named: "flash.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
-        let flashOffImage = UIImage(named: "flashoff.png", in: Bundle(identifier: "WeTransfer.WeScan"), compatibleWith: nil)
-        
-        if flashEnabled {
+        if flashEnabled == false && toggleTorch(toOn: true) == .successful {
+            flashEnabled = true
+            flashButton.tintColor = .yellow
+        } else {
             flashEnabled = false
-            flashButton.image = flashOffImage
             flashButton.tintColor = .white
             
-            toggleTorch(shouldTurnOn: false)
-        } else {
-            flashEnabled = true
-            flashButton.image = flashImage
-            flashButton.tintColor = .yellow
-            
-            toggleTorch(shouldTurnOn: true)
+            toggleTorch(toOn: false)
         }
     }
     
-    func toggleTorch(shouldTurnOn: Bool) {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video), device.hasTorch else { return }
-        guard (try? device.lockForConfiguration()) != nil else { return }
+    @discardableResult func toggleTorch(toOn: Bool) -> FlashResult {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video), device.hasTorch else { return .notSuccessful }
+        guard (try? device.lockForConfiguration()) != nil else { return .notSuccessful }
         
-        device.torchMode = shouldTurnOn ? .on : .off
+        device.torchMode = toOn ? .on : .off
         device.unlockForConfiguration()
+        return .successful
     }
     
     @objc private func cancelImageScannerController() {
