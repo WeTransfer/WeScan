@@ -23,7 +23,6 @@ struct CIRectangleDetector {
       completion(biggestRectangle)
     }
   
-  
     static func rectangle(forImage image: CIImage) -> Quadrilateral? {
       
       let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
