@@ -271,8 +271,8 @@
 				C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */,
 				74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */,
 				74F7D039211ACC4B0046AF7E /* UIImageTests.swift */,
-				74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */,
 				74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */,
+				74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */,
 			);
 			path = WeScanTests;
 			sourceTree = "<group>";

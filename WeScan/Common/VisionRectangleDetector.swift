@@ -19,6 +19,7 @@ struct VisionRectangleDetector {
     ///   - image: The image to detect rectangles on.
     /// - Returns: The biggest detected rectangle on the image.
     static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> ())) {
+      
         let imageRequestHandler = VNImageRequestHandler(ciImage: image, options: [:])
         var biggestRectangle: Quadrilateral? = nil
         
@@ -42,8 +43,10 @@ struct VisionRectangleDetector {
                     
                 } else { completion(nil) }
             })
+          
             rectDetectRequest.minimumConfidence = 0.7
             rectDetectRequest.maximumObservations = 8
+          
             return rectDetectRequest
         }()
         
