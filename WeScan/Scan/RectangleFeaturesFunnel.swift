@@ -164,9 +164,9 @@ final class RectangleFeaturesFunnel {
     private func updateRectangleMatches() {
         resetMatchingScores()
         
-        for (i, currentRect) in rectangles.enumerated() {
-            for (j, rect) in rectangles.enumerated() {
-                if j > i && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
+        for currentRect in rectangles {
+            for rect in rectangles {
+                if currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
                     currentRect.matchingScore += 1
                     rect.matchingScore += 1
                 }

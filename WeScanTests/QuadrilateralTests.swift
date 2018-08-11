@@ -27,7 +27,7 @@ final class QuadrilateralTests: XCTestCase {
         XCTAssertFalse(quad1 == quad2)
     }
     
-    func testSquale() {
+    func testScale() {
         var topLeft = CGPoint(x: 0.0, y: 0.0)
         var topRight = CGPoint(x: 100.0, y: 0.0)
         var bottomRight = CGPoint(x: 100.0, y: 100.0)
@@ -62,13 +62,10 @@ final class QuadrilateralTests: XCTestCase {
         
         scaledQuad = quad.scale(fromImageSize, toImageSize)
         
-        XCTAssert(scaledQuad.topLeft == CGPoint(x: 25.0, y: 37.5))
-        XCTAssert(scaledQuad.topRight == CGPoint(x: 50.0, y: 12.5))
-        XCTAssert(scaledQuad.bottomRight == CGPoint(x: 37.5, y: 50.0))
-        XCTAssert(scaledQuad.bottomLeft == CGPoint(x: 12.5, y: 100.0))
-        
-        fromImageSize = CGSize(width: 100.0, height: 200.0)
-        toImageSize = CGSize(width: 300.0, height: 100.0)
+        XCTAssert(scaledQuad.topLeft == CGPoint(x: 50.0, y: 75.0))
+        XCTAssert(scaledQuad.topRight == CGPoint(x: 100.0, y: 25.0))
+        XCTAssert(scaledQuad.bottomRight == CGPoint(x: 75.0, y: 100.0))
+        XCTAssert(scaledQuad.bottomLeft == CGPoint(x: 25.0, y: 200.0))
     }
     
     func testScaleFixRotation() {

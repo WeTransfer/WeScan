@@ -19,6 +19,7 @@ struct VisionRectangleDetector {
     ///   - image: The image to detect rectangles on.
     /// - Returns: The biggest detected rectangle on the image.
     static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> ())) {
+      
         let imageRequestHandler = VNImageRequestHandler(ciImage: image, options: [:])
         var biggestRectangle: Quadrilateral? = nil
         
@@ -27,7 +28,12 @@ struct VisionRectangleDetector {
             let rectDetectRequest = VNDetectRectanglesRequest(completionHandler: { (request, error) in
                 if error == nil {
                     guard let results = request.results as? [VNRectangleObservation] else { return }
-                    guard let biggest = results.count > 1 ? results.biggest() : results.first else { return }
+                
+                  //                    TODO: Fix all of this
+                  
+                    let quads: [Quadrilateral] = []
+
+                    guard let biggest = results.count > 1 ? quads.biggest() : quads.first else { return }
                     
                     let transform = CGAffineTransform.identity
                         .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
@@ -37,8 +43,10 @@ struct VisionRectangleDetector {
                     
                 } else { completion(nil) }
             })
+          
             rectDetectRequest.minimumConfidence = 0.7
             rectDetectRequest.maximumObservations = 8
+          
             return rectDetectRequest
         }()
         

@@ -22,7 +22,7 @@ final class ArrayTests: XCTestCase {
         var rects1 = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect1, withCount: 10)
         var rects2 = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect2, withCount: 10)
         
-        var rectangles = rects1 + rects2
+        var rectangles: [Quadrilateral] = rects1 + rects2
         
         var biggestRectangle = rectangles.biggest()
         XCTAssert(biggestRectangle!.isWithin(1.0, ofRectangleFeature: rects1[0]))

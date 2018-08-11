@@ -18,13 +18,17 @@ extension UIImage {
     ///   - size: The size of the rect the image will be displayed in.
     /// - Returns: The scaled and cropped image.
     func scaledImage(atPoint point: CGPoint, scaleFactor: CGFloat, targetSize size: CGSize) -> UIImage? {
+      
         guard let cgImage = self.cgImage else {
             return nil
         }
         
         let scaledSize = CGSize(width: size.width / scaleFactor, height: size.height / scaleFactor)
+        let midX = point.x - scaledSize.width / 2.0
+        let midY = point.y - scaledSize.height / 2.0
+        let newRect = CGRect(x: midX, y: midY, width: scaledSize.width, height: scaledSize.height)
         
-        guard let croppedImage = cgImage.cropping(to: CGRect(x: point.x - scaledSize.width / 2.0, y: point.y - scaledSize.height / 2.0, width: scaledSize.width, height: scaledSize.height)) else {
+        guard let croppedImage = cgImage.cropping(to: newRect) else {
             return nil
         }
         
