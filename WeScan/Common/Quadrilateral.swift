@@ -37,6 +37,10 @@ public class Quadrilateral: Transformable {
         self.bottomRight = bottomRight
         self.bottomLeft = bottomLeft
     }
+  
+    open var description: String {
+      return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
+    }
     
     /// Generates a `UIBezierPath` of the quadrilateral.
     func path() -> UIBezierPath {

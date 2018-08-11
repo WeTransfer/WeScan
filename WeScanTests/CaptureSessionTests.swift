@@ -17,8 +17,8 @@ class CaptureSessionTests: XCTestCase {
     }
   
     func testEditOrientationDownMirroedByDefault() {
-      let session = CaptureSession.current
-      XCTAssertEqual(session.editImageOrientation, CGImagePropertyOrientation.downMirrored)
+        let session = CaptureSession.current
+        XCTAssertEqual(session.editImageOrientation, CGImagePropertyOrientation.downMirrored)
     }
     
 }
