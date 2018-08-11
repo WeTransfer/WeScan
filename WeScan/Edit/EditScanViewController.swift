@@ -81,6 +81,11 @@ final class EditScanViewController: UIViewController {
         displayQuad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -126,7 +131,7 @@ final class EditScanViewController: UIViewController {
                     let error = ImageScannerControllerError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
                 }
-            return
+                return
         }
         
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
@@ -151,10 +156,32 @@ final class EditScanViewController: UIViewController {
             uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         }
         
-        let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
+        let finalImage = fixImageRotation(image: uiImage)
+        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, detectedRectangle: scaledQuad)
         let reviewViewController = ReviewViewController(results: results)
         
         navigationController?.pushViewController(reviewViewController, animated: true)
+    }
+    
+    private func fixImageRotation(image: UIImage) -> UIImage {
+        var imageAngle: Double = 0.0
+        
+        var rotate = true
+        switch CaptureSession.current.editImageOrientation {
+        case .up:
+            rotate = false
+        case .left:
+            imageAngle = Double.pi / 2
+        case .right:
+            imageAngle = -(Double.pi / 2)
+        case .down:
+            imageAngle = Double.pi
+        default:
+            rotate = false
+        }
+        
+        guard let finalImage = rotate ? image.rotated(by: Measurement(value: imageAngle, unit: .radians)) : image else { return image }
+        return finalImage
     }
 
     private func displayQuad() {

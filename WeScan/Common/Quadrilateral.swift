@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 
 /// A data structure representing a quadrilateral and its position. This class exists to bypass the fact that CIRectangleFeature is read-only.
-public struct Quadrilateral: Transformable {
+public class Quadrilateral: Transformable {
     
     /// A point that specifies the top left corner of the quadrilateral.
     var topLeft: CGPoint
@@ -37,6 +37,10 @@ public struct Quadrilateral: Transformable {
         self.bottomRight = bottomRight
         self.bottomLeft = bottomLeft
     }
+  
+    open var description: String {
+      return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
+    }
     
     /// Generates a `UIBezierPath` of the quadrilateral.
     func path() -> UIBezierPath {
@@ -55,14 +59,49 @@ public struct Quadrilateral: Transformable {
     /// - Parameters:
     ///   - t: the transform to apply.
     /// - Returns: The transformed quadrilateral.
-    func applying(_ transform: CGAffineTransform) -> Quadrilateral {
-        let quadrilateral = Quadrilateral(topLeft: topLeft.applying(transform), topRight: topRight.applying(transform), bottomRight: bottomRight.applying(transform), bottomLeft: bottomLeft.applying(transform))
+    func applying(_ transform: CGAffineTransform) -> Self {
+      
+        topLeft = topLeft.applying(transform)
+        topRight = topRight.applying(transform)
+        bottomLeft = bottomLeft.applying(transform)
+        bottomRight = bottomRight.applying(transform)
+      
+        return self
+    }
+    
+    /// Checks whether the quadrilateral is withing a given distance of another quadrilateral.
+    ///
+    /// - Parameters:
+    ///   - distance: The distance (threshold) to use for the condition to be met.
+    ///   - rectangleFeature: The other rectangle to compare this instance with.
+    /// - Returns: True if the given rectangle is within the given distance of this rectangle instance.
+    func isWithin(_ distance: CGFloat, ofRectangleFeature rectangleFeature: Quadrilateral) -> Bool {
         
-        return quadrilateral
+        let topLeftRect = topLeft.surroundingSquare(withSize: distance)
+        if !topLeftRect.contains(rectangleFeature.topLeft) {
+            return false
+        }
+        
+        let topRightRect = topRight.surroundingSquare(withSize: distance)
+        if !topRightRect.contains(rectangleFeature.topRight) {
+            return false
+        }
+        
+        let bottomRightRect = bottomRight.surroundingSquare(withSize: distance)
+        if !bottomRightRect.contains(rectangleFeature.bottomRight) {
+            return false
+        }
+        
+        let bottomLeftRect = bottomLeft.surroundingSquare(withSize: distance)
+        if !bottomLeftRect.contains(rectangleFeature.bottomLeft) {
+            return false
+        }
+        
+        return true
     }
     
     /// Reorganizes the current quadrilateal, making sure that the points are at their appropriate positions. For example, it ensures that the top left point is actually the top and left point point of the quadrilateral.
-    mutating func reorganize() {
+    func reorganize() {
         let points = [topLeft, topRight, bottomRight, bottomLeft]
         let ySortedPoints = sortPointsByYValue(points)
         
@@ -143,7 +182,6 @@ public struct Quadrilateral: Transformable {
             point1.x < point2.x
         }
     }
-
 }
 
 extension Quadrilateral {
@@ -161,7 +199,14 @@ extension Quadrilateral {
         
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
-    
+  
+    func perimeter() -> Double {
+      
+      let width = abs(self.topLeft.x - self.topRight.x)
+      let height = abs(self.topLeft.y - self.bottomLeft.y)
+      
+      return Double((width + height) * 2.0)
+    }
 }
 
 extension Quadrilateral: Equatable {
