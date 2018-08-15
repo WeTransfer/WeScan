@@ -24,9 +24,9 @@ extension CIRectangleFeature {
     /// - Returns: True if the given rectangle is within the given distance of this rectangle instance.
     func isWithin(_ distance: CGFloat, ofRectangleFeature rectangleFeature: CIRectangleFeature) -> Bool {
         let keypaths: [KeyPath<CIRectangleFeature, CGPoint>] = [\.topLeft, \.topRight, \.bottomLeft, \.bottomRight]
-        // now doing this with all keypaths from `keypaths` array above starting from `topLeft`
-        // topLeft.surroundingSquare(withSize: distance).contains(rectangleFeature.topLeft)
-        // results are stored into boolean array `flags`
+        // keyPath.surroundingSquare(withSize: distance).contains(rectangleFeature.keyPath)
+        // We will now do this ↑ for each keypath (`topLeft`, `topRight`, `bottomLeft`, and `bottomRight`)
+        // The results go into a boolean array named `flags`.
         let flags: [Bool] = keypaths.map { self[keyPath: $0].surroundingSquare(withSize: distance).contains(rectangleFeature[keyPath: $0]) }
         return flags.reduce(true, { $0 && $1}) // runs AND on all `flags` array elements
     }
