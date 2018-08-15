@@ -23,10 +23,12 @@ extension CIRectangleFeature {
     ///   - rectangleFeature: The other rectangle to compare this instance with.
     /// - Returns: True if the given rectangle is within the given distance of this rectangle instance.
     func isWithin(_ distance: CGFloat, ofRectangleFeature rectangleFeature: CIRectangleFeature) -> Bool {
-        return [\CIRectangleFeature.topLeft, \CIRectangleFeature.topRight,
-                \CIRectangleFeature.bottomLeft, \CIRectangleFeature.bottomRight]
-               .map { self[keyPath: $0].surroundingSquare(withSize: distance).contains(rectangleFeature[keyPath: $0]) }
-               .reduce(true, { $0 && $1})
+        let keypaths: [KeyPath<CIRectangleFeature, CGPoint>] = [\.topLeft, \.topRight, \.bottomLeft, \.bottomRight]
+        // now doing this with all keypaths from `keypaths` array above starting from `topLeft`
+        // topLeft.surroundingSquare(withSize: distance).contains(rectangleFeature.topLeft)
+        // results are stored into boolean array `flags`
+        let flags: [Bool] = keypaths.map { self[keyPath: $0].surroundingSquare(withSize: distance).contains(rectangleFeature[keyPath: $0]) }
+        return flags.reduce(true, { $0 && $1}) // runs AND on all `flags` array elements
     }
     
     override open var description: String {
