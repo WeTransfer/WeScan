@@ -104,7 +104,9 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         switch authorizationStatus {
         case .authorized:
-            self.captureSession.startRunning()
+            DispatchQueue.main.async {
+                self.captureSession.startRunning()
+            }
             isDetecting = true
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (_) in
@@ -193,9 +195,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 }
                 let shouldAutoScan = result == .showAndAutoScan
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan && CaptureSession.current.autoScanEnabled {
+                if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
-                    stop()
                 }
             }
             
@@ -280,6 +281,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
     private func completeImageCapture(with imageData: Data) {
         DispatchQueue.global(qos: .background).async { [weak self] in
+            CaptureSession.current.isEditing = true
             guard let image = UIImage(data: imageData) else {
                 let error = ImageScannerControllerError.capture
                 DispatchQueue.main.async {

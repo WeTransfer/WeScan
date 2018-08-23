@@ -88,6 +88,7 @@ final class ScannerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        CaptureSession.current.isEditing = false
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
