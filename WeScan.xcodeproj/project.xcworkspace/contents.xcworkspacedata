@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/boris/Documents/iOS/WeScan/WeScan.xcodeproj">
+      location = "group:/Users/Julian/Downloads/WeScan-working/WeScan/Scan/CaptureSession.swift">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

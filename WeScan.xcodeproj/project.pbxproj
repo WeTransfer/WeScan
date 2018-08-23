@@ -54,6 +54,7 @@
 		B992E86F210DFA1A00C33A21 /* flashoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B992E86C210DFA1A00C33A21 /* flashoff@2x.png */; };
 		B992E870210DFA1A00C33A21 /* flashoff.png in Resources */ = {isa = PBXBuildFile; fileRef = B992E86D210DFA1A00C33A21 /* flashoff.png */; };
 		B99E4B9A210B00A400976BC5 /* VNRectangleObservation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99E4B99210B00A400976BC5 /* VNRectangleObservation+Utils.swift */; };
+		B9A58DA2212EE6E700D9680D /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A58DA1212EE6E700D9680D /* CaptureSession.swift */; };
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
@@ -149,6 +150,7 @@
 		B992E86C210DFA1A00C33A21 /* flashoff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flashoff@2x.png"; sourceTree = "<group>"; };
 		B992E86D210DFA1A00C33A21 /* flashoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flashoff.png; sourceTree = "<group>"; };
 		B99E4B99210B00A400976BC5 /* VNRectangleObservation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VNRectangleObservation+Utils.swift"; sourceTree = "<group>"; };
+		B9A58DA1212EE6E700D9680D /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CaptureSession.swift; path = "/Users/Julian/Downloads/WeScan-working/WeScan/Scan/CaptureSession.swift"; sourceTree = "<absolute>"; };
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 			children = (
 				A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */,
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
+				B9A58DA1212EE6E700D9680D /* CaptureSession.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 				A165F67D2044741B002D5ED6 /* ShutterButton.swift */,
 			);
@@ -545,6 +548,7 @@
 				A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */,
 				A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */,
 				A1DF90E420358CB100841A11 /* Transformable.swift in Sources */,
+				B9A58DA2212EE6E700D9680D /* CaptureSession.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,
 				A11C5B9C2046A20C005075FE /* Error.swift in Sources */,
 				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
