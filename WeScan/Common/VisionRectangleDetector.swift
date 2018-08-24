@@ -37,8 +37,8 @@ struct VisionRectangleDetector {
                     
                 } else { completion(nil) }
             })
-            rectDetectRequest.minimumConfidence = 0.7
-            rectDetectRequest.maximumObservations = 8
+            rectDetectRequest.minimumConfidence = 0.8
+            rectDetectRequest.maximumObservations = 15
             return rectDetectRequest
         }()
         

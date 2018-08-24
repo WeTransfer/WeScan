@@ -147,29 +147,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             return
         }
         
-        var motion: CMMotionManager!
-        motion = CMMotionManager()
-        motion.accelerometerUpdateInterval = 0.2
-        motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
-            guard let data = data else {
-                CaptureSession.current.editImageOrientation = .up
-                return
-            }
-                if abs(data.acceleration.y) < abs(data.acceleration.x) {
-                    if data.acceleration.x > 0 {
-                        CaptureSession.current.editImageOrientation = .left
-                    } else {
-                        CaptureSession.current.editImageOrientation = .right
-                    }
-                } else {
-                    if data.acceleration.y > 0 {
-                        CaptureSession.current.editImageOrientation = .down
-                    } else {
-                        CaptureSession.current.editImageOrientation = .up
-                    }
-                }
-                motion.stopAccelerometerUpdates()
-        }
+        setImageOrientation()
         
         let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
         let imageSize = finalImage.extent.size
@@ -182,6 +160,32 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             CIRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
                 self.processRectangle(rectangle: rectangle, imageSize: imageSize)
             }
+        }
+    }
+    
+    private func setImageOrientation() {
+        var motion: CMMotionManager!
+        motion = CMMotionManager()
+        motion.accelerometerUpdateInterval = 0.2
+        motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
+            guard let data = data else {
+                CaptureSession.current.editImageOrientation = .up
+                return
+            }
+            if abs(data.acceleration.y) < abs(data.acceleration.x) {
+                if data.acceleration.x > 0 {
+                    CaptureSession.current.editImageOrientation = .left
+                } else {
+                    CaptureSession.current.editImageOrientation = .right
+                }
+            } else {
+                if data.acceleration.y > 0 {
+                    CaptureSession.current.editImageOrientation = .down
+                } else {
+                    CaptureSession.current.editImageOrientation = .up
+                }
+            }
+            motion.stopAccelerometerUpdates()
         }
     }
     
@@ -233,11 +237,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         return quad
     }
-
+    
 }
 
 extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
-
+    
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         if let error = error {
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -249,7 +253,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         
         if let sampleBuffer = photoSampleBuffer,
             let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil) {
-                completeImageCapture(with: imageData)
+            completeImageCapture(with: imageData)
         } else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)

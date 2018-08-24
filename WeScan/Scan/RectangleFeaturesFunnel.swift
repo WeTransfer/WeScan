@@ -60,7 +60,7 @@ final class RectangleFeaturesFunnel {
     let matchingThreshold: CGFloat = 40.0
     
     /// The number of similar rectangles that need to be found to auto scan.
-    let autoScanThreshold = 30
+    let autoScanThreshold = 35
     
     /// The minumum number of matching rectangles (within the `rectangle` queue), to be confident enough to display a rectangle.
     let minNumberOfMatches = 3
@@ -118,7 +118,7 @@ final class RectangleFeaturesFunnel {
     /// Returns: The best rectangle to display given the current history.
     private func bestRectangle(withCurrentlyDisplayedRectangle currentRectangle: Quadrilateral?) -> RectangleMatch? {
         var bestMatch: RectangleMatch?
-        
+        guard rectangles.count > 0 else { return nil }
         rectangles.reversed().forEach { (rectangle) in
             guard let best = bestMatch else {
                 bestMatch = rectangle
@@ -163,7 +163,7 @@ final class RectangleFeaturesFunnel {
     /// Loops through all of the rectangles of the queue, and gives them a score depending on how many they match. @see `RectangleMatch.matchingScore`
     private func updateRectangleMatches() {
         resetMatchingScores()
-        
+        guard rectangles.count > 0 else { return }
         for (i, currentRect) in rectangles.enumerated() {
             for (j, rect) in rectangles.enumerated() {
                 if j > i && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
@@ -176,9 +176,9 @@ final class RectangleFeaturesFunnel {
     
     /// Resets the matching score of all of the rectangles in the queue to 0
     private func resetMatchingScores() {
-        rectangles = rectangles.map { (rectangle) -> RectangleMatch in
+        guard rectangles.count > 0 else { return }
+        for rectangle in rectangles {
             rectangle.matchingScore = 0
-            return rectangle
         }
     }
     
