@@ -32,7 +32,7 @@ final class QuadrilateralViewTests: XCTestCase {
         quadView.editable = true
         vc.view.addSubview(quadView)
         
-        let quad = Quadrilateral(topLeft: CGPoint(x: 0.0, y: 0.0), topRight: CGPoint(x: 200.0, y: 0.0), bottomRight: CGPoint(x: 200.0, y: 200.0), bottomLeft: CGPoint(x: 0.0, y: 220.0))
+        let quad = Quadrilateral(topLeft: .zero, topRight: CGPoint(x: 200.0, y: 0.0), bottomRight: CGPoint(x: 200.0, y: 200.0), bottomLeft: CGPoint(x: 0.0, y: 220.0))
         
         quadView.drawQuadrilateral(quad: quad, animated: false)
         
@@ -66,7 +66,7 @@ final class QuadrilateralViewTests: XCTestCase {
         quadView.editable = true
         vc.view.addSubview(quadView)
         
-        let quad = Quadrilateral(topLeft: CGPoint(x: 0.0, y: 0.0), topRight: CGPoint(x: 200.0, y: 0.0), bottomRight: CGPoint(x: 200.0, y: 200.0), bottomLeft: CGPoint(x: 0.0, y: 220.0))
+        let quad = Quadrilateral(topLeft: .zero, topRight: CGPoint(x: 200.0, y: 0.0), bottomRight: CGPoint(x: 200.0, y: 200.0), bottomLeft: CGPoint(x: 0.0, y: 220.0))
         
         quadView.drawQuadrilateral(quad: quad, animated: false)
         
