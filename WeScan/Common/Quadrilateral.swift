@@ -122,6 +122,23 @@ public struct Quadrilateral: Transformable {
         return transformedQuad
     }
     
+    /// judge a quad is conform a specific ratio such A4 ratio, if not then we just return default quad before enter edit view
+    func isQuadConformRatio(_ ratio: CGFloat) -> Bool {
+        let width = hypotf(Float(topLeft.x - topRight.x), Float(topLeft.y - topRight.y))
+        let height = hypotf(Float(topLeft.x - bottomLeft.x), Float(topLeft.y - bottomLeft.y))
+        
+        let ratioOne = width < height ? (CGFloat)(width / height) : (CGFloat)(height / width)
+        
+        let errorRatio = ratio * 0.2
+        let specificRatioRange = ratio-errorRatio...ratio+errorRatio
+        if specificRatioRange.contains(ratioOne) {
+            return true
+        }
+        
+        return false
+    }
+    
+    
     // Convenience functions
     
     /// Sorts the given `CGPoints` based on their y value.
