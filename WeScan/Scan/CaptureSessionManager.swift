@@ -65,6 +65,14 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
+        // determine if there is a device to capture
+        let device = AVCaptureDevice.default(for: .video)
+        if device == nil {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
@@ -122,6 +130,25 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
+        // before capture photo, judge `photoOutput` connection input port have valid video media type, if not report a error
+        var captureConnection: AVCaptureConnection? = nil
+        for connection in photoOutput.connections {
+            for port in connection.inputPorts {
+                if port.mediaType == .video {
+                    captureConnection = connection
+                    break
+                }
+            }
+            if captureConnection != nil {
+                break
+            }
+        }
+        if captureConnection == nil || captureConnection?.isEnabled == false || captureConnection?.isActive == false {
+            let error = ImageScannerControllerError.capture
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return;
+        }
+        
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
         photoSettings.isAutoStillImageStabilizationEnabled = true
