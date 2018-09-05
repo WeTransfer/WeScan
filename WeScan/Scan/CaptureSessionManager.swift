@@ -144,6 +144,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             }
         }
         if connection == nil || connection?.isEnabled == false || connection?.isActive == false {
+            let error = ImageScannerControllerError.capture
+            delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
         
