@@ -283,7 +283,6 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             var quad: Quadrilateral?
             if let displayedRectangleResult = self?.displayedRectangleResult {
                 quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
-                quad = quad?.isQuadConformRatio(0.7) ?? false ? quad : nil
                 quad = quad?.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
             }
             

@@ -178,18 +178,10 @@ final class EditScanViewController: UIViewController {
     
     /// Generates a `Quadrilateral` object that's centered and one third of the size of the passed in image.
     private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
-//        let topLeft = CGPoint(x: image.size.width / 3.0, y: image.size.height / 3.0)
-//        let topRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: image.size.height / 3.0)
-//        let bottomRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-//        let bottomLeft = CGPoint(x: image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-        
-        // if not detect rectangle or rectangle not conform appoint ratio, then default quad is full image four corner.
-        let topLeft = CGPoint(x: 0, y: 0)
-        let topRight = CGPoint(x: image.size.width, y: 0)
-        let bottomLeft = CGPoint(x: 0, y: image.size.height)
-        let bottomRight = CGPoint(x: image.size.width, y: image.size.height)
-        
-        
+        let topLeft = CGPoint(x: image.size.width / 3.0, y: image.size.height / 3.0)
+        let topRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: image.size.height / 3.0)
+        let bottomRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
+        let bottomLeft = CGPoint(x: image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
         
         let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
         
