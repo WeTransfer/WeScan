@@ -122,6 +122,7 @@ public struct Quadrilateral: Transformable {
         return transformedQuad
     }
     
+    
     // Convenience functions
     
     /// Sorts the given `CGPoints` based on their y value.
