@@ -111,9 +111,9 @@ public struct Quadrilateral: Transformable {
         if rotated {
             let rotationTransform = CGAffineTransform(rotationAngle: rotationAngle)
             
-            let fromImageBounds = CGRect(x: 0.0, y: 0.0, width: fromSize.width, height: fromSize.height).applying(scaledTransform).applying(rotationTransform)
+            let fromImageBounds = CGRect(origin: .zero, size: fromSize).applying(scaledTransform).applying(rotationTransform)
             
-            let toImageBounds = CGRect(x: 0.0, y: 0.0, width: toSize.width, height: toSize.height)
+            let toImageBounds = CGRect(origin: .zero, size: toSize)
             let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: fromImageBounds, toCenterOfRect: toImageBounds)
             
             transformedQuad = transformedQuad.applyTransforms([rotationTransform, translationTransform])

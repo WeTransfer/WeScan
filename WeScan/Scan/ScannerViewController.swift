@@ -33,7 +33,7 @@ final class ScannerViewController: UIViewController {
     }()
 
     lazy private var closeButton: CloseButton = {
-        let button = CloseButton(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
+        let button = CloseButton(frame: CGRect(origin: .zero, size: CGSize(width: 18.0, height: 18.0)))
         button.addTarget(self, action: #selector(cancelImageScannerController(_:)), for: .touchUpInside)
         return button
     }()
@@ -168,7 +168,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         
         let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2.0))
 
-        let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height).applying(rotationTransform)
+        let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
         let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
 
         let transforms = [scaleTransform, rotationTransform, translationTransform]
