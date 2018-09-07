@@ -44,7 +44,7 @@ final class QuadrilateralView: UIView {
     
     public var editable = false {
         didSet {
-            editable == true ? showCornerViews() : hideCornerViews()
+            cornerViews(hidden: !editable)
             quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
             guard let quad = quad else {
                 return
@@ -141,7 +141,7 @@ final class QuadrilateralView: UIView {
         self.quad = quad
         drawQuad(quad, animated: animated)
         if editable {
-            showCornerViews()
+            cornerViews(hidden: false)
             layoutCornerViews(forQuad: quad)
         }
     }
@@ -255,18 +255,11 @@ final class QuadrilateralView: UIView {
     
     // MARK: - Convenience
     
-    private func hideCornerViews() {
-        topLeftCornerView.isHidden = true
-        topRightCornerView.isHidden = true
-        bottomRightCornerView.isHidden = true
-        bottomLeftCornerView.isHidden = true
-    }
-    
-    private func showCornerViews() {
-        topLeftCornerView.isHidden = false
-        topRightCornerView.isHidden = false
-        bottomRightCornerView.isHidden = false
-        bottomLeftCornerView.isHidden = false
+    private func cornerViews(hidden: Bool) {
+        topLeftCornerView.isHidden = hidden
+        topRightCornerView.isHidden = hidden
+        bottomRightCornerView.isHidden = hidden
+        bottomLeftCornerView.isHidden = hidden
     }
     
     private func update(_ quad: Quadrilateral, withPosition position: CGPoint, forCorner corner: CornerPosition) -> Quadrilateral {
