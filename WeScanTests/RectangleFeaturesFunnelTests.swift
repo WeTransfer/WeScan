@@ -93,18 +93,16 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Funnel add callback")
         expectation.isInverted = true
       
-      // TODO: Fix this
-      
-//        for i in 0 ..< count {
-//            let rectangleFeature = i % 2 == 0 ? type1RectangleFeatures[i] : type2RectangleFeatures[i]
-//            funnel.add(rectangleFeature, currentlyDisplayedRectangle: currentlyDisplayedRect, completion: { (rectFeature) in
-//
-//                currentlyDisplayedRect = rectFeature
-//                if i >= funnel.maxNumberOfRectangles {
-//                    expectation.fulfill()
-//                }
-//            })
-//        }
+        for i in 0 ..< count {
+            let rectangleFeature = i % 2 == 0 ? type1RectangleFeatures[i] : type2RectangleFeatures[i]
+            funnel.add(rectangleFeature, currentlyDisplayedRectangle: currentlyDisplayedRect, completion: { (rectFeature) in
+
+                currentlyDisplayedRect = rectFeature
+                if i >= funnel.maxNumberOfRectangles {
+                    expectation.fulfill()
+                }
+            })
+        }
 
         wait(for: [expectation], timeout: 3.0)
     }

@@ -51,7 +51,6 @@
 		A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF90FC203B412600841A11 /* CGPointTests.swift */; };
 		A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E98202C7B66001723AD /* QuadrilateralView.swift */; };
 		A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22E9E202C8D70001723AD /* Quadrilateral.swift */; };
-		A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */; };
 		A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */; };
 		A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */; };
 		A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22ECD2031937E001723AD /* EditScanViewController.swift */; };
@@ -62,7 +61,6 @@
 		B992E86E210DFA1A00C33A21 /* flashoff@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B992E86B210DFA1A00C33A21 /* flashoff@3x.png */; };
 		B992E86F210DFA1A00C33A21 /* flashoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B992E86C210DFA1A00C33A21 /* flashoff@2x.png */; };
 		B992E870210DFA1A00C33A21 /* flashoff.png in Resources */ = {isa = PBXBuildFile; fileRef = B992E86D210DFA1A00C33A21 /* flashoff.png */; };
-		B99E4B9A210B00A400976BC5 /* VNRectangleObservation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99E4B99210B00A400976BC5 /* VNRectangleObservation+Utils.swift */; };
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
@@ -155,7 +153,6 @@
 		A1DF90FC203B412600841A11 /* CGPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointTests.swift; sourceTree = "<group>"; };
 		A1F22E98202C7B66001723AD /* QuadrilateralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
 		A1F22E9E202C8D70001723AD /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
-		A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIRectangleFeature+Utils.swift"; sourceTree = "<group>"; };
 		A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnel.swift; sourceTree = "<group>"; };
 		A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Utils.swift"; sourceTree = "<group>"; };
 		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
@@ -166,7 +163,6 @@
 		B992E86B210DFA1A00C33A21 /* flashoff@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flashoff@3x.png"; sourceTree = "<group>"; };
 		B992E86C210DFA1A00C33A21 /* flashoff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flashoff@2x.png"; sourceTree = "<group>"; };
 		B992E86D210DFA1A00C33A21 /* flashoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flashoff.png; sourceTree = "<group>"; };
-		B99E4B99210B00A400976BC5 /* VNRectangleObservation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VNRectangleObservation+Utils.swift"; sourceTree = "<group>"; };
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
@@ -297,8 +293,6 @@
 			isa = PBXGroup;
 			children = (
 				A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */,
-				A1F22EA0202C8E24001723AD /* CIRectangleFeature+Utils.swift */,
-				B99E4B99210B00A400976BC5 /* VNRectangleObservation+Utils.swift */,
 				A11C5CDA20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift */,
 				A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */,
 				A1DF90F12035992A00841A11 /* CGAffineTransform+Utils.swift */,
@@ -537,7 +531,6 @@
 				A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */,
 				A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */,
 				A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */,
-				A1F22EA1202C8E24001723AD /* CIRectangleFeature+Utils.swift in Sources */,
 				A1DF90E420358CB100841A11 /* Transformable.swift in Sources */,
 				74E354BF2121DA1B008AF786 /* CaptureSession.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,
@@ -554,7 +547,6 @@
 				A1DF90A420331A0B00841A11 /* CIRectangleDetector.swift in Sources */,
 				A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */,
 				A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */,
-				B99E4B9A210B00A400976BC5 /* VNRectangleObservation+Utils.swift in Sources */,
 				A194E97220431DD7003493E2 /* ReviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
