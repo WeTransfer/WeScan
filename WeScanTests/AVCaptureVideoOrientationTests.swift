@@ -7,29 +7,38 @@
 //
 
 import XCTest
+import AVFoundation
+
+@testable import WeScan
 
 class AVCaptureVideoOrientationTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+  
+  func testPortaitsMapToPortrait() {
+    XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .portrait), .portrait)
+  }
+  
+  func testPortaitsUpsideDownMapToPortraitUpsideDown() {
+    XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .portraitUpsideDown), .portraitUpsideDown)
+  }
+  
+  func testLandscapeLeftMapToLandscapeLeft() {
+    XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .landscapeLeft), .landscapeLeft)
+  }
+  
+  func testLandscapeRightMapToLandscapeRight() {
+    XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .landscapeRight), .landscapeRight)
+  }
+  
+  func testFaceUpMapToPortrait() {
+    XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .faceUp), .portrait)
+  }
+  
+  func testFaceDownMapToPortraitUpsideDown() {
+    XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .faceDown), .portraitUpsideDown)
+  }
+  
+  func testDefaultToPortrait() {
+    XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .unknown), .portrait)
+  }
+  
 }
