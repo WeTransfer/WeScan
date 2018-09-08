@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import WeScan
 
 class CGAffineTransformTests: XCTestCase {
 //    
@@ -20,6 +21,30 @@ class CGAffineTransformTests: XCTestCase {
 //    let scale = max(toSize.width / fromSize.width, toSize.height / fromSize.height)
 //    return CGAffineTransform(scaleX: scale, y: scale)
 //  }
+  
+  
+  func testScalesUpCorrectly() {
+    
+    let fromSize = CGSize(width: 1, height: 1)
+    let toSize =  CGSize(width: 2, height: 2)
+    
+    let scale = CGAffineTransform.scaleTransform(forSize: fromSize, aspectFillInSize: toSize)
+
+    XCTAssertEqual(scale.a, 2)
+    XCTAssertEqual(scale.d, 2)
+  }
+  
+  func testScalesDownCorrectly() {
+    
+    let fromSize = CGSize(width: 2, height: 2)
+    let toSize =  CGSize(width: 1, height: 1)
+    
+    let scale = CGAffineTransform.scaleTransform(forSize: fromSize, aspectFillInSize: toSize)
+    
+    XCTAssertEqual(scale.a, 0.5)
+    XCTAssertEqual(scale.d, 0.5)
+  }
+  
 //  
 //  /// Convenience function to easily get a translate `CGAffineTransform` instance.
 //  ///
@@ -31,5 +56,13 @@ class CGAffineTransformTests: XCTestCase {
 //    let translate = CGPoint(x: toRect.midX - fromRect.midX, y: toRect.midY - fromRect.midY)
 //    return CGAffineTransform(translationX: translate.x, y: translate.y)
 //  }
+  
+  
+  func testTranslatesCorrectly() {
+    
+    let fromRect = 0
+    let toRect = 0
+    
+  }
     
 }
