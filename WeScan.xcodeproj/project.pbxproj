@@ -15,7 +15,6 @@
 		74F7D03C211ACC6B0046AF7E /* CGAffineTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */; };
 		74F7D03E211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D03D211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift */; };
 		74F7D040211ACC960046AF7E /* VNRectangleObservationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D03F211ACC960046AF7E /* VNRectangleObservationTests.swift */; };
-		74F7D042211ACCAB0046AF7E /* CIRectangleFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D041211ACCAB0046AF7E /* CIRectangleFeatureTests.swift */; };
 		A11C5B9C2046A20C005075FE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11C5B9B2046A20C005075FE /* Error.swift */; };
 		A11C5CD920495EA1005075FE /* RectangleFeaturesFunnelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */; };
 		A11C5CDB20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11C5CDA20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift */; };
@@ -113,7 +112,6 @@
 		74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGAffineTransformTests.swift; sourceTree = "<group>"; };
 		74F7D03D211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureVideoOrientationTests.swift; sourceTree = "<group>"; };
 		74F7D03F211ACC960046AF7E /* VNRectangleObservationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNRectangleObservationTests.swift; sourceTree = "<group>"; };
-		74F7D041211ACCAB0046AF7E /* CIRectangleFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIRectangleFeatureTests.swift; sourceTree = "<group>"; };
 		A11C5B9B2046A20C005075FE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnelTests.swift; sourceTree = "<group>"; };
 		A11C5CDA20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVCaptureVideoOrientation+Utils.swift"; sourceTree = "<group>"; };
@@ -284,7 +282,6 @@
 				74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */,
 				74F7D03D211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift */,
 				74F7D03F211ACC960046AF7E /* VNRectangleObservationTests.swift */,
-				74F7D041211ACCAB0046AF7E /* CIRectangleFeatureTests.swift */,
 			);
 			path = WeScanTests;
 			sourceTree = "<group>";
@@ -568,7 +565,6 @@
 				A14089EE204EAA180009530F /* ArrayTests.swift in Sources */,
 				A1DF90C32034919400841A11 /* QuadrilateralTests.swift in Sources */,
 				A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */,
-				74F7D042211ACCAB0046AF7E /* CIRectangleFeatureTests.swift in Sources */,
 				74F7D034211ACBD90046AF7E /* CIRectangleDetectorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
