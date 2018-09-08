@@ -126,6 +126,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
             XCTAssert(rectangle.isWithin(1.0, ofRectangleFeature: rectangleFeaturesType1[0]))
             expectationType1.fulfill()
         }
+      
         wait(for: [expectationType1], timeout: 3.0)
     }
     
