@@ -88,14 +88,16 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         let count = 100
         let type1RectangleFeatures = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect1, withCount: count)
         let type2RectangleFeatures = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect2, withCount: count)
-        var currentlyDisplayedRect: CIRectangleFeature?
+        var currentlyDisplayedRect: Quadrilateral?
         
         let expectation = XCTestExpectation(description: "Funnel add callback")
         expectation.isInverted = true
       
         for i in 0 ..< count {
             let rectangleFeature = i % 2 == 0 ? type1RectangleFeatures[i] : type2RectangleFeatures[i]
-            funnel.add(rectangleFeature, currentlyDisplayedRectangle: currentlyDisplayedRect, completion: { (rectFeature) in
+          
+          
+            funnel.add(rectangleFeature, currentlyDisplayedRectangle: currentlyDisplayedRect, completion: { (result, rectFeature) in
 
                 currentlyDisplayedRect = rectFeature
                 if i >= funnel.maxNumberOfRectangles {
