@@ -27,7 +27,9 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         
         for i in 0 ..< rectangleFeatures.count {
             funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in
-                expectation.fulfill()
+              
+              
+              expectation.fulfill()
             }
         }
         
@@ -100,7 +102,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
             funnel.add(rectangleFeature, currentlyDisplayedRectangle: currentlyDisplayedRect, completion: { (result, rectFeature) in
 
                 currentlyDisplayedRect = rectFeature
-                if i >= funnel.maxNumberOfRectangles {
+                if i >= funnel.maxNumberOfRectangles && result == .showOnly {
                     expectation.fulfill()
                 }
             })
