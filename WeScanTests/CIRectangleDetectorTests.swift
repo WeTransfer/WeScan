@@ -6,22 +6,29 @@
 //  Copyright © 2018 WeTransfer. All rights reserved.
 //
 
+import FBSnapshotTestCase
 import XCTest
 @testable import WeScan
 
-class CIRectangleDetectorTests: XCTestCase {
+class CIRectangleDetectorTests: FBSnapshotTestCase {
+  
+    override func setUp() {
+      super.setUp()
+      
+      recordMode = false
+    }
     
     func testCorrectlyDetectsAndReturnsQuadilateral() {
       
       let targetSize = CGSize(width: 50, height: 50)
       
       let containerLeyer =  CALayer()
-      containerLeyer.backgroundColor = UIColor.black.cgColor
+      containerLeyer.backgroundColor = UIColor.white.cgColor
       containerLeyer.frame = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
       containerLeyer.masksToBounds = true
       
       let targetLayer = CALayer()
-      targetLayer.backgroundColor = UIColor.white.cgColor
+      targetLayer.backgroundColor = UIColor.black.cgColor
       targetLayer.frame = containerLeyer.frame.insetBy(dx: 5, dy: 5)
       
       containerLeyer.addSublayer(targetLayer)
@@ -41,10 +48,10 @@ class CIRectangleDetectorTests: XCTestCase {
       
       let quadView = QuadrilateralView(frame: resultView.bounds)
       quadView.drawQuadrilateral(quad: quad, animated: false)
+      quadView.backgroundColor = UIColor.red
       resultView.addSubview(quadView)
       
-//  We should render this somewhere as a some sort of test.
-      print("")
+      FBSnapshotVerifyView(resultView)
     }
     
 }
