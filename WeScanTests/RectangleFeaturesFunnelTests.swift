@@ -65,7 +65,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
-    /// Ensures that feeding the funnel with rectangles similar than the currently displayed one doesn't trigger the completion block.
+    /// Ensures that feeding the funnel with rectangles similar to the currently displayed one doesn't trigger the completion block.
     func testAddPreviouslyDisplayedRect() {
         let rectangleFeatures = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect1, withCount: funnel.maxNumberOfRectangles * 2)
         
