@@ -7,66 +7,73 @@
 //
 
 import XCTest
+import FBSnapshotTestCase
+@testable import WeScan
 
-class UIImageTests: XCTestCase {
-//    
-//  /// Returns the same image with a portrait orientation.
-//  func applyingPortraitOrientation() -> UIImage {
-//    switch imageOrientation {
-//    case .up:
-//      return rotated(by: Measurement(value: Double.pi, unit: .radians), options: []) ?? self
-//    case .down:
-//      return rotated(by: Measurement(value: Double.pi, unit: .radians), options: [.flipOnVerticalAxis, .flipOnHorizontalAxis]) ?? self
-//    case .left:
-//      return self
-//    case .right:
-//      return rotated(by: Measurement(value: Double.pi / 2.0, unit: .radians), options: []) ?? self
-//    default:
-//      return self
-//    }
-//  }
-//  
-//  /// Data structure to easily express rotation options.
-//  struct RotationOptions: OptionSet {
-//    let rawValue: Int
-//    
-//    static let flipOnVerticalAxis = RotationOptions(rawValue: 1)
-//    static let flipOnHorizontalAxis = RotationOptions(rawValue: 2)
-//  }
-//  
-//  /// Rotate the image by the given angle, and perform other transformations based on the passed in options.
-//  ///
-//  /// - Parameters:
-//  ///   - rotationAngle: The angle to rotate the image by.
-//  ///   - options: Options to apply to the image.
-//  /// - Returns: The new image rotated and optentially flipped (@see options).
-//  func rotated(by rotationAngle: Measurement<UnitAngle>, options: RotationOptions = []) -> UIImage? {
-//    guard let cgImage = self.cgImage else { return nil }
-//    
-//    let rotationInRadians = CGFloat(rotationAngle.converted(to: .radians).value)
-//    let transform = CGAffineTransform(rotationAngle: rotationInRadians)
-//    let cgImageSize = CGSize(width: cgImage.width, height: cgImage.height)
-//    var rect = CGRect(origin: .zero, size: cgImageSize).applying(transform)
-//    rect.origin = .zero
-//    
-//    let format = UIGraphicsImageRendererFormat()
-//    format.scale = 1
-//    
-//    let renderer = UIGraphicsImageRenderer(size: rect.size, format: format)
-//    
-//    let image = renderer.image { renderContext in
-//      renderContext.cgContext.translateBy(x: rect.midX, y: rect.midY)
-//      renderContext.cgContext.rotate(by: rotationInRadians)
-//      
-//      let x = options.contains(.flipOnVerticalAxis) ? -1.0 : 1.0
-//      let y = options.contains(.flipOnHorizontalAxis) ? 1.0 : -1.0
-//      renderContext.cgContext.scaleBy(x: CGFloat(x), y: CGFloat(y))
-//      
-//      let drawRect = CGRect(origin: CGPoint(x: -cgImageSize.width / 2.0, y: -cgImageSize.height / 2.0), size: cgImageSize)
-//      renderContext.cgContext.draw(cgImage, in: drawRect)
-//    }
-//    
-//    return image
-//  }
+class UIImageTests: FBSnapshotTestCase {
+  
+  override func setUp() {
+    super.setUp()
     
+    recordMode = false
+  }
+  
+  func testRotateUpFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .up)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateDownFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .down)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateLeftFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .left)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateRightFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .right)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateDefaultFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .rightMirrored)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    
+    let view = UIImageView(image: image!.rotated(by: Measurement(value: Double.pi * 0.2, unit: .radians), options: []))
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
 }
