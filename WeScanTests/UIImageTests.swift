@@ -7,39 +7,73 @@
 //
 
 import XCTest
+import FBSnapshotTestCase
 @testable import WeScan
 
-class UIImageTests: XCTestCase {
-        
-    func testScailingNonCGBackedUIImageReturnNil() {
-        let image = UIImage()
-        XCTAssertNil(image.scaledImage(atPoint: .zero, scaleFactor: 0.0, targetSize: .zero))
-    }
+class UIImageTests: FBSnapshotTestCase {
   
-    func testScailingToInvalidSizeUIImageReturnNil() {
-      
-      let size = CGSize(width: 1, height: 1)
-      
-      UIGraphicsBeginImageContextWithOptions(size, false, 1)
-      let image = UIGraphicsGetImageFromCurrentImageContext()!
-      UIGraphicsEndImageContext()
-      
-      XCTAssertNil(image.scaledImage(atPoint: .zero, scaleFactor: 5.0, targetSize: .zero))
-    }
+  override func setUp() {
+    super.setUp()
+    
+    recordMode = false
+  }
   
-  func testScalesCorrectly() {
+  func testRotateUpFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .up)
     
-    let middle = CGPoint(x: 0.5, y: 0.5)
-    let size = CGSize(width: 1, height: 1)
-    let targetSize = CGSize(width: 2.0, height: 2.0)
-
-    UIGraphicsBeginImageContextWithOptions(size, false, 1)
-    let image = UIGraphicsGetImageFromCurrentImageContext()!
-    UIGraphicsEndImageContext()
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
     
-    let scaledImage = image.scaledImage(atPoint: middle, scaleFactor: 2.0, targetSize: targetSize)!
-
-    XCTAssertEqual(scaledImage.size.width, 1.0)
-    XCTAssertEqual(scaledImage.size.height, 1.0)
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateDownFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .down)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateLeftFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .left)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateRightFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .right)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateDefaultFacingImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    let orientatedImage = UIImage(cgImage: image!.cgImage!, scale: 1.0, orientation: .rightMirrored)
+    
+    let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
+  }
+  
+  func testRotateImageCorrectly() {
+    let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+    
+    let view = UIImageView(image: image!.rotated(by: Measurement(value: Double.pi * 0.2, unit: .radians), options: []))
+    view.sizeToFit()
+    
+    FBSnapshotVerifyView(view)
   }
 }

@@ -164,20 +164,20 @@ final class RectangleFeaturesFunnel {
     private func updateRectangleMatches() {
         resetMatchingScores()
         
-        for currentRect in rectangles {
-            for rect in rectangles {
-                if currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
-                    currentRect.matchingScore += 1
-                    rect.matchingScore += 1
-                }
-            }
+      for (i, currentRect) in rectangles.enumerated() {
+        for (j, rect) in rectangles.enumerated() {
+          if j > i && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
+            currentRect.matchingScore += 1
+            rect.matchingScore += 1
+          }
         }
+      }
     }
     
     /// Resets the matching score of all of the rectangles in the queue to 0
     private func resetMatchingScores() {
         rectangles = rectangles.map { (rectangle) -> RectangleMatch in
-            rectangle.matchingScore = 0
+            rectangle.matchingScore = 1
             return rectangle
         }
     }
