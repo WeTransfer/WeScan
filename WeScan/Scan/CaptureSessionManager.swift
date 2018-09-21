@@ -104,7 +104,9 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         switch authorizationStatus {
         case .authorized:
-            self.captureSession.startRunning()
+            DispatchQueue.main.async {
+                self.captureSession.startRunning()
+            }
             isDetecting = true
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (_) in
@@ -145,29 +147,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             return
         }
         
-        var motion: CMMotionManager!
-        motion = CMMotionManager()
-        motion.accelerometerUpdateInterval = 0.2
-        motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
-            guard let data = data else {
-                CaptureSession.current.editImageOrientation = .up
-                return
-            }
-                if abs(data.acceleration.y) < abs(data.acceleration.x) {
-                    if data.acceleration.x > 0 {
-                        CaptureSession.current.editImageOrientation = .left
-                    } else {
-                        CaptureSession.current.editImageOrientation = .right
-                    }
-                } else {
-                    if data.acceleration.y > 0 {
-                        CaptureSession.current.editImageOrientation = .down
-                    } else {
-                        CaptureSession.current.editImageOrientation = .up
-                    }
-                }
-                motion.stopAccelerometerUpdates()
-        }
+        setImageOrientation()
         
         let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
         let imageSize = finalImage.extent.size
@@ -183,6 +163,32 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
     }
     
+    private func setImageOrientation() {
+        var motion: CMMotionManager!
+        motion = CMMotionManager()
+        motion.accelerometerUpdateInterval = 0.2
+        motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
+            guard let data = data else {
+                CaptureSession.current.editImageOrientation = .up
+                return
+            }
+            if abs(data.acceleration.y) < abs(data.acceleration.x) {
+                if data.acceleration.x > 0 {
+                    CaptureSession.current.editImageOrientation = .left
+                } else {
+                    CaptureSession.current.editImageOrientation = .right
+                }
+            } else {
+                if data.acceleration.y > 0 {
+                    CaptureSession.current.editImageOrientation = .down
+                } else {
+                    CaptureSession.current.editImageOrientation = .up
+                }
+            }
+            motion.stopAccelerometerUpdates()
+        }
+    }
+    
     private func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
         if let rectangle = rectangle {
             
@@ -193,9 +199,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 }
                 let shouldAutoScan = result == .showAndAutoScan
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan && CaptureSession.current.autoScanEnabled {
+                if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
-                    stop()
                 }
             }
             
@@ -232,11 +237,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         return quad
     }
-
+    
 }
 
 extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
-
+    
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         if let error = error {
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -248,7 +253,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         
         if let sampleBuffer = photoSampleBuffer,
             let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil) {
-                completeImageCapture(with: imageData)
+            completeImageCapture(with: imageData)
         } else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -280,6 +285,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
     private func completeImageCapture(with imageData: Data) {
         DispatchQueue.global(qos: .background).async { [weak self] in
+            CaptureSession.current.isEditing = true
             guard let image = UIImage(data: imageData) else {
                 let error = ImageScannerControllerError.capture
                 DispatchQueue.main.async {
