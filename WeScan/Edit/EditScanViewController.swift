@@ -186,7 +186,7 @@ final class EditScanViewController: UIViewController {
 
     private func displayQuad() {
         let imageSize = image.size
-        let imageFrame = CGRect(x: quadView.frame.origin.x, y: quadView.frame.origin.y, width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
+        let imageFrame = CGRect(origin: quadView.frame.origin, size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant))
         
         let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
         let transforms = [scaleTransform]

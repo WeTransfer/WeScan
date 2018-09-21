@@ -70,7 +70,7 @@ final class ScannerViewController: UIViewController {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
-    
+
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -263,8 +263,9 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         let scaledImageSize = imageSize.applying(scaleTransform)
         
         let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2.0))
-        
-        let imageBounds = CGRect(x: 0.0, y: 0.0, width: scaledImageSize.width, height: scaledImageSize.height).applying(rotationTransform)
+
+        let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
+
         let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
         
         let transforms = [scaleTransform, rotationTransform, translationTransform]

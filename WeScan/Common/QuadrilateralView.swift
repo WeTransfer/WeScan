@@ -44,7 +44,7 @@ final class QuadrilateralView: UIView {
     
     public var editable = false {
         didSet {
-            editable == true ? showCornerViews() : hideCornerViews()
+            cornerViews(hidden: !editable)
             quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
             guard let quad = quad else {
                 return
@@ -65,23 +65,23 @@ final class QuadrilateralView: UIView {
     }
     
     lazy private var topLeftCornerView: EditScanCornerView = {
-        return EditScanCornerView(frame: CGRect(x: 0.0, y: 0.0, width: cornerViewSize, height: cornerViewSize), position: .topLeft)
+        return EditScanCornerView(frame: CGRect(origin: .zero, size: cornerViewSize), position: .topLeft)
     }()
     
     lazy private var topRightCornerView: EditScanCornerView = {
-        return EditScanCornerView(frame: CGRect(x: 0.0, y: 0.0, width: cornerViewSize, height: cornerViewSize), position: .topRight)
+        return EditScanCornerView(frame: CGRect(origin: .zero, size: cornerViewSize), position: .topRight)
     }()
     
     lazy private var bottomRightCornerView: EditScanCornerView = {
-        return EditScanCornerView(frame: CGRect(x: 0.0, y: 0.0, width: cornerViewSize, height: cornerViewSize), position: .bottomRight)
+        return EditScanCornerView(frame: CGRect(origin: .zero, size: cornerViewSize), position: .bottomRight)
     }()
     
     lazy private var bottomLeftCornerView: EditScanCornerView = {
-        return EditScanCornerView(frame: CGRect(x: 0.0, y: 0.0, width: cornerViewSize, height: cornerViewSize), position: .bottomLeft)
+        return EditScanCornerView(frame: CGRect(origin: .zero, size: cornerViewSize), position: .bottomLeft)
     }()
     
-    private let highlightedCornerViewSize: CGFloat = 75.0
-    private let cornerViewSize: CGFloat = 20.0
+    private let highlightedCornerViewSize = CGSize(width: 75.0, height: 75.0)
+    private let cornerViewSize = CGSize(width: 20.0, height: 20.0)
     
     // MARK: - Life Cycle
     
@@ -141,7 +141,7 @@ final class QuadrilateralView: UIView {
         self.quad = quad
         drawQuad(quad, animated: animated)
         if editable {
-            showCornerViews()
+            cornerViews(hidden: false)
             layoutCornerViews(forQuad: quad)
         }
     }
@@ -204,8 +204,10 @@ final class QuadrilateralView: UIView {
             cornerView.highlightWithImage(image)
             return
         }
-        
-        cornerView.frame = CGRect(x: cornerView.frame.origin.x - (highlightedCornerViewSize - cornerViewSize) / 2.0, y: cornerView.frame.origin.y - (highlightedCornerViewSize - cornerViewSize) / 2.0, width: highlightedCornerViewSize, height: highlightedCornerViewSize)
+
+        let origin = CGPoint(x: cornerView.frame.origin.x - (highlightedCornerViewSize.width - cornerViewSize.width) / 2.0,
+                             y: cornerView.frame.origin.y - (highlightedCornerViewSize.height - cornerViewSize.height) / 2.0)
+        cornerView.frame = CGRect(origin: origin, size: highlightedCornerViewSize)
         cornerView.highlightWithImage(image)
     }
     
@@ -222,7 +224,9 @@ final class QuadrilateralView: UIView {
     
     private func resetHightlightedCornerView(cornerView: EditScanCornerView) {
         cornerView.reset()
-        cornerView.frame = CGRect(x: cornerView.frame.origin.x + (cornerView.frame.size.width - cornerViewSize) / 2.0, y: cornerView.frame.origin.y + (cornerView.frame.size.width - cornerViewSize) / 2.0, width: cornerViewSize, height: cornerViewSize)
+        let origin = CGPoint(x: cornerView.frame.origin.x + (cornerView.frame.size.width - cornerViewSize.width) / 2.0,
+                             y: cornerView.frame.origin.y + (cornerView.frame.size.height - cornerViewSize.width) / 2.0)
+        cornerView.frame = CGRect(origin: origin, size: cornerViewSize)
         cornerView.setNeedsDisplay()
     }
     
@@ -255,18 +259,11 @@ final class QuadrilateralView: UIView {
     
     // MARK: - Convenience
     
-    private func hideCornerViews() {
-        topLeftCornerView.isHidden = true
-        topRightCornerView.isHidden = true
-        bottomRightCornerView.isHidden = true
-        bottomLeftCornerView.isHidden = true
-    }
-    
-    private func showCornerViews() {
-        topLeftCornerView.isHidden = false
-        topRightCornerView.isHidden = false
-        bottomRightCornerView.isHidden = false
-        bottomLeftCornerView.isHidden = false
+    private func cornerViews(hidden: Bool) {
+        topLeftCornerView.isHidden = hidden
+        topRightCornerView.isHidden = hidden
+        bottomRightCornerView.isHidden = hidden
+        bottomLeftCornerView.isHidden = hidden
     }
     
     private func update(_ quad: Quadrilateral, withPosition position: CGPoint, forCorner corner: CornerPosition) -> Quadrilateral {
