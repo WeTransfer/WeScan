@@ -9,7 +9,7 @@
 import Foundation
 
 /// A class containing global variables and settings for this capture session
-class CaptureSession {
+final class CaptureSession {
     
     static let current = CaptureSession()
     

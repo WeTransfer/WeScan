@@ -67,7 +67,7 @@ final class RectangleFeaturesFunnel {
     
     /// The number of times the rectangle has passed the threshold to be auto-scanned
     var thresholdPassed = 0
-
+    
     /// Add a rectangle to the funnel, and if a new rectangle should be displayed, the completion block will be called.
     /// The algorithm works the following way:
     /// 1. Makes sure that the funnel has been fed enough rectangles
