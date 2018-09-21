@@ -27,9 +27,9 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         
         for i in 0 ..< rectangleFeatures.count {
             funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in
-              
-              
-              expectation.fulfill()
+                
+                
+                expectation.fulfill()
             }
         }
         
@@ -43,7 +43,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Funnel add callback")
         
         for i in 0 ..< rectangleFeatures.count {
-	            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in
+            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in
                 expectation.fulfill()
             }
         }
@@ -94,20 +94,20 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Funnel add callback")
         expectation.isInverted = true
-      
+        
         for i in 0 ..< count {
             let rectangleFeature = i % 2 == 0 ? type1RectangleFeatures[i] : type2RectangleFeatures[i]
-          
-          
+            
+            
             funnel.add(rectangleFeature, currentlyDisplayedRectangle: currentlyDisplayedRect, completion: { (result, rectFeature) in
-
+                
                 currentlyDisplayedRect = rectFeature
                 if i >= funnel.maxNumberOfRectangles && result == .showOnly {
                     expectation.fulfill()
                 }
             })
         }
-
+        
         wait(for: [expectation], timeout: 3.0)
     }
     
@@ -128,7 +128,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
             XCTAssert(rectangle.isWithin(1.0, ofRectangleFeature: rectangleFeaturesType1[0]))
             expectationType1.fulfill()
         }
-      
+        
         wait(for: [expectationType1], timeout: 3.0)
     }
     

@@ -178,7 +178,7 @@ final class RectangleFeaturesFunnel {
     private func resetMatchingScores() {
         guard rectangles.count > 0 else { return }
         for rectangle in rectangles {
-            rectangle.matchingScore = 0
+            rectangle.matchingScore = 1
         }
     }
     
