@@ -2,7 +2,7 @@
 //  CaptureSession.swift
 //  WeScan
 //
-//  Created by Julian Schiavo on 31/7/2018.
+//  Created by Julian Schiavo on 23/9/2018.
 //  Copyright © 2018 WeTransfer. All rights reserved.
 //
 

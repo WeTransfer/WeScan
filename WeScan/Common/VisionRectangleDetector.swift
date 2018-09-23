@@ -38,7 +38,9 @@ struct VisionRectangleDetector {
                     let transform = CGAffineTransform.identity
                         .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
                   
-                    completion(biggest.applying(transform))
+                    let finalRectangle = biggest.applying(transform)
+                    
+                    completion(finalRectangle)
                     
                 } else { completion(nil) }
             })
