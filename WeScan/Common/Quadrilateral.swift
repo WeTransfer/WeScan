@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 
 /// A data structure representing a quadrilateral and its position. This class exists to bypass the fact that CIRectangleFeature is read-only.
-public final class Quadrilateral: Transformable {
+public struct Quadrilateral: Transformable {
     
     /// A point that specifies the top left corner of the quadrilateral.
     var topLeft: CGPoint
@@ -38,7 +38,7 @@ public final class Quadrilateral: Transformable {
         self.bottomLeft = bottomLeft
     }
   
-    open var description: String {
+    public var description: String {
       return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
     }
     
@@ -59,14 +59,10 @@ public final class Quadrilateral: Transformable {
     /// - Parameters:
     ///   - t: the transform to apply.
     /// - Returns: The transformed quadrilateral.
-    func applying(_ transform: CGAffineTransform) -> Self {
-      
-        topLeft = topLeft.applying(transform)
-        topRight = topRight.applying(transform)
-        bottomLeft = bottomLeft.applying(transform)
-        bottomRight = bottomRight.applying(transform)
-      
-        return self
+    func applying(_ transform: CGAffineTransform) -> Quadrilateral {
+        let quadrilateral = Quadrilateral(topLeft: topLeft.applying(transform), topRight: topRight.applying(transform), bottomRight: bottomRight.applying(transform), bottomLeft: bottomLeft.applying(transform))
+        
+        return quadrilateral
     }
     
     /// Checks whether the quadrilateral is withing a given distance of another quadrilateral.
@@ -101,7 +97,7 @@ public final class Quadrilateral: Transformable {
     }
     
     /// Reorganizes the current quadrilateal, making sure that the points are at their appropriate positions. For example, it ensures that the top left point is actually the top and left point point of the quadrilateral.
-    func reorganize() {
+    mutating func reorganize() {
         let points = [topLeft, topRight, bottomRight, bottomLeft]
         let ySortedPoints = sortPointsByYValue(points)
         
