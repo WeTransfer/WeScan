@@ -121,7 +121,7 @@ public struct Quadrilateral: Transformable {
         bottomLeft = xSortedBottomMostPoints[0]
     }
     
-    /// Scales the quadrilateral based on the ratio of two given sizes, and optionnaly applies a rotation.
+    /// Scales the quadrilateral based on the ratio of two given sizes, and optionaly applies a rotation.
     ///
     /// - Parameters:
     ///   - fromSize: The size the quadrilateral is currently related to.
