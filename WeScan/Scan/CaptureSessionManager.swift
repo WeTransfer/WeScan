@@ -65,12 +65,10 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
-        // determine if there is a device to capture
-        let device = AVCaptureDevice.default(for: .video)
-        if device == nil {
+        guard AVCaptureDevice.default(for: .video) != nil else {
             let error = ImageScannerControllerError.inputDevice
             delegate?.captureSessionManager(self, didFailWithError: error)
-            return
+            return nil
         }
         
         captureSession.beginConfiguration()
@@ -130,23 +128,16 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
-        // before capture photo, judge `photoOutput` connection input port have valid video media type, if not report a error
-        var captureConnection: AVCaptureConnection? = nil
-        for connection in photoOutput.connections {
-            for port in connection.inputPorts {
-                if port.mediaType == .video {
-                    captureConnection = connection
-                    break
-                }
-            }
-            if captureConnection != nil {
-                break
-            }
+        
+        let captureConnection = photoOutput.connections.first { (connection) -> Bool in
+            return connection.inputPorts.first(where: { (port) -> Bool in
+                port.mediaType == .video
+            }) != nil
         }
-        if captureConnection == nil || captureConnection?.isEnabled == false || captureConnection?.isActive == false {
+        guard captureConnection != nil || captureConnection?.isEnabled == true || captureConnection?.isActive == true else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
-            return;
+            return
         }
         
         let photoSettings = AVCapturePhotoSettings()
