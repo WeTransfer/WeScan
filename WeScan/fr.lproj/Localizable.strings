@@ -7,16 +7,16 @@
 */
 
 /* The title on the navigation bar of the Scanning screen. */
-"wescan.scanning.title" = "Scanning";
+"wescan.scanning.title" = "Numériser";
 
 /* The "Next" button on the right side of the navigation bar on the Edit screen. */
-"wescan.edit.button.next" = "Next";
+"wescan.edit.button.next" = "Suivant";
 
 /* The title on the navigation bar of the Edit screen. */
-"wescan.edit.title" = "Edit Scan";
+"wescan.edit.title" = "Modifier";
 
 /* The "Done" button on the right side of the navigation bar on the Review screen. */
-"wescan.review.button.done" = "Done";
+"wescan.review.button.done" = "Terminer";
 
 /* The title on the navigation bar of the Review screen. */
-"wescan.review.title" = "Review";
+"wescan.review.title" = "Aperçu";
