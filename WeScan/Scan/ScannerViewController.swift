@@ -26,7 +26,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     lazy private var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let activityIndicator = UIActivityIndicatorView(style: .gray)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
