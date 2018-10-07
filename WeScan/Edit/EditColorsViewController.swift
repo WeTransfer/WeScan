@@ -17,18 +17,18 @@ final class EditColorsViewController : UIViewController {
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var sliderView: UIView!
 
-    private var results: ImageScannerResults
-    private lazy var previousColoredImage: UIImage = results.scannedImage
+    private var image: UIImage
+    private lazy var previousColoredImage: UIImage = image
 
     enum ColorOption {
         case gray, color
     }
     private var currentMode: ColorOption = .color { didSet { updateSelectedMode() } }
-    var didFinishEditingImageHandler: ((ImageScannerResults) -> ())?
+    var didFinishEditingImageHandler: ((UIImage) -> ())?
 
     // MARK: Lifecycle
-    init(results: ImageScannerResults) {
-        self.results = results
+    init(image: UIImage) {
+        self.image = image
         let bundle = Bundle(identifier: "WeTransfer.WeScan")
         super.init(nibName: "EditColorsViewController", bundle: bundle)
     }
@@ -41,9 +41,10 @@ final class EditColorsViewController : UIViewController {
         super.viewDidLoad()
         grayOptionView.layer.borderWidth = 4.0
         colorOptionView.layer.borderWidth = 4.0
-        title = NSLocalizedString("Adjust Contrast", comment: "")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
-        imageView.image = results.scannedImage
+        title = NSLocalizedString("Edit Colors", comment: "")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(donePressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissSelf))
+        imageView.image = image
         updateSelectedMode()
     }
 
@@ -75,14 +76,13 @@ final class EditColorsViewController : UIViewController {
     @IBAction func didTapGrayOptionView(_ sender: UIButton) {
         guard currentMode != .gray else { return }
         previousColoredImage = imageView.image!
-        imageView.image = applyImageContrast(contrastValue: CGFloat(slider.value), with: results.scannedImage.noir)
+        imageView.image = applyImageContrast(contrastValue: CGFloat(slider.value), with: image.noir)
         currentMode = .gray
         generateHapticFeedback()
     }
 
     @objc private func donePressed() {
-        results.scannedImage = imageView.image!
-        didFinishEditingImageHandler?(results)
+        didFinishEditingImageHandler?(imageView.image!)
         dismiss(animated: true, completion: nil)
     }
 
@@ -91,7 +91,7 @@ final class EditColorsViewController : UIViewController {
     }
 
     func applyImageContrast(contrastValue: CGFloat, with newImage: UIImage? = nil) -> UIImage {
-        let defaultCGImage = currentMode == .color ? self.results.scannedImage.cgImage! : self.results.scannedImage.noir!.cgImage!
+        let defaultCGImage = currentMode == .color ? image.cgImage! : image.noir!.cgImage!
         let context = CIContext(options: nil)
         let contrastFilter = CIFilter(name: "CIColorControls")!
         contrastFilter.setValue(CIImage(cgImage: newImage?.cgImage ?? defaultCGImage), forKey: "inputImage")
@@ -100,5 +100,9 @@ final class EditColorsViewController : UIViewController {
         let cgImage = context.createCGImage(outputImage, from: outputImage.extent)
         let newUIImage = UIImage(cgImage: cgImage!)
         return newUIImage
+    }
+
+    @objc private func dismissSelf() {
+        dismiss(animated: true, completion: nil)
     }
 }

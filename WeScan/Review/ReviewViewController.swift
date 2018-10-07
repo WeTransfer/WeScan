@@ -53,11 +53,13 @@ final class ReviewViewController: UIViewController {
 
     private var results: ImageScannerResults
     private var quad: Quadrilateral
+    private var originalScannedImage: UIImage
 
     // MARK: - Life Cycle
     
     init(results: ImageScannerResults, quad: Quadrilateral) {
         self.results = results
+        self.originalScannedImage = results.scannedImage
         self.quad = quad
         super.init(nibName: nil, bundle: nil)
     }
@@ -120,15 +122,15 @@ final class ReviewViewController: UIViewController {
         guard !shouldShowLoseChangesAlert else { showLooseChangesAlert(); return }
         let imageToEdit = results.originalImage
         let editVC = EditScanViewController(image: imageToEdit.applyingPortraitOrientation(), quad: quad)
-        editVC.didEditResults = { [unowned self] results in self.results = results; self.imageView.image = results.scannedImage; self.shouldShowLoseChangesAlert = false }
+        editVC.didEditResults = { [unowned self] results in self.results = results; self.imageView.image = results.scannedImage; self.originalScannedImage = results.scannedImage; self.shouldShowLoseChangesAlert = false }
         editVC.didEditQuad = { [unowned self] quad in self.quad = quad }
         let navigationController = UINavigationController(rootViewController: editVC)
         present(navigationController, animated: true)
     }
 
     @objc private func editColors() {
-        let vc = EditColorsViewController(results: results)
-        vc.didFinishEditingImageHandler = { [unowned self] results in self.results = results; self.imageView.image = results.scannedImage; self.shouldShowLoseChangesAlert = true }
+        let vc = EditColorsViewController(image: originalScannedImage)
+        vc.didFinishEditingImageHandler = { [unowned self] image in self.results.scannedImage = image; self.imageView.image = image; self.shouldShowLoseChangesAlert = true }
         let navigationController = UINavigationController(rootViewController: vc)
         present(navigationController, animated: true, completion: nil)
     }
