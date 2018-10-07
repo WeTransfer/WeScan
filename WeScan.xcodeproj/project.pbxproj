@@ -51,6 +51,8 @@
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
 		F31B05B3216A90F600A1D2A3 /* UILabel+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31B05B2216A90F600A1D2A3 /* UILabel+Helper.swift */; };
+		F31B05B7216A95EF00A1D2A3 /* EditColorsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F31B05B4216A95EF00A1D2A3 /* EditColorsViewController.xib */; };
+		F31B05B9216A95EF00A1D2A3 /* EditColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31B05B5216A95EF00A1D2A3 /* EditColorsViewController.swift */; };
 		F3C98571216A1F16004519B5 /* UIFont+Tellus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C98570216A1F16004519B5 /* UIFont+Tellus.swift */; };
 		F3C98588216A22C3004519B5 /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = F3C98578216A21B7004519B5 /* CircularStd-Book.otf */; };
 		F3C98589216A22C3004519B5 /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = F3C98578216A21B7004519B5 /* CircularStd-Book.otf */; };
@@ -153,6 +155,8 @@
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
 		F31B05B2216A90F600A1D2A3 /* UILabel+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Helper.swift"; sourceTree = "<group>"; };
+		F31B05B4216A95EF00A1D2A3 /* EditColorsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditColorsViewController.xib; sourceTree = "<group>"; };
+		F31B05B5216A95EF00A1D2A3 /* EditColorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditColorsViewController.swift; sourceTree = "<group>"; };
 		F3C98570216A1F16004519B5 /* UIFont+Tellus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Tellus.swift"; sourceTree = "<group>"; };
 		F3C98578216A21B7004519B5 /* CircularStd-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Book.otf"; sourceTree = "<group>"; };
 		F3C98579216A21B7004519B5 /* CircularStd-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Black.otf"; sourceTree = "<group>"; };
@@ -325,6 +329,8 @@
 		A1F22ED020319A03001723AD /* Edit */ = {
 			isa = PBXGroup;
 			children = (
+				F31B05B5216A95EF00A1D2A3 /* EditColorsViewController.swift */,
+				F31B05B4216A95EF00A1D2A3 /* EditColorsViewController.xib */,
 				A1F22ECD2031937E001723AD /* EditScanViewController.swift */,
 				C31DD8A220C087D80072D439 /* ZoomGestureController.swift */,
 			);
@@ -481,6 +487,7 @@
 			files = (
 				F3C9858C216A22C7004519B5 /* CircularStd-Black.otf in Resources */,
 				F3C9858F216A22CA004519B5 /* CircularStd-Bold.otf in Resources */,
+				F31B05B7216A95EF00A1D2A3 /* EditColorsViewController.xib in Resources */,
 				F3C98592216A22CE004519B5 /* CircularStd-Medium.otf in Resources */,
 				F3C98589216A22C3004519B5 /* CircularStd-Book.otf in Resources */,
 				A1265C822045BFEB009C4D3E /* Localizable.strings in Resources */,
@@ -572,6 +579,7 @@
 				A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */,
 				A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */,
 				A194E97220431DD7003493E2 /* ReviewViewController.swift in Sources */,
+				F31B05B9216A95EF00A1D2A3 /* EditColorsViewController.swift in Sources */,
 				F3C98571216A1F16004519B5 /* UIFont+Tellus.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
