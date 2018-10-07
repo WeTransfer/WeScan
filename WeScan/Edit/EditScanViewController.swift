@@ -11,6 +11,9 @@ import AVFoundation
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
 final class EditScanViewController: UIViewController {
+
+    var didEditResults: ((ImageScannerResults) -> ())?
+    var didEditQuad: ((Quadrilateral) -> ())?
     
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -31,8 +34,8 @@ final class EditScanViewController: UIViewController {
     }()
     
     lazy private var nextButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
+        let title = NSLocalizedString("wescan.edit.button.done", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Done", comment: "A generic done button")
+        let button = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(finishEditing))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
@@ -52,7 +55,7 @@ final class EditScanViewController: UIViewController {
     
     init(image: UIImage, quad: Quadrilateral?) {
         self.image = image.applyingPortraitOrientation()
-        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        self.quad = quad ?? UIImage.defaultQuad(forImage: image)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -119,7 +122,7 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func pushReviewController() {
+    @objc func finishEditing() {
         guard let quad = quadView.quad,
             let ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {
@@ -152,9 +155,9 @@ final class EditScanViewController: UIViewController {
         }
         
         let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
-        let reviewViewController = ReviewViewController(results: results)
-        
-        navigationController?.pushViewController(reviewViewController, animated: true)
+        didEditResults?(results)
+        didEditQuad?(scaledQuad)
+        dismiss(animated: true, completion: nil)
     }
 
     private func displayQuad() {
@@ -174,18 +177,6 @@ final class EditScanViewController: UIViewController {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
         quadViewWidthConstraint.constant = frame.size.width
         quadViewHeightConstraint.constant = frame.size.height
-    }
-    
-    /// Generates a `Quadrilateral` object that's centered and one third of the size of the passed in image.
-    private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
-        let topLeft = CGPoint(x: image.size.width / 3.0, y: image.size.height / 3.0)
-        let topRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: image.size.height / 3.0)
-        let bottomRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-        let bottomLeft = CGPoint(x: image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-        
-        let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        
-        return quad
     }
 
 }
