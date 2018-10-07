@@ -11,6 +11,9 @@ import AVFoundation
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
 final class EditScanViewController: UIViewController {
+
+    var didEditResults: ((ImageScannerResults) -> ())?
+    var didEditQuad: ((Quadrilateral) -> ())?
     
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -31,8 +34,8 @@ final class EditScanViewController: UIViewController {
     }()
     
     lazy private var nextButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
+        let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Done", comment: "A generic done button")
+        let button = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(finishEditing))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
@@ -119,7 +122,7 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func pushReviewController() {
+    @objc func finishEditing() {
         guard let quad = quadView.quad,
             let ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {
@@ -152,9 +155,9 @@ final class EditScanViewController: UIViewController {
         }
         
         let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
-        let reviewViewController = ReviewViewController(results: results, quad: quad)
-        
-        navigationController?.pushViewController(reviewViewController, animated: true)
+        didEditResults?(results)
+        didEditQuad?(scaledQuad)
+        dismiss(animated: true, completion: nil)
     }
 
     private func displayQuad() {

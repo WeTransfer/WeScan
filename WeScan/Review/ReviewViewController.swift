@@ -10,7 +10,7 @@ import UIKit
 
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
-    
+
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
@@ -32,10 +32,11 @@ final class ReviewViewController: UIViewController {
     lazy private var editEdgesButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.blue
         button.setTitle(NSLocalizedString("Edit Edges", comment: ""), for: .normal)
         button.tintColor = UIColor.white
         button.titleLabel?.font = UIFont.zillyFont(size: .size19, weight: ZLFontWeight.bold)
+        button.titleLabel?.addTextShadow()
+        button.addTarget(self, action: #selector(self.editEdges), for: .touchUpInside)
         return button
     }()
 
@@ -44,18 +45,20 @@ final class ReviewViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(NSLocalizedString("Edit Colors", comment: ""), for: .normal)
         button.tintColor = UIColor.white
-        button.backgroundColor = UIColor.blue
         button.titleLabel?.font = UIFont.zillyFont(size: .size19, weight: ZLFontWeight.bold)
+        button.titleLabel?.addTextShadow()
+        button.addTarget(self, action: #selector(self.editColors), for: .touchUpInside)
         return button
     }()
 
-    private let results: ImageScannerResults
-    
+    private var results: ImageScannerResults
+    private var quad: Quadrilateral
+
     // MARK: - Life Cycle
     
     init(results: ImageScannerResults, quad: Quadrilateral) {
         self.results = results
-        
+        self.quad = quad
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -111,7 +114,18 @@ final class ReviewViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
+    @objc private func editEdges() {
+        let editVC = EditScanViewController(image: results.originalImage.applyingPortraitOrientation(), quad: quad)
+        editVC.didEditResults = { [unowned self] results in self.results = results; self.imageView.image = results.scannedImage }
+        editVC.didEditQuad = { [unowned self] quad in self.quad = quad }
+        let navigationController = UINavigationController(rootViewController: editVC)
+        present(navigationController, animated: true)
+    }
+
+    @objc private func editColors() {
+
+    }
+
     @objc private func finishScan() {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
