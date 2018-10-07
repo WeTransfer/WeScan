@@ -28,12 +28,32 @@ final class ReviewViewController: UIViewController {
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
-    
+
+    lazy private var editEdgesButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor.blue
+        button.setTitle(NSLocalizedString("Edit Edges", comment: ""), for: .normal)
+        button.tintColor = UIColor.white
+        button.titleLabel?.font = UIFont.zillyFont(size: .size19, weight: ZLFontWeight.bold)
+        return button
+    }()
+
+    lazy private var editColorsButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(NSLocalizedString("Edit Colors", comment: ""), for: .normal)
+        button.tintColor = UIColor.white
+        button.backgroundColor = UIColor.blue
+        button.titleLabel?.font = UIFont.zillyFont(size: .size19, weight: ZLFontWeight.bold)
+        return button
+    }()
+
     private let results: ImageScannerResults
     
     // MARK: - Life Cycle
     
-    init(results: ImageScannerResults) {
+    init(results: ImageScannerResults, quad: Quadrilateral) {
         self.results = results
         
         super.init(nibName: nil, bundle: nil)
@@ -57,6 +77,8 @@ final class ReviewViewController: UIViewController {
     
     private func setupViews() {
         view.addSubview(imageView)
+        view.insertSubview(editColorsButton, aboveSubview: imageView)
+        view.insertSubview(editEdgesButton, aboveSubview: imageView)
     }
     
     private func setupConstraints() {
@@ -66,7 +88,25 @@ final class ReviewViewController: UIViewController {
             view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         ]
-        
+
+        let editColorsButtonConstraints = [
+            editColorsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            editColorsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            editColorsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            editColorsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            editColorsButton.heightAnchor.constraint(equalToConstant: 65.0)
+        ]
+
+        let editEdgesButtonConstraints = [
+            editEdgesButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -65.0),
+            editEdgesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            editEdgesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            editEdgesButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            editEdgesButton.heightAnchor.constraint(equalToConstant: 65.0)
+        ]
+
+        NSLayoutConstraint.activate(editColorsButtonConstraints)
+        NSLayoutConstraint.activate(editEdgesButtonConstraints)
         NSLayoutConstraint.activate(imageViewConstraints)
     }
     

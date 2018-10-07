@@ -41,5 +41,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>UIAppFonts</key>
+    <array>
+        <string>CircularStd-Black.otf</string>
+        <string>CircularStd-Bold.otf</string>
+        <string>CircularStd-Medium.otf</string>
+        <string>CircularStd-Book.otf</string>
+    </array>
 </dict>
 </plist>

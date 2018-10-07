@@ -52,7 +52,7 @@ final class EditScanViewController: UIViewController {
     
     init(image: UIImage, quad: Quadrilateral?) {
         self.image = image.applyingPortraitOrientation()
-        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        self.quad = quad ?? UIImage.defaultQuad(forImage: image)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -152,7 +152,7 @@ final class EditScanViewController: UIViewController {
         }
         
         let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
-        let reviewViewController = ReviewViewController(results: results)
+        let reviewViewController = ReviewViewController(results: results, quad: quad)
         
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
@@ -174,18 +174,6 @@ final class EditScanViewController: UIViewController {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
         quadViewWidthConstraint.constant = frame.size.width
         quadViewHeightConstraint.constant = frame.size.height
-    }
-    
-    /// Generates a `Quadrilateral` object that's centered and one third of the size of the passed in image.
-    private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
-        let topLeft = CGPoint(x: image.size.width / 3.0, y: image.size.height / 3.0)
-        let topRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: image.size.height / 3.0)
-        let bottomRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-        let bottomLeft = CGPoint(x: image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)
-        
-        let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        
-        return quad
     }
 
 }
