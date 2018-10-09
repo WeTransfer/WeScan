@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name             = 'WeScan'
-  spec.version          = '0.9.1'
+  spec.version          = '0.9.2'
   spec.summary          = 'Document Scanning Made Easy for iOS'
   spec.description      = 'WeScan makes it easy to add scanning functionalities to your iOS app! It\'s modelled after UIImagePickerController, which makes it a breeze to use.'
 
