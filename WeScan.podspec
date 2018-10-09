@@ -10,9 +10,11 @@ Pod::Spec.new do |spec|
     'Boris Emorine' => 'boris@wetransfer.com',
     'Antoine van der Lee' => 'antoine@wetransfer.com'
   }
-  spec.source           = { :git => 'https://github.com/WeTransfer/WeScan.git', :tag => 'v0.9.1' }
+  spec.source           = { :git => 'https://github.com/WeTransfer/WeScan.git', :tag => "v#{spec.version}" }
   spec.social_media_url = 'https://twitter.com/WeTransfer'
 
+  spec.swift_version = '4.0'
   spec.ios.deployment_target = '10.0'
-  spec.source_files = 'WeScan/**/*'
+  spec.source_files = 'WeScan/**/*.{h,m,swift}'
+  spec.resources = 'WeScan/**/*.strings'
 end
