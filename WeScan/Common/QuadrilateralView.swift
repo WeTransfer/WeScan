@@ -44,7 +44,9 @@ final class QuadrilateralView: UIView {
     
     public var editable = false {
         didSet {
-            editable == true ? showCornerViews() : hideCornerViews()
+            if editable == true {
+                setupCornerViews()
+            }
             quadLayer.fillColor = editable ? UIColor(white: 0.0, alpha: 0.6).cgColor : UIColor(white: 1.0, alpha: 0.5).cgColor
             guard let quad = quad else {
                 return
@@ -60,7 +62,7 @@ final class QuadrilateralView: UIView {
                 return
             }
             quadLayer.fillColor = isHighlighted ? UIColor.clear.cgColor : UIColor(white: 0.0, alpha: 0.6).cgColor
-            isHighlighted ? bringSubview(toFront: quadView) : sendSubview(toBack: quadView)
+            isHighlighted ? bringSubviewToFront(quadView) : sendSubviewToBack(quadView)
         }
     }
     
@@ -96,7 +98,6 @@ final class QuadrilateralView: UIView {
     
     private func commonInit() {
         addSubview(quadView)
-        setupCornerViews()
         setupConstraints()
         quadView.layer.addSublayer(quadLayer)
     }

@@ -33,26 +33,29 @@ final class EditScanViewController: UIViewController {
     lazy private var nextButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
-        button.tintColor = navigationController?.navigationBar.tintColor
+        //button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
-
+    
     /// The image the quadrilateral was detected on.
     private let image: UIImage
     
+    /// The set of images in this document.
+    private var results: [ImageScannerResults] = []
+    
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
-    
-    private var zoomGestureController: ZoomGestureController!
     
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
     
     // MARK: - Life Cycle
     
-    init(image: UIImage, quad: Quadrilateral?) {
-        self.image = image.applyingPortraitOrientation()
+    init(image: UIImage, quad: Quadrilateral?, images: [ImageScannerResults]) {
+        self.image = image
         self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        self.results = images
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -65,14 +68,13 @@ final class EditScanViewController: UIViewController {
         
         setupViews()
         setupConstraints()
+        
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
         
-        zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
+        let panGest = UIPanGestureRecognizer(target: self, action: #selector(self.handle(pan:)))
         
-        let touchDown = UILongPressGestureRecognizer(target:zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
-        touchDown.minimumPressDuration = 0
-        view.addGestureRecognizer(touchDown)
+        self.view.addGestureRecognizer(panGest)
     }
     
     override func viewDidLayoutSubviews() {
@@ -103,7 +105,7 @@ final class EditScanViewController: UIViewController {
             view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         ]
-
+        
         quadViewWidthConstraint = quadView.widthAnchor.constraint(equalToConstant: 0.0)
         quadViewHeightConstraint = quadView.heightAnchor.constraint(equalToConstant: 0.0)
         
@@ -121,16 +123,21 @@ final class EditScanViewController: UIViewController {
     
     @objc func pushReviewController() {
         guard let quad = quadView.quad,
-            let ciImage = CIImage(image: image) else {
+            var ciImage = CIImage(image: image) else {
                 if let imageScannerController = navigationController as? ImageScannerController {
                     let error = ImageScannerControllerError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
                 }
-            return
+                return
         }
         
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
         self.quad = scaledQuad
+        
+        if image.size.width < image.size.height {
+            let orientationTransform = ciImage.orientationTransform(forExifOrientation: 6)
+            ciImage = ciImage.transformed(by: orientationTransform)
+        }
         
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
@@ -151,12 +158,14 @@ final class EditScanViewController: UIViewController {
             uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         }
         
-        let results = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
-        let reviewViewController = ReviewViewController(results: results)
+        let result = ImageScannerResults(originalImage: image, scannedImage: uiImage, detectedRectangle: scaledQuad)
+        
+        self.results.append(result)
+        let reviewViewController = ReviewViewController(results: self.results)
         
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
-
+    
     private func displayQuad() {
         let imageSize = image.size
         let imageFrame = CGRect(x: quadView.frame.origin.x, y: quadView.frame.origin.y, width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
@@ -187,5 +196,44 @@ final class EditScanViewController: UIViewController {
         
         return quad
     }
-
+    
+    //Pan gesture handler
+    private var previousPanPosition: CGPoint?
+    private var closestCorner: CornerPosition?
+    
+    @objc func handle(pan: UIGestureRecognizer) {
+        guard let drawnQuad = quadView.quad else {
+            return
+        }
+        
+        guard pan.state != .ended else {
+            self.previousPanPosition = nil
+            self.closestCorner = nil
+            quadView.resetHighlightedCornerViews()
+            return
+        }
+        
+        let position = pan.location(in: quadView)
+        
+        let previousPanPosition = self.previousPanPosition ?? position
+        let closestCorner = self.closestCorner ?? position.closestCornerFrom(quad: drawnQuad)
+        
+        let offset = CGAffineTransform(translationX: position.x - previousPanPosition.x, y: position.y - previousPanPosition.y)
+        let cornerView = quadView.cornerViewForCornerPosition(position: closestCorner)
+        let draggedCornerViewCenter = cornerView.center.applying(offset)
+        
+        quadView.moveCorner(cornerView: cornerView, atPoint: draggedCornerViewCenter)
+        
+        self.previousPanPosition = position
+        self.closestCorner = closestCorner
+        
+        let scale = image.size.width / quadView.bounds.size.width
+        let scaledDraggedCornerViewCenter = CGPoint(x: draggedCornerViewCenter.x * scale, y: draggedCornerViewCenter.y * scale)
+        guard let zoomedImage = image.scaledImage(atPoint: scaledDraggedCornerViewCenter, scaleFactor: 2.5, targetSize: quadView.bounds.size) else {
+            return
+        }
+        
+        quadView.highlightCornerAtPosition(position: closestCorner, with: zoomedImage)
+    }
+    
 }

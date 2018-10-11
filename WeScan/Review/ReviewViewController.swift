@@ -15,7 +15,7 @@ final class ReviewViewController: UIViewController {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
-        imageView.image = results.scannedImage
+        imageView.image = results.last!.scannedImage
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,17 +23,23 @@ final class ReviewViewController: UIViewController {
     }()
     
     lazy private var doneButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.review.button.done", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Done", comment: "A generic done button")
-        let button = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(finishScan))
-        button.tintColor = navigationController?.navigationBar.tintColor
+        let title = "Next"
+        let button = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(finishScan))
+        //button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
     
-    private let results: ImageScannerResults
+    private var frame: CGRect {
+        return self.view.frame
+    }
+    
+    private var addButton: UIButton!
+    
+    private let results: [ImageScannerResults]
     
     // MARK: - Life Cycle
     
-    init(results: ImageScannerResults) {
+    init(results: [ImageScannerResults]) {
         self.results = results
         
         super.init(nibName: nil, bundle: nil)
@@ -45,7 +51,10 @@ final class ReviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //self.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        createButton()
         setupViews()
         setupConstraints()
         
@@ -55,19 +64,34 @@ final class ReviewViewController: UIViewController {
     
     // MARK: Setups
     
+    private func createButton() {
+        self.addButton = UIButton()
+        self.addButton.tag = 5
+        self.addButton.layer.cornerRadius = 0.5 * 50
+        self.addButton.clipsToBounds = true
+        self.addButton.setImage(UIImage(named: "add.png", in: Bundle(for: ReviewViewController.self), compatibleWith: nil), for: .normal)
+        self.addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        self.addButton.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0.75)
+    }
+    
     private func setupViews() {
-        view.addSubview(imageView)
+        self.view.addSubview(imageView)
+        self.view.addSubview(addButton)
     }
     
     private func setupConstraints() {
-        let imageViewConstraints = [
-            imageView.topAnchor.constraint(equalTo: view.topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
-        ]
         
-        NSLayoutConstraint.activate(imageViewConstraints)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.bottomAnchor, constant: -40).isActive = true
+        addButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        addButton.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        addButton.widthAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
+        view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
+        
     }
     
     // MARK: - Actions
@@ -77,5 +101,12 @@ final class ReviewViewController: UIViewController {
             imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
         }
     }
-
+    
+    @objc private func addButtonPressed() {
+        let scanVc = ScannerViewController()
+        scanVc.results = self.results
+        
+        navigationController?.pushViewController(scanVc, animated: true)
+    }
+    
 }
