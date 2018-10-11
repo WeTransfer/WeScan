@@ -18,21 +18,21 @@ final class CloseButton: UIControl {
         layer.addSublayer(xLayer)
         backgroundColor = .clear
         isAccessibilityElement = true
-        accessibilityTraits = UIAccessibilityTraitButton
+        accessibilityTraits = UIAccessibilityTraits.button
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func draw(_ rect: CGRect) {
         self.clipsToBounds = false
         xLayer.frame = rect
         xLayer.lineWidth = 3.0
         xLayer.path = pathForX(inRect: rect.insetBy(dx: xLayer.lineWidth / 2, dy: xLayer.lineWidth / 2)).cgPath
         xLayer.fillColor = UIColor.clear.cgColor
-        xLayer.strokeColor = UIColor.black.cgColor
-        xLayer.lineCap = kCALineCapRound
+        xLayer.strokeColor = UIColor.white.cgColor
+        xLayer.lineCap = CAShapeLayerLineCap.round
     }
     
     private func pathForX(inRect rect: CGRect) -> UIBezierPath {
@@ -44,5 +44,5 @@ final class CloseButton: UIControl {
         
         return path
     }
-
+    
 }
