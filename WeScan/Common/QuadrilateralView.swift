@@ -23,6 +23,7 @@ final class QuadrilateralView: UIView {
     private let quadLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.strokeColor = UIColor.white.cgColor
+        layer.fillColor = UIColor(displayP3Red: 0, green: 0, blue: 1, alpha: 0.3).cgColor
         layer.lineWidth = 1.0
         layer.opacity = 1.0
         layer.isHidden = true
