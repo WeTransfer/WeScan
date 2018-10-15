@@ -118,7 +118,7 @@ final class RectangleFeaturesFunnel {
     /// Returns: The best rectangle to display given the current history.
     private func bestRectangle(withCurrentlyDisplayedRectangle currentRectangle: Quadrilateral?) -> RectangleMatch? {
         var bestMatch: RectangleMatch?
-        guard rectangles.count > 0 else { return nil }
+        guard !rectangles.isEmpty else { return nil }
         rectangles.reversed().forEach { (rectangle) in
             guard let best = bestMatch else {
                 bestMatch = rectangle
@@ -163,7 +163,7 @@ final class RectangleFeaturesFunnel {
     /// Loops through all of the rectangles of the queue, and gives them a score depending on how many they match. @see `RectangleMatch.matchingScore`
     private func updateRectangleMatches() {
         resetMatchingScores()
-        guard rectangles.count > 0 else { return }
+        guard !rectangles.isEmpty else { return }
         for (i, currentRect) in rectangles.enumerated() {
             for (j, rect) in rectangles.enumerated() {
                 if j > i && currentRect.matches(rect.rectangleFeature, withThreshold: matchingThreshold) {
@@ -176,7 +176,7 @@ final class RectangleFeaturesFunnel {
     
     /// Resets the matching score of all of the rectangles in the queue to 0
     private func resetMatchingScores() {
-        guard rectangles.count > 0 else { return }
+        guard !rectangles.isEmpty else { return }
         for rectangle in rectangles {
             rectangle.matchingScore = 1
         }

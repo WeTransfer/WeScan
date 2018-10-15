@@ -19,7 +19,7 @@ struct CIRectangleDetector {
     /// - Parameters:
     ///   - image: The image to detect rectangles on.
     /// - Returns: The biggest detected rectangle on the image.
-    static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> ())) {
+    static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> Void)) {
   
       let biggestRectangle = rectangle(forImage: image)
       completion(biggestRectangle)

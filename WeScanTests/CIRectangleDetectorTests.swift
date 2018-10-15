@@ -22,10 +22,10 @@ class CIRectangleDetectorTests: FBSnapshotTestCase {
         
         let targetSize = CGSize(width: 50, height: 50)
         
-        let containerLeyer =  CALayer()
-        containerLeyer.backgroundColor = UIColor.white.cgColor
-        containerLeyer.frame = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
-        containerLeyer.masksToBounds = true
+        let containerLayer = CALayer()
+        containerLayer.backgroundColor = UIColor.white.cgColor
+        containerLayer.frame = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
+        containerLayer.masksToBounds = true
         
         let targetLayer = CALayer()
         targetLayer.backgroundColor = UIColor.black.cgColor

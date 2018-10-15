@@ -26,9 +26,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         expectation.isInverted = true
         
         for i in 0 ..< rectangleFeatures.count {
-            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in
-                
-                
+            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in                
                 expectation.fulfill()
             }
         }
@@ -97,7 +95,6 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         
         for i in 0 ..< count {
             let rectangleFeature = i % 2 == 0 ? type1RectangleFeatures[i] : type2RectangleFeatures[i]
-            
             
             funnel.add(rectangleFeature, currentlyDisplayedRectangle: currentlyDisplayedRect, completion: { (result, rectFeature) in
                 

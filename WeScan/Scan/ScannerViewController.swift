@@ -129,7 +129,6 @@ final class ScannerViewController: UIViewController {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
         
-        
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
             let flashOffImage = UIImage(named: "flashUnavailable")
             flashButton.image = flashOffImage
@@ -165,7 +164,7 @@ final class ScannerViewController: UIViewController {
             shutterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             shutterButtonBottomConstraint,
             shutterButton.widthAnchor.constraint(equalToConstant: 65.0),
-            shutterButton.heightAnchor.constraint(equalToConstant: 65.0),
+            shutterButton.heightAnchor.constraint(equalToConstant: 65.0)
             ]
         
         let activityIndicatorConstraints = [

@@ -14,7 +14,7 @@ class CGAffineTransformTests: XCTestCase {
   func testScalesUpCorrectly() {
     
     let fromSize = CGSize(width: 1, height: 1)
-    let toSize =  CGSize(width: 2, height: 2)
+    let toSize = CGSize(width: 2, height: 2)
     
     let scale = CGAffineTransform.scaleTransform(forSize: fromSize, aspectFillInSize: toSize)
 
@@ -25,7 +25,7 @@ class CGAffineTransformTests: XCTestCase {
   func testScalesDownCorrectly() {
     
     let fromSize = CGSize(width: 2, height: 2)
-    let toSize =  CGSize(width: 1, height: 1)
+    let toSize = CGSize(width: 1, height: 1)
     
     let scale = CGAffineTransform.scaleTransform(forSize: fromSize, aspectFillInSize: toSize)
     
