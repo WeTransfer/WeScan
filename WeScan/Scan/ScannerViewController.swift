@@ -59,7 +59,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     lazy private var flashButton: UIBarButtonItem = {
-        let flashImage = UIImage(named: "flash")
+        let flashImage = #imageLiteral(resourceName: "flash")
         let flashButton = UIBarButtonItem(image: flashImage, style: .plain, target: self, action: #selector(toggleFlash))
         return flashButton
     }()
@@ -130,7 +130,7 @@ final class ScannerViewController: UIViewController {
         toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
-            let flashOffImage = UIImage(named: "flashUnavailable")
+            let flashOffImage = #imageLiteral(resourceName: "flashUnavailable")
             flashButton.image = flashOffImage
             flashButton.tintColor = UIColor.lightGray
         }

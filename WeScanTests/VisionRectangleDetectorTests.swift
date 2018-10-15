@@ -28,13 +28,13 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
     let targetLayer = CALayer()
     targetLayer.backgroundColor = UIColor.black.cgColor
-    targetLayer.frame = containerLeyer.frame.insetBy(dx: 5, dy: 5)
+    targetLayer.frame = containerLayer.frame.insetBy(dx: 5, dy: 5)
 
-    containerLeyer.addSublayer(targetLayer)
+    containerLayer.addSublayer(targetLayer)
 
     UIGraphicsBeginImageContextWithOptions(targetSize, true, 1.0)
 
-    containerLeyer.render(in: UIGraphicsGetCurrentContext()!)
+    containerLayer.render(in: UIGraphicsGetCurrentContext()!)
 
     let image = UIGraphicsGetImageFromCurrentImageContext()!
     UIGraphicsEndImageContext()
@@ -45,8 +45,8 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
       
       DispatchQueue.main.async {
         
-        let resultView = UIView(frame: containerLeyer.frame)
-        resultView.layer.addSublayer(containerLeyer)
+        let resultView = UIView(frame: containerLayer.frame)
+        resultView.layer.addSublayer(containerLayer)
         
         let quadView = QuadrilateralView(frame: resultView.bounds)
         quadView.drawQuadrilateral(quad: quad!, animated: false)
