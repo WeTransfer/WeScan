@@ -10,7 +10,7 @@ import XCTest
 import FBSnapshotTestCase
 @testable import WeScan
 
-class UIImageTests: FBSnapshotTestCase {
+final class UIImageTests: FBSnapshotTestCase {
   
   override func setUp() {
     super.setUp()

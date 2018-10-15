@@ -10,12 +10,10 @@ import FBSnapshotTestCase
 import XCTest
 @testable import WeScan
 
-
-class VisionRectangleDetectorTests: FBSnapshotTestCase {
+final class VisionRectangleDetectorTests: FBSnapshotTestCase {
   
   override func setUp() {
     super.setUp()
-    
     recordMode = false
   }
   

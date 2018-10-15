@@ -9,7 +9,7 @@
 import XCTest
 @testable import WeScan
 
-class CaptureSessionTests: XCTestCase {
+final class CaptureSessionTests: XCTestCase {
     
     func testAutoScanEnabledByDefault() {
         let session = CaptureSession.current

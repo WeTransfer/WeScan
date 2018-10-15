@@ -9,7 +9,7 @@
 import XCTest
 @testable import WeScan
 
-class CGAffineTransformTests: XCTestCase {
+final class CGAffineTransformTests: XCTestCase {
 
   func testScalesUpCorrectly() {
     

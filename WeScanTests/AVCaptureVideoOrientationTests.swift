@@ -11,7 +11,7 @@ import AVFoundation
 
 @testable import WeScan
 
-class AVCaptureVideoOrientationTests: XCTestCase {
+final class AVCaptureVideoOrientationTests: XCTestCase {
   
   func testPortaitsMapToPortrait() {
     XCTAssertEqual(AVCaptureVideoOrientation(deviceOrientation: .portrait), .portrait)

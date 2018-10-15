@@ -10,7 +10,7 @@ import FBSnapshotTestCase
 import XCTest
 @testable import WeScan
 
-class CIRectangleDetectorTests: FBSnapshotTestCase {
+final class CIRectangleDetectorTests: FBSnapshotTestCase {
     
     override func setUp() {
         super.setUp()
