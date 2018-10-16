@@ -180,7 +180,9 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 }
             } else {
                 if data.acceleration.y > 0 {
-                    CaptureSession.current.editImageOrientation = .down
+                    // This is the 'down' orientation, however, it's very rare
+                    // And easily mistaken, so we use 'up' instead.
+                    CaptureSession.current.editImageOrientation = .up
                 } else {
                     CaptureSession.current.editImageOrientation = .up
                 }
