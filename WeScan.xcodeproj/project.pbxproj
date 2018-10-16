@@ -210,10 +210,6 @@
 		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
 		B92A2C8221578D28002874E5 /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 		B97B49CA216C6C6800B2235B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		B97B49CC216C6C7E00B2235B /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		B97B49CD216C6C8700B2235B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		B97B49CE216C6C8E00B2235B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		B97B49CF216C6C9400B2235B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B97B49D4216C6FF600B2235B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B97B49D5216C6FF600B2235B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B992E830210C36A400C33A21 /* VisionRectangleDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionRectangleDetector.swift; sourceTree = "<group>"; };
@@ -533,10 +529,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				"pt-PT",
-				it,
-				"zh-Hans",
-				"zh-Hant",
 				Base,
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
@@ -757,10 +749,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				B97B49CA216C6C6800B2235B /* en */,
-				B97B49CC216C6C7E00B2235B /* pt-PT */,
-				B97B49CD216C6C8700B2235B /* it */,
-				B97B49CE216C6C8E00B2235B /* zh-Hans */,
-				B97B49CF216C6C9400B2235B /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
