@@ -147,8 +147,6 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             return
         }
         
-        setImageOrientation()
-        
         let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
         let imageSize = finalImage.extent.size
         
@@ -166,27 +164,38 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     private func setImageOrientation() {
         var motion: CMMotionManager!
         motion = CMMotionManager()
-        motion.accelerometerUpdateInterval = 0.2
-        motion.startAccelerometerUpdates(to: OperationQueue()) { data, _ in
-            guard let data = data else {
+        
+        /// This value should be 0.2, but since we only need one cycle (and stop updates immediately),
+        /// we set it low to get the orientation immediately
+        motion.accelerometerUpdateInterval = 0.01
+        
+        guard motion.isAccelerometerAvailable else {
+            CaptureSession.current.editImageOrientation = .up
+            return
+        }
+        
+        motion.startAccelerometerUpdates(to: OperationQueue()) { data, error in
+            guard let data = data, error == nil else {
                 CaptureSession.current.editImageOrientation = .up
                 return
             }
-            if abs(data.acceleration.y) < abs(data.acceleration.x) {
-                if data.acceleration.x > 0 {
-                    CaptureSession.current.editImageOrientation = .left
-                } else {
-                    CaptureSession.current.editImageOrientation = .right
-                }
+            
+            /// The minimum amount of sensitivity for the landscape orientations
+            /// This is to prevent the landscape orientation being incorrectly used
+            /// Higher = easier for landscape to be detected, lower = easier for portrait to be detected
+            let motionThreshold = 0.35
+            
+            if data.acceleration.x >= motionThreshold {
+                CaptureSession.current.editImageOrientation = .left
+            } else if data.acceleration.x <= -motionThreshold {
+                CaptureSession.current.editImageOrientation = .right
             } else {
-                if data.acceleration.y > 0 {
-                    // This is the 'down' orientation, however, it's very rare
-                    // And easily mistaken, so we use 'up' instead.
-                    CaptureSession.current.editImageOrientation = .up
-                } else {
-                    CaptureSession.current.editImageOrientation = .up
-                }
+                /// This means the device is either in the 'up' or 'down' orientation, BUT,
+                /// it's very rare for someone to be using their phone upside down, so we use 'up' all the time
+                /// Which prevents accidentally making the document be scanned upside down
+                CaptureSession.current.editImageOrientation = .up
             }
+            
             motion.stopAccelerometerUpdates()
         }
     }
@@ -256,6 +265,8 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
+        setImageOrientation()
+        
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0
         delegate?.didStartCapturingPicture(for: self)
@@ -277,6 +288,8 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
+        
+        setImageOrientation()
         
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0

@@ -147,7 +147,7 @@ final class QuadrilateralView: UIView {
     }
     
     private func drawQuad(_ quad: Quadrilateral, animated: Bool) {
-        var path = quad.path()
+        var path = quad.path
         
         if editable {
             path = path.reversing()

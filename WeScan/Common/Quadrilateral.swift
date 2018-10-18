@@ -42,8 +42,8 @@ public struct Quadrilateral: Transformable {
         return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
     }
     
-    /// Generates a `UIBezierPath` of the quadrilateral.
-    func path() -> UIBezierPath {
+    /// The path of the Quadrilateral as a `UIBezierPath`
+    var path: UIBezierPath {
         let path = UIBezierPath()
         path.move(to: topLeft)
         path.addLine(to: topRight)
@@ -52,6 +52,12 @@ public struct Quadrilateral: Transformable {
         path.close()
         
         return path
+    }
+    
+    /// The perimeter of the Quadrilateral
+    var perimeter: Double {
+        let perimeter = topLeft.distanceTo(point: topRight) + topRight.distanceTo(point: bottomRight) + bottomRight.distanceTo(point: bottomLeft) + bottomLeft.distanceTo(point: topLeft)
+        return Double(perimeter)
     }
     
     /// Applies a `CGAffineTransform` to the quadrilateral.
@@ -194,13 +200,6 @@ extension Quadrilateral {
         let bottomLeft = self.bottomLeft.cartesian(withHeight: height)
         
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-    }
-    
-    /// Finds the perimeter of a Quadrilateral
-    /// - Returns: The perimeter of a Quadrilateral, found using the distance between points
-    func perimeter() -> Double {
-        let perimeter = topLeft.distanceTo(point: topRight) + topRight.distanceTo(point: bottomRight) + bottomRight.distanceTo(point: bottomLeft) + bottomLeft.distanceTo(point: topLeft)
-        return Double(perimeter)
     }
 }
 

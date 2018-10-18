@@ -59,14 +59,18 @@ final class RectangleFeaturesFunnel {
     /// The value in pixels used to determine if two rectangle match or not. A higher value will prevent displayed rectangles to be refreshed. On the opposite, a smaller value will make new rectangles be displayed constantly.
     let matchingThreshold: CGFloat = 40.0
     
-    /// The number of similar rectangles that need to be found to auto scan.
-    let autoScanThreshold = 35
-    
     /// The minumum number of matching rectangles (within the `rectangle` queue), to be confident enough to display a rectangle.
     let minNumberOfMatches = 3
     
+    /// The number of similar rectangles that need to be found to auto scan.
+    let autoScanThreshold = 35
+    
     /// The number of times the rectangle has passed the threshold to be auto-scanned
     var currentAutoScanPassCount = 0
+    
+    /// The value in pixels used to determine if a rectangle is accurate enough to be auto scanned.
+    /// A higher value means the auto scan is quicker, but the rectangle will be less accurate. On the other hand, the lower the value, the longer it'll take for the auto scan, but it'll be way more accurate
+    var autoScanMatchingThreshold: CGFloat = 6.0
     
     /// Add a rectangle to the funnel, and if a new rectangle should be displayed, the completion block will be called.
     /// The algorithm works the following way:
@@ -98,15 +102,14 @@ final class RectangleFeaturesFunnel {
             return
         }
         
-        if let previousRectangle = currentRectangle, bestRectangle.matchingScore >= minNumberOfMatches && bestRectangle.rectangleFeature.isWithin(10.0, ofRectangleFeature: previousRectangle) {
-            
+        if let previousRectangle = currentRectangle,
+            bestRectangle.rectangleFeature.isWithin(autoScanMatchingThreshold, ofRectangleFeature: previousRectangle) {
             currentAutoScanPassCount += 1
             if currentAutoScanPassCount > autoScanThreshold {
                 currentAutoScanPassCount = 0
                 completion(AddResult.showAndAutoScan, bestRectangle.rectangleFeature)
             }
-            
-        } else if bestRectangle.matchingScore >= minNumberOfMatches {
+        } else {
             completion(AddResult.showOnly, bestRectangle.rectangleFeature)
         }
     }
