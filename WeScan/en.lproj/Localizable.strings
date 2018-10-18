@@ -20,3 +20,8 @@
 
 /* The title on the navigation bar of the Review screen. */
 "wescan.review.title" = "Review";
+
+/* The button titles on the Scanning screen. */
+"wescan.scanning.cancel" = "Cancel";
+"wescan.scanning.auto" = "Auto";
+"wescan.scanning.manual" = "Manual";

@@ -25,24 +25,25 @@ struct VisionRectangleDetector {
         // Create the rectangle request, and, if found, return the biggest rectangle (else return nothing).
         let rectangleDetectionRequest: VNDetectRectanglesRequest = {
             let rectDetectRequest = VNDetectRectanglesRequest(completionHandler: { (request, error) in
-                if error == nil {
-                  
-                    guard let results = request.results as? [VNRectangleObservation] else { return }
+                guard error == nil,
+                    let results = request.results as? [VNRectangleObservation],
+                    !results.isEmpty else {
+                        completion(nil)
+                        return
+                }
                 
-                    let quads: [Quadrilateral] = results.map({ observation in
-                        return Quadrilateral(topLeft: observation.topLeft, topRight: observation.topRight, bottomRight: observation.bottomRight, bottomLeft: observation.bottomLeft)
-                    })
+                let quads: [Quadrilateral] = results.map({ observation in
+                    return Quadrilateral(topLeft: observation.topLeft, topRight: observation.topRight, bottomRight: observation.bottomRight, bottomLeft: observation.bottomLeft)
+                })
 
-                    guard let biggest = results.count > 1 ? quads.biggest() : quads.first else { return }
-                    
-                    let transform = CGAffineTransform.identity
-                        .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
-                  
-                    let finalRectangle = biggest.applying(transform)
-                    
-                    completion(finalRectangle)
-                    
-                } else { completion(nil) }
+                guard let biggest = results.count > 1 ? quads.biggest() : quads.first else { return }
+                
+                let transform = CGAffineTransform.identity
+                    .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
+              
+                let finalRectangle = biggest.applying(transform)
+                
+                completion(finalRectangle)
             })
 
             rectDetectRequest.minimumConfidence = 0.8

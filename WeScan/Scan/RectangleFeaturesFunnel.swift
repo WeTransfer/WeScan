@@ -66,7 +66,7 @@ final class RectangleFeaturesFunnel {
     let minNumberOfMatches = 3
     
     /// The number of times the rectangle has passed the threshold to be auto-scanned
-    var thresholdPassed = 0
+    var currentAutoScanPassCount = 0
     
     /// Add a rectangle to the funnel, and if a new rectangle should be displayed, the completion block will be called.
     /// The algorithm works the following way:
@@ -75,6 +75,7 @@ final class RectangleFeaturesFunnel {
     /// 3. Compares all of the recently added rectangles to find out which one match each other
     /// 4. Within all of the recently added rectangles, finds the "best" one (@see `bestRectangle(withCurrentlyDisplayedRectangle:)`)
     /// 5. If the best rectangle is different than the currently displayed rectangle, informs the listener that a new rectangle should be displayed
+    ///     5a. The currentAutoScanPassCount is incremented every time a new rectangle is displayed. If it passes the autoScanThreshold, we tell the listener to scan the document.
     /// - Parameters:
     ///   - rectangleFeature: The rectangle to feed to the funnel.
     ///   - currentRectangle: The currently displayed rectangle. This is used to avoid displaying very close rectangles.
@@ -99,9 +100,9 @@ final class RectangleFeaturesFunnel {
         
         if let previousRectangle = currentRectangle, bestRectangle.matchingScore >= minNumberOfMatches && bestRectangle.rectangleFeature.isWithin(10.0, ofRectangleFeature: previousRectangle) {
             
-            thresholdPassed += 1
-            if thresholdPassed > autoScanThreshold {
-                thresholdPassed = 0
+            currentAutoScanPassCount += 1
+            if currentAutoScanPassCount > autoScanThreshold {
+                currentAutoScanPassCount = 0
                 completion(AddResult.showAndAutoScan, bestRectangle.rectangleFeature)
             }
             

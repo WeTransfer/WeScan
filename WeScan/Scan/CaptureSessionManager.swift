@@ -196,10 +196,12 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             
             self.noRectangleCount = 0
             self.rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: self.displayedRectangleResult?.rectangle) { [weak self] (result, rectangle) in
+                
                 guard let strongSelf = self else {
                     return
                 }
-                let shouldAutoScan = result == .showAndAutoScan
+                
+                let shouldAutoScan = (result == .showAndAutoScan)
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
                 if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
@@ -215,6 +217,10 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 strongSelf.noRectangleCount += 1
                 
                 if strongSelf.noRectangleCount > strongSelf.noRectangleThreshold {
+                    // Reset the currentAutoScanPassCount, so the threshold is restarted the next time a rectangle is found
+                    strongSelf.rectangleFunnel.currentAutoScanPassCount = 0
+                    
+                    // Remove the currently displayed rectangle as no rectangles are being found anymore
                     strongSelf.displayedRectangleResult = nil
                     strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
                 }
@@ -251,6 +257,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         }
         
         isDetecting = false
+        rectangleFunnel.currentAutoScanPassCount = 0
         delegate?.didStartCapturingPicture(for: self)
         
         if let sampleBuffer = photoSampleBuffer,
@@ -272,6 +279,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         }
         
         isDetecting = false
+        rectangleFunnel.currentAutoScanPassCount = 0
         delegate?.didStartCapturingPicture(for: self)
         
         if let imageData = photo.fileDataRepresentation() {

@@ -40,7 +40,7 @@ final class ScannerViewController: UIViewController {
     
     lazy private var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
         return button
@@ -55,7 +55,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     lazy private var autoScanButton: UIBarButtonItem = {
-        return UIBarButtonItem(title: "Auto", style: .plain, target: self, action: #selector(toggleAutoScan))
+        return UIBarButtonItem(title: NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state"), style: .plain, target: self, action: #selector(toggleAutoScan))
     }()
     
     lazy private var flashButton: UIBarButtonItem = {
@@ -186,15 +186,15 @@ final class ScannerViewController: UIViewController {
     @objc private func toggleAutoScan() {
         if CaptureSession.current.autoScanEnabled {
             CaptureSession.current.autoScanEnabled = false
-            autoScanButton.title = "Manual"
+            autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
         } else {
             CaptureSession.current.autoScanEnabled = true
-            autoScanButton.title = "Auto"
+            autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
         }
     }
     
     @objc private func toggleFlash() {
-        if !UIImagePickerController.isFlashAvailable(for: .rear) { return }
+        guard UIImagePickerController.isFlashAvailable(for: .rear) else { return }
         
         if flashEnabled == false && toggleTorch(toOn: true) == .successful {
             flashEnabled = true

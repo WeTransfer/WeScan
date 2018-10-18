@@ -20,10 +20,10 @@ public struct Quadrilateral: Transformable {
     
     /// A point that specifies the bottom right corner of the quadrilateral.
     var bottomRight: CGPoint
-
+    
     /// A point that specifies the bottom left corner of the quadrilateral.
     var bottomLeft: CGPoint
-        
+    
     init(rectangleFeature: CIRectangleFeature) {
         self.topLeft = rectangleFeature.topLeft
         self.topRight = rectangleFeature.topRight
@@ -37,9 +37,9 @@ public struct Quadrilateral: Transformable {
         self.bottomRight = bottomRight
         self.bottomLeft = bottomLeft
     }
-  
+    
     public var description: String {
-      return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
+        return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
     }
     
     /// Generates a `UIBezierPath` of the quadrilateral.
@@ -111,8 +111,8 @@ public struct Quadrilateral: Transformable {
         let xSortedBottomMostPoints = sortPointsByXValue(bottomMostPoints)
         
         guard xSortedTopMostPoints.count > 1,
-        xSortedBottomMostPoints.count > 1 else {
-            return
+            xSortedBottomMostPoints.count > 1 else {
+                return
         }
         
         topLeft = xSortedTopMostPoints[0]
@@ -171,7 +171,7 @@ public struct Quadrilateral: Transformable {
     
     /// Sorts the given `CGPoints` based on their x value.
     /// - Parameters:
-    ///   - points: The poinmts to sort.
+    ///   - points: The points to sort.
     /// - Returns: The points sorted based on their x value.
     private func sortPointsByXValue(_ points: [CGPoint]) -> [CGPoint] {
         return points.sorted { (point1, point2) -> Bool in
@@ -195,20 +195,17 @@ extension Quadrilateral {
         
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
-  
+    
+    /// Finds the perimeter of a Quadrilateral
+    /// - Returns: The perimeter of a Quadrilateral, found using the distance between points
     func perimeter() -> Double {
-      
-      let width = abs(self.topLeft.x - self.topRight.x)
-      let height = abs(self.topLeft.y - self.bottomLeft.y)
-      
-      return Double((width + height) * 2.0)
+        let perimeter = topLeft.distanceTo(point: topRight) + topRight.distanceTo(point: bottomRight) + bottomRight.distanceTo(point: bottomLeft) + bottomLeft.distanceTo(point: topLeft)
+        return Double(perimeter)
     }
 }
 
 extension Quadrilateral: Equatable {
-    
     public static func == (lhs: Quadrilateral, rhs: Quadrilateral) -> Bool {
         return lhs.topLeft == rhs.topLeft && lhs.topRight == rhs.topRight && lhs.bottomRight == rhs.bottomRight && lhs.bottomLeft == rhs.bottomLeft
     }
-    
 }
