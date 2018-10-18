@@ -217,9 +217,8 @@ final class ScannerViewController: UIViewController {
     }
     
     @objc private func cancelImageScannerController() {
-        if let imageScannerController = navigationController as? ImageScannerController {
-            imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
-        }
+        guard let imageScannerController = navigationController as? ImageScannerController else { return }
+        imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
     }
     
 }
@@ -230,9 +229,8 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         activityIndicator.stopAnimating()
         shutterButton.isUserInteractionEnabled = true
         
-        if let imageScannerController = navigationController as? ImageScannerController {
-            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
-        }
+        guard let imageScannerController = navigationController as? ImageScannerController else { return }
+        imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
     }
     
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {

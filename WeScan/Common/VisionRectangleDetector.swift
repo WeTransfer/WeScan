@@ -17,7 +17,7 @@ struct VisionRectangleDetector {
     ///
     /// - Parameters:
     ///   - image: The image to detect rectangles on.
-    /// - Returns: The biggest detected rectangle on the image.
+    /// - Returns: The biggest rectangle detected on the image.
     static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> Void)) {
       
         let imageRequestHandler = VNImageRequestHandler(ciImage: image, options: [:])
@@ -56,8 +56,7 @@ struct VisionRectangleDetector {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try imageRequestHandler.perform([rectangleDetectionRequest])
-            } catch let error as NSError {
-                print("Failed to perform image request: \(error)")
+            } catch {
                 completion(nil)
                 return
             }
