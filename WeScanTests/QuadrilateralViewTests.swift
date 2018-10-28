@@ -14,6 +14,7 @@ final class QuadrilateralViewTests: XCTestCase {
     let vc = UIViewController()
     
     override func setUp() {
+        super.setUp()
         vc.loadView()
     }
     
