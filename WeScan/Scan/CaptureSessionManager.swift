@@ -73,6 +73,10 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.alwaysDiscardsLateVideoFrames = true
         
+        defer {
+            captureSession.commitConfiguration()
+        }
+        
         guard let inputDevice = AVCaptureDevice.default(for: AVMediaType.video),
             let deviceInput = try? AVCaptureDeviceInput(device: inputDevice),
             captureSession.canAddInput(deviceInput),
@@ -91,8 +95,6 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "video_ouput_queue"))
-        
-        captureSession.commitConfiguration()
     }
     
     // MARK: Capture Session Life Cycle
