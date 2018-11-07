@@ -274,7 +274,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
 }
 
 /// Data structure representing the result of the detection of a quadrilateral.
-fileprivate struct RectangleDetectorResult {
+private struct RectangleDetectorResult {
     
     /// The detected quadrilateral.
     let rectangle: CIRectangleFeature
