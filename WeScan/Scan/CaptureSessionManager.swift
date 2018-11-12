@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreMotion
 import AVFoundation
 
 /// A set of functions that inform the delegate object of the state of the detection.
@@ -105,7 +106,9 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         switch authorizationStatus {
         case .authorized:
-            self.captureSession.startRunning()
+            DispatchQueue.main.async {
+                self.captureSession.startRunning()
+            }
             isDetecting = true
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (_) in
@@ -132,7 +135,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             photoOutputConnection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? AVCaptureVideoOrientation.portrait
         }
         
-       photoOutput.capturePhoto(with: photoSettings, delegate: self)
+        photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
     
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
@@ -146,10 +149,78 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             return
         }
         
-        let videoOutputImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let imageSize = videoOutputImage.extent.size
+        let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let imageSize = finalImage.extent.size
         
-        guard let rectangle = RectangleDetector.rectangle(forImage: videoOutputImage) else {
+        if #available(iOS 11.0, *) {
+            VisionRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
+                self.processRectangle(rectangle: rectangle, imageSize: imageSize)
+            }
+        } else {
+            CIRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
+                self.processRectangle(rectangle: rectangle, imageSize: imageSize)
+            }
+        }
+    }
+    
+    private func setImageOrientation() {
+        var motion: CMMotionManager!
+        motion = CMMotionManager()
+        
+        /// This value should be 0.2, but since we only need one cycle (and stop updates immediately),
+        /// we set it low to get the orientation immediately
+        motion.accelerometerUpdateInterval = 0.01
+        
+        guard motion.isAccelerometerAvailable else {
+            CaptureSession.current.editImageOrientation = .up
+            return
+        }
+        
+        motion.startAccelerometerUpdates(to: OperationQueue()) { data, error in
+            guard let data = data, error == nil else {
+                CaptureSession.current.editImageOrientation = .up
+                return
+            }
+            
+            /// The minimum amount of sensitivity for the landscape orientations
+            /// This is to prevent the landscape orientation being incorrectly used
+            /// Higher = easier for landscape to be detected, lower = easier for portrait to be detected
+            let motionThreshold = 0.35
+            
+            if data.acceleration.x >= motionThreshold {
+                CaptureSession.current.editImageOrientation = .left
+            } else if data.acceleration.x <= -motionThreshold {
+                CaptureSession.current.editImageOrientation = .right
+            } else {
+                /// This means the device is either in the 'up' or 'down' orientation, BUT,
+                /// it's very rare for someone to be using their phone upside down, so we use 'up' all the time
+                /// Which prevents accidentally making the document be scanned upside down
+                CaptureSession.current.editImageOrientation = .up
+            }
+            
+            motion.stopAccelerometerUpdates()
+        }
+    }
+    
+    private func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
+        if let rectangle = rectangle {
+            
+            self.noRectangleCount = 0
+            self.rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: self.displayedRectangleResult?.rectangle) { [weak self] (result, rectangle) in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                let shouldAutoScan = (result == .showAndAutoScan)
+                strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
+                if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
+                    capturePhoto()
+                }
+            }
+            
+        } else {
+            
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else {
                     return
@@ -157,24 +228,23 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 strongSelf.noRectangleCount += 1
                 
                 if strongSelf.noRectangleCount > strongSelf.noRectangleThreshold {
+                    // Reset the currentAutoScanPassCount, so the threshold is restarted the next time a rectangle is found
+                    strongSelf.rectangleFunnel.currentAutoScanPassCount = 0
+                    
+                    // Remove the currently displayed rectangle as no rectangles are being found anymore
                     strongSelf.displayedRectangleResult = nil
                     strongSelf.delegate?.captureSessionManager(strongSelf, didDetectQuad: nil, imageSize)
                 }
             }
             return
-        }
-        
-        noRectangleCount = 0
-        
-        rectangleFunnel.add(rectangle, currentlyDisplayedRectangle: displayedRectangleResult?.rectangle) { (rectangle) in
-            displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
+            
         }
     }
     
     @discardableResult private func displayRectangleResult(rectangleResult: RectangleDetectorResult) -> Quadrilateral {
         displayedRectangleResult = rectangleResult
         
-        let quad = Quadrilateral(rectangleFeature: rectangleResult.rectangle).toCartesian(withHeight: rectangleResult.imageSize.height)
+        let quad = rectangleResult.rectangle.toCartesian(withHeight: rectangleResult.imageSize.height)
         
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else {
@@ -186,24 +256,26 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         return quad
     }
-
+    
 }
 
 extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
-
+    
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         if let error = error {
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
         
+        setImageOrientation()
+        
         isDetecting = false
+        rectangleFunnel.currentAutoScanPassCount = 0
         delegate?.didStartCapturingPicture(for: self)
         
         if let sampleBuffer = photoSampleBuffer,
             let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil) {
-                completeImageCapture(with: imageData)
-            
+            completeImageCapture(with: imageData)
         } else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -219,7 +291,10 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
+        setImageOrientation()
+        
         isDetecting = false
+        rectangleFunnel.currentAutoScanPassCount = 0
         delegate?.didStartCapturingPicture(for: self)
         
         if let imageData = photo.fileDataRepresentation() {
@@ -235,6 +310,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
     private func completeImageCapture(with imageData: Data) {
         DispatchQueue.global(qos: .background).async { [weak self] in
+            CaptureSession.current.isEditing = true
             guard let image = UIImage(data: imageData) else {
                 let error = ImageScannerControllerError.capture
                 DispatchQueue.main.async {
@@ -256,7 +332,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             default:
                 break
             }
-                        
+            
             var quad: Quadrilateral?
             if let displayedRectangleResult = self?.displayedRectangleResult {
                 quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
@@ -277,7 +353,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
 private struct RectangleDetectorResult {
     
     /// The detected quadrilateral.
-    let rectangle: CIRectangleFeature
+    let rectangle: Quadrilateral
     
     /// The size of the image the quadrilateral was detected on.
     let imageSize: CGSize

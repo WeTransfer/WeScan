@@ -20,10 +20,10 @@ public struct Quadrilateral: Transformable {
     
     /// A point that specifies the bottom right corner of the quadrilateral.
     var bottomRight: CGPoint
-
+    
     /// A point that specifies the bottom left corner of the quadrilateral.
     var bottomLeft: CGPoint
-        
+    
     init(rectangleFeature: CIRectangleFeature) {
         self.topLeft = rectangleFeature.topLeft
         self.topRight = rectangleFeature.topRight
@@ -38,8 +38,12 @@ public struct Quadrilateral: Transformable {
         self.bottomLeft = bottomLeft
     }
     
-    /// Generates a `UIBezierPath` of the quadrilateral.
-    func path() -> UIBezierPath {
+    public var description: String {
+        return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
+    }
+    
+    /// The path of the Quadrilateral as a `UIBezierPath`
+    var path: UIBezierPath {
         let path = UIBezierPath()
         path.move(to: topLeft)
         path.addLine(to: topRight)
@@ -48,6 +52,12 @@ public struct Quadrilateral: Transformable {
         path.close()
         
         return path
+    }
+    
+    /// The perimeter of the Quadrilateral
+    var perimeter: Double {
+        let perimeter = topLeft.distanceTo(point: topRight) + topRight.distanceTo(point: bottomRight) + bottomRight.distanceTo(point: bottomLeft) + bottomLeft.distanceTo(point: topLeft)
+        return Double(perimeter)
     }
     
     /// Applies a `CGAffineTransform` to the quadrilateral.
@@ -59,6 +69,37 @@ public struct Quadrilateral: Transformable {
         let quadrilateral = Quadrilateral(topLeft: topLeft.applying(transform), topRight: topRight.applying(transform), bottomRight: bottomRight.applying(transform), bottomLeft: bottomLeft.applying(transform))
         
         return quadrilateral
+    }
+    
+    /// Checks whether the quadrilateral is withing a given distance of another quadrilateral.
+    ///
+    /// - Parameters:
+    ///   - distance: The distance (threshold) to use for the condition to be met.
+    ///   - rectangleFeature: The other rectangle to compare this instance with.
+    /// - Returns: True if the given rectangle is within the given distance of this rectangle instance.
+    func isWithin(_ distance: CGFloat, ofRectangleFeature rectangleFeature: Quadrilateral) -> Bool {
+        
+        let topLeftRect = topLeft.surroundingSquare(withSize: distance)
+        if !topLeftRect.contains(rectangleFeature.topLeft) {
+            return false
+        }
+        
+        let topRightRect = topRight.surroundingSquare(withSize: distance)
+        if !topRightRect.contains(rectangleFeature.topRight) {
+            return false
+        }
+        
+        let bottomRightRect = bottomRight.surroundingSquare(withSize: distance)
+        if !bottomRightRect.contains(rectangleFeature.bottomRight) {
+            return false
+        }
+        
+        let bottomLeftRect = bottomLeft.surroundingSquare(withSize: distance)
+        if !bottomLeftRect.contains(rectangleFeature.bottomLeft) {
+            return false
+        }
+        
+        return true
     }
     
     /// Reorganizes the current quadrilateal, making sure that the points are at their appropriate positions. For example, it ensures that the top left point is actually the top and left point point of the quadrilateral.
@@ -76,8 +117,8 @@ public struct Quadrilateral: Transformable {
         let xSortedBottomMostPoints = sortPointsByXValue(bottomMostPoints)
         
         guard xSortedTopMostPoints.count > 1,
-        xSortedBottomMostPoints.count > 1 else {
-            return
+            xSortedBottomMostPoints.count > 1 else {
+                return
         }
         
         topLeft = xSortedTopMostPoints[0]
@@ -86,7 +127,7 @@ public struct Quadrilateral: Transformable {
         bottomLeft = xSortedBottomMostPoints[0]
     }
     
-    /// Scales the quadrilateral based on the ratio of two given sizes, and optionnaly applies a rotation.
+    /// Scales the quadrilateral based on the ratio of two given sizes, and optionaly applies a rotation.
     ///
     /// - Parameters:
     ///   - fromSize: The size the quadrilateral is currently related to.
@@ -136,14 +177,13 @@ public struct Quadrilateral: Transformable {
     
     /// Sorts the given `CGPoints` based on their x value.
     /// - Parameters:
-    ///   - points: The poinmts to sort.
+    ///   - points: The points to sort.
     /// - Returns: The points sorted based on their x value.
     private func sortPointsByXValue(_ points: [CGPoint]) -> [CGPoint] {
         return points.sorted { (point1, point2) -> Bool in
             point1.x < point2.x
         }
     }
-
 }
 
 extension Quadrilateral {
@@ -161,13 +201,10 @@ extension Quadrilateral {
         
         return Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
     }
-    
 }
 
 extension Quadrilateral: Equatable {
-    
     public static func == (lhs: Quadrilateral, rhs: Quadrilateral) -> Bool {
         return lhs.topLeft == rhs.topLeft && lhs.topRight == rhs.topRight && lhs.bottomRight == rhs.bottomRight && lhs.bottomLeft == rhs.bottomLeft
     }
-    
 }

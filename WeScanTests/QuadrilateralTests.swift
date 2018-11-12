@@ -66,9 +66,6 @@ final class QuadrilateralTests: XCTestCase {
         XCTAssert(scaledQuad.topRight == CGPoint(x: 50.0, y: 12.5))
         XCTAssert(scaledQuad.bottomRight == CGPoint(x: 37.5, y: 50.0))
         XCTAssert(scaledQuad.bottomLeft == CGPoint(x: 12.5, y: 100.0))
-        
-        fromImageSize = CGSize(width: 100.0, height: 200.0)
-        toImageSize = CGSize(width: 300.0, height: 100.0)
     }
     
     func testScaleFixRotation() {

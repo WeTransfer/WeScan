@@ -35,7 +35,6 @@ final class ReviewViewController: UIViewController {
     
     init(results: ImageScannerResults) {
         self.results = results
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -73,9 +72,10 @@ final class ReviewViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func finishScan() {
-        if let imageScannerController = navigationController as? ImageScannerController {
-            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: results)
-        }
+        guard let imageScannerController = navigationController as? ImageScannerController else { return }
+        var newResults = results
+        newResults.scannedImage = results.scannedImage
+        imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
 
 }
