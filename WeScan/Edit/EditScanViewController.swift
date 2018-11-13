@@ -161,6 +161,7 @@ final class EditScanViewController: UIViewController {
         
         /// Prepare the enhanced image using GPUImage2's Adaptive Thresholding feature.
         let filter = AdaptiveThreshold()
+        filter.blurRadiusInPixels = 1
         let enhancedImage = finalImage.filterWithPipeline { (input, output) in
             input --> filter --> output
         }
