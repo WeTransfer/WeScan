@@ -92,6 +92,7 @@ final class ReviewViewController: UIViewController {
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
         var newResults = results
         newResults.scannedImage = results.scannedImage
+        newResults.doesUserPreferEnhancedImage = (imageView.image == results.enhancedImage)
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
 
