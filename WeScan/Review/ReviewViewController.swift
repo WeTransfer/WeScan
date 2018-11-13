@@ -81,8 +81,10 @@ final class ReviewViewController: UIViewController {
     @objc private func toggleEnhancedImage() {
         if imageView.image == results.scannedImage {
             imageView.image = results.enhancedImage
+            enhanceButton.tintColor = navigationController?.navigationBar.tintColor
         } else if imageView.image == results.enhancedImage {
             imageView.image = results.scannedImage
+            enhanceButton.tintColor = .gray
         }
     }
     

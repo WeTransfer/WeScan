@@ -5,6 +5,3 @@ url=https://github.com/WeTransfer/WeTransfer-iOS-CI.git
 	path = Submodules/ios-snapshot-test-case
 	url = https://github.com/uber/ios-snapshot-test-case/
 	branch = master
-[submodule "Submodules/GPUImage2"]
-	path = Submodules/GPUImage2
-	url = https://github.com/bradlarson/gpuimage2.git

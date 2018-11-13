@@ -159,14 +159,23 @@ final class EditScanViewController: UIViewController {
         
         let finalImage = fixImageRotation(image: uiImage)
         
-        /// Prepare the enhanced image using GPUImage2's Adaptive Thresholding feature.
-        let filter = AdaptiveThreshold()
-        filter.blurRadiusInPixels = 1
-        let enhancedImage = finalImage.filterWithPipeline { (input, output) in
-            input --> filter --> output
+        /// Prepare the enhanced image using our AdaptiveThresholdCIFilter.
+        let filter = AdaptiveThresholdCIFilter()
+        filter.inputImage = filteredImage
+        
+        var enhancedImage: UIImage!
+        
+        // Let's try to generate the CGImage from the CIImage before creating a UIImage.
+        if let enhancedCIImage = filter.outputImage,
+            let cgImage = CIContext(options: nil).createCGImage(enhancedCIImage, from: enhancedCIImage.extent) {
+            enhancedImage = UIImage(cgImage: cgImage)
+        } else {
+            enhancedImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         }
         
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
+        let finalEnhancedImage = fixImageRotation(image: enhancedImage)
+        
+        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: finalEnhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
         let reviewViewController = ReviewViewController(results: results)
         
         navigationController?.pushViewController(reviewViewController, animated: true)
