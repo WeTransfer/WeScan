@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GPUImage
 import AVFoundation
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.

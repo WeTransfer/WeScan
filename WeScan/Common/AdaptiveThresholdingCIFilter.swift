@@ -8,7 +8,7 @@
 
 import CoreImage
 
-class AdaptiveThresholdCIFilter: CIFilter {
+final class AdaptiveThresholdCIFilter: CIFilter {
     var inputImage: CIImage?
     var firstInputEdge: CGFloat = 0.25
     var secondInputEdge: CGFloat = 0.75
