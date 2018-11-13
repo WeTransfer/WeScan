@@ -51,6 +51,8 @@
 		A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */; };
 		A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */; };
 		A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22ECD2031937E001723AD /* EditScanViewController.swift */; };
+		B9274D29219AE07900F9FCD1 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9274D24219AE04000F9FCD1 /* GPUImage.framework */; };
+		B9274D2B219AE08700F9FCD1 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B9274D24219AE04000F9FCD1 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B92A2C8321578D28002874E5 /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92A2C8221578D28002874E5 /* CaptureSession.swift */; };
 		B94FBBAD2178652B001ED1B4 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAA2178652B001ED1B4 /* flash.png */; };
 		B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAB2178652B001ED1B4 /* flash@3x.png */; };
@@ -150,6 +152,41 @@
 			remoteGlobalIDString = A1D4BCEC202C4F4100FCDDEC;
 			remoteInfo = Scanner;
 		};
+		B9274D1F219AE04000F9FCD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC6E7CAB1C39A9D8006DF678;
+			remoteInfo = GPUImage_macOS;
+		};
+		B9274D21219AE04000F9FCD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC6E7CB51C39A9D8006DF678;
+			remoteInfo = GPUImageTests_macOS;
+		};
+		B9274D23219AE04000F9FCD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC9E34E91E524A2200B8604F;
+			remoteInfo = GPUImage_iOS;
+		};
+		B9274D25219AE04000F9FCD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC9E34F11E524A2200B8604F;
+			remoteInfo = GPUImageTests_iOS;
+		};
+		B9274D27219AE06900F9FCD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC9E34E81E524A2200B8604F;
+			remoteInfo = GPUImage_iOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -162,6 +199,16 @@
 				A1D4BD03202C4F4100FCDDEC /* WeScan.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B9274D2A219AE07E00F9FCD1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B9274D2B219AE08700F9FCD1 /* GPUImage.framework in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -214,6 +261,7 @@
 		A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnel.swift; sourceTree = "<group>"; };
 		A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Utils.swift"; sourceTree = "<group>"; };
 		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
+		B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = Submodules/GPUImage2/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
 		B92A2C8221578D28002874E5 /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 		B94FBBAA2178652B001ED1B4 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		B94FBBAB2178652B001ED1B4 /* flash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@3x.png"; sourceTree = "<group>"; };
@@ -235,6 +283,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9274D29219AE07900F9FCD1 /* GPUImage.framework in Frameworks */,
 				A1D4BD02202C4F4100FCDDEC /* WeScan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +357,7 @@
 		A1D4BCAE202C4F3800FCDDEC = {
 			isa = PBXGroup;
 			children = (
+				B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */,
 				74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */,
 				A1D4BCB9202C4F3800FCDDEC /* WeScanSampleProject */,
 				A1D4BCEE202C4F4100FCDDEC /* WeScan */,
@@ -438,6 +488,17 @@
 			path = Edit;
 			sourceTree = "<group>";
 		};
+		B9274D12219AE04000F9FCD1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B9274D20219AE04000F9FCD1 /* GPUImage.framework */,
+				B9274D22219AE04000F9FCD1 /* GPUImageTests_macOS.xctest */,
+				B9274D24219AE04000F9FCD1 /* GPUImage.framework */,
+				B9274D26219AE04000F9FCD1 /* GPUImageTests_iOS.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		B94FBB9D2178647B001ED1B4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,10 +534,12 @@
 				A1D4BCB4202C4F3800FCDDEC /* Frameworks */,
 				A1D4BCB5202C4F3800FCDDEC /* Resources */,
 				A1D4BD07202C4F4100FCDDEC /* Embed Frameworks */,
+				B9274D2A219AE07E00F9FCD1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B9274D28219AE06900F9FCD1 /* PBXTargetDependency */,
 				A1D4BD01202C4F4100FCDDEC /* PBXTargetDependency */,
 			);
 			name = WeScanSampleProject;
@@ -539,8 +602,8 @@
 					};
 					A1D4BCEC202C4F4100FCDDEC = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
 						LastSwiftMigration = 1000;
+						ProvisioningStyle = Automatic;
 					};
 					A1D4BCF4202C4F4100FCDDEC = {
 						CreatedOnToolsVersion = 9.2;
@@ -569,6 +632,10 @@
 				{
 					ProductGroup = 74E27849215446C200361812 /* Products */;
 					ProjectRef = 74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */;
+				},
+				{
+					ProductGroup = B9274D12219AE04000F9FCD1 /* Products */;
+					ProjectRef = B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -635,6 +702,34 @@
 			fileType = wrapper.cfbundle;
 			path = "FBSnapshotTestCase tvOS Tests.xctest";
 			remoteRef = 74E278682154528300361812 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B9274D20219AE04000F9FCD1 /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = B9274D1F219AE04000F9FCD1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B9274D22219AE04000F9FCD1 /* GPUImageTests_macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GPUImageTests_macOS.xctest;
+			remoteRef = B9274D21219AE04000F9FCD1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B9274D24219AE04000F9FCD1 /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = B9274D23219AE04000F9FCD1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B9274D26219AE04000F9FCD1 /* GPUImageTests_iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GPUImageTests_iOS.xctest;
+			remoteRef = B9274D25219AE04000F9FCD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -758,6 +853,11 @@
 			isa = PBXTargetDependency;
 			target = A1D4BCEC202C4F4100FCDDEC /* WeScan */;
 			targetProxy = A1D4BD00202C4F4100FCDDEC /* PBXContainerItemProxy */;
+		};
+		B9274D28219AE06900F9FCD1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImage_iOS;
+			targetProxy = B9274D27219AE06900F9FCD1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
