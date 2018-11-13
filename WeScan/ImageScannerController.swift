@@ -108,6 +108,12 @@ public struct ImageScannerResults {
     /// The deskewed and cropped orignal image using the detected rectangle.
     public var scannedImage: UIImage
     
+    /// The enhanced image, passed through an Adaptive Thresholding function.
+    public var enhancedImage: UIImage
+    
+    /// Whether the user has chosen the enhanced image or not. (The enhanced image is still available)
+    public var doesUserPreferEnhancedImage: Bool
+    
     /// The detected rectangle which was used to generate the `scannedImage`.
     public var detectedRectangle: Quadrilateral
     

@@ -53,6 +53,9 @@
 		A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22ECD2031937E001723AD /* EditScanViewController.swift */; };
 		B9274D29219AE07900F9FCD1 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9274D24219AE04000F9FCD1 /* GPUImage.framework */; };
 		B9274D2B219AE08700F9FCD1 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B9274D24219AE04000F9FCD1 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B9274D34219AE4BB00F9FCD1 /* enhance.png in Resources */ = {isa = PBXBuildFile; fileRef = B9274D31219AE4BA00F9FCD1 /* enhance.png */; };
+		B9274D35219AE4BB00F9FCD1 /* enhance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9274D32219AE4BB00F9FCD1 /* enhance@2x.png */; };
+		B9274D36219AE4BB00F9FCD1 /* enhance@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9274D33219AE4BB00F9FCD1 /* enhance@3x.png */; };
 		B92A2C8321578D28002874E5 /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92A2C8221578D28002874E5 /* CaptureSession.swift */; };
 		B94FBBAD2178652B001ED1B4 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAA2178652B001ED1B4 /* flash.png */; };
 		B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAB2178652B001ED1B4 /* flash@3x.png */; };
@@ -262,6 +265,9 @@
 		A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Utils.swift"; sourceTree = "<group>"; };
 		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
 		B9274D11219AE04000F9FCD1 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = Submodules/GPUImage2/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
+		B9274D31219AE4BA00F9FCD1 /* enhance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enhance.png; sourceTree = "<group>"; };
+		B9274D32219AE4BB00F9FCD1 /* enhance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enhance@2x.png"; sourceTree = "<group>"; };
+		B9274D33219AE4BB00F9FCD1 /* enhance@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enhance@3x.png"; sourceTree = "<group>"; };
 		B92A2C8221578D28002874E5 /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 		B94FBBAA2178652B001ED1B4 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		B94FBBAB2178652B001ED1B4 /* flash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@3x.png"; sourceTree = "<group>"; };
@@ -499,15 +505,42 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B94FBB9D2178647B001ED1B4 /* Assets */ = {
+		B9274D2D219AE10B00F9FCD1 /* Flash */ = {
 			isa = PBXGroup;
 			children = (
 				B94FBBAA2178652B001ED1B4 /* flash.png */,
 				B94FBBAC2178652B001ED1B4 /* flash@2x.png */,
 				B94FBBAB2178652B001ED1B4 /* flash@3x.png */,
+			);
+			name = Flash;
+			sourceTree = "<group>";
+		};
+		B9274D2F219AE12200F9FCD1 /* Enhance */ = {
+			isa = PBXGroup;
+			children = (
+				B9274D31219AE4BA00F9FCD1 /* enhance.png */,
+				B9274D32219AE4BB00F9FCD1 /* enhance@2x.png */,
+				B9274D33219AE4BB00F9FCD1 /* enhance@3x.png */,
+			);
+			name = Enhance;
+			sourceTree = "<group>";
+		};
+		B9274D30219AE16000F9FCD1 /* FlashUnavailable */ = {
+			isa = PBXGroup;
+			children = (
 				B94FBBB12178653C001ED1B4 /* flashUnavailable.png */,
 				B94FBBB22178653C001ED1B4 /* flashUnavailable@2x.png */,
 				B94FBBB02178653C001ED1B4 /* flashUnavailable@3x.png */,
+			);
+			name = FlashUnavailable;
+			sourceTree = "<group>";
+		};
+		B94FBB9D2178647B001ED1B4 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				B9274D2D219AE10B00F9FCD1 /* Flash */,
+				B9274D30219AE16000F9FCD1 /* FlashUnavailable */,
+				B9274D2F219AE12200F9FCD1 /* Enhance */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -749,12 +782,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9274D34219AE4BB00F9FCD1 /* enhance.png in Resources */,
 				B97B49C9216C6C6800B2235B /* Localizable.strings in Resources */,
 				B94FBBB52178653C001ED1B4 /* flashUnavailable@2x.png in Resources */,
 				B94FBBAD2178652B001ED1B4 /* flash.png in Resources */,
 				B94FBBAF2178652B001ED1B4 /* flash@2x.png in Resources */,
 				B94FBBB32178653C001ED1B4 /* flashUnavailable@3x.png in Resources */,
 				B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */,
+				B9274D35219AE4BB00F9FCD1 /* enhance@2x.png in Resources */,
+				B9274D36219AE4BB00F9FCD1 /* enhance@3x.png in Resources */,
 				B94FBBB42178653C001ED1B4 /* flashUnavailable.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

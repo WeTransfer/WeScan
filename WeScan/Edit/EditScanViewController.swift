@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GPUImage
 import AVFoundation
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
@@ -157,7 +158,14 @@ final class EditScanViewController: UIViewController {
         }
         
         let finalImage = fixImageRotation(image: uiImage)
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, detectedRectangle: scaledQuad)
+        
+        /// Prepare the enhanced image using GPUImage2's Adaptive Thresholding feature.
+        let filter = AdaptiveThreshold()
+        let enhancedImage = finalImage.filterWithPipeline { (input, output) in
+            input --> filter --> output
+        }
+        
+        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
         let reviewViewController = ReviewViewController(results: results)
         
         navigationController?.pushViewController(reviewViewController, animated: true)

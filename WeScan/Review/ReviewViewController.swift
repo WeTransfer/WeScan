@@ -15,11 +15,18 @@ final class ReviewViewController: UIViewController {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
-        imageView.image = results.scannedImage
+        imageView.image = results.enhancedImage
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    lazy private var enhanceButton: UIBarButtonItem = {
+        let image = UIImage(named: "enhance", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleEnhancedImage))
+        button.tintColor = navigationController?.navigationBar.tintColor
+        return button
     }()
     
     lazy private var doneButton: UIBarButtonItem = {
@@ -49,7 +56,7 @@ final class ReviewViewController: UIViewController {
         setupConstraints()
         
         title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
-        navigationItem.rightBarButtonItem = doneButton
+        navigationItem.rightBarButtonItems = [doneButton, enhanceButton]
     }
     
     // MARK: Setups
@@ -70,6 +77,14 @@ final class ReviewViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    @objc private func toggleEnhancedImage() {
+        if imageView.image == results.scannedImage {
+            imageView.image = results.enhancedImage
+        } else if imageView.image == results.enhancedImage {
+            imageView.image = results.scannedImage
+        }
+    }
     
     @objc private func finishScan() {
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
