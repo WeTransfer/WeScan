@@ -168,15 +168,6 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B9274D2A219AE07E00F9FCD1 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -518,7 +509,6 @@
 				A1D4BCB4202C4F3800FCDDEC /* Frameworks */,
 				A1D4BCB5202C4F3800FCDDEC /* Resources */,
 				A1D4BD07202C4F4100FCDDEC /* Embed Frameworks */,
-				B9274D2A219AE07E00F9FCD1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
