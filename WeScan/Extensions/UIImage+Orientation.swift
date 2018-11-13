@@ -69,4 +69,27 @@ extension UIImage {
         return image
     }
     
+    /// Rotates the image based on the information collected by the accelerometer
+    func withFixedOrientation() -> UIImage {
+        var imageAngle: Double = 0.0
+        
+        var rotate = true
+        switch CaptureSession.current.editImageOrientation {
+        case .up:
+            rotate = false
+        case .left:
+            imageAngle = Double.pi / 2
+        case .right:
+            imageAngle = -(Double.pi / 2)
+        case .down:
+            imageAngle = Double.pi
+        default:
+            rotate = false
+        }
+        
+        guard rotate == true else { return self }
+        guard let finalImage = self.rotated(by: Measurement(value: imageAngle, unit: .radians)) else { return self }
+        return finalImage
+    }
+    
 }

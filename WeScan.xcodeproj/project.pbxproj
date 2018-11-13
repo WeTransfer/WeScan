@@ -54,7 +54,7 @@
 		B9274D34219AE4BB00F9FCD1 /* enhance.png in Resources */ = {isa = PBXBuildFile; fileRef = B9274D31219AE4BA00F9FCD1 /* enhance.png */; };
 		B9274D35219AE4BB00F9FCD1 /* enhance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9274D32219AE4BB00F9FCD1 /* enhance@2x.png */; };
 		B9274D36219AE4BB00F9FCD1 /* enhance@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9274D33219AE4BB00F9FCD1 /* enhance@3x.png */; };
-		B9274D38219AEA5200F9FCD1 /* AdaptiveThresholdingCIFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9274D37219AEA5200F9FCD1 /* AdaptiveThresholdingCIFilter.swift */; };
+		B9274D3A219B951000F9FCD1 /* CIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9274D39219B951000F9FCD1 /* CIImage+Utils.swift */; };
 		B92A2C8321578D28002874E5 /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92A2C8221578D28002874E5 /* CaptureSession.swift */; };
 		B94FBBAD2178652B001ED1B4 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAA2178652B001ED1B4 /* flash.png */; };
 		B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAB2178652B001ED1B4 /* flash@3x.png */; };
@@ -221,7 +221,7 @@
 		B9274D31219AE4BA00F9FCD1 /* enhance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enhance.png; sourceTree = "<group>"; };
 		B9274D32219AE4BB00F9FCD1 /* enhance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enhance@2x.png"; sourceTree = "<group>"; };
 		B9274D33219AE4BB00F9FCD1 /* enhance@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enhance@3x.png"; sourceTree = "<group>"; };
-		B9274D37219AEA5200F9FCD1 /* AdaptiveThresholdingCIFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveThresholdingCIFilter.swift; sourceTree = "<group>"; };
+		B9274D39219B951000F9FCD1 /* CIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+Utils.swift"; sourceTree = "<group>"; };
 		B92A2C8221578D28002874E5 /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 		B94FBBAA2178652B001ED1B4 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		B94FBBAB2178652B001ED1B4 /* flash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@3x.png"; sourceTree = "<group>"; };
@@ -397,9 +397,10 @@
 				A11C5CDA20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift */,
 				A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */,
 				A1DF90F12035992A00841A11 /* CGAffineTransform+Utils.swift */,
-				A1DF90F52037187500841A11 /* UIImage+Orientation.swift */,
 				A1C4DD4D2044ADE600D36684 /* CGRect+Utils.swift */,
+				B9274D39219B951000F9FCD1 /* CIImage+Utils.swift */,
 				C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */,
+				A1DF90F52037187500841A11 /* UIImage+Orientation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -422,7 +423,6 @@
 				A11C5B9B2046A20C005075FE /* Error.swift */,
 				A14089B9204D92EA0009530F /* EditScanCornerView.swift */,
 				B92A2C8221578D28002874E5 /* CaptureSession.swift */,
-				B9274D37219AEA5200F9FCD1 /* AdaptiveThresholdingCIFilter.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -729,7 +729,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9274D38219AEA5200F9FCD1 /* AdaptiveThresholdingCIFilter.swift in Sources */,
 				A11C5CDB20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift in Sources */,
 				A1DF90F22035992A00841A11 /* CGAffineTransform+Utils.swift in Sources */,
 				A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */,
@@ -747,6 +746,7 @@
 				A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */,
 				A14089BA204D92EA0009530F /* EditScanCornerView.swift in Sources */,
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
+				B9274D3A219B951000F9FCD1 /* CIImage+Utils.swift in Sources */,
 				C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */,
 				A1C4DD4E2044ADE600D36684 /* CGRect+Utils.swift in Sources */,
 				A1DF90A420331A0B00841A11 /* CIRectangleDetector.swift in Sources */,
