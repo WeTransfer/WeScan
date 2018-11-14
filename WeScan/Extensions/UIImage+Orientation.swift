@@ -73,10 +73,10 @@ extension UIImage {
     func withFixedOrientation() -> UIImage {
         var imageAngle: Double = 0.0
         
-        var rotate = true
+        var shouldRotate = true
         switch CaptureSession.current.editImageOrientation {
         case .up:
-            rotate = false
+            shouldRotate = false
         case .left:
             imageAngle = Double.pi / 2
         case .right:
@@ -84,12 +84,15 @@ extension UIImage {
         case .down:
             imageAngle = Double.pi
         default:
-            rotate = false
+            shouldRotate = false
         }
         
-        guard rotate == true else { return self }
-        guard let finalImage = self.rotated(by: Measurement(value: imageAngle, unit: .radians)) else { return self }
-        return finalImage
+        if shouldRotate,
+            let finalImage = rotated(by: Measurement(value: imageAngle, unit: .radians)) {
+            return finalImage
+        } else {
+            return self
+        }
     }
     
 }
