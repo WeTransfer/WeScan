@@ -11,11 +11,13 @@ import UIKit
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
+    var isCurrentlyDisplayingEnhancedImage: Bool = false
+    
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
-        imageView.image = results.enhancedImage
+        imageView.image = results.scannedImage
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +27,7 @@ final class ReviewViewController: UIViewController {
     lazy private var enhanceButton: UIBarButtonItem = {
         let image = UIImage(named: "enhance", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleEnhancedImage))
-        button.tintColor = navigationController?.navigationBar.tintColor
+        button.tintColor = .white
         return button
     }()
     
@@ -53,16 +55,34 @@ final class ReviewViewController: UIViewController {
         super.viewDidLoad()
 
         setupViews()
+        setupToolbar()
         setupConstraints()
         
-        title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
-        navigationItem.rightBarButtonItems = [doneButton, enhanceButton]
+        title = nil
+        navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setToolbarHidden(true, animated: true)
     }
     
     // MARK: Setups
     
     private func setupViews() {
         view.addSubview(imageView)
+    }
+    
+    private func setupToolbar() {
+        navigationController?.toolbar.barStyle = .blackTranslucent
+        
+        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        toolbarItems = [fixedSpace, enhanceButton]
     }
     
     private func setupConstraints() {
@@ -79,20 +99,22 @@ final class ReviewViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func toggleEnhancedImage() {
-        if imageView.image == results.scannedImage {
-            imageView.image = results.enhancedImage
-            enhanceButton.tintColor = navigationController?.navigationBar.tintColor
-        } else if imageView.image == results.enhancedImage {
+        if isCurrentlyDisplayingEnhancedImage {
             imageView.image = results.scannedImage
-            enhanceButton.tintColor = .gray
+            enhanceButton.tintColor = .white
+        } else {
+            imageView.image = results.enhancedImage
+            enhanceButton.tintColor = UIColor(red: 58/255, green: 138/255, blue: 252/255, alpha: 1.0)
         }
+        
+        isCurrentlyDisplayingEnhancedImage.toggle()
     }
     
     @objc private func finishScan() {
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
         var newResults = results
         newResults.scannedImage = results.scannedImage
-        newResults.doesUserPreferEnhancedImage = (imageView.image == results.enhancedImage)
+        newResults.doesUserPreferEnhancedImage = isCurrentlyDisplayingEnhancedImage
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
 

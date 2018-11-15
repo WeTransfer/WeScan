@@ -18,9 +18,6 @@
 /* The "Done" button on the right side of the navigation bar on the Review screen. */
 "wescan.review.button.done" = "Done";
 
-/* The title on the navigation bar of the Review screen. */
-"wescan.review.title" = "Review";
-
 /* The button titles on the Scanning screen. */
 "wescan.scanning.cancel" = "Cancel";
 "wescan.scanning.auto" = "Auto";
