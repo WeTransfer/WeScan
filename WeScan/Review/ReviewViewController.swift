@@ -11,6 +11,7 @@ import UIKit
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
+    var enhancedImageIsAvailable: Bool = false
     var isCurrentlyDisplayingEnhancedImage: Bool = false
     
     lazy private var imageView: UIImageView = {
@@ -53,6 +54,8 @@ final class ReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        enhancedImageIsAvailable = results.enhancedImage != nil
+        
         setupViews()
         setupToolbar()
         setupConstraints()
@@ -63,11 +66,17 @@ final class ReviewViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setToolbarHidden(false, animated: true)
+        
+        // We only show the toolbar (with the enhance button) if the enhanced image is available.
+        if enhancedImageIsAvailable {
+            navigationController?.setToolbarHidden(false, animated: true)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // We will always remove the toolbar even if the enhanced image isn't available, just in case.
         navigationController?.setToolbarHidden(true, animated: true)
     }
     
@@ -78,6 +87,8 @@ final class ReviewViewController: UIViewController {
     }
     
     private func setupToolbar() {
+        guard enhancedImageIsAvailable else { return }
+        
         navigationController?.toolbar.barStyle = .blackTranslucent
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
@@ -98,12 +109,13 @@ final class ReviewViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func toggleEnhancedImage() {
+        guard enhancedImageIsAvailable else { return }
         if isCurrentlyDisplayingEnhancedImage {
             imageView.image = results.scannedImage
             enhanceButton.tintColor = .white
         } else {
             imageView.image = results.enhancedImage
-            enhanceButton.tintColor = UIColor(red: 58/255, green: 138/255, blue: 252/255, alpha: 1.0)
+            enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
         }
         
         isCurrentlyDisplayingEnhancedImage.toggle()
