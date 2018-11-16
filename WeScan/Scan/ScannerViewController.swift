@@ -140,8 +140,6 @@ final class ScannerViewController: UIViewController {
             flashButton.image = flashOffImage
             flashButton.tintColor = UIColor.lightGray
         }
-        
-        toolbar.sizeToFit()
     }
     
     private func setupConstraints() {
