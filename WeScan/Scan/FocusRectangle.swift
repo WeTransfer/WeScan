@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FocusRectangle: UIView {
+final class FocusRectangle: UIView {
     convenience init(touchPoint: CGPoint) {
         let originalSize: CGFloat = 200
         let finalSize: CGFloat = 80

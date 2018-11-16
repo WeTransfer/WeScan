@@ -222,7 +222,8 @@ final class ScannerViewController: UIViewController {
             device.unlockForConfiguration()
         } catch {
             let error = ImageScannerControllerError.inputDevice
-            captureSessionManager?.delegate?.captureSessionManager(captureSessionManager!, didFailWithError: error)
+            guard let captureSessionManager = captureSessionManager else { return }
+            captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
             return
         }
         
@@ -258,7 +259,8 @@ final class ScannerViewController: UIViewController {
                 device.unlockForConfiguration()
             } catch {
                 let error = ImageScannerControllerError.inputDevice
-                captureSessionManager?.delegate?.captureSessionManager(captureSessionManager!, didFailWithError: error)
+                guard let captureSessionManager = captureSessionManager else { return }
+                captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
                 return
             }
             
