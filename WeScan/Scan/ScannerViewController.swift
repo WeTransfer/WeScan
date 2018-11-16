@@ -57,8 +57,8 @@ final class ScannerViewController: UIViewController {
         return toolbar
     }()
     
-    lazy private var autoScanButton: UIBarButtonItem = {
-        return UIBarButtonItem(title: NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state"), style: .plain, target: self, action: #selector(toggleAutoScan))
+    lazy private var autoModeButton: UIBarButtonItem = {
+        return UIBarButtonItem(title: NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state"), style: .plain, target: self, action: #selector(toggleAutoMode))
     }()
     
     lazy private var flashButton: UIBarButtonItem = {
@@ -130,7 +130,7 @@ final class ScannerViewController: UIViewController {
     private func setupToolbar() {
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
+        toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoModeButton, fixedSpace], animated: false)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
             let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
@@ -178,56 +178,83 @@ final class ScannerViewController: UIViewController {
         NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
     }
     
-    // MARK: - Actions
+    // MARK: - Tap to Focus
+    
+    /// Sets the camera's exposure and focus point to the given point
+    private func setTapToFocusPoint(_ point: CGPoint) throws {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        try device.lockForConfiguration()
+        
+        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
+            device.focusPointOfInterest = point
+            device.focusMode = .autoFocus
+        }
+        
+        if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
+            device.exposurePointOfInterest = point
+            device.exposureMode = .continuousAutoExposure
+        }
+        
+        device.unlockForConfiguration()
+    }
+    
+    /// Resets the camera's exposure and focus point to automatic
+    private func resetFocusPoint() throws {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        try device.lockForConfiguration()
+        
+        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.continuousAutoFocus) {
+            device.focusMode = .continuousAutoFocus
+        }
+        
+        if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
+            device.exposureMode = .continuousAutoExposure
+        }
+        
+        device.unlockForConfiguration()
+    }
+    
+    /// Removes an existing focus rectangle if one exists, optionally animating the exit
+    private func removeFocusRectangleIfNeeded(animate: Bool) {
+        guard let focusRectangle = focusRectangle else { return }
+        if animate {
+            UIView.animate(withDuration: 0.3, delay: 1.0, animations: {
+                focusRectangle.alpha = 0.0
+            }, completion: { (_) in
+                focusRectangle.removeFromSuperview()
+            })
+        } else {
+            focusRectangle.removeFromSuperview()
+        }
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        guard !CaptureSession.current.isAutoModeEnabled,
-            let touch = touches.first else { return }
+        guard !CaptureSession.current.isAutoModeEnabled, let touch = touches.first else { return }
         let touchPoint = touch.location(in: view)
         let focusPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
         
-        if let focusRectangle = focusRectangle {
-            focusRectangle.removeFromSuperview()
-        }
+        removeFocusRectangleIfNeeded(animate: false)
         
         focusRectangle = FocusRectangle(touchPoint: touchPoint)
         view.addSubview(focusRectangle)
         
         defer {
-            if let focusRectangle = focusRectangle {
-                UIView.animate(withDuration: 0.3, delay: 1.0, animations: {
-                    focusRectangle.alpha = 0.0
-                }, completion: { (_) in
-                    focusRectangle.removeFromSuperview()
-                })
-            }
+            removeFocusRectangleIfNeeded(animate: true)
         }
         
         do {
-            guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-            try device.lockForConfiguration()
-            
-            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
-                device.focusPointOfInterest = focusPoint
-                device.focusMode = .autoFocus
-            }
-
-            if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
-                device.exposurePointOfInterest = focusPoint
-                device.exposureMode = .continuousAutoExposure
-            }
-            
-            device.unlockForConfiguration()
+            try setTapToFocusPoint(focusPoint)
         } catch {
             let error = ImageScannerControllerError.inputDevice
             guard let captureSessionManager = captureSessionManager else { return }
             captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
             return
         }
-        
     }
+    
+    // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
         (navigationController as? ImageScannerController)?.flashToBlack()
@@ -235,28 +262,17 @@ final class ScannerViewController: UIViewController {
         captureSessionManager?.capturePhoto()
     }
     
-    @objc private func toggleAutoScan() {
+    @objc private func toggleAutoMode() {
         if CaptureSession.current.isAutoModeEnabled {
             CaptureSession.current.isAutoModeEnabled = false
-            autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
+            autoModeButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
         } else {
             CaptureSession.current.isAutoModeEnabled = true
-            autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+            autoModeButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
             
             /// Reset the focus to continousAutoFocus
             do {
-                guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-                try device.lockForConfiguration()
-            
-                if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.continuousAutoFocus) {
-                    device.focusMode = .continuousAutoFocus
-                }
-                
-                if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
-                    device.exposureMode = .continuousAutoExposure
-                }
-                
-                device.unlockForConfiguration()
+                try resetFocusPoint()
             } catch {
                 let error = ImageScannerControllerError.inputDevice
                 guard let captureSessionManager = captureSessionManager else { return }
@@ -265,13 +281,7 @@ final class ScannerViewController: UIViewController {
             }
             
             /// Remove the focus rectangle if one exists
-            if let focusRectangle = focusRectangle {
-                UIView.animate(withDuration: 0.3, delay: 1.0, animations: {
-                    focusRectangle.alpha = 0.0
-                }, completion: { (_) in
-                    focusRectangle.removeFromSuperview()
-                })
-            }
+            removeFocusRectangleIfNeeded(animate: true)
         }
     }
     

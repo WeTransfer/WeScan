@@ -16,7 +16,7 @@ final class CaptureSession {
     /// Whether the user is past the scanning screen or not (needed to disable auto scan on other screens)
     var isEditing: Bool
     
-    /// Whether auto scan is enabled or not
+    /// The status of "auto mode". Auto mode does not allow tap to focus and tries to automatically scan a detected rectangle if it has a high enough accuracy.
     var isAutoModeEnabled: Bool
     
     /// The orientation of the captured image
