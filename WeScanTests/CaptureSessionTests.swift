@@ -13,7 +13,7 @@ final class CaptureSessionTests: XCTestCase {
     
     func testAutoScanEnabledByDefault() {
         let session = CaptureSession.current
-        XCTAssertTrue(session.autoScanEnabled)
+        XCTAssertTrue(session.isAutoModeEnabled)
     }
   
     func testEditOrientationUpByDefault() {

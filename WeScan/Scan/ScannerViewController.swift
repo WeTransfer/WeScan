@@ -21,6 +21,9 @@ final class ScannerViewController: UIViewController {
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
     
+    /// The view that shows the focus rectangle (when the user taps to focus, similar to the Camera app)
+    private var focusRectangle: FocusRectangle!
+    
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
     
@@ -177,6 +180,54 @@ final class ScannerViewController: UIViewController {
     
     // MARK: - Actions
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        guard !CaptureSession.current.isAutoModeEnabled,
+            let touch = touches.first else { return }
+        let touchPoint = touch.location(in: view)
+        let focusPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
+        
+        if let focusRectangle = focusRectangle {
+            focusRectangle.removeFromSuperview()
+        }
+        
+        focusRectangle = FocusRectangle(touchPoint: touchPoint)
+        view.addSubview(focusRectangle)
+        
+        defer {
+            if let focusRectangle = focusRectangle {
+                UIView.animate(withDuration: 0.3, delay: 1.0, animations: {
+                    focusRectangle.alpha = 0.0
+                }, completion: { (_) in
+                    focusRectangle.removeFromSuperview()
+                })
+            }
+        }
+        
+        do {
+            guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+            try device.lockForConfiguration()
+            
+            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
+                device.focusPointOfInterest = focusPoint
+                device.focusMode = .autoFocus
+            }
+
+            if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
+                device.exposurePointOfInterest = focusPoint
+                device.exposureMode = .continuousAutoExposure
+            }
+            
+            device.unlockForConfiguration()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            captureSessionManager?.delegate?.captureSessionManager(captureSessionManager!, didFailWithError: error)
+            return
+        }
+        
+    }
+    
     @objc private func captureImage(_ sender: UIButton) {
         (navigationController as? ImageScannerController)?.flashToBlack()
         shutterButton.isUserInteractionEnabled = false
@@ -184,12 +235,41 @@ final class ScannerViewController: UIViewController {
     }
     
     @objc private func toggleAutoScan() {
-        if CaptureSession.current.autoScanEnabled {
-            CaptureSession.current.autoScanEnabled = false
+        if CaptureSession.current.isAutoModeEnabled {
+            CaptureSession.current.isAutoModeEnabled = false
             autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
         } else {
-            CaptureSession.current.autoScanEnabled = true
+            CaptureSession.current.isAutoModeEnabled = true
             autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+            
+            /// Reset the focus to continousAutoFocus
+            do {
+                guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+                try device.lockForConfiguration()
+            
+                if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.continuousAutoFocus) {
+                    device.focusMode = .continuousAutoFocus
+                }
+                
+                if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
+                    device.exposureMode = .continuousAutoExposure
+                }
+                
+                device.unlockForConfiguration()
+            } catch {
+                let error = ImageScannerControllerError.inputDevice
+                captureSessionManager?.delegate?.captureSessionManager(captureSessionManager!, didFailWithError: error)
+                return
+            }
+            
+            /// Remove the focus rectangle if one exists
+            if let focusRectangle = focusRectangle {
+                UIView.animate(withDuration: 0.3, delay: 1.0, animations: {
+                    focusRectangle.alpha = 0.0
+                }, completion: { (_) in
+                    focusRectangle.removeFromSuperview()
+                })
+            }
         }
     }
     
