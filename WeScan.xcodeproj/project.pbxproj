@@ -539,8 +539,8 @@
 					};
 					A1D4BCEC202C4F4100FCDDEC = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
 						LastSwiftMigration = 1000;
+						ProvisioningStyle = Automatic;
 					};
 					A1D4BCF4202C4F4100FCDDEC = {
 						CreatedOnToolsVersion = 9.2;

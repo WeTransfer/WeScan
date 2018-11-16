@@ -50,7 +50,7 @@ final class ScannerViewController: UIViewController {
         let toolbar = UIToolbar()
         toolbar.barStyle = .blackTranslucent
         toolbar.tintColor = .white
-        toolbar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
         return toolbar
     }()
     
@@ -73,6 +73,10 @@ final class ScannerViewController: UIViewController {
 
     // MARK: - Life Cycle
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,6 +88,8 @@ final class ScannerViewController: UIViewController {
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewlayer)
         captureSessionManager?.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChanged(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -134,6 +140,8 @@ final class ScannerViewController: UIViewController {
             flashButton.image = flashOffImage
             flashButton.tintColor = UIColor.lightGray
         }
+        
+        toolbar.sizeToFit()
     }
     
     private func setupConstraints() {
@@ -172,10 +180,36 @@ final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
+        let toolbarConstraints = [
+            toolbar.topAnchor.constraint(equalTo: view.topAnchor),
+            toolbar.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints)
     }
     
     // MARK: - Actions
+    
+    @objc private func orientationChanged(_ notification: NSNotification) {
+        var rotation: CGFloat = 0
+        switch UIDevice.current.orientation {
+        case .portrait, .faceUp:
+            rotation = 0
+        case .landscapeLeft:
+            rotation = .pi / 2
+        case .landscapeRight:
+            rotation = -(.pi / 2)
+        case .portraitUpsideDown, .faceDown:
+            rotation = .pi
+        default:
+            break
+        }
+        
+        let transform = CGAffineTransform(rotationAngle: rotation)
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState, animations: {
+            self.cancelButton.transform = transform
+        }, completion: nil)
+    }
     
     @objc private func captureImage(_ sender: UIButton) {
         (navigationController as? ImageScannerController)?.flashToBlack()

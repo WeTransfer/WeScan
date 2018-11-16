@@ -131,10 +131,6 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         photoSettings.isHighResolutionPhotoEnabled = true
         photoSettings.isAutoStillImageStabilizationEnabled = true
         
-        if let photoOutputConnection = self.photoOutput.connection(with: .video) {
-            photoOutputConnection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? AVCaptureVideoOrientation.portrait
-        }
-        
         photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
     
@@ -167,20 +163,16 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         var motion: CMMotionManager!
         motion = CMMotionManager()
         
+        CaptureSession.current.editImageOrientation = .up
+        
         /// This value should be 0.2, but since we only need one cycle (and stop updates immediately),
         /// we set it low to get the orientation immediately
         motion.accelerometerUpdateInterval = 0.01
         
-        guard motion.isAccelerometerAvailable else {
-            CaptureSession.current.editImageOrientation = .up
-            return
-        }
+        guard motion.isAccelerometerAvailable else { return }
         
         motion.startAccelerometerUpdates(to: OperationQueue()) { data, error in
-            guard let data = data, error == nil else {
-                CaptureSession.current.editImageOrientation = .up
-                return
-            }
+            guard let data = data, error == nil else { return }
             
             /// The minimum amount of sensitivity for the landscape orientations
             /// This is to prevent the landscape orientation being incorrectly used
@@ -199,6 +191,18 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             }
             
             motion.stopAccelerometerUpdates()
+            
+            // If the device is reporting a specific landscape orientation, we'll use it over the accelerometer's update.
+            // We don't use this to check for "portrait" because only the accelerometer works when portrait lock is enabled.
+            // For some reason, the left/right orientations are incorrect (flipped) :/
+            switch UIDevice.current.orientation {
+            case .landscapeLeft:
+                CaptureSession.current.editImageOrientation = .right
+            case .landscapeRight:
+                CaptureSession.current.editImageOrientation = .left
+            default:
+                break
+            }
         }
     }
     
