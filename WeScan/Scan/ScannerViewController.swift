@@ -19,7 +19,7 @@ enum FlashResult {
 final class ScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
-    private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
+    private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
     
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
@@ -82,7 +82,7 @@ final class ScannerViewController: UIViewController {
         setupToolbar()
         setupConstraints()
         
-        captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewlayer)
+        captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
     }
     
@@ -98,7 +98,7 @@ final class ScannerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        videoPreviewlayer.frame = view.layer.bounds
+        videoPreviewLayer.frame = view.layer.bounds
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -114,7 +114,7 @@ final class ScannerViewController: UIViewController {
     // MARK: - Setups
     
     private func setupViews() {
-        view.layer.addSublayer(videoPreviewlayer)
+        view.layer.addSublayer(videoPreviewLayer)
         quadView.translatesAutoresizingMaskIntoConstraints = false
         quadView.editable = false
         view.addSubview(quadView)
