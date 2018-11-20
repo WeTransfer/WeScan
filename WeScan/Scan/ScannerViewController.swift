@@ -9,12 +9,6 @@
 import UIKit
 import AVFoundation
 
-/// An enum used to know if the flashlight was toggled successfully.
-enum FlashResult {
-    case successful
-    case notSuccessful
-}
-
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
 final class ScannerViewController: UIViewController {
     
@@ -180,72 +174,24 @@ final class ScannerViewController: UIViewController {
     
     // MARK: - Tap to Focus
     
-    /// Sets the camera's exposure and focus point to the given point
-    private func setTapToFocusPoint(_ point: CGPoint) throws {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        try device.lockForConfiguration()
-        
-        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
-            device.focusPointOfInterest = point
-            device.focusMode = .autoFocus
-        }
-        
-        if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
-            device.exposurePointOfInterest = point
-            device.exposureMode = .continuousAutoExposure
-        }
-        
-        device.unlockForConfiguration()
-    }
-    
-    /// Resets the camera's exposure and focus point to automatic
-    private func resetFocusPoint() throws {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        try device.lockForConfiguration()
-        
-        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.continuousAutoFocus) {
-            device.focusMode = .continuousAutoFocus
-        }
-        
-        if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
-            device.exposureMode = .continuousAutoExposure
-        }
-        
-        device.unlockForConfiguration()
-    }
-    
-    /// Removes an existing focus rectangle if one exists, optionally animating the exit
-    private func removeFocusRectangleIfNeeded(animate: Bool) {
-        guard let focusRectangle = focusRectangle else { return }
-        if animate {
-            UIView.animate(withDuration: 0.3, delay: 1.0, animations: {
-                focusRectangle.alpha = 0.0
-            }, completion: { (_) in
-                focusRectangle.removeFromSuperview()
-            })
-        } else {
-            focusRectangle.removeFromSuperview()
-        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
         guard !CaptureSession.current.isAutoModeEnabled, let touch = touches.first else { return }
         let touchPoint = touch.location(in: view)
-        let focusPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
+        let convertedTouchPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
         
-        removeFocusRectangleIfNeeded(animate: false)
+        CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
         
         focusRectangle = FocusRectangle(touchPoint: touchPoint)
         view.addSubview(focusRectangle)
         
         defer {
-            removeFocusRectangleIfNeeded(animate: true)
+            CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
         }
         
         do {
-            try setTapToFocusPoint(focusPoint)
+            try CaptureSession.current.setFocusPointToTapPoint(convertedTouchPoint)
         } catch {
             let error = ImageScannerControllerError.inputDevice
             guard let captureSessionManager = captureSessionManager else { return }
@@ -272,7 +218,7 @@ final class ScannerViewController: UIViewController {
             
             /// Reset the focus to continousAutoFocus
             do {
-                try resetFocusPoint()
+                try CaptureSession.current.resetFocusToAuto()
             } catch {
                 let error = ImageScannerControllerError.inputDevice
                 guard let captureSessionManager = captureSessionManager else { return }
@@ -281,31 +227,30 @@ final class ScannerViewController: UIViewController {
             }
             
             /// Remove the focus rectangle if one exists
-            removeFocusRectangleIfNeeded(animate: true)
+            CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
         }
     }
     
     @objc private func toggleFlash() {
-        guard UIImagePickerController.isFlashAvailable(for: .rear) else { return }
+        let state = CaptureSession.current.toggleFlash()
         
-        if flashEnabled == false && toggleTorch(toOn: true) == .successful {
+        let flashImage = UIImage(named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        
+        switch state {
+        case .on:
             flashEnabled = true
+            flashButton.image = flashImage
             flashButton.tintColor = .yellow
-        } else {
+        case .off:
             flashEnabled = false
+            flashButton.image = flashImage
             flashButton.tintColor = .white
-            
-            toggleTorch(toOn: false)
+        case .unknown, .unavailable:
+            flashEnabled = false
+            flashButton.image = flashOffImage
+            flashButton.tintColor = UIColor.lightGray
         }
-    }
-    
-    @discardableResult func toggleTorch(toOn: Bool) -> FlashResult {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video), device.hasTorch else { return .notSuccessful }
-        guard (try? device.lockForConfiguration()) != nil else { return .notSuccessful }
-        
-        device.torchMode = toOn ? .on : .off
-        device.unlockForConfiguration()
-        return .successful
     }
     
     @objc private func cancelImageScannerController() {
