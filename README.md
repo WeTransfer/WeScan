@@ -24,8 +24,6 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [Communication](#communication)
 - [License](#license)
 
-<br>
-
 ## Features
 
 - [x] Fast
@@ -35,14 +33,11 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [x] Lightweight dependency
 - [ ] Batch scanning
 
-<br>
-
 ## Demo
 
 <p align="left">
     <img src="Assets/WeScan.gif">
 </p>
-
 
 ## Requirements
 
