@@ -11,8 +11,8 @@ import UIKit
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
-    var enhancedImageIsAvailable: Bool = false
-    var isCurrentlyDisplayingEnhancedImage: Bool = false
+    var enhancedImageIsAvailable = false
+    var isCurrentlyDisplayingEnhancedImage = false
     
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -60,7 +60,7 @@ final class ReviewViewController: UIViewController {
         setupToolbar()
         setupConstraints()
         
-        title = nil
+        title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
         navigationItem.rightBarButtonItem = doneButton
     }
     
@@ -75,8 +75,6 @@ final class ReviewViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // We will always remove the toolbar even if the enhanced image isn't available, just in case.
         navigationController?.setToolbarHidden(true, animated: true)
     }
     
