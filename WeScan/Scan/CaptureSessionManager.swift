@@ -159,53 +159,6 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
     }
     
-    private func setImageOrientation() {
-        var motion: CMMotionManager!
-        motion = CMMotionManager()
-        
-        CaptureSession.current.editImageOrientation = .up
-        
-        /// This value should be 0.2, but since we only need one cycle (and stop updates immediately),
-        /// we set it low to get the orientation immediately
-        motion.accelerometerUpdateInterval = 0.01
-        
-        guard motion.isAccelerometerAvailable else { return }
-        
-        motion.startAccelerometerUpdates(to: OperationQueue()) { data, error in
-            guard let data = data, error == nil else { return }
-            
-            /// The minimum amount of sensitivity for the landscape orientations
-            /// This is to prevent the landscape orientation being incorrectly used
-            /// Higher = easier for landscape to be detected, lower = easier for portrait to be detected
-            let motionThreshold = 0.35
-            
-            if data.acceleration.x >= motionThreshold {
-                CaptureSession.current.editImageOrientation = .left
-            } else if data.acceleration.x <= -motionThreshold {
-                CaptureSession.current.editImageOrientation = .right
-            } else {
-                /// This means the device is either in the 'up' or 'down' orientation, BUT,
-                /// it's very rare for someone to be using their phone upside down, so we use 'up' all the time
-                /// Which prevents accidentally making the document be scanned upside down
-                CaptureSession.current.editImageOrientation = .up
-            }
-            
-            motion.stopAccelerometerUpdates()
-            
-            // If the device is reporting a specific landscape orientation, we'll use it over the accelerometer's update.
-            // We don't use this to check for "portrait" because only the accelerometer works when portrait lock is enabled.
-            // For some reason, the left/right orientations are incorrect (flipped) :/
-            switch UIDevice.current.orientation {
-            case .landscapeLeft:
-                CaptureSession.current.editImageOrientation = .right
-            case .landscapeRight:
-                CaptureSession.current.editImageOrientation = .left
-            default:
-                break
-            }
-        }
-    }
-    
     private func processRectangle(rectangle: Quadrilateral?, imageSize: CGSize) {
         if let rectangle = rectangle {
             
@@ -271,7 +224,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        setImageOrientation()
+        CaptureSession.current.setImageOrientation()
         
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0
@@ -295,7 +248,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        setImageOrientation()
+        CaptureSession.current.setImageOrientation()
         
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0
