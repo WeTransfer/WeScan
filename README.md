@@ -137,8 +137,8 @@ present(scannerViewController, animated: true)
 
 #### Example Implementation
 ```objc
-ImageScannerController *obj = [[ImageScannerController alloc]init];
-[self presentViewController:obj animated:YES completion:nil];
+ImageScannerController *scannerViewController = [ImageScannerController new];
+[self presentViewController:scannerViewController animated:YES completion:nil];
 ```
 
 <br>
