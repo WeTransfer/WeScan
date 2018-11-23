@@ -348,7 +348,6 @@
 				A1F22ECF203199E7001723AD /* Scan */,
 				A1F22ED020319A03001723AD /* Edit */,
 				A194E97020431DB1003493E2 /* Review */,
-				B940E39421A77390003B3C0B /* Session */,
 				A1D4BD11202C6C7900FCDDEC /* Extensions */,
 				A1DF90F720371A0800841A11 /* Common */,
 				B94FBB9D2178647B001ED1B4 /* Assets */,
@@ -414,6 +413,7 @@
 				A1F22E98202C7B66001723AD /* QuadrilateralView.swift */,
 				A11C5B9B2046A20C005075FE /* Error.swift */,
 				A14089B9204D92EA0009530F /* EditScanCornerView.swift */,
+				B92A2C8221578D28002874E5 /* CaptureSession.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -436,14 +436,6 @@
 				C31DD8A220C087D80072D439 /* ZoomGestureController.swift */,
 			);
 			path = Edit;
-			sourceTree = "<group>";
-		};
-		B940E39421A77390003B3C0B /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				B92A2C8221578D28002874E5 /* CaptureSession.swift */,
-			);
-			path = Session;
 			sourceTree = "<group>";
 		};
 		B94FBB9D2178647B001ED1B4 /* Assets */ = {
