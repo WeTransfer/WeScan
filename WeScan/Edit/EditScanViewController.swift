@@ -147,6 +147,8 @@ final class EditScanViewController: UIViewController {
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
         
+        let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
+        
         var uiImage: UIImage!
         
         // Let's try to generate the CGImage from the CIImage before creating a UIImage.
@@ -156,32 +158,12 @@ final class EditScanViewController: UIViewController {
             uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
         }
         
-        let finalImage = fixImageRotation(image: uiImage)
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, detectedRectangle: scaledQuad)
+        let finalImage = uiImage.withFixedOrientation()
+        
+        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
         let reviewViewController = ReviewViewController(results: results)
         
         navigationController?.pushViewController(reviewViewController, animated: true)
-    }
-    
-    private func fixImageRotation(image: UIImage) -> UIImage {
-        var imageAngle: Double = 0.0
-        
-        var rotate = true
-        switch CaptureSession.current.editImageOrientation {
-        case .up:
-            rotate = false
-        case .left:
-            imageAngle = Double.pi / 2
-        case .right:
-            imageAngle = -(Double.pi / 2)
-        case .down:
-            imageAngle = Double.pi
-        default:
-            rotate = false
-        }
-        
-        guard let finalImage = rotate ? image.rotated(by: Measurement(value: imageAngle, unit: .radians)) : image else { return image }
-        return finalImage
     }
 
     private func displayQuad() {
