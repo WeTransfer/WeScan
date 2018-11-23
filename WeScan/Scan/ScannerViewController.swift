@@ -88,8 +88,6 @@ final class ScannerViewController: UIViewController {
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewlayer)
         captureSessionManager?.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChanged(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -209,27 +207,6 @@ final class ScannerViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
-    @objc private func orientationChanged(_ notification: NSNotification) {
-        var rotation: CGFloat = 0
-        switch UIDevice.current.orientation {
-        case .portrait, .faceUp:
-            rotation = 0
-        case .landscapeLeft:
-            rotation = .pi / 2
-        case .landscapeRight:
-            rotation = -(.pi / 2)
-        case .portraitUpsideDown, .faceDown:
-            rotation = .pi
-        default:
-            break
-        }
-        
-        let transform = CGAffineTransform(rotationAngle: rotation)
-        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState, animations: {
-            self.cancelButton.transform = transform
-        }, completion: nil)
-    }
     
     @objc private func captureImage(_ sender: UIButton) {
         (navigationController as? ImageScannerController)?.flashToBlack()

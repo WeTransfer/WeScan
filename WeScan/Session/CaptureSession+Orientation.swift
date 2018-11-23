@@ -14,10 +14,7 @@ import Foundation
 extension CaptureSession {
     /// Detect the current orientation of the device with CoreMotion and use it to set the `editImageOrientation`.
     func setImageOrientation() {
-        var motion: CMMotionManager!
-        motion = CMMotionManager()
-        
-        editImageOrientation = .up
+        let motion = CMMotionManager()
         
         /// This value should be 0.2, but since we only need one cycle (and stop updates immediately),
         /// we set it low to get the orientation immediately
