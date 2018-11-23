@@ -52,7 +52,6 @@
 		A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */; };
 		A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F22ECD2031937E001723AD /* EditScanViewController.swift */; };
 		B92A2C8321578D28002874E5 /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92A2C8221578D28002874E5 /* CaptureSession.swift */; };
-		B940E39D21A773A4003B3C0B /* CaptureSession+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B940E39C21A773A4003B3C0B /* CaptureSession+Orientation.swift */; };
 		B94FBBAD2178652B001ED1B4 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAA2178652B001ED1B4 /* flash.png */; };
 		B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAB2178652B001ED1B4 /* flash@3x.png */; };
 		B94FBBAF2178652B001ED1B4 /* flash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAC2178652B001ED1B4 /* flash@2x.png */; };
@@ -216,7 +215,6 @@
 		A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Utils.swift"; sourceTree = "<group>"; };
 		A1F22ECD2031937E001723AD /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
 		B92A2C8221578D28002874E5 /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
-		B940E39C21A773A4003B3C0B /* CaptureSession+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureSession+Orientation.swift"; sourceTree = "<group>"; };
 		B94FBBAA2178652B001ED1B4 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		B94FBBAB2178652B001ED1B4 /* flash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@3x.png"; sourceTree = "<group>"; };
 		B94FBBAC2178652B001ED1B4 /* flash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@2x.png"; sourceTree = "<group>"; };
@@ -444,7 +442,6 @@
 			isa = PBXGroup;
 			children = (
 				B92A2C8221578D28002874E5 /* CaptureSession.swift */,
-				B940E39C21A773A4003B3C0B /* CaptureSession+Orientation.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -713,7 +710,6 @@
 				A1D4BD15202C6CC000FCDDEC /* Array+Utils.swift in Sources */,
 				B92A2C8321578D28002874E5 /* CaptureSession.swift in Sources */,
 				C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */,
-				B940E39D21A773A4003B3C0B /* CaptureSession+Orientation.swift in Sources */,
 				A165F67E2044741B002D5ED6 /* ShutterButton.swift in Sources */,
 				B992E831210C36A400C33A21 /* VisionRectangleDetector.swift in Sources */,
 				A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */,
