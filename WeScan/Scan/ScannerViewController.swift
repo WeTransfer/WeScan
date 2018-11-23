@@ -72,11 +72,7 @@ final class ScannerViewController: UIViewController {
     }()
 
     // MARK: - Life Cycle
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
