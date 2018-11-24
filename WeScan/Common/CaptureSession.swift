@@ -17,15 +17,15 @@ final class CaptureSession {
     /// Whether the user is past the scanning screen or not (needed to disable auto scan on other screens)
     var isEditing: Bool
     
-    /// The status of "auto mode". Auto mode does not allow tap to focus and tries to automatically scan a detected rectangle if it has a high enough accuracy.
-    var isAutoModeEnabled: Bool
+    /// The status of auto scan. Auto scan tries to automatically scan a detected rectangle if it has a high enough accuracy.
+    var isAutoScanEnabled: Bool
     
     /// The orientation of the captured image
     var editImageOrientation: CGImagePropertyOrientation
     
-    private init(isAutoModeEnabled: Bool = true, editImageOrientation: CGImagePropertyOrientation = .up) {
+    private init(isAutoScanEnabled: Bool = true, editImageOrientation: CGImagePropertyOrientation = .up) {
         self.isEditing = false
-        self.isAutoModeEnabled = isAutoModeEnabled
+        self.isAutoScanEnabled = isAutoScanEnabled
         self.editImageOrientation = editImageOrientation
     }
     
@@ -104,7 +104,7 @@ extension CaptureSession {
     }
     
     /// Removes an existing focus rectangle if one exists, optionally animating the exit
-    func removeFocusRectangleIfNeeded(_ focusRectangle: FocusRectangle?, animated: Bool) {
+    func removeFocusRectangleIfNeeded(_ focusRectangle: FocusRectangleView?, animated: Bool) {
         guard let focusRectangle = focusRectangle else { return }
         if animated {
             UIView.animate(withDuration: 0.3, delay: 1.0, animations: {

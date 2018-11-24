@@ -66,6 +66,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
+        let device = AVCaptureDevice.default(for: AVMediaType.video)
+        
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
@@ -75,10 +77,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         videoOutput.alwaysDiscardsLateVideoFrames = true
         
         defer {
+            device?.unlockForConfiguration()
             captureSession.commitConfiguration()
         }
         
-        guard let inputDevice = AVCaptureDevice.default(for: AVMediaType.video),
+        guard let inputDevice = device,
             let deviceInput = try? AVCaptureDeviceInput(device: inputDevice),
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
@@ -87,6 +90,16 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 delegate?.captureSessionManager(self, didFailWithError: error)
                 return
         }
+        
+        do {
+            try inputDevice.lockForConfiguration()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
+        inputDevice.isSubjectAreaChangeMonitoringEnabled = true
         
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
@@ -214,7 +227,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 
                 let shouldAutoScan = (result == .showAndAutoScan)
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan, CaptureSession.current.isAutoModeEnabled, !CaptureSession.current.isEditing {
+                if shouldAutoScan, CaptureSession.current.isAutoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
                 }
             }

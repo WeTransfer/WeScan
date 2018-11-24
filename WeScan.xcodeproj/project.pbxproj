@@ -56,6 +56,7 @@
 		B940E38A21A77192003B3C0B /* enhance@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B940E38721A77192003B3C0B /* enhance@3x.png */; };
 		B940E38B21A77192003B3C0B /* enhance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B940E38821A77192003B3C0B /* enhance@2x.png */; };
 		B940E38C21A77192003B3C0B /* enhance.png in Resources */ = {isa = PBXBuildFile; fileRef = B940E38921A77192003B3C0B /* enhance.png */; };
+		B940E3B821A95C44003B3C0B /* FocusRectangleViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B940E3B721A95C44003B3C0B /* FocusRectangleViewTests.swift */; };
 		B94FBBAD2178652B001ED1B4 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAA2178652B001ED1B4 /* flash.png */; };
 		B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAB2178652B001ED1B4 /* flash@3x.png */; };
 		B94FBBAF2178652B001ED1B4 /* flash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAC2178652B001ED1B4 /* flash@2x.png */; };
@@ -64,7 +65,7 @@
 		B94FBBB52178653C001ED1B4 /* flashUnavailable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBB22178653C001ED1B4 /* flashUnavailable@2x.png */; };
 		B97B49C9216C6C6800B2235B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B97B49CB216C6C6800B2235B /* Localizable.strings */; };
 		B992E831210C36A400C33A21 /* VisionRectangleDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B992E830210C36A400C33A21 /* VisionRectangleDetector.swift */; };
-		B9AAE88B219E6C0400205620 /* FocusRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAE88A219E6C0400205620 /* FocusRectangle.swift */; };
+		B9AAE88B219E6C0400205620 /* FocusRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAE88A219E6C0400205620 /* FocusRectangleView.swift */; };
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
@@ -224,6 +225,7 @@
 		B940E38721A77192003B3C0B /* enhance@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enhance@3x.png"; sourceTree = "<group>"; };
 		B940E38821A77192003B3C0B /* enhance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enhance@2x.png"; sourceTree = "<group>"; };
 		B940E38921A77192003B3C0B /* enhance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enhance.png; sourceTree = "<group>"; };
+		B940E3B721A95C44003B3C0B /* FocusRectangleViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRectangleViewTests.swift; sourceTree = "<group>"; };
 		B94FBBAA2178652B001ED1B4 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		B94FBBAB2178652B001ED1B4 /* flash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@3x.png"; sourceTree = "<group>"; };
 		B94FBBAC2178652B001ED1B4 /* flash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@2x.png"; sourceTree = "<group>"; };
@@ -234,7 +236,7 @@
 		B97B49D4216C6FF600B2235B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B97B49D5216C6FF600B2235B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B992E830210C36A400C33A21 /* VisionRectangleDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionRectangleDetector.swift; sourceTree = "<group>"; };
-		B9AAE88A219E6C0400205620 /* FocusRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRectangle.swift; sourceTree = "<group>"; };
+		B9AAE88A219E6C0400205620 /* FocusRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRectangleView.swift; sourceTree = "<group>"; };
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
@@ -374,20 +376,21 @@
 				74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */,
 				A1675BA92041692800852865 /* Resources */,
 				A1D4BCFE202C4F4100FCDDEC /* Info.plist */,
-				A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */,
-				A1DF90C22034919400841A11 /* QuadrilateralTests.swift */,
-				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
-				A1DF90C12034919300841A11 /* WeScanTests-Bridging-Header.h */,
-				A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */,
-				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
 				A14089ED204EAA180009530F /* ArrayTests.swift */,
-				C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */,
-				74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */,
-				74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */,
-				74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */,
-				74F7D039211ACC4B0046AF7E /* UIImageTests.swift */,
-				74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */,
 				74F7D03D211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift */,
+				74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */,
+				74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */,
+				74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */,
+				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
+				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
+				B940E3B721A95C44003B3C0B /* FocusRectangleViewTests.swift */,
+				A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */,
+				A1DF90C22034919400841A11 /* QuadrilateralTests.swift */,
+				C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */,
+				A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */,
+				74F7D039211ACC4B0046AF7E /* UIImageTests.swift */,
+				74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */,
+				A1DF90C12034919300841A11 /* WeScanTests-Bridging-Header.h */,
 			);
 			path = WeScanTests;
 			sourceTree = "<group>";
@@ -436,7 +439,7 @@
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 				A165F67D2044741B002D5ED6 /* ShutterButton.swift */,
-				B9AAE88A219E6C0400205620 /* FocusRectangle.swift */,
+				B9AAE88A219E6C0400205620 /* FocusRectangleView.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -736,7 +739,7 @@
 				A1DF90F22035992A00841A11 /* CGAffineTransform+Utils.swift in Sources */,
 				A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */,
 				A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */,
-				B9AAE88B219E6C0400205620 /* FocusRectangle.swift in Sources */,
+				B9AAE88B219E6C0400205620 /* FocusRectangleView.swift in Sources */,
 				A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */,
 				A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */,
 				A1DF90E420358CB100841A11 /* Transformable.swift in Sources */,
@@ -777,6 +780,7 @@
 				A1DF90C32034919400841A11 /* QuadrilateralTests.swift in Sources */,
 				A1675BAF204178BD00852865 /* ImageFeatureTestHelpers.swift in Sources */,
 				74F7D034211ACBD90046AF7E /* CIRectangleDetectorTests.swift in Sources */,
+				B940E3B821A95C44003B3C0B /* FocusRectangleViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

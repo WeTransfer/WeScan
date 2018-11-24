@@ -16,7 +16,7 @@ final class ScannerViewController: UIViewController {
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
     
     /// The view that shows the focus rectangle (when the user taps to focus, similar to the Camera app)
-    private var focusRectangle: FocusRectangle!
+    private var focusRectangle: FocusRectangleView!
     
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
@@ -51,8 +51,8 @@ final class ScannerViewController: UIViewController {
         return toolbar
     }()
     
-    lazy private var autoModeButton: UIBarButtonItem = {
-        return UIBarButtonItem(title: NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state"), style: .plain, target: self, action: #selector(toggleAutoMode))
+    lazy private var autoScanButton: UIBarButtonItem = {
+        return UIBarButtonItem(title: NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state"), style: .plain, target: self, action: #selector(toggleAutoScan))
     }()
     
     lazy private var flashButton: UIBarButtonItem = {
@@ -81,6 +81,8 @@ final class ScannerViewController: UIViewController {
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,7 +126,7 @@ final class ScannerViewController: UIViewController {
     private func setupToolbar() {
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoModeButton, fixedSpace], animated: false)
+        toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
             let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
@@ -174,21 +176,33 @@ final class ScannerViewController: UIViewController {
     
     // MARK: - Tap to Focus
     
+    /// Called when the AVCaptureDevice detects that the subject area has changed significantly. When it's called, we reset the focus so the camera is no longer out of focus.
+    @objc private func subjectAreaDidChange() {
+        /// Reset the focus and exposure back to automatic
+        do {
+            try CaptureSession.current.resetFocusToAuto()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            guard let captureSessionManager = captureSessionManager else { return }
+            captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
+            return
+        }
+        
+        /// Remove the focus rectangle if one exists
+        CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        guard !CaptureSession.current.isAutoModeEnabled, let touch = touches.first else { return }
+        guard  let touch = touches.first else { return }
         let touchPoint = touch.location(in: view)
         let convertedTouchPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
         
         CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
         
-        focusRectangle = FocusRectangle(touchPoint: touchPoint)
+        focusRectangle = FocusRectangleView(touchPoint: touchPoint)
         view.addSubview(focusRectangle)
-        
-        defer {
-            CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
-        }
         
         do {
             try CaptureSession.current.setFocusPointToTapPoint(convertedTouchPoint)
@@ -208,26 +222,13 @@ final class ScannerViewController: UIViewController {
         captureSessionManager?.capturePhoto()
     }
     
-    @objc private func toggleAutoMode() {
-        if CaptureSession.current.isAutoModeEnabled {
-            CaptureSession.current.isAutoModeEnabled = false
-            autoModeButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
+    @objc private func toggleAutoScan() {
+        if CaptureSession.current.isAutoScanEnabled {
+            CaptureSession.current.isAutoScanEnabled = false
+            autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
         } else {
-            CaptureSession.current.isAutoModeEnabled = true
-            autoModeButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
-            
-            /// Reset the focus to continousAutoFocus
-            do {
-                try CaptureSession.current.resetFocusToAuto()
-            } catch {
-                let error = ImageScannerControllerError.inputDevice
-                guard let captureSessionManager = captureSessionManager else { return }
-                captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
-                return
-            }
-            
-            /// Remove the focus rectangle if one exists
-            CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
+            CaptureSession.current.isAutoScanEnabled = true
+            autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
         }
     }
     
