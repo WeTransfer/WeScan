@@ -18,8 +18,9 @@ enum ResourceImage: String {
 
 final class ImageFeatureTestHelpers: NSObject {
     
-    static func getRectangleFeatures(from resourceImage: ResourceImage, withCount count: Int) -> [CIRectangleFeature] {
-        var rectangleFeatures = [CIRectangleFeature]()
+    static func getRectangleFeatures(from resourceImage: ResourceImage, withCount count: Int) -> [Quadrilateral] {
+        var rectangleFeatures = [Quadrilateral]()
+      
         for _ in 0 ..< count {
             rectangleFeatures.append(ImageFeatureTestHelpers.getRectangleFeature(from: resourceImage))
         }
@@ -27,12 +28,11 @@ final class ImageFeatureTestHelpers: NSObject {
         return rectangleFeatures
     }
     
-    static func getRectangleFeature(from resourceImage: ResourceImage) -> CIRectangleFeature {
+    static func getRectangleFeature(from resourceImage: ResourceImage) -> Quadrilateral {
         let image = UIImage(named: resourceImage.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
         let ciImage = CIImage(image: image!)!
-        let rectangleFeature = RectangleDetector.rectangle(forImage: ciImage)
 
-        return rectangleFeature!
+        return CIRectangleDetector.rectangle(forImage: ciImage)!
     }
     
 }

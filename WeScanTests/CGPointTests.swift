@@ -37,7 +37,7 @@ final class CGPointTests: XCTestCase {
     }
     
     func testDistanceTo() {
-        var point1 = CGPoint(x: 0.0, y: 0.0)
+        var point1 = CGPoint.zero
         var point2 = CGPoint(x: 10.0, y: 10.0)
         
         var distance = point1.distanceTo(point: point2)
