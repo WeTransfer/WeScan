@@ -31,6 +31,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [x] Edit detected rectangle
 - [x] Auto scan and flash support
 - [x] Lightweight dependency
+- [x] Supports Chinese, Italian, Portuguese, and French
 - [ ] Batch scanning
 
 ## Demo
