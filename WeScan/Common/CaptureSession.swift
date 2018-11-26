@@ -74,6 +74,10 @@ extension CaptureSession {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         try device.lockForConfiguration()
         
+        defer {
+            device.unlockForConfiguration()
+        }
+        
         if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
             device.focusPointOfInterest = tapPoint
             device.focusMode = .autoFocus
@@ -83,14 +87,16 @@ extension CaptureSession {
             device.exposurePointOfInterest = tapPoint
             device.exposureMode = .continuousAutoExposure
         }
-        
-        device.unlockForConfiguration()
     }
     
     /// Resets the camera's exposure and focus point to automatic
     func resetFocusToAuto() throws {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         try device.lockForConfiguration()
+        
+        defer {
+            device.unlockForConfiguration()
+        }
         
         if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.continuousAutoFocus) {
             device.focusMode = .continuousAutoFocus
@@ -99,8 +105,6 @@ extension CaptureSession {
         if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
             device.exposureMode = .continuousAutoExposure
         }
-        
-        device.unlockForConfiguration()
     }
     
     /// Removes an existing focus rectangle if one exists, optionally animating the exit
