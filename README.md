@@ -12,7 +12,7 @@
 <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/>
 <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat"/>
 </p>
-
+ 
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
