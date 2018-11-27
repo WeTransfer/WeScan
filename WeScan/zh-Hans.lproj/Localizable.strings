@@ -7,18 +7,18 @@
 */
 
 /* The title on the navigation bar of the Scanning screen. */
-"wescan.scanning.title" = "Numériser";
+"wescan.scanning.title" = "相机";
 
 /* The "Next" button on the right side of the navigation bar on the Edit screen. */
-"wescan.edit.button.next" = "Suivant";
+"wescan.edit.button.next" = "下一步";
 
 /* The title on the navigation bar of the Edit screen. */
-"wescan.edit.title" = "Modifier";
+"wescan.edit.title" = "编辑";
 
 /* The title on the navigation bar of the Review screen. */
-"wescan.review.title" = "Aperçu";
+"wescan.review.title" = "回顾";
 
 /* The button titles on the Scanning screen. */
-"wescan.scanning.cancel" = "Annuler";
-"wescan.scanning.auto" = "Auto";
-"wescan.scanning.manual" = "Manuel";
+"wescan.scanning.cancel" = "取消";
+"wescan.scanning.auto" = "自动";
+"wescan.scanning.manual" = "手动";
