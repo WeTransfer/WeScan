@@ -42,7 +42,7 @@ final class ZoomGestureController {
         let offset = CGAffineTransform(translationX: position.x - previousPanPosition.x, y: position.y - previousPanPosition.y)
         let cornerView = quadView.cornerViewForCornerPosition(position: closestCorner)
         let draggedCornerViewCenter = cornerView.center.applying(offset)
-
+        
         quadView.moveCorner(cornerView: cornerView, atPoint: draggedCornerViewCenter)
         
         self.previousPanPosition = position
@@ -56,5 +56,5 @@ final class ZoomGestureController {
         
         quadView.highlightCornerAtPosition(position: closestCorner, with: zoomedImage)
     }
-
+    
 }
