@@ -31,7 +31,7 @@ protocol CaptureDevice: class {
 
 extension AVCaptureDevice: CaptureDevice { }
 
-class MockCaptureDevice: CaptureDevice {
+final class MockCaptureDevice: CaptureDevice {
     func unlockForConfiguration() {
         return
     }
