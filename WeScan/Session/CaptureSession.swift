@@ -14,6 +14,9 @@ final class CaptureSession {
     
     static let current = CaptureSession()
     
+    /// The AVCaptureDevice used for the flash and focus setting
+    var device: CaptureDevice?
+    
     /// Whether the user is past the scanning screen or not (needed to disable auto scan on other screens)
     var isEditing: Bool
     
@@ -24,100 +27,11 @@ final class CaptureSession {
     var editImageOrientation: CGImagePropertyOrientation
     
     private init(isAutoScanEnabled: Bool = true, editImageOrientation: CGImagePropertyOrientation = .up) {
+        self.device = AVCaptureDevice.default(for: .video)
+        
         self.isEditing = false
         self.isAutoScanEnabled = isAutoScanEnabled
         self.editImageOrientation = editImageOrientation
     }
     
-}
-
-/// Extension to CaptureSession to manage the device flashlight
-extension CaptureSession {
-    /// The possible states that the current device's flashlight can be in
-    enum FlashState {
-        case on
-        case off
-        case unavailable
-        case unknown
-    }
-    
-    /// Toggles the current device's flashlight on or off.
-    func toggleFlash() -> FlashState {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video), device.isTorchAvailable else { return .unavailable }
-        
-        do {
-            try device.lockForConfiguration()
-        } catch {
-            return .unknown
-        }
-        
-        defer {
-            device.unlockForConfiguration()
-        }
-        
-        if device.torchMode == .on {
-            device.torchMode = .off
-            return .off
-        } else if device.torchMode == .off {
-            device.torchMode = .on
-            return .on
-        }
-        
-        return .unknown
-    }
-}
-
-/// Extension to CaptureSession that controls auto focus
-extension CaptureSession {
-    /// Sets the camera's exposure and focus point to the given point
-    func setFocusPointToTapPoint(_ tapPoint: CGPoint) throws {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        try device.lockForConfiguration()
-        
-        defer {
-            device.unlockForConfiguration()
-        }
-        
-        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
-            device.focusPointOfInterest = tapPoint
-            device.focusMode = .autoFocus
-        }
-        
-        if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
-            device.exposurePointOfInterest = tapPoint
-            device.exposureMode = .continuousAutoExposure
-        }
-    }
-    
-    /// Resets the camera's exposure and focus point to automatic
-    func resetFocusToAuto() throws {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        try device.lockForConfiguration()
-        
-        defer {
-            device.unlockForConfiguration()
-        }
-        
-        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.continuousAutoFocus) {
-            device.focusMode = .continuousAutoFocus
-        }
-        
-        if device.isExposurePointOfInterestSupported, device.isExposureModeSupported(.continuousAutoExposure) {
-            device.exposureMode = .continuousAutoExposure
-        }
-    }
-    
-    /// Removes an existing focus rectangle if one exists, optionally animating the exit
-    func removeFocusRectangleIfNeeded(_ focusRectangle: FocusRectangleView?, animated: Bool) {
-        guard let focusRectangle = focusRectangle else { return }
-        if animated {
-            UIView.animate(withDuration: 0.3, delay: 1.0, animations: {
-                focusRectangle.alpha = 0.0
-            }, completion: { (_) in
-                focusRectangle.removeFromSuperview()
-            })
-        } else {
-            focusRectangle.removeFromSuperview()
-        }
-    }
 }
