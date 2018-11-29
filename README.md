@@ -24,6 +24,13 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [Communication](#communication)
 - [License](#license)
 
+## Requirements
+
+At minimum:
+- iOS 10.0
+- Swift 4.2
+- Xcode 9.0
+
 ## Features
 
 - [x] Fast
@@ -34,21 +41,15 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [x] Translated to English, Chinese, Italian, Portuguese, and French
 - [ ] Batch scanning
 
-## Demo
-
+<details><summary><h2>Example</h2></summary>
 <p align="left">
     <img src="Assets/WeScan.gif">
 </p>
-
-## Requirements
-
-- Swift 4.2
-- iOS 10.0+
-- Xcode 9.x
+</details>
 
 <br>
 
-## Installation
+<details><summary><h2>Installation</h2></summary>
 ### Cocoapods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
@@ -86,10 +87,11 @@ Run `carthage update` to build the framework and drag the built `WeScan.framewor
 ### Manually
 
 Just download the project, and drag and drop the "WeScan" folder in your project.
+</details>
 
 <br>
 
-## Usage
+<details><summary><h2>Usage</h2></summary>
 
 ### Swift
 
@@ -141,6 +143,7 @@ present(scannerViewController, animated: true)
 ImageScannerController *scannerViewController = [ImageScannerController new];
 [self presentViewController:scannerViewController animated:YES completion:nil];
 ```
+</details>
 
 <br>
 
