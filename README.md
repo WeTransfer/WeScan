@@ -50,6 +50,7 @@ At minimum:
 <br>
 
 <details><summary><h2>Installation</h2></summary>
+    
 ### Cocoapods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
