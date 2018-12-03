@@ -140,16 +140,15 @@ final class ScannerViewController: UIViewController {
         view.addSubview(cancelButton)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
-//        view.addSubview(toolbar)
     }
     
     private func setupNavigationBar() {
         visualEffectView.frame = self.navigationController?.navigationBar.bounds ?? CGRect.zero
         
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.addSubview(visualEffectView)
-        self.navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.addSubview(visualEffectView)
+        navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
         
         navigationItem.setLeftBarButton(flashButton, animated: false)
         navigationItem.setRightBarButton(autoScanButton, animated: false)
