@@ -102,7 +102,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             return
         }
         
-        inputDevice.isSubjectAreaChangeMonitoringEnabled = true
+        device.isSubjectAreaChangeMonitoringEnabled = true
         
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
