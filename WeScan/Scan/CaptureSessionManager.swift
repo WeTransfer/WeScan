@@ -66,7 +66,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
-        let device = AVCaptureDevice.default(for: AVMediaType.video)
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return nil
+        }
         
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -77,12 +81,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         videoOutput.alwaysDiscardsLateVideoFrames = true
         
         defer {
-            device?.unlockForConfiguration()
+            device.unlockForConfiguration()
             captureSession.commitConfiguration()
         }
         
-        guard let inputDevice = device,
-            let deviceInput = try? AVCaptureDeviceInput(device: inputDevice),
+        guard let deviceInput = try? AVCaptureDeviceInput(device: device),
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
@@ -92,7 +95,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
         
         do {
-            try inputDevice.lockForConfiguration()
+            try device.lockForConfiguration()
         } catch {
             let error = ImageScannerControllerError.inputDevice
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -140,6 +143,18 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
+        
+        let captureConnection = photoOutput.connections.first { (connection) -> Bool in
+            return connection.inputPorts.first(where: { (port) -> Bool in
+                port.mediaType == .video
+            }) != nil
+        }
+        guard let connection = captureConnection, connection.isEnabled, connection.isActive else {
+            let error = ImageScannerControllerError.capture
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
         photoSettings.isAutoStillImageStabilizationEnabled = true
