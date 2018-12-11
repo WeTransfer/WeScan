@@ -11,6 +11,7 @@ import UIKit
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
+    var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
     var enhancedImageIsAvailable = false
     var isCurrentlyDisplayingEnhancedImage = false
     
@@ -97,7 +98,8 @@ final class ReviewViewController: UIViewController {
         navigationController?.toolbar.barStyle = .blackTranslucent
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        toolbarItems = [fixedSpace, enhanceButton]
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbarItems = [fixedSpace, enhanceButton, flexibleSpace, rotateButton, fixedSpace]
     }
     
     private func setupConstraints() {
@@ -116,20 +118,35 @@ final class ReviewViewController: UIViewController {
     @objc private func toggleEnhancedImage() {
         guard enhancedImageIsAvailable else { return }
         if isCurrentlyDisplayingEnhancedImage {
-            imageView.image = results.scannedImage
+            imageView.image = results.scannedImage.rotated(by: rotationAngle)
             enhanceButton.tintColor = .white
         } else {
-            imageView.image = results.enhancedImage
+            imageView.image = results.enhancedImage?.rotated(by: rotationAngle)
             enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
         }
         
         isCurrentlyDisplayingEnhancedImage.toggle()
     }
     
+    @objc private func rotateImage() {
+        rotationAngle.value += 90
+        
+        if rotationAngle.value == 360 {
+            rotationAngle.value = 0
+        }
+        
+        if enhancedImageIsAvailable, isCurrentlyDisplayingEnhancedImage {
+            imageView.image = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
+        } else {
+            imageView.image = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
+        }
+    }
+    
     @objc private func finishScan() {
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
         var newResults = results
-        newResults.scannedImage = results.scannedImage
+        newResults.scannedImage = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
+        newResults.enhancedImage = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
         newResults.doesUserPreferEnhancedImage = isCurrentlyDisplayingEnhancedImage
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
