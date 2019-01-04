@@ -87,13 +87,23 @@ Run `carthage update` to build the framework and drag the built `WeScan.framewor
 
 Just download the project, and drag and drop the "WeScan" folder in your project.
 
-<br>
+
+
+<p align="center">
+    <img width="900px" src="Assets/project.png">
+</p>
+
+
+Simply add the WeScan framework in the project's Embedded Binaries and Linked Frameworks and Libraries.
+
+<p align="center">
+    <img width="900px" src="Assets/LinkedFrameworks.png">
+</p>
 
 ## Usage
 
-### Swift
+1. Make sure that your ViewController confirms to the `ImageScannerControllerDelegate` protocol
 
-1. Ensure your view controller conforms to the `ImageScannerControllerDelegate` protocol:
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
     // YourViewController code here
