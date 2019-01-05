@@ -11,9 +11,9 @@ import UIKit
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
-    var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
-    var enhancedImageIsAvailable = false
-    var isCurrentlyDisplayingEnhancedImage = false
+    private var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
+    private var enhancedImageIsAvailable = false
+    private var isCurrentlyDisplayingEnhancedImage = false
     
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
