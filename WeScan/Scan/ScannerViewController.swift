@@ -286,7 +286,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         let scaleTransform = CGAffineTransform.scaleTransform(forSize: portraitImageSize, aspectFillInSize: quadView.bounds.size)
         let scaledImageSize = imageSize.applying(scaleTransform)
         
-        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2.0))
+        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
 
         let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
 
