@@ -46,8 +46,8 @@ final class ArrayTests: XCTestCase {
     }
 
     func testBiggestRectangleConsistentForSingleElement() {
-        let rectangles: [Quadrilateral] = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect1, withCount: 10)
-        XCTAssertNotNil(rectangles.biggest())
+        let singleRectangle: [Quadrilateral] = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect1, withCount: 1)
+        XCTAssertNotNil(singleRectangle.biggest())
     }
 
 }
