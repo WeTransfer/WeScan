@@ -46,13 +46,6 @@ class MultiPageScanSessionViewController: UIViewController {
                            self.pageController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0.0)]
         self.view.addSubview(self.pageController.view)
         NSLayoutConstraint.activate(constraints)
-        /*
-        quadViewConstraints = [
-            quadView.topAnchor.constraint(equalTo: view.topAnchor),
-            view.bottomAnchor.constraint(equalTo: quadView.bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: quadView.trailingAnchor),
-            quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ]*/
         self.addChild(self.pageController)
     }
 

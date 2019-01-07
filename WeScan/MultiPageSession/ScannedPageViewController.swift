@@ -23,10 +23,6 @@ class ScannedPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.blue
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        label.text = "Hello"
-        self.view.addSubview(label)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,17 +33,15 @@ class ScannedPageViewController: UIViewController {
     
     private func render(){
         
-        // TODO: This code was copied from the EditScanViewController... we need to make it common
         guard let quad = self.scannedItem.quad,
             let ciImage = CIImage(image: self.scannedItem.picture) else {
-                // TODO: Return error!
+                // TODO: Return an error here!
                 return
         }
         
-        let scaledQuad = quad.scale(quadView.bounds.size, self.scannedItem.picture.size)
-        self.quad = scaledQuad
+        let scaledQuad = quad.scale(scannedItem.quadViewBounds.size, scannedItem.picture.size)
         
-        var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
+        var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: scannedItem.picture.size.height)
         cartesianScaledQuad.reorganize()
         
         let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
@@ -56,8 +50,6 @@ class ScannedPageViewController: UIViewController {
             "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
-        
-        let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
         
         var uiImage: UIImage!
         
@@ -70,7 +62,9 @@ class ScannedPageViewController: UIViewController {
         
         let finalImage = uiImage.withFixedOrientation()
         
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
+        let imageView = UIImageView(image: finalImage)
+        imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        self.view.addSubview(imageView)
         
     }
 
