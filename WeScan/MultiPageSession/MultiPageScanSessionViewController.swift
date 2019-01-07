@@ -22,6 +22,11 @@ class MultiPageScanSessionViewController: UIViewController {
     init(scanSession:MultiPageScanSession){
         self.scanSession = scanSession
         super.init(nibName: nil, bundle: nil)
+        self.scanSession.scannedItems.forEach { (scannedItem) in
+            let scannedPageViewController = ScannedPageViewController(scannedItem:scannedItem)
+            self.pages.append(scannedPageViewController)
+        }
+        self.pageController.setViewControllers([self.pages[0]], direction: .forward, animated: true, completion: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,16 +35,24 @@ class MultiPageScanSessionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.scanSession.scannedItems.forEach { (scannedItem) in
-            let scannedPageViewController = ScannedPageViewController(scannedItem:scannedItem)
-            self.pages.append(scannedPageViewController)
-        }
         self.setupViews()
     }
     
     private func setupViews(){
         self.view.backgroundColor = UIColor.red
-        
+        let constraints = [self.pageController.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
+                           self.pageController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0),
+                           self.pageController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0.0),
+                           self.pageController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0.0)]
+        self.view.addSubview(self.pageController.view)
+        NSLayoutConstraint.activate(constraints)
+        /*
+        quadViewConstraints = [
+            quadView.topAnchor.constraint(equalTo: view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: quadView.bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: quadView.trailingAnchor),
+            quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        ]*/
         self.addChild(self.pageController)
     }
 

@@ -21,6 +21,7 @@ class ScannedPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.blue
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         label.text = "Hello"
         self.view.addSubview(label)
