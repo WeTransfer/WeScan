@@ -59,6 +59,7 @@ public final class ImageScannerController: UINavigationController {
     public required init() {
         let scannerViewController = ScannerViewController()
         super.init(rootViewController: scannerViewController)
+        scannerViewController.delegate = self
         navigationBar.tintColor = .black
         navigationBar.isTranslucent = false
         self.view.addSubview(blackFlashView)
@@ -97,6 +98,16 @@ public final class ImageScannerController: UINavigationController {
         }
     }
     
+}
+
+extension ImageScannerController:ScannerViewControllerDelegate{
+    
+    func scannerViewController(_ scannerViewController: ScannerViewController, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
+        
+        let editVC = EditScanViewController(image: picture, quad: quad)
+        self.pushViewController(editVC, animated: false)
+        
+    }
 }
 
 /// Data structure containing information about a scan.

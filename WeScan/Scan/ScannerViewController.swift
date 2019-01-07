@@ -15,8 +15,8 @@ enum FlashResult {
     case notSuccessful
 }
 
-protocol ScannerViewController{
-    
+protocol ScannerViewControllerDelegate:NSObjectProtocol{
+    func scannerViewController(_ scannerViewController:ScannerViewController, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?)
 }
 
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
@@ -24,6 +24,9 @@ final class ScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
+    
+    /// The object that acts as the delegate of the `ScannerViewController`.
+    weak public var delegate: ScannerViewControllerDelegate?
     
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
@@ -272,8 +275,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
         
-        let editVC = EditScanViewController(image: picture, quad: quad)
-        navigationController?.pushViewController(editVC, animated: false)
+        self.delegate?.scannerViewController(self, didCapturePicture: picture, withQuad: quad)
         
         shutterButton.isUserInteractionEnabled = true
     }
