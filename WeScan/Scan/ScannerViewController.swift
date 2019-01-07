@@ -17,6 +17,7 @@ enum FlashResult {
 
 protocol ScannerViewControllerDelegate:NSObjectProtocol{
     func scannerViewController(_ scannerViewController:ScannerViewController, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?)
+    func scannerViewController(_ scannerViewController:ScannerViewController, didTapReviewButton button:UIButton)
 }
 
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
@@ -50,6 +51,14 @@ final class ScannerViewController: UIViewController {
         button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy private var counterButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("HELELELELELE", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(counterImageScannerController), for: .touchUpInside)
         return button
     }()
     
@@ -126,6 +135,7 @@ final class ScannerViewController: UIViewController {
         quadView.editable = false
         view.addSubview(quadView)
         view.addSubview(cancelButton)
+        view.addSubview(counterButton)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
         view.addSubview(toolbar)
@@ -149,6 +159,7 @@ final class ScannerViewController: UIViewController {
         var cancelButtonConstraints = [NSLayoutConstraint]()
         var shutterButtonConstraints = [NSLayoutConstraint]()
         var activityIndicatorConstraints = [NSLayoutConstraint]()
+        var counterButtonConstraints = [NSLayoutConstraint]()
         
         quadViewConstraints = [
             quadView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -187,6 +198,11 @@ final class ScannerViewController: UIViewController {
                 view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
             ]
             
+            counterButtonConstraints = [
+                counterButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24.0),
+                counterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24.0)
+            ]
+            
             let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
         } else {
@@ -206,7 +222,7 @@ final class ScannerViewController: UIViewController {
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
         }
         
-        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints + counterButtonConstraints)
     }
     
     // MARK: - Actions
@@ -253,6 +269,10 @@ final class ScannerViewController: UIViewController {
     @objc private func cancelImageScannerController() {
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
         imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
+    }
+    
+    @objc private func counterImageScannerController(){
+        self.delegate?.scannerViewController(self, didTapReviewButton: self.counterButton)
     }
     
 }

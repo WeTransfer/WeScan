@@ -45,6 +45,8 @@ public final class ImageScannerController: UINavigationController {
     /// The object that acts as the delegate of the `ImageScannerController`.
     weak public var imageScannerDelegate: ImageScannerControllerDelegate?
     
+    private var multipageSession:MultiPageScanSession = MultiPageScanSession()
+    
     // MARK: - Life Cycle
     
     /// A black UIView, used to quickly display a black screen when the shutter button is presseed.
@@ -104,9 +106,16 @@ extension ImageScannerController:ScannerViewControllerDelegate{
     
     func scannerViewController(_ scannerViewController: ScannerViewController, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         
-        let editVC = EditScanViewController(image: picture, quad: quad)
-        self.pushViewController(editVC, animated: false)
+        // let editVC = EditScanViewController(image: picture, quad: quad)
+        // self.pushViewController(editVC, animated: false)
         
+        self.multipageSession.add(picture: picture, withQuad: quad)
+        
+    }
+    
+    func scannerViewController(_ scannerViewController: ScannerViewController, didTapReviewButton button: UIButton) {
+        let multipageScanViewController = MultiPageScanSessionViewController(scanSession: self.multipageSession)
+        self.present(multipageScanViewController, animated: true, completion: nil)
     }
 }
 
