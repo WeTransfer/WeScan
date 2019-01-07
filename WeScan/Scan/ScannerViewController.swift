@@ -15,6 +15,10 @@ enum FlashResult {
     case notSuccessful
 }
 
+protocol ScannerViewController{
+    
+}
+
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
 final class ScannerViewController: UIViewController {
     
