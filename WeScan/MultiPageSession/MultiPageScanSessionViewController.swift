@@ -73,7 +73,7 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         if let index = pages.index(of: (viewController as! ScannedPageViewController)){
             let nextIndex = index + 1
-            if (nextIndex < (pages.count - 1)){
+            if (nextIndex < pages.count){
                 return self.pages[nextIndex]
             }
         }
