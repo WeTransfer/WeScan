@@ -15,7 +15,7 @@ final class ReviewViewController: UIViewController {
     private var enhancedImageIsAvailable = false
     private var isCurrentlyDisplayingEnhancedImage = false
     
-    lazy private var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
@@ -115,31 +115,36 @@ final class ReviewViewController: UIViewController {
     
     // MARK: - Actions
     
+    @objc private func reloadImage() {
+        if enhancedImageIsAvailable, isCurrentlyDisplayingEnhancedImage {
+            imageView.image = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
+        } else {
+            imageView.image = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
+        }
+    }
+    
     @objc private func toggleEnhancedImage() {
         guard enhancedImageIsAvailable else { return }
+        
+        reloadImage()
+        
         if isCurrentlyDisplayingEnhancedImage {
-            imageView.image = results.scannedImage.rotated(by: rotationAngle)
             enhanceButton.tintColor = .white
         } else {
-            imageView.image = results.enhancedImage?.rotated(by: rotationAngle)
             enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
         }
         
         isCurrentlyDisplayingEnhancedImage.toggle()
     }
     
-    @objc private func rotateImage() {
+    @objc func rotateImage() {
         rotationAngle.value += 90
         
         if rotationAngle.value == 360 {
             rotationAngle.value = 0
         }
         
-        if enhancedImageIsAvailable, isCurrentlyDisplayingEnhancedImage {
-            imageView.image = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
-        } else {
-            imageView.image = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
-        }
+        reloadImage()
     }
     
     @objc private func finishScan() {
