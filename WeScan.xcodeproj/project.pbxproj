@@ -71,6 +71,7 @@
 		EA7FFA3D21E39CE500C1C5CE /* MultiPageScanSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA3C21E39CE500C1C5CE /* MultiPageScanSession.swift */; };
 		EA7FFA3F21E3A1BF00C1C5CE /* MultiPageScanSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA3E21E3A1BF00C1C5CE /* MultiPageScanSessionViewController.swift */; };
 		EA7FFA4121E3A47C00C1C5CE /* ScannedPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4021E3A47C00C1C5CE /* ScannedPageViewController.swift */; };
+		EA7FFA4521E4BA8400C1C5CE /* ImageToPDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4421E4BA8400C1C5CE /* ImageToPDF.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -249,6 +250,7 @@
 		EA7FFA3C21E39CE500C1C5CE /* MultiPageScanSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPageScanSession.swift; sourceTree = "<group>"; };
 		EA7FFA3E21E3A1BF00C1C5CE /* MultiPageScanSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPageScanSessionViewController.swift; sourceTree = "<group>"; };
 		EA7FFA4021E3A47C00C1C5CE /* ScannedPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedPageViewController.swift; sourceTree = "<group>"; };
+		EA7FFA4421E4BA8400C1C5CE /* ImageToPDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToPDF.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -448,6 +450,7 @@
 				A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */,
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 				A165F67D2044741B002D5ED6 /* ShutterButton.swift */,
+				EA7FFA4421E4BA8400C1C5CE /* ImageToPDF.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -791,6 +794,7 @@
 				B9274D3A219B951000F9FCD1 /* CIImage+Utils.swift in Sources */,
 				C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */,
 				A1C4DD4E2044ADE600D36684 /* CGRect+Utils.swift in Sources */,
+				EA7FFA4521E4BA8400C1C5CE /* ImageToPDF.swift in Sources */,
 				A1DF90A420331A0B00841A11 /* CIRectangleDetector.swift in Sources */,
 				A1DF90F62037187500841A11 /* UIImage+Orientation.swift in Sources */,
 				A1F22E99202C7B66001723AD /* QuadrilateralView.swift in Sources */,

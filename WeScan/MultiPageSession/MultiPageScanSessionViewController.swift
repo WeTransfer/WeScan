@@ -13,9 +13,17 @@ class MultiPageScanSessionViewController: UIViewController {
     private var scanSession:MultiPageScanSession
     private var pages:Array<ScannedPageViewController> = []
     
+    lazy private var saveButton: UIBarButtonItem = {
+        let title = NSLocalizedString("wescan.edit.button.save", tableName: nil, bundle: Bundle(for: MultiPageScanSessionViewController.self), value: "Save", comment: "Save button")
+        let button = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(handleSave))
+        button.tintColor = navigationController?.navigationBar.tintColor
+        return button
+    }()
+    
     lazy private var pageController: UIPageViewController = {
         let pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageController.dataSource = self
+        pageController.delegate = self
         return pageController
     }()
     
@@ -23,8 +31,6 @@ class MultiPageScanSessionViewController: UIViewController {
         self.scanSession = scanSession
         super.init(nibName: nil, bundle: nil)
         self.scanSession.scannedItems.forEach { (scannedItem) in
-
-
             let vc = ScannedPageViewController(scannedItem: scannedItem)
             vc.view.isUserInteractionEnabled = false
             self.pages.append(vc)
@@ -42,7 +48,7 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     private func setupViews(){
-        self.view.backgroundColor = UIColor.red
+        // Page Controller
         let constraints = [self.pageController.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
                            self.pageController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0),
                            self.pageController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0.0),
@@ -50,6 +56,22 @@ class MultiPageScanSessionViewController: UIViewController {
         self.view.addSubview(self.pageController.view)
         NSLayoutConstraint.activate(constraints)
         self.addChild(self.pageController)
+        
+        // Navigation
+        self.navigationItem.rightBarButtonItem = self.saveButton
+    }
+    
+    @objc private func handleSave(){
+        
+        // TODO: Call the delegate and move this code somewhere else
+        var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        path = path + "/file.pdf"
+        var images = Array<UIImage>()
+        self.scanSession.scannedItems.forEach { (scannedItem) in
+            images.append(scannedItem.picture)
+        }
+        ImageToPDF.createPDFWith(images: images, inPath: path)
+        
     }
 
 }
@@ -75,5 +97,20 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
         }
         return nil
     }
+    
+}
+
+extension MultiPageScanSessionViewController:UIPageViewControllerDelegate{
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
+        guard completed else { return }
+        
+        let currentViewController = pageViewController.viewControllers!.first! as! ScannedPageViewController
+        let index = self.pages.index(of:currentViewController)
+        
+        self.title = "\(index! + 1) / \(self.pages.count)"
+    }
+    
     
 }

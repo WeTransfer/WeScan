@@ -12,6 +12,9 @@
 /* The "Next" button on the right side of the navigation bar on the Edit screen. */
 "wescan.edit.button.next" = "Next";
 
+/* The "Save" button on the right side of the navigation bar on the Session screen. */
+"wescan.edit.button.save" = "Save";
+
 /* The title on the navigation bar of the Edit screen. */
 "wescan.edit.title" = "Edit Scan";
 
