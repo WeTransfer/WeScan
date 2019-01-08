@@ -11,6 +11,7 @@ import UIKit
 class ScannedPageViewController: UIViewController {
 
     private let scannedItem:ScannedItem
+    private var renderedImage:UIImage?
     
     init(scannedItem:ScannedItem){
         self.scannedItem = scannedItem
@@ -32,47 +33,48 @@ class ScannedPageViewController: UIViewController {
     }
     
     private func render(){
-        
-        let image = scannedItem.picture.applyingPortraitOrientation()
-        
-        guard let quad = scannedItem.quad,
-            let ciImage = CIImage(image: image) else {
-                // TODO: Return error
-                return
+        if (renderedImage == nil){
+            let image = scannedItem.picture.applyingPortraitOrientation()
+            
+            guard let quad = scannedItem.quad,
+                let ciImage = CIImage(image: image) else {
+                    // TODO: Return error
+                    return
+            }
+            
+            //let scaledQuad = quad.scale(quadView.bounds.size, image.size)
+            //self.quad = scaledQuad
+            
+            var cartesianScaledQuad = quad.toCartesian(withHeight: image.size.height)
+            cartesianScaledQuad.reorganize()
+            
+            let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
+                "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
+                "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
+                "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
+                "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
+                ])
+            
+            //let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
+            
+            var uiImage: UIImage!
+            
+            // Let's try to generate the CGImage from the CIImage before creating a UIImage.
+            if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
+                uiImage = UIImage(cgImage: cgImage)
+            } else {
+                uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+            }
+            
+            self.renderedImage = uiImage.withFixedOrientation()
+            
+            let imageView = UIImageView.init(image: renderedImage)
+            imageView.contentMode = .scaleAspectFit
+            imageView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
+            
+            self.view.addSubview(imageView)
+            //let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
         }
-        
-        //let scaledQuad = quad.scale(quadView.bounds.size, image.size)
-        //self.quad = scaledQuad
-        
-        var cartesianScaledQuad = quad.toCartesian(withHeight: image.size.height)
-        cartesianScaledQuad.reorganize()
-        
-        let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
-            "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
-            "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
-            "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
-            "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
-            ])
-        
-        //let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-        
-        var uiImage: UIImage!
-        
-        // Let's try to generate the CGImage from the CIImage before creating a UIImage.
-        if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
-            uiImage = UIImage(cgImage: cgImage)
-        } else {
-            uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
-        }
-        
-        let finalImage = uiImage.withFixedOrientation()
-        
-        let imageView = UIImageView.init(image: finalImage)
-        imageView.contentMode = .scaleAspectFit
-        imageView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
-        
-        self.view.addSubview(imageView)
-        //let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
     }
 
 

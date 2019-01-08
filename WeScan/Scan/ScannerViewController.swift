@@ -294,10 +294,9 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
-        
         self.delegate?.scannerViewController(self, didScan: picture, with: quad)
-        
         shutterButton.isUserInteractionEnabled = true
+        self.captureSessionManager?.start()
     }
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didDetectQuad quad: Quadrilateral?, _ imageSize: CGSize) {
