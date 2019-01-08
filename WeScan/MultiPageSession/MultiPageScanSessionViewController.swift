@@ -38,6 +38,7 @@ class MultiPageScanSessionViewController: UIViewController {
         self.pageController.setViewControllers([self.pages[0]], direction: .forward, animated: true, completion: nil)
     }
     
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) should not be called for this class")
     }
@@ -58,7 +59,14 @@ class MultiPageScanSessionViewController: UIViewController {
         self.addChild(self.pageController)
         
         // Navigation
+        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationItem.rightBarButtonItem = self.saveButton
+        
+        // Toolbar
+        self.navigationController?.setToolbarHidden(false, animated: false)
+        self.navigationController?.toolbar.isTranslucent = false
+        let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
+        self.toolbarItems = [editItem]
     }
     
     @objc private func handleSave(){
@@ -71,6 +79,10 @@ class MultiPageScanSessionViewController: UIViewController {
             images.append(scannedItem.picture)
         }
         ImageToPDF.createPDFWith(images: images, inPath: path)
+        
+    }
+    
+    @objc private func handleEdit(){
         
     }
 
