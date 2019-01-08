@@ -15,9 +15,10 @@ enum FlashResult {
     case notSuccessful
 }
 
-protocol ScannerViewControllerDelegate:NSObjectProtocol{
-    func scannerViewController(_ scannerViewController:ScannerViewController, didScan image:UIImage, with quad:Quadrilateral?)
-    func scannerViewController(_ scannerViewController:ScannerViewController, didTapReviewButton button:UIButton)
+protocol ScannerViewControllerDelegate:NSObjectProtocol{    
+    func scannerViewController(_ scannerViewController:ScannerViewController, reviewItems inSession:MultiPageScanSession)
+    func scannerViewController(_ scannerViewController:ScannerViewController, didFail withError:Error)
+    func scannerViewControllerDidCancel(_ scannerViewController:ScannerViewController)
 }
 
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
@@ -34,6 +35,9 @@ final class ScannerViewController: UIViewController {
     
     /// Whether flash is enabled
     private var flashEnabled = false
+    
+    /// The object that will hold the scanned items in this session
+    private var multipageSession:MultiPageScanSession = MultiPageScanSession()
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -56,7 +60,7 @@ final class ScannerViewController: UIViewController {
     
     lazy private var counterButton: UIButton = {
         let button = UIButton()
-        button.setTitle("HELELELELELE", for: .normal)
+        button.setTitle("0", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(counterImageScannerController), for: .touchUpInside)
         return button
@@ -267,12 +271,11 @@ final class ScannerViewController: UIViewController {
     }
     
     @objc private func cancelImageScannerController() {
-        guard let imageScannerController = navigationController as? ImageScannerController else { return }
-        imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
+        self.delegate?.scannerViewControllerDidCancel(self)
     }
     
     @objc private func counterImageScannerController(){
-        self.delegate?.scannerViewController(self, didTapReviewButton: self.counterButton)
+        self.delegate?.scannerViewController(self, reviewItems: self.multipageSession)
     }
     
 }
@@ -283,8 +286,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         activityIndicator.stopAnimating()
         shutterButton.isUserInteractionEnabled = true
         
-        guard let imageScannerController = navigationController as? ImageScannerController else { return }
-        imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
+        self.delegate?.scannerViewController(self, didFail: error)
     }
     
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {
@@ -294,7 +296,11 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
-        self.delegate?.scannerViewController(self, didScan: picture, with: quad)
+        
+        let scannedItem = ScannedItem(picture:picture, quad:quad)
+        self.multipageSession.add(item: scannedItem)
+        self.counterButton.setTitle("\(self.multipageSession.scannedItems.count)", for: .normal)
+        
         shutterButton.isUserInteractionEnabled = true
         self.captureSessionManager?.start()
     }
