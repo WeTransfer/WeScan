@@ -16,7 +16,7 @@ enum FlashResult {
 }
 
 protocol ScannerViewControllerDelegate:NSObjectProtocol{
-    func scannerViewController(_ scannerViewController:ScannerViewController, didScan item:ScannedItem)
+    func scannerViewController(_ scannerViewController:ScannerViewController, didScan image:UIImage, with quad:Quadrilateral?)
     func scannerViewController(_ scannerViewController:ScannerViewController, didTapReviewButton button:UIButton)
 }
 
@@ -295,11 +295,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
         
-        let scannedItem = ScannedItem(picture:picture,
-                                      quad:quad,
-                                      quadViewBounds:self.quadView.bounds)
-        
-        self.delegate?.scannerViewController(self, didScan: scannedItem)
+        self.delegate?.scannerViewController(self, didScan: picture, with: quad)
         
         shutterButton.isUserInteractionEnabled = true
     }

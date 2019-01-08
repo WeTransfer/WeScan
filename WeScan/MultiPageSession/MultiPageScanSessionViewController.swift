@@ -11,7 +11,7 @@ import UIKit
 class MultiPageScanSessionViewController: UIViewController {
 
     private var scanSession:MultiPageScanSession
-    private var pages:Array<ScannedPageViewController> = []
+    private var pages:Array<EditScanViewController> = []
     
     lazy private var pageController: UIPageViewController = {
         let pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -23,8 +23,10 @@ class MultiPageScanSessionViewController: UIViewController {
         self.scanSession = scanSession
         super.init(nibName: nil, bundle: nil)
         self.scanSession.scannedItems.forEach { (scannedItem) in
-            let scannedPageViewController = ScannedPageViewController(scannedItem:scannedItem)
-            self.pages.append(scannedPageViewController)
+            //let scannedPageViewController = ScannedPageViewController(scannedItem:scannedItem)
+            let editViewController = EditScanViewController(image: scannedItem.picture, quad: scannedItem.quad)
+            editViewController.view.isUserInteractionEnabled = false
+            self.pages.append(editViewController)
         }
         self.pageController.setViewControllers([self.pages[0]], direction: .forward, animated: true, completion: nil)
     }
@@ -54,7 +56,7 @@ class MultiPageScanSessionViewController: UIViewController {
 extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        if let index = pages.index(of: (viewController as! ScannedPageViewController)){
+        if let index = pages.index(of: (viewController as! EditScanViewController)){
             let previousIndex = index - 1
             if (previousIndex >= 0){
                 return self.pages[previousIndex]
@@ -64,7 +66,7 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if let index = pages.index(of: (viewController as! ScannedPageViewController)){
+        if let index = pages.index(of: (viewController as! EditScanViewController)){
             let nextIndex = index + 1
             if (nextIndex < pages.count){
                 return self.pages[nextIndex]

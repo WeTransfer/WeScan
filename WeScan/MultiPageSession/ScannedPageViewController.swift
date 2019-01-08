@@ -32,7 +32,7 @@ class ScannedPageViewController: UIViewController {
     }
     
     private func render(){
-        
+        /*
         guard let quad = self.scannedItem.quad,
             let ciImage = CIImage(image: self.scannedItem.picture) else {
                 // TODO: Return an error here!
@@ -65,7 +65,7 @@ class ScannedPageViewController: UIViewController {
         let imageView = UIImageView(image: finalImage)
         imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         self.view.addSubview(imageView)
-        
+        */
     }
 
 

@@ -103,9 +103,10 @@ public final class ImageScannerController: UINavigationController {
 }
 
 extension ImageScannerController:ScannerViewControllerDelegate{
-    
-    func scannerViewController(_ scannerViewController: ScannerViewController, didScan item: ScannedItem) {
-        self.multipageSession.add(item: item)
+
+    func scannerViewController(_ scannerViewController: ScannerViewController, didScan image: UIImage, with quad: Quadrilateral?) {
+        let scannedItem = ScannedItem(picture:image, quad:quad)
+        multipageSession.add(item: scannedItem)
     }
     
     func scannerViewController(_ scannerViewController: ScannerViewController, didTapReviewButton button: UIButton) {
