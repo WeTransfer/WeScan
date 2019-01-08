@@ -8,10 +8,16 @@
 
 import UIKit
 
+protocol MultiPageScanSessionViewControllerDelegate:NSObjectProtocol {
+    func multiPageScanSessionViewController(_ multiPageScanSessionViewController:MultiPageScanSessionViewController, finished session:MultiPageScanSession)
+}
+
 class MultiPageScanSessionViewController: UIViewController {
 
     private var scanSession:MultiPageScanSession
     private var pages:Array<ScannedPageViewController> = []
+    
+    weak public var delegate:MultiPageScanSessionViewControllerDelegate?
     
     lazy private var saveButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.edit.button.save", tableName: nil, bundle: Bundle(for: MultiPageScanSessionViewController.self), value: "Save", comment: "Save button")
@@ -74,20 +80,7 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     @objc private func handleSave(){
-        
-        // TODO: Call the delegate and move this code somewhere else
-        var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-        path = path + "/file.pdf"
-        var images = Array<UIImage>()
-        self.scanSession.scannedItems.forEach { (scannedItem) in
-            if let renderedImage = scannedItem.rednerQuadImage(){
-                images.append(renderedImage)
-            } else {
-                // Skip image. TODO: We should probably handle this case?
-            }
-        }
-        ImageToPDF.createPDFWith(images: images, inPath: path)
-        
+        self.delegate?.multiPageScanSessionViewController(self, finished: self.scanSession)
     }
     
     @objc private func handleEdit(){

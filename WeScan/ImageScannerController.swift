@@ -112,9 +112,23 @@ extension ImageScannerController:ScannerViewControllerDelegate{
     
     func scannerViewController(_ scannerViewController: ScannerViewController, reviewItems inSession: MultiPageScanSession) {
         let multipageScanViewController = MultiPageScanSessionViewController(scanSession: inSession)
+        multipageScanViewController.delegate = self
         
         let navigationController = UINavigationController(rootViewController: multipageScanViewController)
         self.present(navigationController, animated: true, completion: nil)
+    }
+}
+
+extension ImageScannerController:MultiPageScanSessionViewControllerDelegate{
+    
+    func multiPageScanSessionViewController(_ multiPageScanSessionViewController: MultiPageScanSessionViewController, finished session: MultiPageScanSession) {
+        
+        // TODO: Move this out of here
+        print("Creating PDF")
+        ImageToPDF.createPDFFrom(scanSession: session)
+        print("Done creating PDF")
+        
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -21,4 +21,19 @@ public class ImageToPDF {
         UIGraphicsEndPDFContext();
     }
     
+    public static func createPDFFrom(scanSession:MultiPageScanSession){
+        // TODO: Call the delegate and move this code somewhere else
+        var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        path = path + "/file.pdf"
+        var images = Array<UIImage>()
+        scanSession.scannedItems.forEach { (scannedItem) in
+            if let renderedImage = scannedItem.rednerQuadImage(){
+                images.append(renderedImage)
+            } else {
+                // Skip image. TODO: We should probably handle this case?
+            }
+        }
+        ImageToPDF.createPDFWith(images: images, inPath: path)
+    }
+    
 }
