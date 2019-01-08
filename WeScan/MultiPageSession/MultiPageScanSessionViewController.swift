@@ -72,7 +72,10 @@ class MultiPageScanSessionViewController: UIViewController {
         self.navigationController?.setToolbarHidden(false, animated: false)
         self.navigationController?.toolbar.isTranslucent = false
         let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
-        self.toolbarItems = [editItem]
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        let deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrash))
+        
+        self.toolbarItems = [addItem, editItem, deleteItem]
     }
     
     private func getCurrentViewController()->ScannedPageViewController{
@@ -81,6 +84,14 @@ class MultiPageScanSessionViewController: UIViewController {
     
     @objc private func handleSave(){
         self.delegate?.multiPageScanSessionViewController(self, finished: self.scanSession)
+    }
+    
+    @objc private func handleAdd(){
+        
+    }
+    
+    @objc private func handleTrash(){
+        
     }
     
     @objc private func handleEdit(){

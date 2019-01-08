@@ -66,6 +66,15 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
+    /// A black UIView, used to quickly display a black screen when the shutter button is presseed.
+    internal let blackFlashView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy private var toolbar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.barStyle = .blackTranslucent
@@ -143,6 +152,7 @@ final class ScannerViewController: UIViewController {
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
         view.addSubview(toolbar)
+        view.addSubview(blackFlashView)
     }
     
     private func setupToolbar() {
@@ -164,6 +174,7 @@ final class ScannerViewController: UIViewController {
         var shutterButtonConstraints = [NSLayoutConstraint]()
         var activityIndicatorConstraints = [NSLayoutConstraint]()
         var counterButtonConstraints = [NSLayoutConstraint]()
+        var blackFlashViewConstraints = [NSLayoutConstraint]()
         
         quadViewConstraints = [
             quadView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -181,6 +192,13 @@ final class ScannerViewController: UIViewController {
         activityIndicatorConstraints = [
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        
+        blackFlashViewConstraints = [
+            blackFlashView.topAnchor.constraint(equalTo: view.topAnchor),
+            blackFlashView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            view.bottomAnchor.constraint(equalTo: blackFlashView.bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: blackFlashView.trailingAnchor)
         ]
         
         if #available(iOS 11.0, *) {
@@ -226,13 +244,22 @@ final class ScannerViewController: UIViewController {
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
         }
         
-        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints + counterButtonConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints + counterButtonConstraints + blackFlashViewConstraints)
+    }
+    
+    private func flashToBlack() {
+        view.bringSubviewToFront(blackFlashView)
+        blackFlashView.isHidden = false
+        let flashDuration = DispatchTime.now() + 0.05
+        DispatchQueue.main.asyncAfter(deadline: flashDuration) {
+            self.blackFlashView.isHidden = true
+        }
     }
     
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
-        (navigationController as? ImageScannerController)?.flashToBlack()
+        self.flashToBlack()
         shutterButton.isUserInteractionEnabled = false
         captureSessionManager?.capturePhoto()
     }
