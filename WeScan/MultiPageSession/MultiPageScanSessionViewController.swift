@@ -74,8 +74,9 @@ class MultiPageScanSessionViewController: UIViewController {
         let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
         let deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrash))
+        let flexibleItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        self.toolbarItems = [addItem, editItem, deleteItem]
+        self.toolbarItems = [addItem, flexibleItem, editItem, flexibleItem, deleteItem]
     }
     
     private func getCurrentViewController()->ScannedPageViewController{
@@ -87,7 +88,8 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     @objc private func handleAdd(){
-        
+        let scannerViewController = ScannerViewController(scanSession:self.scanSession)
+        self.present(scannerViewController, animated: true, completion: nil)
     }
     
     @objc private func handleTrash(){

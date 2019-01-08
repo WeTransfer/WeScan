@@ -37,7 +37,7 @@ final class ScannerViewController: UIViewController {
     private var flashEnabled = false
     
     /// The object that will hold the scanned items in this session
-    private var multipageSession:MultiPageScanSession = MultiPageScanSession()
+    private var multipageSession:MultiPageScanSession!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -99,6 +99,17 @@ final class ScannerViewController: UIViewController {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
+    
+    // MARK: - Initializers
+    
+    init(scanSession:MultiPageScanSession? = nil) {
+        self.multipageSession = scanSession ?? MultiPageScanSession()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: - Life Cycle
 
