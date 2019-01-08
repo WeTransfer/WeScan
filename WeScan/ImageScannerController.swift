@@ -112,6 +112,7 @@ extension ImageScannerController:ScannerViewControllerDelegate{
     
     func scannerViewController(_ scannerViewController: ScannerViewController, reviewItems inSession: MultiPageScanSession) {
         let multipageScanViewController = MultiPageScanSessionViewController(scanSession: inSession)
+        
         let navigationController = UINavigationController(rootViewController: multipageScanViewController)
         self.present(navigationController, animated: true, completion: nil)
     }

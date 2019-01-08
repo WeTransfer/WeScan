@@ -80,7 +80,11 @@ class MultiPageScanSessionViewController: UIViewController {
         path = path + "/file.pdf"
         var images = Array<UIImage>()
         self.scanSession.scannedItems.forEach { (scannedItem) in
-            images.append(scannedItem.picture)
+            if let renderedImage = scannedItem.rednerQuadImage(){
+                images.append(renderedImage)
+            } else {
+                // Skip image. TODO: We should probably handle this case?
+            }
         }
         ImageToPDF.createPDFWith(images: images, inPath: path)
         
@@ -111,9 +115,9 @@ extension MultiPageScanSessionViewController:EditScanViewControllerDelegate {
     func editScanViewController(_ editScanViewController: EditScanViewController, finishedEditing oldItem: ScannedItem, newItem: ScannedItem) {
         self.dismiss(animated: true, completion: nil)
         let currentViewController = self.getCurrentViewController()
-        currentViewController.reRedender(item: newItem)
+        self.scanSession.replace(item: oldItem, with: newItem)
+        currentViewController.reRender(item: newItem)
     }
-    
 }
 
 extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{

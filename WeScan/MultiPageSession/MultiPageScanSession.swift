@@ -8,9 +8,41 @@
 
 import Foundation
 
-public struct ScannedItem{
+public struct ScannedItem:Equatable{
     let picture:UIImage
     var quad:Quadrilateral?
+    
+    public func rednerQuadImage()->UIImage?{
+        let image = self.picture.applyingPortraitOrientation()
+        
+        guard let quad = self.quad,
+            let ciImage = CIImage(image: image) else {
+                // TODO: Return error
+                return nil
+        }
+        
+        var cartesianScaledQuad = quad.toCartesian(withHeight: image.size.height)
+        cartesianScaledQuad.reorganize()
+        
+        let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
+            "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
+            "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
+            "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
+            "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
+            ])
+        
+        //let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
+        
+        var uiImage: UIImage!
+        
+        // Let's try to generate the CGImage from the CIImage before creating a UIImage.
+        if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
+            uiImage = UIImage(cgImage: cgImage)
+        } else {
+            uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+        }
+        return uiImage.withFixedOrientation()
+    }
 }
 
 public class MultiPageScanSession {
@@ -19,6 +51,12 @@ public class MultiPageScanSession {
     
     public func add(item:ScannedItem){
         self.scannedItems.append(item)
+    }
+    
+    public func replace(item:ScannedItem, with newItem:ScannedItem){
+        if let index = self.scannedItems.index(of:item){
+            self.scannedItems[index] = newItem
+        }
     }
     
 }

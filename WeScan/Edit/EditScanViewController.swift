@@ -137,7 +137,19 @@ final class EditScanViewController: UIViewController {
     // MARK: - Actions
     
     @objc func handleDone() {
-        let newItem = ScannedItem(picture:self.originalItem.picture, quad:self.quadView.quad)
+        
+        guard let quad = quadView.quad else {
+                // TODO: Return error
+                return
+        }
+        
+        let scaledQuad = quad.scale(quadView.bounds.size, image.size)
+        self.quad = scaledQuad
+        
+        var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
+        cartesianScaledQuad.reorganize()
+        
+        let newItem = ScannedItem(picture:self.originalItem.picture, quad:scaledQuad)
         self.delegate?.editScanViewController(self, finishedEditing: originalItem, newItem: newItem)
     }
 

@@ -366,19 +366,19 @@
 		A1D4BCEE202C4F4100FCDDEC /* WeScan */ = {
 			isa = PBXGroup;
 			children = (
-				EA7FFA3B21E39C5400C1C5CE /* MultiPageSession */,
-				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
-				A1DF90E220358C9E00841A11 /* Protocols */,
-				A1F22ECF203199E7001723AD /* Scan */,
-				A1F22ED020319A03001723AD /* Edit */,
-				A194E97020431DB1003493E2 /* Review */,
-				B940E3A021A82931003B3C0B /* Session */,
-				A1D4BD11202C6C7900FCDDEC /* Extensions */,
-				A1DF90F720371A0800841A11 /* Common */,
 				B94FBB9D2178647B001ED1B4 /* Assets */,
-				A1D4BCEF202C4F4100FCDDEC /* WeScan.h */,
+				A1DF90F720371A0800841A11 /* Common */,
+				A1F22ED020319A03001723AD /* Edit */,
+				A1D4BD11202C6C7900FCDDEC /* Extensions */,
+				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
 				A1D4BCF0202C4F4100FCDDEC /* Info.plist */,
 				B97B49CB216C6C6800B2235B /* Localizable.strings */,
+				EA7FFA3B21E39C5400C1C5CE /* MultiPageSession */,
+				A1DF90E220358C9E00841A11 /* Protocols */,
+				A194E97020431DB1003493E2 /* Review */,
+				A1F22ECF203199E7001723AD /* Scan */,
+				B940E3A021A82931003B3C0B /* Session */,
+				A1D4BCEF202C4F4100FCDDEC /* WeScan.h */,
 			);
 			path = WeScan;
 			sourceTree = "<group>";
