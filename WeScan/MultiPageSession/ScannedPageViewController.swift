@@ -68,11 +68,18 @@ class ScannedPageViewController: UIViewController {
             
             self.renderedImage = uiImage.withFixedOrientation()
             
-            let imageView = UIImageView.init(image: renderedImage)
+            let imageView = UIImageView(image: self.renderedImage)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.contentMode = .scaleAspectFit
-            imageView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
             
+            let constraints = [imageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
+                               imageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0),
+                               imageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0.0),
+                               imageView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0.0)]
             self.view.addSubview(imageView)
+            NSLayoutConstraint.activate(constraints)
+            //imageView.image = self.renderedImage
+            
             //let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
         }
     }
