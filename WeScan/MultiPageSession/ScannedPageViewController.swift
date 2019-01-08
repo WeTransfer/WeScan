@@ -32,16 +32,19 @@ class ScannedPageViewController: UIViewController {
     }
     
     private func render(){
-        /*
-        guard let quad = self.scannedItem.quad,
-            let ciImage = CIImage(image: self.scannedItem.picture) else {
-                // TODO: Return an error here!
+        
+        let image = scannedItem.picture.applyingPortraitOrientation()
+        
+        guard let quad = scannedItem.quad,
+            let ciImage = CIImage(image: image) else {
+                // TODO: Return error
                 return
         }
         
-        let scaledQuad = quad.scale(scannedItem.quadViewBounds.size, scannedItem.picture.size)
+        //let scaledQuad = quad.scale(quadView.bounds.size, image.size)
+        //self.quad = scaledQuad
         
-        var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: scannedItem.picture.size.height)
+        var cartesianScaledQuad = quad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
         
         let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
@@ -50,6 +53,8 @@ class ScannedPageViewController: UIViewController {
             "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
+        
+        //let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
         
         var uiImage: UIImage!
         
@@ -62,10 +67,12 @@ class ScannedPageViewController: UIViewController {
         
         let finalImage = uiImage.withFixedOrientation()
         
-        let imageView = UIImageView(image: finalImage)
-        imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        let imageView = UIImageView.init(image: finalImage)
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
+        
         self.view.addSubview(imageView)
-        */
+        //let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
     }
 
 
