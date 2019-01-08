@@ -10,7 +10,7 @@ import Foundation
 
 public struct ScannedItem{
     let picture:UIImage
-    let quad:Quadrilateral?
+    var quad:Quadrilateral?
 }
 
 public class MultiPageScanSession {

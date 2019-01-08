@@ -10,7 +10,7 @@ import UIKit
 
 class ScannedPageViewController: UIViewController {
 
-    private let scannedItem:ScannedItem
+    private var scannedItem:ScannedItem
     private var renderedImage:UIImage?
     
     init(scannedItem:ScannedItem){
@@ -29,6 +29,12 @@ class ScannedPageViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("Scanned page did appear")
+        self.render()
+    }
+    
+    public func reRedender(item:ScannedItem){
+        self.renderedImage = nil
+        self.scannedItem = item
         self.render()
     }
     

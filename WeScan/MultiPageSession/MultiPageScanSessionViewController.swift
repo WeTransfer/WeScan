@@ -69,6 +69,10 @@ class MultiPageScanSessionViewController: UIViewController {
         self.toolbarItems = [editItem]
     }
     
+    private func getCurrentViewController()->ScannedPageViewController{
+        return self.pageController.viewControllers!.first! as! ScannedPageViewController
+    }
+    
     @objc private func handleSave(){
         
         // TODO: Call the delegate and move this code somewhere else
@@ -83,9 +87,33 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     @objc private func handleEdit(){
-        
+        let currentViewController = self.getCurrentViewController()
+        if let currentIndex = self.pages.index(of:currentViewController){
+            let currentItem = self.scanSession.scannedItems[currentIndex]
+            
+            let editViewController = EditScanViewController(scannedItem: currentItem)
+            editViewController.delegate = self
+            let navController = UINavigationController(rootViewController: editViewController)
+            self.present(navController, animated: true, completion: nil)
+        } else {
+            fatalError("Current viewcontroller cannot be found")
+        }
     }
 
+}
+
+extension MultiPageScanSessionViewController:EditScanViewControllerDelegate {
+
+    func editScanViewControllerDidCancel(_ editScanViewController: EditScanViewController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func editScanViewController(_ editScanViewController: EditScanViewController, finishedEditing oldItem: ScannedItem, newItem: ScannedItem) {
+        self.dismiss(animated: true, completion: nil)
+        let currentViewController = self.getCurrentViewController()
+        currentViewController.reRedender(item: newItem)
+    }
+    
 }
 
 extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
@@ -118,7 +146,7 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDelegate{
         
         guard completed else { return }
         
-        let currentViewController = pageViewController.viewControllers!.first! as! ScannedPageViewController
+        let currentViewController = self.getCurrentViewController()
         let index = self.pages.index(of:currentViewController)
         
         self.title = "\(index! + 1) / \(self.pages.count)"
