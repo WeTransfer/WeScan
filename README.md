@@ -12,7 +12,7 @@
 <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/>
 <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat"/>
 </p>
-
+ 
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
@@ -26,27 +26,29 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 ## Features
 
+- [x] Fast
 - [x] Live scanning of documents
 - [x] Edit detected rectangle
-- [x] Fast
+- [x] Auto scan and flash support
 - [x] Lightweight dependency
+- [x] Translated to English, Chinese, Italian, Portuguese, and French
 - [ ] Batch scanning
 
-## Example
+## Demo
 
-<p align="center">
+<p align="left">
     <img src="Assets/WeScan.gif">
 </p>
 
 ## Requirements
 
-- Swift 4.0
+- Swift 4.2
 - iOS 10.0+
 - Xcode 9.x
 
+<br>
 
 ## Installation
-
 ### Cocoapods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
@@ -85,45 +87,80 @@ Run `carthage update` to build the framework and drag the built `WeScan.framewor
 
 Just download the project, and drag and drop the "WeScan" folder in your project.
 
+
+
+<p align="center">
+    <img width="900px" src="Assets/project.png">
+</p>
+
+
+Simply add the WeScan framework in the project's Embedded Binaries and Linked Frameworks and Libraries.
+
+<p align="center">
+    <img width="900px" src="Assets/LinkedFrameworks.png">
+</p>
+
 ## Usage
 
-1. Make sure that your ViewController conforms to the `ImageScannerControllerDelegate` protocol
+1. Make sure that your ViewController confirms to the `ImageScannerControllerDelegate` protocol
+
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
-
+    // YourViewController code here
+}
 ```
 
-2. Implement the delegate functions
+2. Implement the delegate functions inside your view controller:
 ```swift
-// Somewhere on your ViewController that conforms to ImageScannerControllerDelegate
 func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
+    // You are responsible for carefully handling the error
     print(error)
 }
 
 func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
-    // Your ViewController is responsible for dismissing the ImageScannerController
+    // The user successfully scanned an image, which is available in the ImageScannerResults
+    // You are responsible for dismissing the ImageScannerController
     scanner.dismiss(animated: true)
 }
 
 func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
-    // Your ViewController is responsible for dismissing the ImageScannerController
+    // The user tapped 'Cancel' on the scanner
+    // You are responsible for dismissing the ImageScannerController
     scanner.dismiss(animated: true)
 }
 ```
 
-3. Simply present the `ImageScannerController` instance on your `ViewController`
+3. Finally, create and present a `ImageScannerController` instance somewhere within your view controller:
 
 ```swift
-// Somewhere on your ViewController
-let scannerVC = ImageScannerController()
-scannerVC.imageScannerDelegate = self
-self.present(scannerVC, animated: true)
+let scannerViewController = ImageScannerController()
+scannerViewController.imageScannerDelegate = self
+present(scannerViewController, animated: true)
 ```
+
+### Objective-C
+
+1. Create a dummy swift class in your project. When Xcode asks if you'd like to create a bridging header, press 'Create Bridging Header'
+2. In the new header, add the Objective-C class (`#import myClass.h`) where you want to use WeScan
+3. In your class, import the header (`import <yourProjectName.swift.h>`)
+4. Drag and drop the WeScan folder to add it to your project
+5. In your class, add `@Class ImageScannerController;`
+
+#### Example Implementation
+```objc
+ImageScannerController *scannerViewController = [ImageScannerController new];
+[self presentViewController:scannerViewController animated:YES completion:nil];
+```
+
+<br>
+
 ## Communication
 
 - If you **found a bug**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
 - If you **have a feature request**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
 - If you **want to contribute**, submit a [pull request](https://github.com/WeTransfer/WeScan/pulls).
+
+<br>
 
 ## License
 
