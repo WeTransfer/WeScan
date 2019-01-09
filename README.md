@@ -102,7 +102,9 @@ Simply add the WeScan framework in the project's Embedded Binaries and Linked Fr
 
 ## Usage
 
-1. Make sure that your ViewController confirms to the `ImageScannerControllerDelegate` protocol
+### Swift
+
+1. Make sure that your view controller conforms to the `ImageScannerControllerDelegate` protocol:
 
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
