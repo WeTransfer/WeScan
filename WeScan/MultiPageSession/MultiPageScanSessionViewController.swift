@@ -54,6 +54,12 @@ class MultiPageScanSessionViewController: UIViewController {
         self.setupViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
     private func setupViews(){
         // Page Controller
         let constraints = [self.pageController.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
@@ -69,14 +75,12 @@ class MultiPageScanSessionViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = self.saveButton
         
         // Toolbar
-        self.navigationController?.setToolbarHidden(false, animated: false)
         self.navigationController?.toolbar.isTranslucent = false
         let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
-        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
         let deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrash))
         let flexibleItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        self.toolbarItems = [addItem, flexibleItem, editItem, flexibleItem, deleteItem]
+        self.toolbarItems = [editItem, flexibleItem, deleteItem]
     }
     
     private func getCurrentViewController()->ScannedPageViewController{
@@ -85,11 +89,6 @@ class MultiPageScanSessionViewController: UIViewController {
     
     @objc private func handleSave(){
         self.delegate?.multiPageScanSessionViewController(self, finished: self.scanSession)
-    }
-    
-    @objc private func handleAdd(){
-        let scannerViewController = ScannerViewController(scanSession:self.scanSession)
-        self.present(scannerViewController, animated: true, completion: nil)
     }
     
     @objc private func handleTrash(){

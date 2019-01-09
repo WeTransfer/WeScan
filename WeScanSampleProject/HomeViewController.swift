@@ -84,6 +84,10 @@ final class HomeViewController: UIViewController {
         let scannerVC = ImageScannerController()
         scannerVC.imageScannerDelegate = self
         present(scannerVC, animated: true, completion: nil)
+        
+        /*
+        let imageScanner = ImageScanner()
+        imageScanner.startScanningFrom(baseViewController: self)*/
     }
     
 }
