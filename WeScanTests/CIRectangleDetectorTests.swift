@@ -16,7 +16,6 @@ final class CIRectangleDetectorTests: FBSnapshotTestCase {
         super.setUp()
         
         recordMode = false
-        agnosticOptions = .OS
     }
     
     func testCorrectlyDetectsAndReturnsQuadilateral() {
