@@ -33,15 +33,16 @@ class MultiPageScanSessionViewController: UIViewController {
         return pageController
     }()
     
+    lazy private var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        return pageControl
+    }()
+    
     init(scanSession:MultiPageScanSession){
         self.scanSession = scanSession
         super.init(nibName: nil, bundle: nil)
-        self.scanSession.scannedItems.forEach { (scannedItem) in
-            let vc = ScannedPageViewController(scannedItem: scannedItem)
-            vc.view.isUserInteractionEnabled = false
-            self.pages.append(vc)
-        }
-        self.pageController.setViewControllers([self.pages[0]], direction: .forward, animated: true, completion: nil)
+        setupPages()
     }
     
     
@@ -60,6 +61,18 @@ class MultiPageScanSessionViewController: UIViewController {
         self.navigationController?.setToolbarHidden(false, animated: true)
     }
     
+    private func setupPages(){
+        self.scanSession.scannedItems.forEach { (scannedItem) in
+            let vc = ScannedPageViewController(scannedItem: scannedItem)
+            vc.view.isUserInteractionEnabled = false
+            self.pages.append(vc)
+        }
+        let lastIndex = self.pages.count - 1
+        self.pageController.setViewControllers([self.pages[lastIndex]], direction: .forward, animated: true, completion: nil)
+        self.pageControl.numberOfPages = self.pages.count
+        self.pageControl.currentPage = self.pages.count - 1
+    }
+    
     private func setupViews(){
         // Page Controller
         let constraints = [self.pageController.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
@@ -69,6 +82,12 @@ class MultiPageScanSessionViewController: UIViewController {
         self.view.addSubview(self.pageController.view)
         NSLayoutConstraint.activate(constraints)
         self.addChild(self.pageController)
+        
+        // Page Control
+        let pageControlConstraints = [self.pageControl.bottomAnchor.constraint(equalTo: self.view!.bottomAnchor, constant:0.0),
+                                      self.pageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)]
+        self.view.addSubview(self.pageControl)
+        NSLayoutConstraint.activate(pageControlConstraints)
         
         // Navigation
         self.navigationController?.navigationBar.isTranslucent = false
@@ -151,6 +170,10 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
 
 extension MultiPageScanSessionViewController:UIPageViewControllerDelegate{
     
+    private func updateTitle(index:Int){
+        self.title = "\(index + 1) / \(self.pages.count)"
+    }
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         guard completed else { return }
@@ -158,7 +181,10 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDelegate{
         let currentViewController = self.getCurrentViewController()
         let index = self.pages.index(of:currentViewController)
         
-        self.title = "\(index! + 1) / \(self.pages.count)"
+        if let index = index {
+            self.updateTitle(index:index)
+            self.pageControl.currentPage = index
+        }
     }
     
     
