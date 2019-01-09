@@ -41,7 +41,7 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
     let ciImage = CIImage(cgImage: image.cgImage!)
     let expectation = XCTestExpectation(description: "Detect rectangle")
-    let quad = VisionRectangleDetector.rectangle(forImage: ciImage) { (quad) in
+    VisionRectangleDetector.rectangle(forImage: ciImage) { (quad) in
       
       DispatchQueue.main.async {
         
