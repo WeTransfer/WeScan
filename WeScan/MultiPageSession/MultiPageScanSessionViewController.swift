@@ -111,12 +111,32 @@ class MultiPageScanSessionViewController: UIViewController {
         self.title = "\(index + 1) / \(self.pages.count)"
     }
     
-    private func gotoLastPage(){
+    private func gotoLastPage(direction:UIPageViewController.NavigationDirection? = .forward){
         let lastIndex = self.pages.count - 1
-        self.pageController.setViewControllers([self.pages[lastIndex]], direction: .forward, animated: true, completion: nil)
+        self.gotoPage(index: lastIndex, direction: direction)
+    }
+    
+    private func gotoPage(index:Int, direction:UIPageViewController.NavigationDirection? = .forward){
+        self.pageController.setViewControllers([self.pages[index]], direction: direction!, animated: true, completion: nil)
         self.pageControl.numberOfPages = self.pages.count
-        self.pageControl.currentPage = self.pages.count - 1
-        self.updateTitle(index: lastIndex)
+        self.pageControl.currentPage = index
+        self.updateTitle(index: index)
+    }
+    
+    private func trashCurrentPage(){
+        let currentViewController = self.getCurrentViewController()
+        if let currentIndex = self.pages.index(of:currentViewController){
+            self.scanSession.remove(index: currentIndex)
+            self.pages.remove(at: currentIndex)
+            if (self.scanSession.scannedItems.count > 0){
+                let previousIndex  = currentIndex - 1
+                let newIndex = (previousIndex >= 0 ? previousIndex : 0)
+                let direction:UIPageViewController.NavigationDirection = (newIndex == 0 ? .forward : .reverse)
+                self.gotoPage(index: newIndex, direction: direction)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     // MARK: Button handlers
@@ -130,16 +150,7 @@ class MultiPageScanSessionViewController: UIViewController {
                                                 message: "Are you sure you want to delete this page?",
                                                 preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
-            let currentViewController = self.getCurrentViewController()
-            if let currentIndex = self.pages.index(of:currentViewController){
-                self.scanSession.remove(index: currentIndex)
-                self.pages.remove(at: currentIndex)
-                if (self.scanSession.scannedItems.count > 0){
-                    self.gotoLastPage()
-                } else {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
+            self.trashCurrentPage()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
