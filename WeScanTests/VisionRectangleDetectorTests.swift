@@ -32,7 +32,7 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
     containerLayer.addSublayer(targetLayer)
 
-    UIGraphicsBeginImageContextWithOptions(targetSize, true, 1.0)
+    UIGraphicsBeginImageContextWithOptions(targetSize, true, 0.0)
 
     containerLayer.render(in: UIGraphicsGetCurrentContext()!)
 
