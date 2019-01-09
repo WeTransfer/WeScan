@@ -29,11 +29,11 @@ final class HomeViewController: UIViewController {
     
     lazy private var scanButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Scan Now!", for: .normal)
+        button.setTitle("Scan", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(presentScanController(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(scanOrSelectImage(_:)), for: .touchUpInside)
         button.backgroundColor = UIColor(red: 64.0 / 255.0, green: 159 / 255.0, blue: 255 / 255.0, alpha: 1.0)
-        button.layer.cornerRadius = 20.0
+        button.layer.cornerRadius = 10.0
         return button
     }()
 
@@ -71,7 +71,7 @@ final class HomeViewController: UIViewController {
         let scanButtonConstraints = [
             view.bottomAnchor.constraint(equalTo: scanButton.bottomAnchor, constant: 50.0),
             scanButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scanButton.heightAnchor.constraint(equalToConstant: 40.0),
+            scanButton.heightAnchor.constraint(equalToConstant: 55.0),
             scanButton.widthAnchor.constraint(equalToConstant: 150.0)
         ]
         
@@ -80,10 +80,36 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func presentScanController(_ sender: UIButton) {
-        let scannerVC = ImageScannerController()
-        scannerVC.imageScannerDelegate = self
-        present(scannerVC, animated: true, completion: nil)
+    @objc func scanOrSelectImage(_ sender: UIButton) {
+        let actionSheet = UIAlertController(title: "Would you like to scan an image or select one from your photo library?", message: nil, preferredStyle: .actionSheet)
+        
+        let scanAction = UIAlertAction(title: "Scan", style: .default) { (_) in
+            self.scanImage()
+        }
+        
+        let selectAction = UIAlertAction(title: "Select", style: .default) { (_) in
+            self.selectImage()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(scanAction)
+        actionSheet.addAction(selectAction)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func scanImage() {
+        let scannerViewController = ImageScannerController(delegate: self)
+        present(scannerViewController, animated: true)
+    }
+    
+    func selectImage() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
     }
     
 }
@@ -101,4 +127,18 @@ extension HomeViewController: ImageScannerControllerDelegate {
         scanner.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
+        guard let image = info[.originalImage] as? UIImage else { return }
+        let scannerViewController = ImageScannerController(image: image, delegate: self)
+        present(scannerViewController, animated: true)
+    }
 }
