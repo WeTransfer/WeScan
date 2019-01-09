@@ -19,11 +19,11 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
   
   func testCorrectlyDetectsAndReturnsQuadilateral() {
 
-    let targetSize = CGSize(width: 50, height: 50)
+    let targetSize = CGSize(width: 150, height: 150)
 
     let containerLayer = CALayer()
     containerLayer.backgroundColor = UIColor.white.cgColor
-    containerLayer.frame = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
+    containerLayer.frame = CGRect(origin: .zero, size: targetSize)
     containerLayer.masksToBounds = true
 
     let targetLayer = CALayer()
