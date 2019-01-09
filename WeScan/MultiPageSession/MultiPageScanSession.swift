@@ -62,4 +62,8 @@ public class MultiPageScanSession {
         }
     }
     
+    public func remove(index:Int){
+        self.scannedItems.remove(at: index)
+    }
+    
 }

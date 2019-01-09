@@ -60,6 +60,7 @@ class MultiPageScanSessionViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.setToolbarHidden(false, animated: true)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     // MARK: - Private
@@ -70,11 +71,7 @@ class MultiPageScanSessionViewController: UIViewController {
             vc.view.isUserInteractionEnabled = false
             self.pages.append(vc)
         }
-        let lastIndex = self.pages.count - 1
-        self.pageController.setViewControllers([self.pages[lastIndex]], direction: .forward, animated: true, completion: nil)
-        self.pageControl.numberOfPages = self.pages.count
-        self.pageControl.currentPage = self.pages.count - 1
-        self.updateTitle(index: lastIndex)
+        self.gotoLastPage()
     }
     
     private func setupViews(){
@@ -110,12 +107,45 @@ class MultiPageScanSessionViewController: UIViewController {
         return self.pageController.viewControllers!.first! as! ScannedPageViewController
     }
     
+    private func updateTitle(index:Int){
+        self.title = "\(index + 1) / \(self.pages.count)"
+    }
+    
+    private func gotoLastPage(){
+        let lastIndex = self.pages.count - 1
+        self.pageController.setViewControllers([self.pages[lastIndex]], direction: .forward, animated: true, completion: nil)
+        self.pageControl.numberOfPages = self.pages.count
+        self.pageControl.currentPage = self.pages.count - 1
+        self.updateTitle(index: lastIndex)
+    }
+    
+    // MARK: Button handlers
+    
     @objc private func handleSave(){
         self.delegate?.multiPageScanSessionViewController(self, finished: self.scanSession)
     }
     
     @objc private func handleTrash(){
+        let alertController = UIAlertController(title: "Confirm",
+                                                message: "Are you sure you want to delete this page?",
+                                                preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+            let currentViewController = self.getCurrentViewController()
+            if let currentIndex = self.pages.index(of:currentViewController){
+                self.scanSession.remove(index: currentIndex)
+                self.pages.remove(at: currentIndex)
+                if (self.scanSession.scannedItems.count > 0){
+                    self.gotoLastPage()
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @objc private func handleEdit(){
@@ -132,9 +162,7 @@ class MultiPageScanSessionViewController: UIViewController {
         }
     }
     
-    private func updateTitle(index:Int){
-        self.title = "\(index + 1) / \(self.pages.count)"
-    }
+
 
 }
 

@@ -145,6 +145,7 @@ final class ScannerViewController: UIViewController {
         UIApplication.shared.isIdleTimerDisabled = true
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.setToolbarHidden(true, animated: false)
+        self.updateCounterButton()
     }
     
     override func viewDidLayoutSubviews() {
