@@ -93,6 +93,15 @@ final class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: ImageScannerControllerDelegate {
+    func imageScannerController(_ scanner: ImageScannerController, didFinishWithSession session: MultiPageScanSession) {
+        scanner.dismiss(animated: true) {
+            // Do whatever you want with the images like creating a PDF
+            print("Creating PDF")
+            ImageToPDF.createPDFFrom(scanSession: session)
+            print("Done creating PDF")
+        }
+    }
+    
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
         print(error)
     }

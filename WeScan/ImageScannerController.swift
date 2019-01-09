@@ -20,6 +20,9 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     /// - Discussion: Your delegate's implementation of this method should dismiss the image scanner controller.
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults)
     
+    // This will replace the 'didFinishScanningWithResults' method above
+    func imageScannerController(_ scanner:ImageScannerController, didFinishWithSession session:MultiPageScanSession)
+    
     /// Tells the delegate that the user cancelled the scan operation.
     ///
     /// - Parameters:
@@ -89,13 +92,7 @@ extension ImageScannerController:ScannerViewControllerDelegate{
 extension ImageScannerController:MultiPageScanSessionViewControllerDelegate{
     
     func multiPageScanSessionViewController(_ multiPageScanSessionViewController: MultiPageScanSessionViewController, finished session: MultiPageScanSession) {
-        
-        // TODO: Move this out of here + create the 'ImageScannerResults' to be passed to the delegate as a last step
-        print("Creating PDF")
-        ImageToPDF.createPDFFrom(scanSession: session)
-        print("Done creating PDF")
-        
-        multiPageScanSessionViewController.dismiss(animated: true, completion: nil)
+        self.imageScannerDelegate?.imageScannerController(self, didFinishWithSession: session)
     }
 }
 
