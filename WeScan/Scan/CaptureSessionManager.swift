@@ -66,6 +66,12 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return nil
+        }
+        
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
@@ -75,11 +81,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         videoOutput.alwaysDiscardsLateVideoFrames = true
         
         defer {
+            device.unlockForConfiguration()
             captureSession.commitConfiguration()
         }
         
-        guard let inputDevice = AVCaptureDevice.default(for: AVMediaType.video),
-            let deviceInput = try? AVCaptureDeviceInput(device: inputDevice),
+        guard let deviceInput = try? AVCaptureDeviceInput(device: device),
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
@@ -87,6 +93,16 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 delegate?.captureSessionManager(self, didFailWithError: error)
                 return
         }
+        
+        do {
+            try device.lockForConfiguration()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
+        device.isSubjectAreaChangeMonitoringEnabled = true
         
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
@@ -127,6 +143,18 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
+        
+        let captureConnection = photoOutput.connections.first { (connection) -> Bool in
+            return connection.inputPorts.first(where: { (port) -> Bool in
+                port.mediaType == .video
+            }) != nil
+        }
+        guard let connection = captureConnection, connection.isEnabled, connection.isActive else {
+            let error = ImageScannerControllerError.capture
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
         photoSettings.isAutoStillImageStabilizationEnabled = true
@@ -171,7 +199,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 
                 let shouldAutoScan = (result == .showAndAutoScan)
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
+                if shouldAutoScan, CaptureSession.current.isAutoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
                 }
             }

@@ -9,17 +9,14 @@
 import UIKit
 import AVFoundation
 
-/// An enum used to know if the flashlight was toggled successfully.
-enum FlashResult {
-    case successful
-    case notSuccessful
-}
-
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
 final class ScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
-    private let videoPreviewlayer = AVCaptureVideoPreviewLayer()
+    private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
+    
+    /// The view that shows the focus rectangle (when the user taps to focus, similar to the Camera app)
+    private var focusRectangle: FocusRectangleView!
     
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
@@ -82,10 +79,12 @@ final class ScannerViewController: UIViewController {
         setupNavigationBar()
         setupConstraints()
         
-        captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewlayer)
+        captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
         
         originalBarStyle = navigationController?.navigationBar.barStyle
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,7 +112,7 @@ final class ScannerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        videoPreviewlayer.frame = view.layer.bounds
+        videoPreviewLayer.frame = view.layer.bounds
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -133,7 +132,7 @@ final class ScannerViewController: UIViewController {
     // MARK: - Setups
     
     private func setupViews() {
-        view.layer.addSublayer(videoPreviewlayer)
+        view.layer.addSublayer(videoPreviewLayer)
         quadView.translatesAutoresizingMaskIntoConstraints = false
         quadView.editable = false
         view.addSubview(quadView)
@@ -205,6 +204,46 @@ final class ScannerViewController: UIViewController {
         NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
     }
     
+    // MARK: - Tap to Focus
+    
+    /// Called when the AVCaptureDevice detects that the subject area has changed significantly. When it's called, we reset the focus so the camera is no longer out of focus.
+    @objc private func subjectAreaDidChange() {
+        /// Reset the focus and exposure back to automatic
+        do {
+            try CaptureSession.current.resetFocusToAuto()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            guard let captureSessionManager = captureSessionManager else { return }
+            captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
+            return
+        }
+        
+        /// Remove the focus rectangle if one exists
+        CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        guard  let touch = touches.first else { return }
+        let touchPoint = touch.location(in: view)
+        let convertedTouchPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
+        
+        CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
+        
+        focusRectangle = FocusRectangleView(touchPoint: touchPoint)
+        view.addSubview(focusRectangle)
+        
+        do {
+            try CaptureSession.current.setFocusPointToTapPoint(convertedTouchPoint)
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            guard let captureSessionManager = captureSessionManager else { return }
+            captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
+            return
+        }
+    }
+    
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
@@ -214,36 +253,35 @@ final class ScannerViewController: UIViewController {
     }
     
     @objc private func toggleAutoScan() {
-        if CaptureSession.current.autoScanEnabled {
-            CaptureSession.current.autoScanEnabled = false
+        if CaptureSession.current.isAutoScanEnabled {
+            CaptureSession.current.isAutoScanEnabled = false
             autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
         } else {
-            CaptureSession.current.autoScanEnabled = true
+            CaptureSession.current.isAutoScanEnabled = true
             autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
         }
     }
     
     @objc private func toggleFlash() {
-        guard UIImagePickerController.isFlashAvailable(for: .rear) else { return }
+        let state = CaptureSession.current.toggleFlash()
         
-        if flashEnabled == false && toggleTorch(toOn: true) == .successful {
+        let flashImage = UIImage(named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        
+        switch state {
+        case .on:
             flashEnabled = true
+            flashButton.image = flashImage
             flashButton.tintColor = .yellow
-        } else {
+        case .off:
             flashEnabled = false
+            flashButton.image = flashImage
             flashButton.tintColor = .white
-            
-            toggleTorch(toOn: false)
+        case .unknown, .unavailable:
+            flashEnabled = false
+            flashButton.image = flashOffImage
+            flashButton.tintColor = UIColor.lightGray
         }
-    }
-    
-    @discardableResult func toggleTorch(toOn: Bool) -> FlashResult {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video), device.hasTorch else { return .notSuccessful }
-        guard (try? device.lockForConfiguration()) != nil else { return .notSuccessful }
-        
-        device.torchMode = toOn ? .on : .off
-        device.unlockForConfiguration()
-        return .successful
     }
     
     @objc private func cancelImageScannerController() {
@@ -289,7 +327,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         let scaleTransform = CGAffineTransform.scaleTransform(forSize: portraitImageSize, aspectFillInSize: quadView.bounds.size)
         let scaledImageSize = imageSize.applying(scaleTransform)
         
-        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2.0))
+        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
 
         let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
 
