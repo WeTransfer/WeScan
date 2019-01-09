@@ -109,7 +109,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         captureSession.addOutput(videoOutput)
         
         videoPreviewLayer.session = captureSession
-        videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer.videoGravity = .resizeAspectFill
         
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "video_ouput_queue"))
     }
@@ -118,7 +118,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     
     /// Starts the camera and detecting quadrilaterals.
     internal func start() {
-        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
         
         switch authorizationStatus {
         case .authorized:
@@ -143,13 +143,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
-        
-        let captureConnection = photoOutput.connections.first { (connection) -> Bool in
-            return connection.inputPorts.first(where: { (port) -> Bool in
-                port.mediaType == .video
-            }) != nil
-        }
-        guard let connection = captureConnection, connection.isEnabled, connection.isActive else {
+        guard let connection = photoOutput.connection(with: .video), connection.isEnabled, connection.isActive else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
@@ -165,11 +159,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard isDetecting == true else {
-            return
-        }
-        
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+        guard isDetecting == true,
+            let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
         
