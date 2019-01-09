@@ -66,7 +66,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
-        guard AVCaptureDevice.default(for: .video) != nil else {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
             let error = ImageScannerControllerError.inputDevice
             delegate?.captureSessionManager(self, didFailWithError: error)
             return nil
@@ -81,11 +81,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         videoOutput.alwaysDiscardsLateVideoFrames = true
         
         defer {
+            device.unlockForConfiguration()
             captureSession.commitConfiguration()
         }
         
-        guard let inputDevice = AVCaptureDevice.default(for: AVMediaType.video),
-            let deviceInput = try? AVCaptureDeviceInput(device: inputDevice),
+        guard let deviceInput = try? AVCaptureDeviceInput(device: device),
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
@@ -93,6 +93,16 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 delegate?.captureSessionManager(self, didFailWithError: error)
                 return
         }
+        
+        do {
+            try device.lockForConfiguration()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
+        device.isSubjectAreaChangeMonitoringEnabled = true
         
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
@@ -189,7 +199,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 
                 let shouldAutoScan = (result == .showAndAutoScan)
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
+                if shouldAutoScan, CaptureSession.current.isAutoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
                 }
             }
