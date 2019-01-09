@@ -11,7 +11,6 @@ import UIKit
 class ScannedPageViewController: UIViewController {
 
     private var scannedItem:ScannedItem
-    private var renderedImage:UIImage?
     private var renderedImageView:UIImageView!
     private var activityIndicator:UIActivityIndicatorView!
     
@@ -53,7 +52,9 @@ class ScannedPageViewController: UIViewController {
         
         // Spinner
         self.activityIndicator = UIActivityIndicatorView(style: .white)
+        self.activityIndicator.startAnimating()
         self.activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         let activityIndicatorConstraints = [self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
                                             self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)]
         self.view.addSubview(activityIndicator)
@@ -72,9 +73,10 @@ class ScannedPageViewController: UIViewController {
         if (self.renderedImageView.image == nil){
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
-            self.renderedImage = self.scannedItem.renderQuadImage()
-            self.renderedImageView.image = self.renderedImage
-            self.activityIndicator.stopAnimating()
+            self.scannedItem.renderQuadImage(completion: { (image) in
+                self.renderedImageView.image = image
+                self.activityIndicator.stopAnimating()
+            })
         }
     }
 }

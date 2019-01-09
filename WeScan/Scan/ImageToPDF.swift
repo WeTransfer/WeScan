@@ -27,11 +27,13 @@ public class ImageToPDF {
         path = path + "/file.pdf"
         var images = Array<UIImage>()
         scanSession.scannedItems.forEach { (scannedItem) in
-            if let renderedImage = scannedItem.renderQuadImage(){
-                images.append(renderedImage)
-            } else {
-                // Skip image. TODO: We should probably handle this case?
-            }
+            scannedItem.renderQuadImage(completion: { (image) in
+                if let renderedImage = image {
+                    images.append(renderedImage)
+                } else {
+                    // TODO: What do we do if the image fails to render?
+                }
+            })
         }
         ImageToPDF.createPDFWith(images: images, inPath: path)
     }
