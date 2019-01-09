@@ -26,16 +26,25 @@ public class ImageToPDF {
         var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         path = path + "/file.pdf"
         var images = Array<UIImage>()
+        
+        let dispatchGroup = DispatchGroup()
         scanSession.scannedItems.forEach { (scannedItem) in
-            scannedItem.renderQuadImage(completion: { (image) in
+            dispatchGroup.enter()
+            ScannedItemRenderer().render(scannedItem: scannedItem, completion: { (image) in
                 if let renderedImage = image {
                     images.append(renderedImage)
                 } else {
                     // TODO: What do we do if the image fails to render?
                 }
+                dispatchGroup.leave()
             })
         }
-        ImageToPDF.createPDFWith(images: images, inPath: path)
+        
+        dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+            print("All Done with PDF")
+            ImageToPDF.createPDFWith(images: images, inPath: path)
+        })
+        
     }
     
 }

@@ -73,10 +73,10 @@ class ScannedPageViewController: UIViewController {
         if (self.renderedImageView.image == nil){
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
-            self.scannedItem.renderQuadImage(completion: { (image) in
+            ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
                 self.renderedImageView.image = image
                 self.activityIndicator.stopAnimating()
-            })
+            }
         }
     }
 }

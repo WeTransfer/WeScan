@@ -77,6 +77,7 @@
 		EA7FFA5621E5F62000C1C5CE /* MultiPageScanSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4C21E5F61F00C1C5CE /* MultiPageScanSessionViewController.swift */; };
 		EA7FFA5721E5F62000C1C5CE /* ScannedPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4D21E5F61F00C1C5CE /* ScannedPageViewController.swift */; };
 		EA7FFA5921E5F63D00C1C5CE /* ImageToPDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA5821E5F63D00C1C5CE /* ImageToPDF.swift */; };
+		EA7FFA7021E6417600C1C5CE /* ScannedItemRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA6F21E6417600C1C5CE /* ScannedItemRenderer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -261,6 +262,7 @@
 		EA7FFA4C21E5F61F00C1C5CE /* MultiPageScanSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageScanSessionViewController.swift; sourceTree = "<group>"; };
 		EA7FFA4D21E5F61F00C1C5CE /* ScannedPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannedPageViewController.swift; sourceTree = "<group>"; };
 		EA7FFA5821E5F63D00C1C5CE /* ImageToPDF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageToPDF.swift; sourceTree = "<group>"; };
+		EA7FFA6F21E6417600C1C5CE /* ScannedItemRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedItemRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -464,6 +466,7 @@
 				A1F22EA2202DAA74001723AD /* RectangleFeaturesFunnel.swift */,
 				A165F67D2044741B002D5ED6 /* ShutterButton.swift */,
 				B9AAE88A219E6C0400205620 /* FocusRectangleView.swift */,
+				EA7FFA6F21E6417600C1C5CE /* ScannedItemRenderer.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -785,6 +788,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA7FFA7021E6417600C1C5CE /* ScannedItemRenderer.swift in Sources */,
 				A11C5CDB20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift in Sources */,
 				A1DF90F22035992A00841A11 /* CGAffineTransform+Utils.swift in Sources */,
 				A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */,
