@@ -12,7 +12,7 @@ public struct ScannedItem:Equatable{
     let picture:UIImage
     var quad:Quadrilateral?
     
-    public func rednerQuadImage()->UIImage?{
+    public func renderQuadImage()->UIImage?{
         let image = self.picture.applyingPortraitOrientation()
         
         guard let quad = self.quad,

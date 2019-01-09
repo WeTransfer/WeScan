@@ -45,10 +45,11 @@ class MultiPageScanSessionViewController: UIViewController {
         setupPages()
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) should not be called for this class")
     }
+    
+    // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,8 @@ class MultiPageScanSessionViewController: UIViewController {
         self.navigationController?.setToolbarHidden(false, animated: true)
     }
     
+    // MARK: - Private
+    
     private func setupPages(){
         self.scanSession.scannedItems.forEach { (scannedItem) in
             let vc = ScannedPageViewController(scannedItem: scannedItem)
@@ -71,6 +74,7 @@ class MultiPageScanSessionViewController: UIViewController {
         self.pageController.setViewControllers([self.pages[lastIndex]], direction: .forward, animated: true, completion: nil)
         self.pageControl.numberOfPages = self.pages.count
         self.pageControl.currentPage = self.pages.count - 1
+        self.updateTitle(index: lastIndex)
     }
     
     private func setupViews(){
@@ -127,6 +131,10 @@ class MultiPageScanSessionViewController: UIViewController {
             fatalError("Current viewcontroller cannot be found")
         }
     }
+    
+    private func updateTitle(index:Int){
+        self.title = "\(index + 1) / \(self.pages.count)"
+    }
 
 }
 
@@ -169,10 +177,6 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
 }
 
 extension MultiPageScanSessionViewController:UIPageViewControllerDelegate{
-    
-    private func updateTitle(index:Int){
-        self.title = "\(index + 1) / \(self.pages.count)"
-    }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         

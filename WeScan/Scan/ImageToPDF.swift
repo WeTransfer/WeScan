@@ -27,7 +27,7 @@ public class ImageToPDF {
         path = path + "/file.pdf"
         var images = Array<UIImage>()
         scanSession.scannedItems.forEach { (scannedItem) in
-            if let renderedImage = scannedItem.rednerQuadImage(){
+            if let renderedImage = scannedItem.renderQuadImage(){
                 images.append(renderedImage)
             } else {
                 // Skip image. TODO: We should probably handle this case?

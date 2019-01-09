@@ -63,8 +63,14 @@ final class ScannerViewController: UIViewController {
     
     lazy private var counterButton: UIButton = {
         let button = UIButton()
-        button.setTitle("0", for: .normal)
+        button.setTitle("0 >", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor.init(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5)
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1.0
+        button.layer.cornerRadius = 5.0
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.isHidden = true
         button.addTarget(self, action: #selector(counterImageScannerController), for: .touchUpInside)
         return button
     }()
@@ -238,8 +244,10 @@ final class ScannerViewController: UIViewController {
             ]
             
             counterButtonConstraints = [
+                counterButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor),
                 counterButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24.0),
-                counterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24.0)
+                counterButton.widthAnchor.constraint(equalToConstant: 44.0),
+                counterButton.heightAnchor.constraint(equalToConstant: 44.0)
             ]
             
             let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
@@ -313,6 +321,11 @@ final class ScannerViewController: UIViewController {
         }
     }
     
+    private func updateCounterButton(){
+        self.counterButton.isHidden = self.multipageSession.scannedItems.count < 1
+        self.counterButton.setTitle("\(self.multipageSession.scannedItems.count) >", for: .normal)
+    }
+    
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
@@ -382,7 +395,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
 
         let scannedItem = ScannedItem(picture:picture, quad:quad)
         self.multipageSession.add(item: scannedItem)
-        self.counterButton.setTitle("\(self.multipageSession.scannedItems.count)", for: .normal)
+        self.updateCounterButton()
         
         shutterButton.isUserInteractionEnabled = true
         self.captureSessionManager?.start()

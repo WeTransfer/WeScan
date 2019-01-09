@@ -52,7 +52,7 @@ class ScannedPageViewController: UIViewController {
     
     private func render(){
         if (self.renderedImageView.image == nil){
-            self.renderedImage = self.scannedItem.rednerQuadImage()
+            self.renderedImage = self.scannedItem.renderQuadImage()
             self.renderedImageView.image = self.renderedImage
         }
     }
