@@ -134,7 +134,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
         picker.dismiss(animated: true)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true)
         
         guard let image = info[.originalImage] as? UIImage else { return }
