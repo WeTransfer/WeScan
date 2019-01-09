@@ -90,7 +90,7 @@ extension ImageScannerController:MultiPageScanSessionViewControllerDelegate{
     
     func multiPageScanSessionViewController(_ multiPageScanSessionViewController: MultiPageScanSessionViewController, finished session: MultiPageScanSession) {
         
-        // TODO: Move this out of here
+        // TODO: Move this out of here + create the 'ImageScannerResults' to be passed to the delegate as a last step
         print("Creating PDF")
         ImageToPDF.createPDFFrom(scanSession: session)
         print("Done creating PDF")
