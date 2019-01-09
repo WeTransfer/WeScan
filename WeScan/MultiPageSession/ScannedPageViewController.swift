@@ -13,6 +13,7 @@ class ScannedPageViewController: UIViewController {
     private var scannedItem:ScannedItem
     private var renderedImage:UIImage?
     private var renderedImageView:UIImageView!
+    private var activityIndicator:UIActivityIndicatorView!
     
     init(scannedItem:ScannedItem){
         self.scannedItem = scannedItem
@@ -23,9 +24,22 @@ class ScannedPageViewController: UIViewController {
         fatalError("init(coder:) should not be called for this class")
     }
     
+    // MARK: - View lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.setupViews()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.render()
+    }
+
+    // MARK: - Private methods
+    
+    private func setupViews(){
+        // Image View
         self.renderedImageView = UIImageView(image: nil)
         self.renderedImageView.translatesAutoresizingMaskIntoConstraints = false
         self.renderedImageView.contentMode = .scaleAspectFit
@@ -37,12 +51,16 @@ class ScannedPageViewController: UIViewController {
         self.view.addSubview(self.renderedImageView)
         NSLayoutConstraint.activate(constraints)
         
-        self.render()
+        // Spinner
+        self.activityIndicator = UIActivityIndicatorView(style: .white)
+        self.activityIndicator.hidesWhenStopped = true
+        let activityIndicatorConstraints = [self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                                            self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)]
+        self.view.addSubview(activityIndicator)
+        NSLayoutConstraint.activate(activityIndicatorConstraints)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
+    // MARK: - Public methods
     
     public func reRender(item:ScannedItem){
         self.renderedImageView.image = nil
@@ -50,10 +68,13 @@ class ScannedPageViewController: UIViewController {
         self.render()
     }
     
-    private func render(){
+    public func render(){
         if (self.renderedImageView.image == nil){
+            self.activityIndicator.isHidden = false
+            self.activityIndicator.startAnimating()
             self.renderedImage = self.scannedItem.renderQuadImage()
             self.renderedImageView.image = self.renderedImage
+            self.activityIndicator.stopAnimating()
         }
     }
 }
