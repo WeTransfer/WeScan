@@ -394,7 +394,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
 
-        let scannedItem = ScannedItem(picture:picture, quad:quad)
+        let scannedItem = ScannedItem(originalImage:picture, quad:quad)
         self.multipageSession.add(item: scannedItem)
         self.updateCounterButton()
         

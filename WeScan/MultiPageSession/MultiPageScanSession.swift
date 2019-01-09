@@ -9,12 +9,12 @@
 import Foundation
 
 public struct ScannedItem:Equatable{
-    let picture:UIImage
+    let originalImage:UIImage
     var quad:Quadrilateral?
     
     public func renderQuadImage(completion: @escaping (_ image:UIImage?)->Void){
         DispatchQueue.global(qos: .background).async {
-            let image = self.picture.applyingPortraitOrientation()
+            let image = self.originalImage.applyingPortraitOrientation()
             
             guard let quad = self.quad,
                 let ciImage = CIImage(image: image) else {

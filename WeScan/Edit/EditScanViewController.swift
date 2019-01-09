@@ -62,8 +62,8 @@ final class EditScanViewController: UIViewController {
     
     init(scannedItem:ScannedItem) {
         self.originalItem = scannedItem
-        self.image = scannedItem.picture.applyingPortraitOrientation()
-        let quad = scannedItem.quad ?? EditScanViewController.defaultQuad(forImage: scannedItem.picture)
+        self.image = scannedItem.originalImage.applyingPortraitOrientation()
+        let quad = scannedItem.quad ?? EditScanViewController.defaultQuad(forImage: scannedItem.originalImage)
         self.quad = quad
         super.init(nibName: nil, bundle: nil)
     }
@@ -149,7 +149,7 @@ final class EditScanViewController: UIViewController {
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
         
-        let newItem = ScannedItem(picture:self.originalItem.picture, quad:scaledQuad)
+        let newItem = ScannedItem(originalImage:self.originalItem.originalImage, quad:scaledQuad)
         self.delegate?.editScanViewController(self, finishedEditing: originalItem, newItem: newItem)
     }
 

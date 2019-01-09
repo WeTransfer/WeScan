@@ -77,7 +77,6 @@
 		EA7FFA5621E5F62000C1C5CE /* MultiPageScanSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4C21E5F61F00C1C5CE /* MultiPageScanSessionViewController.swift */; };
 		EA7FFA5721E5F62000C1C5CE /* ScannedPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4D21E5F61F00C1C5CE /* ScannedPageViewController.swift */; };
 		EA7FFA5921E5F63D00C1C5CE /* ImageToPDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA5821E5F63D00C1C5CE /* ImageToPDF.swift */; };
-		EA7FFA5D21E5F69E00C1C5CE /* ImageScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA5C21E5F69E00C1C5CE /* ImageScanner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -262,7 +261,6 @@
 		EA7FFA4C21E5F61F00C1C5CE /* MultiPageScanSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageScanSessionViewController.swift; sourceTree = "<group>"; };
 		EA7FFA4D21E5F61F00C1C5CE /* ScannedPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannedPageViewController.swift; sourceTree = "<group>"; };
 		EA7FFA5821E5F63D00C1C5CE /* ImageToPDF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageToPDF.swift; sourceTree = "<group>"; };
-		EA7FFA5C21E5F69E00C1C5CE /* ImageScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageScanner.swift; path = WeScan/ImageScanner.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,7 +376,6 @@
 		A1D4BCEE202C4F4100FCDDEC /* WeScan */ = {
 			isa = PBXGroup;
 			children = (
-				EA7FFA5C21E5F69E00C1C5CE /* ImageScanner.swift */,
 				EA7FFA4A21E5F61F00C1C5CE /* MultiPageSession */,
 				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
 				A1DF90E220358C9E00841A11 /* Protocols */,
@@ -808,7 +805,6 @@
 				B940E3AD21A829EE003B3C0B /* CaptureSession+Orientation.swift in Sources */,
 				EA7FFA5721E5F62000C1C5CE /* ScannedPageViewController.swift in Sources */,
 				B992E831210C36A400C33A21 /* VisionRectangleDetector.swift in Sources */,
-				EA7FFA5D21E5F69E00C1C5CE /* ImageScanner.swift in Sources */,
 				B940E3D821AE0B42003B3C0B /* CaptureDevice.swift in Sources */,
 				A1F22EA5202DB3AA001723AD /* CGPoint+Utils.swift in Sources */,
 				A14089BA204D92EA0009530F /* EditScanCornerView.swift in Sources */,
