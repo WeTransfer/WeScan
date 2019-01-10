@@ -149,7 +149,9 @@ final class EditScanViewController: UIViewController {
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
         
-        let newItem = ScannedItem(originalImage:self.originalItem.originalImage, quad:scaledQuad)
+        let newItem = ScannedItem(originalImage:self.originalItem.originalImage,
+                                  quad:scaledQuad,
+                                  renderOptions:self.originalItem.renderOptions)
         self.delegate?.editScanViewController(self, finishedEditing: originalItem, newItem: newItem)
     }
 

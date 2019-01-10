@@ -98,13 +98,19 @@ class MultiPageScanSessionViewController: UIViewController {
         self.navigationController?.toolbar.isTranslucent = false
         let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
         let deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrash))
+        let rotateItem = UIBarButtonItem(barButtonSystemItem: .redo, target: self, action: #selector(handleRotate))
         let flexibleItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        self.toolbarItems = [editItem, flexibleItem, deleteItem]
+        self.toolbarItems = [editItem, flexibleItem, rotateItem, flexibleItem, deleteItem]
     }
     
     private func getCurrentViewController()->ScannedPageViewController{
         return self.pageController.viewControllers!.first! as! ScannedPageViewController
+    }
+    
+    private func getCurrentPageIndex()->Int?{
+        let currentViewController = self.getCurrentViewController()
+        return self.pages.index(of:currentViewController)
     }
     
     private func updateTitle(index:Int){
@@ -124,8 +130,7 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     private func trashCurrentPage(){
-        let currentViewController = self.getCurrentViewController()
-        if let currentIndex = self.pages.index(of:currentViewController){
+        if let currentIndex = self.getCurrentPageIndex(){
             self.scanSession.remove(index: currentIndex)
             self.pages.remove(at: currentIndex)
             if (self.scanSession.scannedItems.count > 0){
@@ -145,6 +150,10 @@ class MultiPageScanSessionViewController: UIViewController {
         self.delegate?.multiPageScanSessionViewController(self, finished: self.scanSession)
     }
     
+    @objc private func handleRotate(){
+        
+    }
+    
     @objc private func handleTrash(){
         let alertController = UIAlertController(title: "Confirm",
                                                 message: "Are you sure you want to delete this page?",
@@ -160,8 +169,7 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     @objc private func handleEdit(){
-        let currentViewController = self.getCurrentViewController()
-        if let currentIndex = self.pages.index(of:currentViewController){
+        if let currentIndex = self.getCurrentPageIndex(){
             let currentItem = self.scanSession.scannedItems[currentIndex]
             
             let editViewController = EditScanViewController(scannedItem: currentItem)

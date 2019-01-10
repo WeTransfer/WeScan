@@ -31,8 +31,6 @@ public class ScannedItemRenderer{
                 "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
                 ])
             
-            //let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-            
             var uiImage: UIImage!
             
             // Let's try to generate the CGImage from the CIImage before creating a UIImage.
@@ -41,6 +39,17 @@ public class ScannedItemRenderer{
             } else {
                 uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
             }
+            
+            if scannedItem.renderOptions?.colorOption == .grayscale{
+                if let grayscaleImage = CIImage.init(image: uiImage)?.applyingAdaptiveThreshold(){
+                    uiImage = grayscaleImage
+                }
+            }
+            
+            if let rotationValue = scannedItem.renderOptions?.rotation, rotationValue != 0{
+                uiImage = uiImage.rotated(by: Measurement(value: rotationValue, unit: .degrees))
+            }
+            
             DispatchQueue.main.async { completion(uiImage.withFixedOrientation()) }
         }
     }
