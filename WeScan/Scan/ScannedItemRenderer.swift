@@ -17,7 +17,7 @@ public class ScannedItemRenderer{
     public func render(scannedItem:ScannedItem, completion: @escaping (_ image:UIImage?)->Void){
         DispatchQueue.global(qos: .background).async {
             let originalImage = scannedItem.originalImage
-            let image = reducedSize!.applyingPortraitOrientation()
+            let image = originalImage.applyingPortraitOrientation()
             
             guard let quad = scannedItem.quad,
                 let ciImage = CIImage(image: image) else {
