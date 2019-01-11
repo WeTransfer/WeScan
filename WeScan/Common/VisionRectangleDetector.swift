@@ -32,7 +32,7 @@ struct VisionRectangleDetector {
                 
                 let quads: [Quadrilateral] = results.map(Quadrilateral.init)
 
-                guard let biggest = results.count > 1 ? quads.biggest() : quads.first else { return }
+                let biggest = quads.biggest()! // Can't fail because guard excluded empty array
                 
                 let transform = CGAffineTransform.identity
                     .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
