@@ -16,8 +16,8 @@ public class ScannedItemRenderer{
             
             guard let quad = scannedItem.quad,
                 let ciImage = CIImage(image: image) else {
-                    // TODO: Return error
-                    DispatchQueue.main.async { completion(nil) }
+                    // Return the original image
+                    DispatchQueue.main.async { completion(image) }
                     return
             }
             

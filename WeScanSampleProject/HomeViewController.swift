@@ -84,6 +84,7 @@ final class HomeViewController: UIViewController {
         let scannerOptions = ImageScannerOptions(scanMultipleItems: true,
                                                  allowAutoScan: false,
                                                  defaultColorRenderOption:.color)
+        
         let scannerVC = ImageScannerController(options:scannerOptions)
         scannerVC.imageScannerDelegate = self
         present(scannerVC, animated: true, completion: nil)
