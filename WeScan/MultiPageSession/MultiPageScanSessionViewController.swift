@@ -98,7 +98,9 @@ class MultiPageScanSessionViewController: UIViewController {
         self.navigationController?.toolbar.isTranslucent = false
         let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
         let deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrash))
-        let rotateItem = UIBarButtonItem(barButtonSystemItem: .redo, target: self, action: #selector(handleRotate))
+        let rotateIconImage = UIImage(named: "rotate", in: Bundle(for: MultiPageScanSessionViewController.self), compatibleWith: nil)
+        let rotateItem = UIBarButtonItem(image: rotateIconImage, style: .plain, target: self, action: #selector(handleRotate))
+        
         let flexibleItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
         self.toolbarItems = [editItem, flexibleItem, rotateItem, flexibleItem, deleteItem]
@@ -158,7 +160,7 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     @objc private func handleRotate(){
-        if var currentItem = self.getCurrentItem(){
+        if let currentItem = self.getCurrentItem(){
             currentItem.rotation += 90.0
             self.getCurrentViewController().reRender(item: currentItem)
         }
