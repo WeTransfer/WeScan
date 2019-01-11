@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import Vision
 
 /// A data structure representing a quadrilateral and its position. This class exists to bypass the fact that CIRectangleFeature is read-only.
 public struct Quadrilateral: Transformable {
@@ -30,7 +31,15 @@ public struct Quadrilateral: Transformable {
         self.bottomLeft = rectangleFeature.bottomLeft
         self.bottomRight = rectangleFeature.bottomRight
     }
-    
+
+    @available(iOS 11.0, *)
+    init(rectangleObservation: VNRectangleObservation) {
+        self.topLeft = rectangleObservation.topLeft
+        self.topRight = rectangleObservation.topRight
+        self.bottomLeft = rectangleObservation.bottomLeft
+        self.bottomRight = rectangleObservation.bottomRight
+    }
+
     init(topLeft: CGPoint, topRight: CGPoint, bottomRight: CGPoint, bottomLeft: CGPoint) {
         self.topLeft = topLeft
         self.topRight = topRight
