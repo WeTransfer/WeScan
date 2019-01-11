@@ -158,15 +158,8 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     @objc private func handleRotate(){
-        if let currentItem = self.getCurrentItem(){
-            var newOptions:ScannedItemRenderOptions? = nil
-            if var currentOptions = currentItem.renderOptions{
-                currentOptions.rotation = currentOptions.rotation + 90.0
-                newOptions = currentOptions
-            } else {
-                newOptions = ScannedItemRenderOptions(rotation:90.0, colorOption:.color)// TODO: Change this based on the session
-            }
-            self.scanSession.update(scannedItem: currentItem, with: newOptions!)
+        if var currentItem = self.getCurrentItem(){
+            currentItem.rotation += 90.0
             self.getCurrentViewController().reRender(item: currentItem)
         }
     }
@@ -197,9 +190,6 @@ class MultiPageScanSessionViewController: UIViewController {
             fatalError("Current viewcontroller cannot be found")
         }
     }
-    
-
-
 }
 
 extension MultiPageScanSessionViewController:EditScanViewControllerDelegate {
@@ -208,11 +198,10 @@ extension MultiPageScanSessionViewController:EditScanViewControllerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func editScanViewController(_ editScanViewController: EditScanViewController, finishedEditing oldItem: ScannedItem, newItem: ScannedItem) {
+    func editScanViewController(_ editScanViewController: EditScanViewController, finishedEditing item: ScannedItem) {
         self.dismiss(animated: true, completion: nil)
         let currentViewController = self.getCurrentViewController()
-        self.scanSession.replace(item: oldItem, with: newItem)
-        currentViewController.reRender(item: newItem)
+        currentViewController.reRender(item: item)
     }
 }
 

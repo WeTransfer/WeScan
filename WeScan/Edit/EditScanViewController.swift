@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol EditScanViewControllerDelegate:NSObjectProtocol {
     func editScanViewControllerDidCancel(_ editScanViewController:EditScanViewController)
-    func editScanViewController(_ editScanViewController:EditScanViewController, finishedEditing oldItem:ScannedItem, newItem:ScannedItem)
+    func editScanViewController(_ editScanViewController:EditScanViewController, finishedEditing item:ScannedItem)
 }
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
@@ -51,7 +51,7 @@ final class EditScanViewController: UIViewController {
     /// The object that acts as the delegate of the `EditScanViewController`.
     weak public var delegate: EditScanViewControllerDelegate?
     
-    private var originalItem:ScannedItem
+    private var scannedItem:ScannedItem
     
     private var zoomGestureController: ZoomGestureController!
     
@@ -61,7 +61,7 @@ final class EditScanViewController: UIViewController {
     // MARK: - Life Cycle
     
     init(scannedItem:ScannedItem) {
-        self.originalItem = scannedItem
+        self.scannedItem = scannedItem
         self.image = scannedItem.originalImage.applyingPortraitOrientation()
         let quad = scannedItem.quad ?? EditScanViewController.defaultQuad(forImage: scannedItem.originalImage)
         self.quad = quad
@@ -149,10 +149,9 @@ final class EditScanViewController: UIViewController {
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
         
-        let newItem = ScannedItem(originalImage:self.originalItem.originalImage,
-                                  quad:scaledQuad,
-                                  renderOptions:self.originalItem.renderOptions)
-        self.delegate?.editScanViewController(self, finishedEditing: originalItem, newItem: newItem)
+        scannedItem.quad = scaledQuad
+        
+        self.delegate?.editScanViewController(self, finishedEditing: scannedItem)
     }
 
     private func displayQuad() {

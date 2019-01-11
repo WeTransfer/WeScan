@@ -13,15 +13,16 @@ public enum ScannedItemColorOption{
     case grayscale
 }
 
-public struct ScannedItemRenderOptions:Equatable{
-    var rotation:Double
-    var colorOption:ScannedItemColorOption
-}
-
-public struct ScannedItem:Equatable{
+public class ScannedItem{
     let originalImage:UIImage
-    let quad:Quadrilateral?
-    var renderOptions:ScannedItemRenderOptions?
+    var quad:Quadrilateral?
+    var rotation:Double = 0.0
+    var colorOption:ScannedItemColorOption = .color
+    
+    init(originalImage:UIImage, quad:Quadrilateral?) {
+        self.originalImage = originalImage
+        self.quad = quad
+    }
 }
 
 public class MultiPageScanSession {
@@ -32,20 +33,8 @@ public class MultiPageScanSession {
         self.scannedItems.append(item)
     }
     
-    public func replace(item:ScannedItem, with newItem:ScannedItem){
-        if let index = self.scannedItems.index(of:item){
-            self.scannedItems[index] = newItem
-        }
-    }
-    
     public func remove(index:Int){
         self.scannedItems.remove(at: index)
-    }
-    
-    public func update(scannedItem:ScannedItem, with newOptions:ScannedItemRenderOptions){
-        if let index = self.scannedItems.index(of:scannedItem){
-            self.scannedItems[index].renderOptions = newOptions
-        }
     }
     
 }

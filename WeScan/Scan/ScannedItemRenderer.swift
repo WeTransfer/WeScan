@@ -40,14 +40,14 @@ public class ScannedItemRenderer{
                 uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
             }
             
-            if scannedItem.renderOptions?.colorOption == .grayscale{
+            if scannedItem.colorOption == .grayscale{
                 if let grayscaleImage = CIImage.init(image: uiImage)?.applyingAdaptiveThreshold(){
                     uiImage = grayscaleImage
                 }
             }
             
-            if let rotationValue = scannedItem.renderOptions?.rotation, rotationValue != 0{
-                uiImage = uiImage.rotated(by: Measurement(value: rotationValue, unit: .degrees))
+            if scannedItem.rotation != 0.0{
+                uiImage = uiImage.rotated(by: Measurement(value: scannedItem.rotation, unit: .degrees))
             }
             
             DispatchQueue.main.async { completion(uiImage.withFixedOrientation()) }
