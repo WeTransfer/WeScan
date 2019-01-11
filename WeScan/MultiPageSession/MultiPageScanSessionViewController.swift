@@ -113,6 +113,13 @@ class MultiPageScanSessionViewController: UIViewController {
         return self.pages.index(of:currentViewController)
     }
     
+    private func getCurrentItem()->ScannedItem?{
+        if let currentIndex = self.getCurrentPageIndex(){
+            return self.scanSession.scannedItems[currentIndex]
+        }
+        return nil
+    }
+    
     private func updateTitle(index:Int){
         self.title = "\(index + 1) / \(self.pages.count)"
     }
@@ -151,7 +158,17 @@ class MultiPageScanSessionViewController: UIViewController {
     }
     
     @objc private func handleRotate(){
-        
+        if let currentItem = self.getCurrentItem(){
+            var newOptions:ScannedItemRenderOptions? = nil
+            if var currentOptions = currentItem.renderOptions{
+                currentOptions.rotation = currentOptions.rotation + 90.0
+                newOptions = currentOptions
+            } else {
+                newOptions = ScannedItemRenderOptions(rotation:90.0, colorOption:.color)// TODO: Change this based on the session
+            }
+            self.scanSession.update(scannedItem: currentItem, with: newOptions!)
+            self.getCurrentViewController().reRender(item: currentItem)
+        }
     }
     
     @objc private func handleTrash(){
