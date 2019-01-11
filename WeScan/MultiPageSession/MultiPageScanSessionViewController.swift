@@ -161,7 +161,7 @@ class MultiPageScanSessionViewController: UIViewController {
     
     @objc private func handleRotate(){
         if let currentItem = self.getCurrentItem(){
-            currentItem.rotation += 90.0
+            currentItem.rotation -= 90.0
             self.getCurrentViewController().reRender(item: currentItem)
         }
     }

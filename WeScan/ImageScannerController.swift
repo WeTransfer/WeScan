@@ -51,7 +51,11 @@ public final class ImageScannerController: UINavigationController {
     // MARK: - Life Cycle
     
     public required init() {
-        let scannerViewController = ScannerViewController()
+        let scannerOptions = ScannerViewControllerOptions(scanMultipleItems: true,
+                                                          allowAutoScan: false,
+                                                          defaultColorRenderOption:.color)
+        
+        let scannerViewController = ScannerViewController(scanSession:nil, options:scannerOptions)
         super.init(rootViewController: scannerViewController)
         scannerViewController.delegate = self
         navigationBar.tintColor = .black

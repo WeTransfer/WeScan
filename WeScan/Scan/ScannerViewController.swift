@@ -9,6 +9,18 @@
 import UIKit
 import AVFoundation
 
+public struct ScannerViewControllerOptions{
+    public let scanMultipleItems:Bool
+    public let allowAutoScan:Bool
+    public let defaultColorRenderOption:ScannedItemColorOption
+    
+    init(scanMultipleItems:Bool = true, allowAutoScan:Bool = true, defaultColorRenderOption:ScannedItemColorOption = .color) {
+        self.scanMultipleItems = scanMultipleItems
+        self.allowAutoScan = allowAutoScan
+        self.defaultColorRenderOption = defaultColorRenderOption
+    }
+}
+
 /// An enum used to know if the flashlight was toggled successfully.
 enum FlashResult {
     case successful
@@ -41,6 +53,7 @@ final class ScannerViewController: UIViewController {
     
     /// The object that will hold the scanned items in this session
     private var multipageSession:MultiPageScanSession!
+    private var options:ScannerViewControllerOptions!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -93,7 +106,11 @@ final class ScannerViewController: UIViewController {
     }()
     
     lazy private var autoScanButton: UIBarButtonItem = {
-        return UIBarButtonItem(title: NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state"), style: .plain, target: self, action: #selector(toggleAutoScan))
+        var title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+        if !self.options.allowAutoScan{
+            title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
+        }
+        return UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
     }()
     
     lazy private var flashButton: UIBarButtonItem = {
@@ -111,8 +128,9 @@ final class ScannerViewController: UIViewController {
     
     // MARK: - Initializers
     
-    init(scanSession:MultiPageScanSession? = nil) {
+    init(scanSession:MultiPageScanSession?, options:ScannerViewControllerOptions?) {
         self.multipageSession = scanSession ?? MultiPageScanSession()
+        self.options = options ?? ScannerViewControllerOptions()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -133,6 +151,7 @@ final class ScannerViewController: UIViewController {
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
+        CaptureSession.current.isAutoScanEnabled = self.options.allowAutoScan
         
         NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
