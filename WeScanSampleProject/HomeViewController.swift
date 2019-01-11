@@ -81,7 +81,10 @@ final class HomeViewController: UIViewController {
     // MARK: - Actions
     
     @objc func presentScanController(_ sender: UIButton) {
-        let scannerVC = ImageScannerController()
+        let scannerOptions = ImageScannerOptions(scanMultipleItems: true,
+                                                 allowAutoScan: false,
+                                                 defaultColorRenderOption:.color)
+        let scannerVC = ImageScannerController(options:scannerOptions)
         scannerVC.imageScannerDelegate = self
         present(scannerVC, animated: true, completion: nil)
     }

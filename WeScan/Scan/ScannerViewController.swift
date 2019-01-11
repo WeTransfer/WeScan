@@ -9,18 +9,6 @@
 import UIKit
 import AVFoundation
 
-public struct ScannerViewControllerOptions{
-    public let scanMultipleItems:Bool
-    public let allowAutoScan:Bool
-    public let defaultColorRenderOption:ScannedItemColorOption
-    
-    init(scanMultipleItems:Bool = true, allowAutoScan:Bool = true, defaultColorRenderOption:ScannedItemColorOption = .color) {
-        self.scanMultipleItems = scanMultipleItems
-        self.allowAutoScan = allowAutoScan
-        self.defaultColorRenderOption = defaultColorRenderOption
-    }
-}
-
 /// An enum used to know if the flashlight was toggled successfully.
 enum FlashResult {
     case successful
@@ -53,7 +41,7 @@ final class ScannerViewController: UIViewController {
     
     /// The object that will hold the scanned items in this session
     private var multipageSession:MultiPageScanSession!
-    private var options:ScannerViewControllerOptions!
+    private var options:ImageScannerOptions!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -128,9 +116,9 @@ final class ScannerViewController: UIViewController {
     
     // MARK: - Initializers
     
-    init(scanSession:MultiPageScanSession?, options:ScannerViewControllerOptions?) {
+    init(scanSession:MultiPageScanSession?, options:ImageScannerOptions?) {
         self.multipageSession = scanSession ?? MultiPageScanSession()
-        self.options = options ?? ScannerViewControllerOptions()
+        self.options = options ?? ImageScannerOptions()
         super.init(nibName: nil, bundle: nil)
     }
     

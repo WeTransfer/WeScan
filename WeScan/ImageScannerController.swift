@@ -9,6 +9,18 @@
 import UIKit
 import AVFoundation
 
+public struct ImageScannerOptions{
+    public let scanMultipleItems:Bool
+    public let allowAutoScan:Bool
+    public let defaultColorRenderOption:ScannedItemColorOption
+    
+    public init(scanMultipleItems:Bool = true, allowAutoScan:Bool = true, defaultColorRenderOption:ScannedItemColorOption = .color) {
+        self.scanMultipleItems = scanMultipleItems
+        self.allowAutoScan = allowAutoScan
+        self.defaultColorRenderOption = defaultColorRenderOption
+    }
+}
+
 /// A set of methods that your delegate object must implement to interact with the image scanner interface.
 public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     
@@ -50,12 +62,8 @@ public final class ImageScannerController: UINavigationController {
     
     // MARK: - Life Cycle
     
-    public required init() {
-        let scannerOptions = ScannerViewControllerOptions(scanMultipleItems: true,
-                                                          allowAutoScan: false,
-                                                          defaultColorRenderOption:.color)
-        
-        let scannerViewController = ScannerViewController(scanSession:nil, options:scannerOptions)
+    public required init(options:ImageScannerOptions?) {
+        let scannerViewController = ScannerViewController(scanSession:nil, options:options)
         super.init(rootViewController: scannerViewController)
         scannerViewController.delegate = self
         navigationBar.tintColor = .black
