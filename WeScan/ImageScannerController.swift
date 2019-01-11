@@ -12,11 +12,13 @@ import AVFoundation
 public struct ImageScannerOptions{
     public let scanMultipleItems:Bool
     public let allowAutoScan:Bool
+    public let allowTapToFocus:Bool
     public let defaultColorRenderOption:ScannedItemColorOption
     
-    public init(scanMultipleItems:Bool = true, allowAutoScan:Bool = true, defaultColorRenderOption:ScannedItemColorOption = .color) {
+    public init(scanMultipleItems:Bool = true, allowAutoScan:Bool = true, allowTapToFocus:Bool = true, defaultColorRenderOption:ScannedItemColorOption = .color) {
         self.scanMultipleItems = scanMultipleItems
         self.allowAutoScan = allowAutoScan
+        self.allowTapToFocus = allowTapToFocus
         self.defaultColorRenderOption = defaultColorRenderOption
     }
 }

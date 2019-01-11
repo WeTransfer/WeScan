@@ -22,7 +22,7 @@ public class ImageToPDF {
     }
     
     public static func createPDFFrom(scanSession:MultiPageScanSession){
-        // TODO: Call the delegate and move this code somewhere else
+        // TODO: Add a completion block!
         var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         path = path + "/file.pdf"
         var images = Array<UIImage>()

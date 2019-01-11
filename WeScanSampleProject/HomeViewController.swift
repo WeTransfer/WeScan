@@ -83,6 +83,7 @@ final class HomeViewController: UIViewController {
     @objc func presentScanController(_ sender: UIButton) {
         let scannerOptions = ImageScannerOptions(scanMultipleItems: true,
                                                  allowAutoScan: false,
+                                                 allowTapToFocus: false,
                                                  defaultColorRenderOption:.color)
         
         let scannerVC = ImageScannerController(options:scannerOptions)

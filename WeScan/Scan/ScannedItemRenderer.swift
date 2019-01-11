@@ -8,11 +8,16 @@
 
 import Foundation
 
+public struct ScannedItemRendererOptions{
+    let targetSize:CGSize
+}
+
 public class ScannedItemRenderer{
     
     public func render(scannedItem:ScannedItem, completion: @escaping (_ image:UIImage?)->Void){
         DispatchQueue.global(qos: .background).async {
-            let image = scannedItem.originalImage.applyingPortraitOrientation()
+            let originalImage = scannedItem.originalImage
+            let image = reducedSize!.applyingPortraitOrientation()
             
             guard let quad = scannedItem.quad,
                 let ciImage = CIImage(image: image) else {

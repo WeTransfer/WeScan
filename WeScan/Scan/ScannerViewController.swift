@@ -310,22 +310,24 @@ final class ScannerViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        guard  let touch = touches.first else { return }
-        let touchPoint = touch.location(in: view)
-        let convertedTouchPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
-        
-        CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
-        
-        focusRectangle = FocusRectangleView(touchPoint: touchPoint)
-        view.addSubview(focusRectangle)
-        
-        do {
-            try CaptureSession.current.setFocusPointToTapPoint(convertedTouchPoint)
-        } catch {
-            let error = ImageScannerControllerError.inputDevice
-            guard let captureSessionManager = captureSessionManager else { return }
-            captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
-            return
+        if self.options.allowTapToFocus{
+            guard  let touch = touches.first else { return }
+            let touchPoint = touch.location(in: view)
+            let convertedTouchPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
+            
+            CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
+            
+            focusRectangle = FocusRectangleView(touchPoint: touchPoint)
+            view.addSubview(focusRectangle)
+            
+            do {
+                try CaptureSession.current.setFocusPointToTapPoint(convertedTouchPoint)
+            } catch {
+                let error = ImageScannerControllerError.inputDevice
+                guard let captureSessionManager = captureSessionManager else { return }
+                captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
+                return
+            }
         }
     }
     
