@@ -29,9 +29,9 @@ class ScannedPageViewController: UIViewController {
         super.viewDidLoad()
         self.setupViews()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.render()
     }
 
