@@ -101,7 +101,7 @@ extension HomeViewController: ImageScannerControllerDelegate {
             var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
             path = path + "/file.pdf"
             
-            let pdfCreator = PDFCreator(scanSession: session, in: path)
+            let pdfCreator = PDFCreator(scanSession: session, in: path, outputResolution:1000)
             pdfCreator.createPDF(completion: { (error) in
                 print("Done creating PDF")
             }, progress: { (progress) in

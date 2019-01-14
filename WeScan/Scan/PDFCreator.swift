@@ -23,7 +23,7 @@ public class PDFCreator {
     private var completion:PDFCreatorCompletionBlock!
     private var progress:PDFCreatorProgressBlock!
     
-    public init(scanSession:MultiPageScanSession, in path:String, with outputResolution:CGFloat? = 0){
+    public init(scanSession:MultiPageScanSession, in path:String, outputResolution:CGFloat? = 0){
         self.scanSession = scanSession
         self.outputPath = path
         self.outputResolution = outputResolution
