@@ -9,6 +9,11 @@
 import UIKit
 import AVFoundation
 
+protocol EditScanViewControllerDelegate:NSObjectProtocol {
+    func editScanViewControllerDidCancel(_ editScanViewController:EditScanViewController)
+    func editScanViewController(_ editScanViewController:EditScanViewController, finishedEditing item:ScannedItem)
+}
+
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
 final class EditScanViewController: UIViewController {
     
@@ -30,9 +35,9 @@ final class EditScanViewController: UIViewController {
         return quadView
     }()
     
-    lazy private var nextButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
+    lazy private var doneButton: UIBarButtonItem = {
+        let title = NSLocalizedString("wescan.edit.button.done", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Done", comment: "A generic done button")
+        let button = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(handleDone))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
@@ -43,6 +48,11 @@ final class EditScanViewController: UIViewController {
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
     
+    /// The object that acts as the delegate of the `EditScanViewController`.
+    weak public var delegate: EditScanViewControllerDelegate?
+    
+    private var scannedItem:ScannedItem
+    
     private var zoomGestureController: ZoomGestureController!
     
     private var quadViewWidthConstraint = NSLayoutConstraint()
@@ -50,9 +60,12 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(image: UIImage, quad: Quadrilateral?) {
-        self.image = image.applyingPortraitOrientation()
-        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+    init(scannedItem:ScannedItem) {
+        self.scannedItem = scannedItem
+        self.image = scannedItem.originalImage.applyingPortraitOrientation()
+        
+        let quad = scannedItem.quad ?? EditScanViewController.defaultQuad(forImage: scannedItem.originalImage)
+        self.quad = quad
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -66,7 +79,7 @@ final class EditScanViewController: UIViewController {
         setupViews()
         setupConstraints()
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
-        navigationItem.rightBarButtonItem = nextButton
+        navigationItem.rightBarButtonItem = doneButton
         
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
         
@@ -124,13 +137,10 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func pushReviewController() {
-        guard let quad = quadView.quad,
-            let ciImage = CIImage(image: image) else {
-                if let imageScannerController = navigationController as? ImageScannerController {
-                    let error = ImageScannerControllerError.ciImageCreation
-                    imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
-                }
+    @objc func handleDone() {
+        
+        guard let quad = quadView.quad else {
+                // TODO: Return error
                 return
         }
         
@@ -140,30 +150,9 @@ final class EditScanViewController: UIViewController {
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
         
-        let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
-            "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
-            "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
-            "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
-            "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
-            ])
+        scannedItem.quad = scaledQuad
         
-        let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-        
-        var uiImage: UIImage!
-        
-        // Let's try to generate the CGImage from the CIImage before creating a UIImage.
-        if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
-            uiImage = UIImage(cgImage: cgImage)
-        } else {
-            uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
-        }
-        
-        let finalImage = uiImage.withFixedOrientation()
-        
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
-        let reviewViewController = ReviewViewController(results: results)
-        
-        navigationController?.pushViewController(reviewViewController, animated: true)
+        self.delegate?.editScanViewController(self, finishedEditing: scannedItem)
     }
 
     private func displayQuad() {
@@ -186,7 +175,7 @@ final class EditScanViewController: UIViewController {
     }
     
     /// Generates a `Quadrilateral` object that's centered and one third of the size of the passed in image.
-    private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
+    public static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
         let topLeft = CGPoint(x: image.size.width / 3.0, y: image.size.height / 3.0)
         let topRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: image.size.height / 3.0)
         let bottomRight = CGPoint(x: 2.0 * image.size.width / 3.0, y: 2.0 * image.size.height / 3.0)

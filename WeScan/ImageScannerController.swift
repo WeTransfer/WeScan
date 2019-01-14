@@ -9,6 +9,20 @@
 import UIKit
 import AVFoundation
 
+public struct ImageScannerOptions{
+    public let scanMultipleItems:Bool
+    public let allowAutoScan:Bool
+    public let allowTapToFocus:Bool
+    public let defaultColorRenderOption:ScannedItemColorOption
+    
+    public init(scanMultipleItems:Bool = true, allowAutoScan:Bool = true, allowTapToFocus:Bool = true, defaultColorRenderOption:ScannedItemColorOption = .color) {
+        self.scanMultipleItems = scanMultipleItems
+        self.allowAutoScan = allowAutoScan
+        self.allowTapToFocus = allowTapToFocus
+        self.defaultColorRenderOption = defaultColorRenderOption
+    }
+}
+
 /// A set of methods that your delegate object must implement to interact with the image scanner interface.
 public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     
@@ -19,6 +33,9 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     ///   - results: The results of the user scanning with the camera.
     /// - Discussion: Your delegate's implementation of this method should dismiss the image scanner controller.
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults)
+    
+    // This will replace the 'didFinishScanningWithResults' method above
+    func imageScannerController(_ scanner:ImageScannerController, didFinishWithSession session:MultiPageScanSession)
     
     /// Tells the delegate that the user cancelled the scan operation.
     ///
@@ -47,22 +64,12 @@ public final class ImageScannerController: UINavigationController {
     
     // MARK: - Life Cycle
     
-    /// A black UIView, used to quickly display a black screen when the shutter button is presseed.
-    internal let blackFlashView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
-        view.isHidden = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    public required init() {
-        let scannerViewController = ScannerViewController()
+    public required init(options:ImageScannerOptions?) {
+        let scannerViewController = ScannerViewController(scanSession:nil, options:options)
         super.init(rootViewController: scannerViewController)
+        scannerViewController.delegate = self
         navigationBar.tintColor = .black
         navigationBar.isTranslucent = false
-        self.view.addSubview(blackFlashView)
-        setupConstraints()
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -73,30 +80,34 @@ public final class ImageScannerController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupConstraints() {
-        let blackFlashViewConstraints = [
-            blackFlashView.topAnchor.constraint(equalTo: view.topAnchor),
-            blackFlashView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            view.bottomAnchor.constraint(equalTo: blackFlashView.bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: blackFlashView.trailingAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(blackFlashViewConstraints)
-    }
-    
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
     
-    internal func flashToBlack() {
-        view.bringSubviewToFront(blackFlashView)
-        blackFlashView.isHidden = false
-        let flashDuration = DispatchTime.now() + 0.05
-        DispatchQueue.main.asyncAfter(deadline: flashDuration) {
-            self.blackFlashView.isHidden = true
-        }
+}
+
+extension ImageScannerController:ScannerViewControllerDelegate{
+    
+    func scannerViewController(_ scannerViewController: ScannerViewController, didFail withError: Error) {
+        self.imageScannerDelegate?.imageScannerController(self, didFailWithError: withError)
     }
     
+    func scannerViewControllerDidCancel(_ scannerViewController: ScannerViewController) {
+        self.imageScannerDelegate?.imageScannerControllerDidCancel(self)
+    }
+    
+    func scannerViewController(_ scannerViewController: ScannerViewController, reviewItems inSession: MultiPageScanSession) {
+        let multipageScanViewController = MultiPageScanSessionViewController(scanSession: inSession)
+        multipageScanViewController.delegate = self
+        self.pushViewController(multipageScanViewController, animated: true)
+    }
+}
+
+extension ImageScannerController:MultiPageScanSessionViewControllerDelegate{
+    
+    func multiPageScanSessionViewController(_ multiPageScanSessionViewController: MultiPageScanSessionViewController, finished session: MultiPageScanSession) {
+        self.imageScannerDelegate?.imageScannerController(self, didFinishWithSession: session)
+    }
 }
 
 /// Data structure containing information about a scan.

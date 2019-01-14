@@ -81,14 +81,35 @@ final class HomeViewController: UIViewController {
     // MARK: - Actions
     
     @objc func presentScanController(_ sender: UIButton) {
-        let scannerVC = ImageScannerController()
+        let scannerOptions = ImageScannerOptions(scanMultipleItems: true,
+                                                 allowAutoScan: false,
+                                                 allowTapToFocus: false,
+                                                 defaultColorRenderOption:.color)
+        
+        let scannerVC = ImageScannerController(options:scannerOptions)
         scannerVC.imageScannerDelegate = self
         present(scannerVC, animated: true, completion: nil)
     }
-    
 }
 
 extension HomeViewController: ImageScannerControllerDelegate {
+    func imageScannerController(_ scanner: ImageScannerController, didFinishWithSession session: MultiPageScanSession) {
+        scanner.dismiss(animated: true) {
+            // Do whatever you want with the images like creating a PDF
+            print("Creating PDF")
+            
+            var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+            path = path + "/file.pdf"
+            
+            let pdfCreator = PDFCreator(scanSession: session, in: path, outputResolution:1000)
+            pdfCreator.createPDF(completion: { (error) in
+                print("Done creating PDF")
+            }, progress: { (progress) in
+                print("Crating PDF... \(progress)")
+            })
+        }
+    }
+    
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
         print(error)
     }
