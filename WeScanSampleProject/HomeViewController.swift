@@ -102,14 +102,11 @@ extension HomeViewController: ImageScannerControllerDelegate {
             path = path + "/file.pdf"
             
             let pdfCreator = PDFCreator(scanSession: session, in: path)
-            pdfCreator.createPDF()
-            
-            /*
-            self.pdfCreator.createPDFFrom(scanSession: session, in: path, completion: { (error) in
+            pdfCreator.createPDF(completion: { (error) in
                 print("Done creating PDF")
             }, progress: { (progress) in
                 print("Crating PDF... \(progress)")
-            })*/
+            })
         }
     }
     
