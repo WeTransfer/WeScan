@@ -75,6 +75,10 @@ class ScannedPageViewController: UIViewController {
             self.activityIndicator.startAnimating()
             ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
                 self.renderedImageView.image = image
+                
+                // This is not great as we should probably not modify the scannedItem here but for now it will help speed up the generation of the PDF if the image was already rendered once
+                self.scannedItem.renderedImage = image
+                
                 self.activityIndicator.stopAnimating()
             }
         }

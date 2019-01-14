@@ -18,6 +18,7 @@ public class ScannedItem{
     var quad:Quadrilateral?
     var rotation:Double = 0.0
     var colorOption:ScannedItemColorOption = .color
+    var renderedImage:UIImage? = nil
     
     init(originalImage:UIImage, quad:Quadrilateral?) {
         self.originalImage = originalImage

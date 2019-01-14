@@ -55,7 +55,7 @@ public class ScannedItemRenderer{
                 uiImage = uiImage.rotated(by: Measurement(value: scannedItem.rotation, unit: .degrees))
             }
             
-            DispatchQueue.main.async { completion(uiImage)}//.withFixedOrientation()) }
+            DispatchQueue.main.async { completion(uiImage.withFixedOrientation()) }
         }
     }
     

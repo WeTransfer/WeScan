@@ -97,8 +97,19 @@ extension HomeViewController: ImageScannerControllerDelegate {
         scanner.dismiss(animated: true) {
             // Do whatever you want with the images like creating a PDF
             print("Creating PDF")
-            ImageToPDF.createPDFFrom(scanSession: session)
-            print("Done creating PDF")
+            
+            var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+            path = path + "/file.pdf"
+            
+            let pdfCreator = PDFCreator(scanSession: session, in: path)
+            pdfCreator.createPDF()
+            
+            /*
+            self.pdfCreator.createPDFFrom(scanSession: session, in: path, completion: { (error) in
+                print("Done creating PDF")
+            }, progress: { (progress) in
+                print("Crating PDF... \(progress)")
+            })*/
         }
     }
     
