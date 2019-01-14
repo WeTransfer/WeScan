@@ -65,21 +65,27 @@ class ScannedPageViewController: UIViewController {
     
     public func reRender(item:ScannedItem){
         self.renderedImageView.image = nil
+        self.scannedItem.renderedImage = nil
         self.scannedItem = item
         self.render()
     }
     
     public func render(){
         if (self.renderedImageView.image == nil){
-            self.activityIndicator.isHidden = false
-            self.activityIndicator.startAnimating()
-            ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
-                self.renderedImageView.image = image
-                
-                // This is not great as we should probably not modify the scannedItem here but for now it will help speed up the generation of the PDF if the image was already rendered once
-                self.scannedItem.renderedImage = image
-                
+            if self.scannedItem.renderedImage != nil{
+                self.renderedImageView.image = self.scannedItem.renderedImage
                 self.activityIndicator.stopAnimating()
+            } else {
+                self.activityIndicator.isHidden = false
+                self.activityIndicator.startAnimating()
+                ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
+                    self.renderedImageView.image = image
+                    
+                    // This is not great as we should probably not modify the scannedItem here but for now it will help speed up the generation of the PDF if the image was already rendered once
+                    self.scannedItem.renderedImage = image
+                    
+                    self.activityIndicator.stopAnimating()
+                }
             }
         }
     }
