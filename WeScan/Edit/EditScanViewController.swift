@@ -63,6 +63,7 @@ final class EditScanViewController: UIViewController {
     init(scannedItem:ScannedItem) {
         self.scannedItem = scannedItem
         self.image = scannedItem.originalImage.applyingPortraitOrientation()
+        
         let quad = scannedItem.quad ?? EditScanViewController.defaultQuad(forImage: scannedItem.originalImage)
         self.quad = quad
         super.init(nibName: nil, bundle: nil)

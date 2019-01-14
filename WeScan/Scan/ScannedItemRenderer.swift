@@ -15,7 +15,7 @@ public struct ScannedItemRendererOptions{
 public class ScannedItemRenderer{
     
     public func render(scannedItem:ScannedItem, completion: @escaping (_ image:UIImage?)->Void){
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             let originalImage = scannedItem.originalImage
             let image = originalImage.applyingPortraitOrientation()
             
@@ -55,7 +55,7 @@ public class ScannedItemRenderer{
                 uiImage = uiImage.rotated(by: Measurement(value: scannedItem.rotation, unit: .degrees))
             }
             
-            DispatchQueue.main.async { completion(uiImage.withFixedOrientation()) }
+            DispatchQueue.main.async { completion(uiImage)}//.withFixedOrientation()) }
         }
     }
     
