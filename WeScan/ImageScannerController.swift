@@ -59,14 +59,12 @@ public final class ImageScannerController: UINavigationController {
     public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
         super.init(rootViewController: ScannerViewController())
         
+        self.imageScannerDelegate = delegate
+        
         navigationBar.tintColor = .black
         navigationBar.isTranslucent = false
         self.view.addSubview(blackFlashView)
         setupConstraints()
-        
-        if let delegate = delegate {
-            self.imageScannerDelegate = delegate
-        }
         
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
         if let image = image {
