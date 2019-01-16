@@ -68,7 +68,8 @@ public final class ImageScannerController: UINavigationController {
         
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
         if let image = image {
-            var detectedQuad: Quadrilateral? = nil
+            
+            var detectedQuad: Quadrilateral?
             
             // Whether or not we detect a quad, present the edit view controller after attempting to detect a quad.
             // *** Vision *requires* a completion block to detect rectangles, but it's instant.
