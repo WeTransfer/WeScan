@@ -29,7 +29,8 @@ final class HomeViewController: UIViewController {
     
     lazy private var scanButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Scan", for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        button.setTitle("Scan Item", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(scanOrSelectImage(_:)), for: .touchUpInside)
         button.backgroundColor = UIColor(red: 64.0 / 255.0, green: 159 / 255.0, blue: 255 / 255.0, alpha: 1.0)
@@ -68,14 +69,27 @@ final class HomeViewController: UIViewController {
             logoLabel.centerXAnchor.constraint(equalTo: logoImageView.centerXAnchor)
         ]
         
-        let scanButtonConstraints = [
-            view.bottomAnchor.constraint(equalTo: scanButton.bottomAnchor, constant: 50.0),
-            scanButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scanButton.heightAnchor.constraint(equalToConstant: 55.0),
-            scanButton.widthAnchor.constraint(equalToConstant: 150.0)
-        ]
+        NSLayoutConstraint.activate(logoLabelConstraints + logoImageViewConstraints)
         
-        NSLayoutConstraint.activate(scanButtonConstraints + logoLabelConstraints + logoImageViewConstraints)
+        if #available(iOS 11.0, *) {
+            let scanButtonConstraints = [
+                scanButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+                scanButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16),
+                scanButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+                scanButton.heightAnchor.constraint(equalToConstant: 55)
+            ]
+            
+            NSLayoutConstraint.activate(scanButtonConstraints)
+        } else {
+            let scanButtonConstraints = [
+                scanButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+                scanButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+                scanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+                scanButton.heightAnchor.constraint(equalToConstant: 55)
+            ]
+            
+            NSLayoutConstraint.activate(scanButtonConstraints)
+        }
     }
     
     // MARK: - Actions
