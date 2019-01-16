@@ -32,8 +32,11 @@ struct VisionRectangleDetector {
                 
                 let quads: [Quadrilateral] = results.map(Quadrilateral.init)
 
-                let biggest = quads.biggest()! // swiftlint:disable:this force_unwrapping (excluded by isEmpty in guard)
-
+                guard let biggest = quads.biggest() else { // Can't fail because guard excluded empty array,
+                    completion(nil)                        // but strict linter rules force to add this else case
+                    return                                 // which will never be executed.
+                }
+                
                 let transform = CGAffineTransform.identity
                     .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
               
