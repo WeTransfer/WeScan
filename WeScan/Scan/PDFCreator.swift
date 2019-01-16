@@ -63,6 +63,7 @@ public class PDFCreator {
         } else {
             print("Finished!")
             self.makePDFFromImages()
+            completion(nil)
         }
     }
     
