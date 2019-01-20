@@ -67,8 +67,12 @@
 		B94FBBB32178653C001ED1B4 /* flashUnavailable@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBB02178653C001ED1B4 /* flashUnavailable@3x.png */; };
 		B94FBBB42178653C001ED1B4 /* flashUnavailable.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBB12178653C001ED1B4 /* flashUnavailable.png */; };
 		B94FBBB52178653C001ED1B4 /* flashUnavailable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBB22178653C001ED1B4 /* flashUnavailable@2x.png */; };
+		B9611EC721E36B9F000AB105 /* ReviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9611EC621E36B9F000AB105 /* ReviewViewControllerTests.swift */; };
 		B97B49C9216C6C6800B2235B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B97B49CB216C6C6800B2235B /* Localizable.strings */; };
 		B992E831210C36A400C33A21 /* VisionRectangleDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B992E830210C36A400C33A21 /* VisionRectangleDetector.swift */; };
+		B9E49DBE21BFD3BB000E994D /* rotate.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBB21BFD3BA000E994D /* rotate.png */; };
+		B9E49DBF21BFD3BB000E994D /* rotate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBC21BFD3BB000E994D /* rotate@2x.png */; };
+		B9E49DC021BFD3BB000E994D /* rotate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBD21BFD3BB000E994D /* rotate@3x.png */; };
 		B9AAE88B219E6C0400205620 /* FocusRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAE88A219E6C0400205620 /* FocusRectangleView.swift */; };
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
@@ -245,10 +249,14 @@
 		B94FBBB02178653C001ED1B4 /* flashUnavailable@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flashUnavailable@3x.png"; sourceTree = "<group>"; };
 		B94FBBB12178653C001ED1B4 /* flashUnavailable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flashUnavailable.png; sourceTree = "<group>"; };
 		B94FBBB22178653C001ED1B4 /* flashUnavailable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flashUnavailable@2x.png"; sourceTree = "<group>"; };
+		B9611EC621E36B9F000AB105 /* ReviewViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewControllerTests.swift; sourceTree = "<group>"; };
 		B97B49CA216C6C6800B2235B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B97B49D4216C6FF600B2235B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B97B49D5216C6FF600B2235B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B992E830210C36A400C33A21 /* VisionRectangleDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionRectangleDetector.swift; sourceTree = "<group>"; };
+		B9E49DBB21BFD3BA000E994D /* rotate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate.png; sourceTree = "<group>"; };
+		B9E49DBC21BFD3BB000E994D /* rotate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate@2x.png"; sourceTree = "<group>"; };
+		B9E49DBD21BFD3BB000E994D /* rotate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate@3x.png"; sourceTree = "<group>"; };
 		B9AAE88A219E6C0400205620 /* FocusRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRectangleView.swift; sourceTree = "<group>"; };
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
@@ -393,15 +401,16 @@
 				A14089ED204EAA180009530F /* ArrayTests.swift */,
 				74F7D03D211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift */,
 				74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */,
-				74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */,
 				74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */,
-				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
+				74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */,
 				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
+				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
 				B940E3B721A95C44003B3C0B /* FocusRectangleViewTests.swift */,
 				A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */,
 				A1DF90C22034919400841A11 /* QuadrilateralTests.swift */,
 				C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */,
 				A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */,
+				B9611EC621E36B9F000AB105 /* ReviewViewControllerTests.swift */,
 				74F7D039211ACC4B0046AF7E /* UIImageTests.swift */,
 				74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */,
 				A1DF90C12034919300841A11 /* WeScanTests-Bridging-Header.h */,
@@ -501,6 +510,7 @@
 		B94FBB9D2178647B001ED1B4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				B9E49DB421BFCE7A000E994D /* Rotate */,
 				B983380121A6CA4E00AAE307 /* Enhance */,
 				B9274D2D219AE10B00F9FCD1 /* Flash */,
 				B9274D30219AE16000F9FCD1 /* FlashUnavailable */,
@@ -516,6 +526,16 @@
 				B940E38721A77192003B3C0B /* enhance@3x.png */,
 			);
 			name = Enhance;
+			sourceTree = "<group>";
+		};
+		B9E49DB421BFCE7A000E994D /* Rotate */ = {
+			isa = PBXGroup;
+			children = (
+				B9E49DBB21BFD3BA000E994D /* rotate.png */,
+				B9E49DBC21BFD3BB000E994D /* rotate@2x.png */,
+				B9E49DBD21BFD3BB000E994D /* rotate@3x.png */,
+			);
+			name = Rotate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -726,12 +746,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9E49DC021BFD3BB000E994D /* rotate@3x.png in Resources */,
 				B97B49C9216C6C6800B2235B /* Localizable.strings in Resources */,
+				B9E49DBF21BFD3BB000E994D /* rotate@2x.png in Resources */,
 				B94FBBB52178653C001ED1B4 /* flashUnavailable@2x.png in Resources */,
 				B94FBBAD2178652B001ED1B4 /* flash.png in Resources */,
 				B94FBBAF2178652B001ED1B4 /* flash@2x.png in Resources */,
 				B940E38C21A77192003B3C0B /* enhance.png in Resources */,
 				B94FBBB32178653C001ED1B4 /* flashUnavailable@3x.png in Resources */,
+				B9E49DBE21BFD3BB000E994D /* rotate.png in Resources */,
 				B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */,
 				B940E38A21A77192003B3C0B /* enhance@3x.png in Resources */,
 				B940E38B21A77192003B3C0B /* enhance@2x.png in Resources */,
@@ -807,6 +830,7 @@
 				74F7D03E211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift in Sources */,
 				A1C4DD502044B1D500D36684 /* CGRectTests.swift in Sources */,
 				74F7D03A211ACC4B0046AF7E /* UIImageTests.swift in Sources */,
+				B9611EC721E36B9F000AB105 /* ReviewViewControllerTests.swift in Sources */,
 				74F7D03C211ACC6B0046AF7E /* CGAffineTransformTests.swift in Sources */,
 				74F7D036211ACBEE0046AF7E /* CaptureSessionTests.swift in Sources */,
 				A11C5CD920495EA1005075FE /* RectangleFeaturesFunnelTests.swift in Sources */,
