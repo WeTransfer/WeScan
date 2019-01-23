@@ -73,6 +73,7 @@
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
+		EA0F449221F8885C00BDCA89 /* DeviceOrientationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0F449121F8885C00BDCA89 /* DeviceOrientationHelper.swift */; };
 		EA7FFA5521E5F62000C1C5CE /* MultiPageScanSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4B21E5F61F00C1C5CE /* MultiPageScanSession.swift */; };
 		EA7FFA5621E5F62000C1C5CE /* MultiPageScanSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4C21E5F61F00C1C5CE /* MultiPageScanSessionViewController.swift */; };
 		EA7FFA5721E5F62000C1C5CE /* ScannedPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7FFA4D21E5F61F00C1C5CE /* ScannedPageViewController.swift */; };
@@ -261,6 +262,7 @@
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
+		EA0F449121F8885C00BDCA89 /* DeviceOrientationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceOrientationHelper.swift; sourceTree = "<group>"; };
 		EA7FFA4B21E5F61F00C1C5CE /* MultiPageScanSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageScanSession.swift; sourceTree = "<group>"; };
 		EA7FFA4C21E5F61F00C1C5CE /* MultiPageScanSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPageScanSessionViewController.swift; sourceTree = "<group>"; };
 		EA7FFA4D21E5F61F00C1C5CE /* ScannedPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannedPageViewController.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				A165F67D2044741B002D5ED6 /* ShutterButton.swift */,
 				B9AAE88A219E6C0400205620 /* FocusRectangleView.swift */,
 				EA7FFA6F21E6417600C1C5CE /* ScannedItemRenderer.swift */,
+				EA0F449121F8885C00BDCA89 /* DeviceOrientationHelper.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */,
 				B9AAE88B219E6C0400205620 /* FocusRectangleView.swift in Sources */,
 				A1F22ECE2031937E001723AD /* EditScanViewController.swift in Sources */,
+				EA0F449221F8885C00BDCA89 /* DeviceOrientationHelper.swift in Sources */,
 				A1F22E9F202C8D70001723AD /* Quadrilateral.swift in Sources */,
 				A1DF90E420358CB100841A11 /* Transformable.swift in Sources */,
 				A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */,

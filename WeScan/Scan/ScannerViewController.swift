@@ -39,6 +39,9 @@ final class ScannerViewController: UIViewController {
     /// Whether flash is enabled
     private var flashEnabled = false
     
+    // Keep track of the current rotation angle based on the device orientation
+    private var deviceOrientationHelper = DeviceOrientationHelper()
+    
     /// The object that will hold the scanned items in this session
     private var multipageSession:MultiPageScanSession!
     private var options:ImageScannerOptions!
@@ -153,6 +156,15 @@ final class ScannerViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.setToolbarHidden(true, animated: false)
         self.updateCounterButton()
+        
+        deviceOrientationHelper.startDeviceOrientationNotifier { (deviceOrientation) in
+            self.orientationChanged(deviceOrientation: deviceOrientation)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        deviceOrientationHelper.stopDeviceOrientationNotifier()
+        super.viewDidDisappear(true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -336,6 +348,26 @@ final class ScannerViewController: UIViewController {
         self.counterButton.setTitle("\(self.multipageSession.scannedItems.count) >", for: .normal)
     }
     
+    // MARK: Rotation methods
+    private func orientationChanged(deviceOrientation: UIDeviceOrientation) {
+        print("Orientation changed: \(self.deviceOrientationHelper.currentDeviceOrientation.rawValue)")
+    }
+    
+    private func getCurrentRotationAngle()->Double{
+        switch self.deviceOrientationHelper.currentDeviceOrientation {
+        case .landscapeRight:
+            return -90.0
+        case .landscapeLeft:
+            return 90.0
+        case .portrait:
+            return 0.0
+        case .portraitUpsideDown:
+            return 180.0
+        default:
+            return 0.0
+        }
+    }
+    
     // MARK: - Actions
     
     @objc private func captureImage(_ sender: UIButton) {
@@ -404,6 +436,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         activityIndicator.stopAnimating()
 
         let scannedItem = ScannedItem(originalImage:picture, quad:quad)
+        scannedItem.rotation = self.getCurrentRotationAngle()
         ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
             scannedItem.renderedImage = image
         }
