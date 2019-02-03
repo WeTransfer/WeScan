@@ -61,6 +61,17 @@ final class ScannerViewController: UIViewController {
         return flashButton
     }()
     
+    /// Info label on top top of the screen
+    lazy private var infoTitleTop: UILabel = {
+        let infoTitleTopLabel = UILabel()
+        infoTitleTopLabel.font = UIFont.systemFont(ofSize: 14)
+        infoTitleTopLabel.textColor = UIColor.white
+        infoTitleTopLabel.numberOfLines = 0
+        infoTitleTopLabel.textAlignment = .center
+        infoTitleTopLabel.translatesAutoresizingMaskIntoConstraints = false
+        return infoTitleTopLabel
+    }()
+    
     lazy private var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .gray)
         activityIndicator.hidesWhenStopped = true
@@ -78,6 +89,8 @@ final class ScannerViewController: UIViewController {
         setupViews()
         setupToolbar()
         setupConstraints()
+
+        setupTopTitleLabel(NSLocalizedString("wescan.infoTitle.title", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Place the camera over the document you want to scan", comment: "The info title of the ScannerViewController"))
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
@@ -121,6 +134,11 @@ final class ScannerViewController: UIViewController {
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
         view.addSubview(toolbar)
+        view.addSubview(infoTitleTop)
+    }
+    
+    private func setupTopTitleLabel(_ title: String) {
+        infoTitleTop.text = title
     }
     
     private func setupToolbar() {
@@ -141,6 +159,7 @@ final class ScannerViewController: UIViewController {
         var cancelButtonConstraints = [NSLayoutConstraint]()
         var shutterButtonConstraints = [NSLayoutConstraint]()
         var activityIndicatorConstraints = [NSLayoutConstraint]()
+        var infoTitleTopLabelConstraints = [NSLayoutConstraint]()
         
         quadViewConstraints = [
             quadView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -158,6 +177,12 @@ final class ScannerViewController: UIViewController {
         activityIndicatorConstraints = [
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        
+        infoTitleTopLabelConstraints = [
+            infoTitleTop.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            infoTitleTop.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            infoTitleTop.widthAnchor.constraint(equalToConstant: 250.0)
         ]
         
         if #available(iOS 11.0, *) {
@@ -199,6 +224,7 @@ final class ScannerViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints)
+        NSLayoutConstraint.activate(infoTitleTopLabelConstraints)
     }
     
     // MARK: - Tap to Focus

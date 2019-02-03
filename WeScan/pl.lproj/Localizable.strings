@@ -7,18 +7,21 @@
 */
 
 /* The title on the navigation bar of the Scanning screen. */
-"wescan.scanning.title" = "Scanning";
+"wescan.scanning.title" = "Skanowanie";
 
 /* The "Next" button on the right side of the navigation bar on the Edit screen. */
-"wescan.edit.button.next" = "Next";
+"wescan.edit.button.next" = "Dalej";
 
 /* The title on the navigation bar of the Edit screen. */
-"wescan.edit.title" = "Edit Scan";
+"wescan.edit.title" = "Edycja";
 
 /* The title on the navigation bar of the Review screen. */
-"wescan.review.title" = "Review";
+"wescan.review.title" = "Podgląd";
+
+/* The info title displayed on the Scanning screen */
+"wescan.infoTitle.title" = "Umieść aparat nad dokumentem który chcesz zeskanować";
 
 /* The button titles on the Scanning screen. */
-"wescan.scanning.cancel" = "Cancel";
+"wescan.scanning.cancel" = "Cofnij";
 "wescan.scanning.auto" = "Auto";
 "wescan.scanning.manual" = "Manual";

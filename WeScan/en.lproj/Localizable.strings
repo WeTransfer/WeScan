@@ -18,6 +18,9 @@
 /* The title on the navigation bar of the Review screen. */
 "wescan.review.title" = "Review";
 
+/* The info title displayed on the Scanning screen */
+"wescan.infoTitle.title" = "Place the camera over the document you want to scan";
+
 /* The button titles on the Scanning screen. */
 "wescan.scanning.cancel" = "Cancel";
 "wescan.scanning.auto" = "Auto";

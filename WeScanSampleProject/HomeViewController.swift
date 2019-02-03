@@ -92,6 +92,10 @@ final class HomeViewController: UIViewController {
         }
     }
     
+    func setupScannerViewController() {
+        
+    }
+    
     // MARK: - Actions
     
     @objc func scanOrSelectImage(_ sender: UIButton) {
