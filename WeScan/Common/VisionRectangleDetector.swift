@@ -32,17 +32,18 @@ struct VisionRectangleDetector {
                         return
                 }
                 
-                let quads: [Quadrilateral] = results.map({ observation in
+                let quads: [Quadrilateral] = results.map { observation in
                     return Quadrilateral(topLeft: observation.topLeft, topRight: observation.topRight, bottomRight: observation.bottomRight, bottomLeft: observation.bottomLeft)
-                })
+                }
 
-                guard let biggest = results.count > 1 ? quads.biggest() : quads.first else { return }
+                guard let biggest = results.count > 1 ? quads.biggest() : quads.first else {
+                    completion(nil)
+                    return
+                }
                 
-                let transform = CGAffineTransform.identity
-                    .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
+                let transform = CGAffineTransform.identity.scaledBy(x: image.extent.size.width, y: image.extent.size.height)
               
                 let finalRectangle = biggest.applying(transform)
-                
                 completion(finalRectangle)
             })
 
