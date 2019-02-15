@@ -25,18 +25,17 @@ struct VisionRectangleDetector {
         // Create the rectangle request, and, if found, return the biggest rectangle (else return nothing).
         let rectangleDetectionRequest: VNDetectRectanglesRequest = {
             let rectDetectRequest = VNDetectRectanglesRequest(completionHandler: { (request, error) in
-                guard error == nil,
-                    let results = request.results as? [VNRectangleObservation],
-                    !results.isEmpty else {
-                        completion(nil)
-                        return
+                guard error == nil, let results = request.results as? [VNRectangleObservation], !results.isEmpty else {
+                    completion(nil)
+                    return
                 }
                 
-                let quads: [Quadrilateral] = results.map({ observation in
-                    return Quadrilateral(topLeft: observation.topLeft, topRight: observation.topRight, bottomRight: observation.bottomRight, bottomLeft: observation.bottomLeft)
-                })
+                let quads: [Quadrilateral] = results.map(Quadrilateral.init)
 
-                guard let biggest = results.count > 1 ? quads.biggest() : quads.first else { return }
+                guard let biggest = quads.biggest() else { // Can't fail because guard excluded empty array,
+                    completion(nil)                        // but strict linter rules force to add this else case
+                    return                                 // which will never be executed.
+                }
                 
                 let transform = CGAffineTransform.identity
                     .scaledBy(x: image.extent.size.width, y: image.extent.size.height)
