@@ -129,9 +129,11 @@ final class EditScanViewController: UIViewController {
                 return
         }
         
+        // Detected Quadrilateral
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
         self.quad = scaledQuad
         
+        // Cropped Image
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
         
@@ -142,22 +144,18 @@ final class EditScanViewController: UIViewController {
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
         
+        let croppedImage = UIImage.from(ciImage: filteredImage)
+        
+        // Enhanced Image
         let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-        
-        var uiImage: UIImage!
-        
-        // Let's try to generate the CGImage from the CIImage before creating a UIImage.
-        if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
-            uiImage = UIImage(cgImage: cgImage)
-        } else {
-            uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+        var enhancedScan: ImageScannerScan? = nil
+        if let unwrappedEnhancedImage = enhancedImage {
+            enhancedScan = ImageScannerScan(from: unwrappedEnhancedImage)
         }
         
-        let finalImage = uiImage.withFixedOrientation()
+        let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(from: image), croppedScan: ImageScannerScan(from: croppedImage), enhancedScan: enhancedScan)
         
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
         let reviewViewController = ReviewViewController(results: results)
-        
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
 

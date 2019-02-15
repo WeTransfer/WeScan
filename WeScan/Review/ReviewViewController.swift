@@ -19,7 +19,7 @@ final class ReviewViewController: UIViewController {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
-        imageView.image = results.scannedImage
+        imageView.image = results.croppedScan.image
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +62,7 @@ final class ReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        enhancedImageIsAvailable = results.enhancedImage != nil
+        enhancedImageIsAvailable = results.enhancedScan != nil
         
         setupViews()
         setupToolbar()
@@ -117,16 +117,14 @@ final class ReviewViewController: UIViewController {
     
     @objc private func reloadImage() {
         if enhancedImageIsAvailable, isCurrentlyDisplayingEnhancedImage {
-            imageView.image = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
+            imageView.image = results.enhancedScan?.image.rotated(by: rotationAngle) ?? results.enhancedScan?.image
         } else {
-            imageView.image = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
+            imageView.image = results.croppedScan.image.rotated(by: rotationAngle) ?? results.croppedScan.image
         }
     }
     
     @objc private func toggleEnhancedImage() {
         guard enhancedImageIsAvailable else { return }
-        
-        reloadImage()
         
         if isCurrentlyDisplayingEnhancedImage {
             enhanceButton.tintColor = .white
@@ -135,6 +133,8 @@ final class ReviewViewController: UIViewController {
         }
         
         isCurrentlyDisplayingEnhancedImage.toggle()
+        
+        reloadImage()
     }
     
     @objc func rotateImage() {
@@ -149,10 +149,11 @@ final class ReviewViewController: UIViewController {
     
     @objc private func finishScan() {
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
+        
         var newResults = results
-        newResults.scannedImage = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
-        newResults.enhancedImage = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
-        newResults.doesUserPreferEnhancedImage = isCurrentlyDisplayingEnhancedImage
+        newResults.croppedScan.rotate(by: rotationAngle)
+        newResults.enhancedScan?.rotate(by: rotationAngle)
+        newResults.doesUserPreferEnhancedScan = isCurrentlyDisplayingEnhancedImage
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
 

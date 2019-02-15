@@ -9,6 +9,14 @@
 import Foundation
 
 extension UIImage {
+    /// Creates a UIImage from the specified CIImage.
+    static func from(ciImage: CIImage) -> UIImage {
+        if let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent) {
+            return UIImage(cgImage: cgImage).withFixedOrientation()
+        } else {
+            return UIImage(ciImage: ciImage, scale: 1.0, orientation: .up).withFixedOrientation()
+        }
+    }
     
     /// Draws a new cropped and scaled (zoomed in) image.
     ///
@@ -18,7 +26,7 @@ extension UIImage {
     ///   - size: The size of the rect the image will be displayed in.
     /// - Returns: The scaled and cropped image.
     func scaledImage(atPoint point: CGPoint, scaleFactor: CGFloat, targetSize size: CGSize) -> UIImage? {
-      
+        
         guard let cgImage = self.cgImage else {
             return nil
         }
@@ -35,4 +43,16 @@ extension UIImage {
         return UIImage(cgImage: croppedImage)
     }
     
+    /// Returns the data for the image in the PDF format
+    func pdfData() -> Data? {
+        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: self.size))
+        
+        let data = renderer.pdfData { (ctx) in
+            ctx.beginPage()
+            
+            self.draw(at: .zero)
+        }
+        
+        return data
+    }
 }
