@@ -26,10 +26,7 @@ extension UIImage {
     ///   - size: The size of the rect the image will be displayed in.
     /// - Returns: The scaled and cropped image.
     func scaledImage(atPoint point: CGPoint, scaleFactor: CGFloat, targetSize size: CGSize) -> UIImage? {
-        
-        guard let cgImage = self.cgImage else {
-            return nil
-        }
+        guard let cgImage = self.cgImage else { return nil }
         
         let scaledSize = CGSize(width: size.width / scaleFactor, height: size.height / scaleFactor)
         let midX = point.x - scaledSize.width / 2.0
@@ -43,14 +40,39 @@ extension UIImage {
         return UIImage(cgImage: croppedImage)
     }
     
+    /// Scales the image to the specified size in the RGB color space.
+    ///
+    /// - Parameters:
+    ///   - scaleFactor: Factor by which the image should be scaled.
+    /// - Returns: The scaled image.
+    func scaledImage(scaleFactor: CGFloat) -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        
+        let customColorSpace = CGColorSpaceCreateDeviceRGB()
+        
+        let width = cgImage.width / Int(scaleFactor)
+        let height = cgImage.height / Int(scaleFactor)
+        let bitsPerComponent = cgImage.bitsPerComponent
+        let bytesPerRow = cgImage.bytesPerRow
+        let bitmapInfo = cgImage.bitmapInfo.rawValue
+        
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: customColorSpace, bitmapInfo: bitmapInfo) else { return nil }
+        
+        context.interpolationQuality = .high
+        context.draw(cgImage, in: CGRect(origin: .zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
+        
+        return context.makeImage().flatMap { UIImage(cgImage: $0) }
+    }
+    
     /// Returns the data for the image in the PDF format
     func pdfData() -> Data? {
-        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: self.size))
-        
+        let image = scaledImage(scaleFactor: size.scaleFactor(forMaxWidth: 1000)) ?? self
+        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: image.size))
+
         let data = renderer.pdfData { (ctx) in
             ctx.beginPage()
-            
-            self.draw(at: .zero)
+
+            image.draw(at: .zero)
         }
         
         return data
