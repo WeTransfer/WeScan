@@ -148,7 +148,7 @@ final class EditScanViewController: UIViewController {
         
         // Enhanced Image
         let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-        var enhancedScan: ImageScannerScan? = nil
+        var enhancedScan: ImageScannerScan?
         if let unwrappedEnhancedImage = enhancedImage {
             enhancedScan = ImageScannerScan(from: unwrappedEnhancedImage)
         }

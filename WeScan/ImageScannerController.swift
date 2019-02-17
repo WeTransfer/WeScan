@@ -172,13 +172,13 @@ public struct ImageScannerResults {
     public var detectedRectangle: Quadrilateral
     
     @available(*, unavailable, renamed: "originalScan")
-    public var originalImage: UIImage? = nil
+    public var originalImage: UIImage?
     
     @available(*, unavailable, renamed: "croppedScan")
-    public var scannedImage: UIImage? = nil
+    public var scannedImage: UIImage?
     
     @available(*, unavailable, renamed: "enhancedScan")
-    public var enhancedImage: UIImage? = nil
+    public var enhancedImage: UIImage?
     
     @available(*, unavailable, renamed: "doesUserPreferEnhancedScan")
     public var doesUserPreferEnhancedImage: Bool = false
