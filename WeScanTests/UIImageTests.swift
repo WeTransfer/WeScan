@@ -84,7 +84,6 @@ final class UIImageTests: FBSnapshotTestCase {
     
     func testScaledImageCorrectly() {
         let image = UIImage(named: ResourceImage.rect2.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)!
-        
         XCTAssertEqual(image.size, CGSize(width: 500, height: 500))
         XCTAssertEqual(image.scaledImage(scaleFactor: 5)!.size, CGSize(width: 100, height: 100))
     }
