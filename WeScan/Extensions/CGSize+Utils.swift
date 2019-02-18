@@ -15,9 +15,6 @@ extension CGSize {
         let widthScaleFactor = 1 / (self.width / maxWidth)
         let heightScaleFactor = 1 / (self.height / maxHeight)
         
-        print(widthScaleFactor, self.width * widthScaleFactor)
-        print(heightScaleFactor, self.height * heightScaleFactor)
-        
         // Use the smaller scale factor to ensure both the width and height are below the max
         return min(widthScaleFactor, heightScaleFactor)
     }

@@ -66,7 +66,7 @@ extension UIImage {
     
     /// Returns the data for the image in the PDF format
     func pdfData() -> Data? {
-        // Typical PDF page size and margins
+        // Typical Letter PDF page size and margins
         let pageBounds = CGRect(x: 0, y: 0, width: 612, height: 792)
         let margin: CGFloat = 40
         
