@@ -62,6 +62,7 @@
 		B940E3DA21AE2919003B3C0B /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B940E3D921AE2919003B3C0B /* CaptureSession.swift */; };
 		B940E3DC21AE2A64003B3C0B /* CaptureSession+Flash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B940E3DB21AE2A64003B3C0B /* CaptureSession+Flash.swift */; };
 		B940E3DE21AE2A79003B3C0B /* CaptureSession+Focus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B940E3DD21AE2A79003B3C0B /* CaptureSession+Focus.swift */; };
+		B94E76AC221AB7D100C1945D /* CGSizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94E76AB221AB7D100C1945D /* CGSizeTests.swift */; };
 		B94FBBAD2178652B001ED1B4 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAA2178652B001ED1B4 /* flash.png */; };
 		B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAB2178652B001ED1B4 /* flash@3x.png */; };
 		B94FBBAF2178652B001ED1B4 /* flash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94FBBAC2178652B001ED1B4 /* flash@2x.png */; };
@@ -246,6 +247,7 @@
 		B940E3D921AE2919003B3C0B /* CaptureSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 		B940E3DB21AE2A64003B3C0B /* CaptureSession+Flash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureSession+Flash.swift"; sourceTree = "<group>"; };
 		B940E3DD21AE2A79003B3C0B /* CaptureSession+Focus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureSession+Focus.swift"; sourceTree = "<group>"; };
+		B94E76AB221AB7D100C1945D /* CGSizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeTests.swift; sourceTree = "<group>"; };
 		B94FBBAA2178652B001ED1B4 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		B94FBBAB2178652B001ED1B4 /* flash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@3x.png"; sourceTree = "<group>"; };
 		B94FBBAC2178652B001ED1B4 /* flash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@2x.png"; sourceTree = "<group>"; };
@@ -406,8 +408,9 @@
 				74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */,
 				74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */,
 				74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */,
-				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
 				A1DF90FC203B412600841A11 /* CGPointTests.swift */,
+				A1C4DD4F2044B1D500D36684 /* CGRectTests.swift */,
+				B94E76AB221AB7D100C1945D /* CGSizeTests.swift */,
 				B940E3B721A95C44003B3C0B /* FocusRectangleViewTests.swift */,
 				A1675BAE204178BD00852865 /* ImageFeatureTestHelpers.swift */,
 				A1DF90C22034919400841A11 /* QuadrilateralTests.swift */,
@@ -834,6 +837,7 @@
 				74F7D038211ACBF90046AF7E /* VisionRectangleDetectorTests.swift in Sources */,
 				A1DF90FD203B412600841A11 /* CGPointTests.swift in Sources */,
 				74F7D03E211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift in Sources */,
+				B94E76AC221AB7D100C1945D /* CGSizeTests.swift in Sources */,
 				A1C4DD502044B1D500D36684 /* CGRectTests.swift in Sources */,
 				74F7D03A211ACC4B0046AF7E /* UIImageTests.swift in Sources */,
 				B9611EC721E36B9F000AB105 /* ReviewViewControllerTests.swift in Sources */,
