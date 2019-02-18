@@ -43,7 +43,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 ## Requirements
 
-- Swift 4.2+
+- Swift 4.2
 - iOS 10.0+
 - Xcode 9.x
 

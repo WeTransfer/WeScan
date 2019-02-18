@@ -17,8 +17,8 @@ final class CGSizeTests: XCTestCase {
         
         let updatedSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
         
-        XCTAssert(updatedSize.width < 1000)
-        XCTAssert(updatedSize.width < 5000)
+        XCTAssert(updatedSize.width <= 1000)
+        XCTAssert(updatedSize.width <= 5000)
     }
     
     func testScaleFactorCorrectWhenBelowMax() {

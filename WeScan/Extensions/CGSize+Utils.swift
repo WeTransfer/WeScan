@@ -17,8 +17,8 @@ extension CGSize {
     func scaleFactor(forMaxWidth maxWidth: CGFloat, maxHeight: CGFloat) -> CGFloat {
         if width < maxWidth && height < maxHeight { return 1 }
         
-        let widthScaleFactor = 1 / (self.width / maxWidth)
-        let heightScaleFactor = 1 / (self.height / maxHeight)
+        let widthScaleFactor = 1 / (width / maxWidth)
+        let heightScaleFactor = 1 / (height / maxHeight)
         
         // Use the smaller scale factor to ensure both the width and height are below the max
         return min(widthScaleFactor, heightScaleFactor)
