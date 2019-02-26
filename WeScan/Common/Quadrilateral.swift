@@ -45,7 +45,7 @@ public struct Quadrilateral: Transformable {
         self.topRight = topRight
         self.bottomRight = bottomRight
         self.bottomLeft = bottomLeft
-    }
+    } 
     
     public var description: String {
         return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
