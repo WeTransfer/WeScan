@@ -14,16 +14,16 @@ import Vision
 public struct Quadrilateral: Transformable {
     
     /// A point that specifies the top left corner of the quadrilateral.
-    var topLeft: CGPoint
+    public var topLeft: CGPoint
     
     /// A point that specifies the top right corner of the quadrilateral.
-    var topRight: CGPoint
+    public var topRight: CGPoint
     
     /// A point that specifies the bottom right corner of the quadrilateral.
-    var bottomRight: CGPoint
+    public var bottomRight: CGPoint
     
     /// A point that specifies the bottom left corner of the quadrilateral.
-    var bottomLeft: CGPoint
+    public var bottomLeft: CGPoint
     
     init(rectangleFeature: CIRectangleFeature) {
         self.topLeft = rectangleFeature.topLeft
