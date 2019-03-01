@@ -75,7 +75,7 @@ open class ReviewViewController: UIViewController {
             toggleEnhancedImage()
         }
         
-        title = NSLocalizedString("wescan.review.title", tableName: "Localizable", bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
+        title = Bundle.localizedString(aClass: EditScanViewController.self, key: "wescan.review.title", value: "Review")
         navigationItem.rightBarButtonItem = doneButton
     }
     

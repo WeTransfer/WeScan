@@ -43,14 +43,14 @@ open class ScannerViewController: UIViewController {
     
     lazy private var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: "Localizable", bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
+        button.setTitle(Bundle.localizedString(aClass: ScannerViewController.self, key: "wescan.scanning.cancel", value: "Cancel"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
         return button
     }()
     
     lazy private var autoScanButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.scanning.auto", tableName: "Localizable", bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+        let title = Bundle.localizedString(aClass: ScannerViewController.self, key: "wescan.scanning.auto", value: "Auto")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
         button.tintColor = .white
         return button
@@ -254,10 +254,10 @@ open class ScannerViewController: UIViewController {
     @objc private func toggleAutoScan() {
         if CaptureSession.current.isAutoScanEnabled {
             CaptureSession.current.isAutoScanEnabled = false
-            autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: "Localizable", bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
+            autoScanButton.title = Bundle.localizedString(aClass: ScannerViewController.self, key: "wescan.scanning.manual", value: "Manual")
         } else {
             CaptureSession.current.isAutoScanEnabled = true
-            autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: "Localizable", bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+            autoScanButton.title = Bundle.localizedString(aClass: ScannerViewController.self, key: "wescan.scanning.auto", value: "Auto")
         }
     }
     
