@@ -9,11 +9,13 @@
 import UIKit
 
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
-final class ReviewViewController: UIViewController {
+open class ReviewViewController: UIViewController {
     
     private var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
-    private var enhancedImageIsAvailable = false
-    private var isCurrentlyDisplayingEnhancedImage = false
+    open var enhancedImageIsAvailable = false
+    open var isCurrentlyDisplayingEnhancedImage = false
+    open var enhanceButtonTintColorOn: UIColor = .white
+    open var enhanceButtonTintColorOff: UIColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -55,11 +57,11 @@ final class ReviewViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
 
         enhancedImageIsAvailable = results.enhancedImage != nil
@@ -67,12 +69,17 @@ final class ReviewViewController: UIViewController {
         setupViews()
         setupToolbar()
         setupConstraints()
+    
+        if enhancedImageIsAvailable {
+            isCurrentlyDisplayingEnhancedImage.toggle() //to set right value when the below toggleEnhancedImage is trigger
+            toggleEnhancedImage()
+        }
         
         title = NSLocalizedString("wescan.review.title", tableName: "Localizable", bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
         navigationItem.rightBarButtonItem = doneButton
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // We only show the toolbar (with the enhance button) if the enhanced image is available.
@@ -81,7 +88,7 @@ final class ReviewViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -126,17 +133,17 @@ final class ReviewViewController: UIViewController {
     @objc private func toggleEnhancedImage() {
         guard enhancedImageIsAvailable else { return }
         
+        isCurrentlyDisplayingEnhancedImage.toggle()
+        
         reloadImage()
         
         if isCurrentlyDisplayingEnhancedImage {
-            enhanceButton.tintColor = .white
+            enhanceButton.tintColor = enhanceButtonTintColorOn
         } else {
-            enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
+            enhanceButton.tintColor = enhanceButtonTintColorOff
         }
-        
-        isCurrentlyDisplayingEnhancedImage.toggle()
     }
-    
+
     @objc func rotateImage() {
         rotationAngle.value += 90
         

@@ -10,7 +10,11 @@ import UIKit
 import AVFoundation
 
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
-final class ScannerViewController: UIViewController {
+open class ScannerViewController: UIViewController {
+    
+    open var flashButtonTintColorOn: UIColor = .yellow
+    open var flashButtonTintColorOff: UIColor = .white
+    open var flashButtonTintColorOther: UIColor = .lightGray
     
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
@@ -25,7 +29,7 @@ final class ScannerViewController: UIViewController {
     private let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     /// Whether flash is enabled
-    private var flashEnabled = false
+    open var flashEnabled = false
     
     /// The original bar style that was set by the host app
     private var originalBarStyle: UIBarStyle?
@@ -49,7 +53,6 @@ final class ScannerViewController: UIViewController {
         let title = NSLocalizedString("wescan.scanning.auto", tableName: "Localizable", bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
         button.tintColor = .white
-        
         return button
     }()
     
@@ -57,7 +60,6 @@ final class ScannerViewController: UIViewController {
         let image = UIImage(named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleFlash))
         button.tintColor = .white
-        
         return button
     }()
     
@@ -70,7 +72,7 @@ final class ScannerViewController: UIViewController {
 
     // MARK: - Life Cycle
 
-    override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
         title = nil
@@ -78,6 +80,10 @@ final class ScannerViewController: UIViewController {
         setupViews()
         setupNavigationBar()
         setupConstraints()
+        
+        CaptureSession.current.isAutoScanEnabled.toggle() //to set right value when the below toggleAutoScan is trigger
+        toggleAutoScan()
+        toggleFlash()
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
@@ -87,7 +93,7 @@ final class ScannerViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
         
@@ -104,7 +110,7 @@ final class ScannerViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .blackTranslucent
     }
     
-    override func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         videoPreviewLayer.frame = view.layer.bounds
@@ -115,7 +121,7 @@ final class ScannerViewController: UIViewController {
         visualEffectView.frame = visualEffectRect ?? CGRect.zero
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
         
@@ -148,7 +154,7 @@ final class ScannerViewController: UIViewController {
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
             let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
             flashButton.image = flashOffImage
-            flashButton.tintColor = UIColor.lightGray
+            flashButton.tintColor = .lightGray
         }
     }
     
@@ -215,7 +221,7 @@ final class ScannerViewController: UIViewController {
         CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
         guard  let touch = touches.first else { return }
@@ -265,15 +271,15 @@ final class ScannerViewController: UIViewController {
         case .on:
             flashEnabled = true
             flashButton.image = flashImage
-            flashButton.tintColor = .yellow
+            flashButton.tintColor = flashButtonTintColorOn
         case .off:
             flashEnabled = false
             flashButton.image = flashImage
-            flashButton.tintColor = .white
+            flashButton.tintColor = flashButtonTintColorOff
         case .unknown, .unavailable:
             flashEnabled = false
             flashButton.image = flashOffImage
-            flashButton.tintColor = UIColor.lightGray
+            flashButton.tintColor = flashButtonTintColorOther
         }
     }
     
