@@ -29,14 +29,14 @@ open class ReviewViewController: UIViewController {
     }()
     
     lazy private var enhanceButton: UIBarButtonItem = {
-        let image = UIImage(named: "enhance", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let image = UIImage(named: "enhance", in: Bundle(for: ScannerViewController.self), compatibleWith: nil) ?? UIImage(named: "enhance")
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleEnhancedImage))
         button.tintColor = .white
         return button
     }()
     
     lazy private var rotateButton: UIBarButtonItem = {
-        let image = UIImage(named: "rotate", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let image = UIImage(named: "rotate", in: Bundle(for: ScannerViewController.self), compatibleWith: nil) ?? UIImage(named: "rotate")
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rotateImage))
         button.tintColor = .white
         return button
