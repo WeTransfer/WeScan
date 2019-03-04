@@ -14,6 +14,7 @@ import Foundation
 struct VisionRectangleDetector {
 
     private static func completeImageRequest(for request: VNImageRequestHandler, width: CGFloat, height: CGFloat, completion: @escaping ((Quadrilateral?) -> Void)) {
+        // Create the rectangle request, and, if found, return the biggest rectangle (else return nothing).
         let rectangleDetectionRequest: VNDetectRectanglesRequest = {
             let rectDetectRequest = VNDetectRectanglesRequest(completionHandler: { (request, error) in
                 guard error == nil, let results = request.results as? [VNRectangleObservation], !results.isEmpty else {
