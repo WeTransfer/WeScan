@@ -52,6 +52,12 @@ struct VisionRectangleDetector {
         }
 
     }
+	
+    /// Detects rectangles from the given CVPixelBuffer/CVImageBuffer on iOS 11 and above.
+    ///
+    /// - Parameters:
+    ///   - pixelBuffer: The pixelBuffer to detect rectangles on.
+    ///   - completion: The biggest rectangle on the CVPixelBuffer
     static func rectangle(forPixelBuffer pixelBuffer: CVPixelBuffer, completion: @escaping ((Quadrilateral?) -> Void)) {
         let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
         VisionRectangleDetector.completeImageRequest(
