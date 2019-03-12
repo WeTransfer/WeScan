@@ -11,17 +11,18 @@ import XCTest
 @testable import WeScan
 
 final class VisionRectangleDetectorTests: FBSnapshotTestCase {
-  
+
+  var containerLayer: CALayer!
+  var image: UIImage!
+
   override func setUp() {
     super.setUp()
     recordMode = false
-  }
-  
-  func testCorrectlyDetectsAndReturnsQuadilateral() {
 
+    // Setting up containerLayer and creating the image to be tested on both tests in this class.
+    containerLayer = CALayer()
     let targetSize = CGSize(width: 150, height: 150)
 
-    let containerLayer = CALayer()
     containerLayer.backgroundColor = UIColor.white.cgColor
     containerLayer.frame = CGRect(origin: .zero, size: targetSize)
     containerLayer.masksToBounds = true
@@ -36,9 +37,13 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
     containerLayer.render(in: UIGraphicsGetCurrentContext()!)
 
-    let image = UIGraphicsGetImageFromCurrentImageContext()!
+    self.image = UIGraphicsGetImageFromCurrentImageContext()!
 
     UIGraphicsEndImageContext()
+
+  }
+
+  func testCorrectlyDetectsAndReturnsQuadilateral() {
 
     let ciImage = CIImage(cgImage: image.cgImage!)
     let expectation = XCTestExpectation(description: "Detect rectangle on CIImage")
@@ -47,8 +52,8 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
       DispatchQueue.main.async {
 
-        let resultView = UIView(frame: containerLayer.frame)
-        resultView.layer.addSublayer(containerLayer)
+        let resultView = UIView(frame: self.containerLayer.frame)
+        resultView.layer.addSublayer(self.containerLayer)
 
         let quadView = QuadrilateralView(frame: resultView.bounds)
         quadView.drawQuadrilateral(quad: quad!, animated: false)
@@ -65,35 +70,14 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
   func testCorrectlyDetectsAndReturnsQuadilateralPixelBuffer() {
 
-    let targetSize = CGSize(width: 150, height: 150)
-
-    let containerLayer = CALayer()
-    containerLayer.backgroundColor = UIColor.white.cgColor
-    containerLayer.frame = CGRect(origin: .zero, size: targetSize)
-    containerLayer.masksToBounds = true
-
-    let targetLayer = CALayer()
-    targetLayer.backgroundColor = UIColor.black.cgColor
-    targetLayer.frame = containerLayer.frame.insetBy(dx: 5, dy: 5)
-
-    containerLayer.addSublayer(targetLayer)
-
-    UIGraphicsBeginImageContextWithOptions(targetSize, true, 0.0)
-
-    containerLayer.render(in: UIGraphicsGetCurrentContext()!)
-
-    let image = UIGraphicsGetImageFromCurrentImageContext()!
-
-    UIGraphicsEndImageContext()
-
     let expectation = XCTestExpectation(description: "Detect rectangle on CVPixelBuffer")
     if let pixelBuffer = image.pixelBuffer() {
       VisionRectangleDetector.rectangle(forPixelBuffer: pixelBuffer) { (quad) in
 
         DispatchQueue.main.async {
 
-          let resultView = UIView(frame: containerLayer.frame)
-          resultView.layer.addSublayer(containerLayer)
+          let resultView = UIView(frame: self.containerLayer.frame)
+          resultView.layer.addSublayer(self.containerLayer)
 
           let quadView = QuadrilateralView(frame: resultView.bounds)
           quadView.drawQuadrilateral(quad: quad!, animated: false)
