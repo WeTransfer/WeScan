@@ -37,7 +37,6 @@ extension UIImage {
 
     /// Function gathered from [here](https://stackoverflow.com/questions/44462087/how-to-convert-a-uiimage-to-a-cvpixelbuffer) to convert UIImage to CVPixelBuffer
     ///
-    /// - Parameter image: image to be converted
     /// - Returns: new [CVPixelBuffer](apple-reference-documentation://hsVf8OXaJX)
     func pixelBuffer() -> CVPixelBuffer? {
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
