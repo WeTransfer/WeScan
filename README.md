@@ -38,7 +38,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 ## Demo
 
 <p align="left">
-    <img src="Assets/WeScan.gif">
+    <img width="350px" src="Assets/WeScan.gif">
 </p>
 
 ## Requirements
