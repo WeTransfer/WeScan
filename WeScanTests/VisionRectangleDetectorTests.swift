@@ -12,8 +12,8 @@ import XCTest
 
 final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
-  var containerLayer: CALayer!
-  var image: UIImage!
+  private var containerLayer: CALayer!
+  private var image: UIImage!
 
   override func setUp() {
     super.setUp()
@@ -41,6 +41,12 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
     UIGraphicsEndImageContext()
 
+  }
+
+  override func tearDown() {
+    super.tearDown()
+    containerLayer = nil
+    image = nil
   }
 
   func testCorrectlyDetectsAndReturnsQuadilateral() {
