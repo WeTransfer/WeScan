@@ -52,13 +52,11 @@ struct VisionRectangleDetector {
         }()
         
         // Send the requests to the request handler.
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                try imageRequestHandler.perform([rectangleDetectionRequest])
-            } catch {
-                completion(nil)
-                return
-            }
+        do {
+            try imageRequestHandler.perform([rectangleDetectionRequest])
+        } catch {
+            completion(nil)
+            return
         }
     }
     
