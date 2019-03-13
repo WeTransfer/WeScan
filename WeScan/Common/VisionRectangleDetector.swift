@@ -12,16 +12,8 @@ import Foundation
 /// Class used to detect rectangles from an image.
 @available(iOS 11.0, *)
 struct VisionRectangleDetector {
-    
-    /// Detects rectangles from the given image on iOS 11 and above.
-    ///
-    /// - Parameters:
-    ///   - image: The image to detect rectangles on.
-    /// - Returns: The biggest rectangle detected on the image.
-    static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> Void)) {
-      
-        let imageRequestHandler = VNImageRequestHandler(ciImage: image, options: [:])
 
+    private static func completeImageRequest(for request: VNImageRequestHandler, width: CGFloat, height: CGFloat, completion: @escaping ((Quadrilateral?) -> Void)) {
         // Create the rectangle request, and, if found, return the biggest rectangle (else return nothing).
         let rectangleDetectionRequest: VNDetectRectanglesRequest = {
             let rectDetectRequest = VNDetectRectanglesRequest(completionHandler: { (request, error) in
@@ -29,18 +21,18 @@ struct VisionRectangleDetector {
                     completion(nil)
                     return
                 }
-                
+
                 let quads: [Quadrilateral] = results.map(Quadrilateral.init)
 
                 guard let biggest = quads.biggest() else { // This can't fail because the earlier guard protected against an empty array, but we use guard because of SwiftLint
                     completion(nil)
                     return
                 }
-                
-                let transform = CGAffineTransform.identity.scaledBy(x: image.extent.size.width, y: image.extent.size.height)
-              
-                let finalRectangle = biggest.applying(transform)
-                completion(finalRectangle)
+
+                let transform = CGAffineTransform.identity
+                    .scaledBy(x: width, y: height)
+
+                completion(biggest.applying(transform))
             })
 
             rectDetectRequest.minimumConfidence = 0.8
@@ -48,16 +40,43 @@ struct VisionRectangleDetector {
 
             return rectDetectRequest
         }()
-        
+
         // Send the requests to the request handler.
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                try imageRequestHandler.perform([rectangleDetectionRequest])
+                try request.perform([rectangleDetectionRequest])
             } catch {
                 completion(nil)
                 return
             }
         }
+
+    }
+	
+    /// Detects rectangles from the given CVPixelBuffer/CVImageBuffer on iOS 11 and above.
+    ///
+    /// - Parameters:
+    ///   - pixelBuffer: The pixelBuffer to detect rectangles on.
+    ///   - completion: The biggest rectangle on the CVPixelBuffer
+    static func rectangle(forPixelBuffer pixelBuffer: CVPixelBuffer, completion: @escaping ((Quadrilateral?) -> Void)) {
+        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+        VisionRectangleDetector.completeImageRequest(
+            for: imageRequestHandler,
+            width: CGFloat(CVPixelBufferGetWidth(pixelBuffer)),
+            height: CGFloat(CVPixelBufferGetHeight(pixelBuffer)),
+            completion: completion)
+    }
+    
+    /// Detects rectangles from the given image on iOS 11 and above.
+    ///
+    /// - Parameters:
+    ///   - image: The image to detect rectangles on.
+    /// - Returns: The biggest rectangle detected on the image.
+    static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> Void)) {
+        let imageRequestHandler = VNImageRequestHandler(ciImage: image, options: [:])
+        VisionRectangleDetector.completeImageRequest(
+            for: imageRequestHandler, width: image.extent.width,
+            height: image.extent.height, completion: completion)
     }
     
 }
