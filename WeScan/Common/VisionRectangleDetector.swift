@@ -24,9 +24,9 @@ struct VisionRectangleDetector {
 
                 let quads: [Quadrilateral] = results.map(Quadrilateral.init)
 
-                guard let biggest = quads.biggest() else { // Can't fail because guard excluded empty array,
-                    completion(nil)                        // but strict linter rules force to add this else case
-                    return                                 // which will never be executed.
+                guard let biggest = quads.biggest() else { // This can't fail because the earlier guard protected against an empty array, but we use guard because of SwiftLint
+                    completion(nil)
+                    return
                 }
 
                 let transform = CGAffineTransform.identity
