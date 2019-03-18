@@ -12,7 +12,9 @@ import AVFoundation
 /// Class used to detect rectangles from an image.
 struct CIRectangleDetector {
     
-    static let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle, context: CIContext(options: nil), options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
+    static let rectangleDetector = CIDetector(ofType: CIDetectorTypeRectangle,
+                                              context: CIContext(options: nil),
+                                              options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
     
     /// Detects rectangles from the given image on iOS 10.
     ///
@@ -20,13 +22,11 @@ struct CIRectangleDetector {
     ///   - image: The image to detect rectangles on.
     /// - Returns: The biggest detected rectangle on the image.
     static func rectangle(forImage image: CIImage, completion: @escaping ((Quadrilateral?) -> Void)) {
-        
         let biggestRectangle = rectangle(forImage: image)
         completion(biggestRectangle)
     }
     
     static func rectangle(forImage image: CIImage) -> Quadrilateral? {
-        
         guard let rectangleFeatures = rectangleDetector?.features(in: image) as? [CIRectangleFeature] else {
             return nil
         }
