@@ -45,7 +45,6 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 - Swift 4.2
 - iOS 10.0+
-- Xcode 9.x
 
 <br>
 
@@ -151,7 +150,7 @@ present(scannerViewController, animated: true)
 
 #### Example Implementation
 ```objc
-ImageScannerController *scannerViewController = [ImageScannerController new];
+ImageScannerController *scannerViewController = [[ImageScannerController alloc] init];
 [self presentViewController:scannerViewController animated:YES completion:nil];
 ```
 
