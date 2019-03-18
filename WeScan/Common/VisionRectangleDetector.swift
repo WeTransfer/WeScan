@@ -37,6 +37,7 @@ struct VisionRectangleDetector {
 
             rectDetectRequest.minimumConfidence = 0.8
             rectDetectRequest.maximumObservations = 15
+            rectDetectRequest.minimumAspectRatio = 0.3
 
             return rectDetectRequest
         }()
