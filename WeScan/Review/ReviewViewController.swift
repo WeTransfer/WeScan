@@ -123,7 +123,7 @@ final class ReviewViewController: UIViewController {
         }
     }
     
-    @objc private func toggleEnhancedImage() {
+    @objc func toggleEnhancedImage() {
         guard enhancedImageIsAvailable else { return }
         
         isCurrentlyDisplayingEnhancedImage.toggle()
