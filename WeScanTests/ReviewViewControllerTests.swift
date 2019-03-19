@@ -19,7 +19,7 @@ final class ReviewViewControllerTests: FBSnapshotTestCase {
     
     override func setUp() {
         super.setUp()
-        recordMode = true
+        recordMode = false
 
         // Set up the demo image using rectangles (purposefully made to be different on each rotation)
         let detailSize = CGSize(width: 20, height: 40)
