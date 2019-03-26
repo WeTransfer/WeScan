@@ -67,7 +67,7 @@ public final class ImageScannerController: UINavigationController {
         setupConstraints()
         
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
-        if let image = image {
+        if let image = image?.applyingPortraitOrientation() {
             
             var detectedQuad: Quadrilateral?
             
@@ -84,15 +84,12 @@ public final class ImageScannerController: UINavigationController {
             if #available(iOS 11.0, *) {
                 // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
                 VisionRectangleDetector.rectangle(forImage: ciImage) { (quad) in
-                    detectedQuad = quad
+                    detectedQuad = quad?.toCartesian(withHeight: image.size.height)
                     detectedQuad?.reorganize()
-
-                    let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
-                    self.setViewControllers([editViewController], animated: true)
                 }
             } else {
                 // Use the CIRectangleDetector on iOS 10 to attempt to find a rectangle from the initial image.
-                detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)
+                detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)?.toCartesian(withHeight: image.size.height)
                 detectedQuad?.reorganize()
             }
         }
