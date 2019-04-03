@@ -46,6 +46,8 @@ final class ShutterButton: UIControl {
     // MARK: - Drawing
     
     override func draw(_ rect: CGRect) {
+        super.draw(rect)
+
         outterRingLayer.frame = rect
         outterRingLayer.path = pathForOutterRing(inRect: rect).cgPath
         outterRingLayer.fillColor = UIColor.white.cgColor
