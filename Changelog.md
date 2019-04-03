@@ -2,6 +2,11 @@
 
 ### Next
 
+### 1.1.0
+
+- Updated to Swift 5.0
+- Added German translation
+- Several small improvements
 
 ### 1.0 (2019-01-08)
 
