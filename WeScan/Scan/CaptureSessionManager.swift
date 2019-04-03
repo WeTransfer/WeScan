@@ -66,7 +66,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
-        guard AVCaptureDevice.default(for: .video) != nil else {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
             let error = ImageScannerControllerError.inputDevice
             delegate?.captureSessionManager(self, didFailWithError: error)
             return nil
@@ -81,11 +81,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         videoOutput.alwaysDiscardsLateVideoFrames = true
         
         defer {
+            device.unlockForConfiguration()
             captureSession.commitConfiguration()
         }
         
-        guard let inputDevice = AVCaptureDevice.default(for: AVMediaType.video),
-            let deviceInput = try? AVCaptureDeviceInput(device: inputDevice),
+        guard let deviceInput = try? AVCaptureDeviceInput(device: device),
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
@@ -94,12 +94,22 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 return
         }
         
+        do {
+            try device.lockForConfiguration()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
+        device.isSubjectAreaChangeMonitoringEnabled = true
+        
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
         captureSession.addOutput(videoOutput)
         
         videoPreviewLayer.session = captureSession
-        videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer.videoGravity = .resizeAspectFill
         
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "video_ouput_queue"))
     }
@@ -108,7 +118,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     
     /// Starts the camera and detecting quadrilaterals.
     internal func start() {
-        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
         
         switch authorizationStatus {
         case .authorized:
@@ -133,13 +143,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
-        
-        let captureConnection = photoOutput.connections.first { (connection) -> Bool in
-            return connection.inputPorts.first(where: { (port) -> Bool in
-                port.mediaType == .video
-            }) != nil
-        }
-        guard let connection = captureConnection, connection.isEnabled, connection.isActive else {
+        guard let connection = photoOutput.connection(with: .video), connection.isEnabled, connection.isActive else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
@@ -155,22 +159,19 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard isDetecting == true else {
+        guard isDetecting == true,
+            let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-        
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-        
-        let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let imageSize = finalImage.extent.size
-        
+
+        let imageSize = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
+
         if #available(iOS 11.0, *) {
-            VisionRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
+            VisionRectangleDetector.rectangle(forPixelBuffer: pixelBuffer) { (rectangle) in
                 self.processRectangle(rectangle: rectangle, imageSize: imageSize)
             }
         } else {
+            let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
             CIRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
                 self.processRectangle(rectangle: rectangle, imageSize: imageSize)
             }
@@ -189,7 +190,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 
                 let shouldAutoScan = (result == .showAndAutoScan)
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
+                if shouldAutoScan, CaptureSession.current.isAutoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
                 }
             }

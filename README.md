@@ -1,5 +1,5 @@
 # WeScan
-
+ 
 <p align="center">
     <img width="900px" src="Assets/WeScan-Banner.jpg">
 </p>
@@ -21,6 +21,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Contributing](#contributing)
 - [Communication](#communication)
 - [License](#license)
 
@@ -37,14 +38,13 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 ## Demo
 
 <p align="left">
-    <img src="Assets/WeScan.gif">
+    <img width="350px" src="Assets/WeScan.gif">
 </p>
 
 ## Requirements
 
 - Swift 4.2
 - iOS 10.0+
-- Xcode 9.x
 
 <br>
 
@@ -102,7 +102,9 @@ Simply add the WeScan framework in the project's Embedded Binaries and Linked Fr
 
 ## Usage
 
-1. Make sure that your ViewController confirms to the `ImageScannerControllerDelegate` protocol
+### Swift
+
+1. Make sure that your view controller conforms to the `ImageScannerControllerDelegate` protocol:
 
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
@@ -148,13 +150,15 @@ present(scannerViewController, animated: true)
 
 #### Example Implementation
 ```objc
-ImageScannerController *scannerViewController = [ImageScannerController new];
+ImageScannerController *scannerViewController = [[ImageScannerController alloc] init];
 [self presentViewController:scannerViewController animated:YES completion:nil];
 ```
 
 <br>
 
-## Communication
+## Contributing
+
+As the creators, and maintainers of this project, we're glad to invite contributors to help us stay up to date. Please take a moment to review [the contributing document](CONTRIBUTING.md) in order to make the contribution process easy and effective for everyone involved.
 
 - If you **found a bug**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
 - If you **have a feature request**, open an [issue](https://github.com/WeTransfer/WeScan/issues).
