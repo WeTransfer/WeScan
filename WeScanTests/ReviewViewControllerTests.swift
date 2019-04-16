@@ -14,7 +14,7 @@ import CoreGraphics
 final class ReviewViewControllerTests: FBSnapshotTestCase {
     
     var demoImage: UIImage!
-    var demoScan: ImageScannerScan!
+    var enhancedDemoImage: UIImage!
     var demoQuad = Quadrilateral(topLeft: .zero, topRight: .zero, bottomRight: .zero, bottomLeft: .zero)
     
     override func setUp() {
@@ -36,7 +36,11 @@ final class ReviewViewControllerTests: FBSnapshotTestCase {
         UIGraphicsBeginImageContextWithOptions(backgroundSize, true, 1.0)
         backgroundLayer.render(in: UIGraphicsGetCurrentContext()!)
         demoImage = UIGraphicsGetImageFromCurrentImageContext()!
-        demoScan = ImageScannerScan(from: demoImage)
+      
+        backgroundLayer.backgroundColor = UIColor.black.cgColor
+        backgroundLayer.render(in: UIGraphicsGetCurrentContext()!)
+        enhancedDemoImage = UIGraphicsGetImageFromCurrentImageContext()!
+        
         UIGraphicsEndImageContext()
     }
     
@@ -89,6 +93,15 @@ final class ReviewViewControllerTests: FBSnapshotTestCase {
         vc.rotateImage()
         
         FBSnapshotVerifyView(vc.imageView)
+    }
+    
+    func testEnhancedImage() {
+        let results = ImageScannerResults(originalImage: demoImage, scannedImage: demoImage, enhancedImage: enhancedDemoImage, doesUserPreferEnhancedImage: false, detectedRectangle: demoQuad)
+        let viewController = ReviewViewController(results: results)
+        viewController.viewDidLoad()
+        
+        viewController.toggleEnhancedImage()
+        FBSnapshotVerifyView(viewController.imageView)
     }
 }
 

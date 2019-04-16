@@ -123,18 +123,17 @@ final class ReviewViewController: UIViewController {
         }
     }
     
-    @objc private func toggleEnhancedImage() {
+    @objc func toggleEnhancedImage() {
         guard enhancedImageIsAvailable else { return }
         
-        if isCurrentlyDisplayingEnhancedImage {
-            enhanceButton.tintColor = .white
-        } else {
-            enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
-        }
-        
         isCurrentlyDisplayingEnhancedImage.toggle()
-        
         reloadImage()
+      
+        if isCurrentlyDisplayingEnhancedImage {
+            enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
+        } else {
+            enhanceButton.tintColor = .white
+        }
     }
     
     @objc func rotateImage() {
