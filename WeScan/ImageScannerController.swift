@@ -117,10 +117,6 @@ public final class ImageScannerController: UINavigationController {
         NSLayoutConstraint.activate(blackFlashViewConstraints)
     }
     
-    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-    }
-    
     internal func flashToBlack() {
         view.bringSubviewToFront(blackFlashView)
         blackFlashView.isHidden = false

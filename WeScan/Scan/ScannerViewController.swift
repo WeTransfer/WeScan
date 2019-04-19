@@ -104,10 +104,13 @@ final class ScannerViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .blackTranslucent
     }
     
+    override func viewWillLayoutSubviews() {
+        videoPreviewLayer.connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue) ?? .portrait
+        videoPreviewLayer.frame = view.layer.bounds
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        videoPreviewLayer.frame = view.layer.bounds
         
         let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
         let visualEffectRect = self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: -(statusBarHeight)).offsetBy(dx: 0, dy: -statusBarHeight)
@@ -315,12 +318,29 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
             return
         }
         
-        let portraitImageSize = CGSize(width: imageSize.height, height: imageSize.width)
+        let newImageSize: CGSize
+        let transformFactor: CGFloat
+        switch AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue) ?? .portrait {
+        case .landscapeRight:
+            newImageSize = imageSize
+            transformFactor = 0.0
+        case .portrait:
+            newImageSize = CGSize(width: imageSize.height, height: imageSize.width)
+            transformFactor = 0.5
+        case .landscapeLeft:
+            newImageSize = imageSize
+            transformFactor = 1.0
+        case .portraitUpsideDown:
+            newImageSize = CGSize(width: imageSize.height, height: imageSize.width)
+            transformFactor = 1.5
+        default:
+            newImageSize = CGSize(width: imageSize.height, height: imageSize.width)
+            transformFactor = 0.5   // e.g. portrait
+        }
         
-        let scaleTransform = CGAffineTransform.scaleTransform(forSize: portraitImageSize, aspectFillInSize: quadView.bounds.size)
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: newImageSize, aspectFillInSize: quadView.bounds.size)
         let scaledImageSize = imageSize.applying(scaleTransform)
-        
-        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
+        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat.pi * transformFactor)
 
         let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
 
