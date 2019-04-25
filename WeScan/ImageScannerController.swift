@@ -75,7 +75,7 @@ public final class ImageScannerController: UINavigationController {
             // *** Vision *requires* a completion block to detect rectangles, but it's instant.
             // *** When using Vision, we'll present the normal edit view controller first, then present the updated edit view controller later.
             defer {
-                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: true)
                 setViewControllers([editViewController], animated: false)
             }
             
@@ -87,7 +87,7 @@ public final class ImageScannerController: UINavigationController {
                     detectedQuad = quad
                     detectedQuad?.reorganize()
 
-                    let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+                    let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: true)
                     self.setViewControllers([editViewController], animated: true)
                 }
             } else {
@@ -131,23 +131,28 @@ public final class ImageScannerController: UINavigationController {
     }
 }
 
-/// Data structure containing information about a scan, including both the image and PDF version.
+/// Data structure containing information about a scan, including both the image and an optional PDF.
 public struct ImageScannerScan {
+    public enum ImageScannerError: Error {
+        case failedToGeneratePDF
+    }
+    
     public var image: UIImage
-    public var pdf: Data?
+    
+    public func generatePDFData(completion: @escaping (Result<Data, ImageScannerError>) -> Void) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            if let pdfData = self.image.pdfData() {
+                completion(.success(pdfData))
+            } else {
+                completion(.failure(.failedToGeneratePDF))
+            }
+        }
+        
+    }
     
     mutating func rotate(by rotationAngle: Measurement<UnitAngle>) {
         guard rotationAngle.value != 0, rotationAngle.value != 360 else { return }
-        
         image = image.rotated(by: rotationAngle) ?? image
-        pdf = image.pdfData()
-    }
-}
-
-// Declare our convenience init in an extension to preserve the auto generated init
-extension ImageScannerScan {
-    init(from image: UIImage) {
-        self.init(image: image, pdf: image.pdfData())
     }
 }
 

@@ -148,9 +148,9 @@ final class EditScanViewController: UIViewController {
         
         // Enhanced Image
         let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-        let enhancedScan = enhancedImage.flatMap { ImageScannerScan(from: $0) }
+        let enhancedScan = enhancedImage.flatMap { ImageScannerScan(image: $0) }
         
-        let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(from: image), croppedScan: ImageScannerScan(from: croppedImage), enhancedScan: enhancedScan)
+        let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(image: image), croppedScan: ImageScannerScan(image: croppedImage), enhancedScan: enhancedScan)
         
         let reviewViewController = ReviewViewController(results: results)
         navigationController?.pushViewController(reviewViewController, animated: true)
