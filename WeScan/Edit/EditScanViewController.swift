@@ -36,6 +36,13 @@ final class EditScanViewController: UIViewController {
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
+    
+    lazy private var cancelButton: UIBarButtonItem = {
+        let title = NSLocalizedString("wescan.edit.button.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
+        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
+        button.tintColor = navigationController?.navigationBar.tintColor
+        return button
+    }()
 
     /// The image the quadrilateral was detected on.
     private let image: UIImage
@@ -67,7 +74,8 @@ final class EditScanViewController: UIViewController {
         setupConstraints()
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
-        
+        navigationItem.leftBarButtonItem = cancelButton
+
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
         
         let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
@@ -118,6 +126,11 @@ final class EditScanViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @objc func cancelButtonTapped() {
+        if let imageScannerController = navigationController as? ImageScannerController {
+            imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
+        }
+    }
     
     @objc func pushReviewController() {
         guard let quad = quadView.quad,
