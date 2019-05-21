@@ -78,4 +78,10 @@ struct VisionRectangleDetector {
             height: image.extent.height, completion: completion)
     }
     
+    static func rectangle(forImage image: CIImage, orientation: CGImagePropertyOrientation, completion: @escaping ((Quadrilateral?) -> Void)) {
+        let imageRequestHandler = VNImageRequestHandler(ciImage: image, orientation: orientation, options: [:])
+        VisionRectangleDetector.completeImageRequest(
+            for: imageRequestHandler, width: image.extent.width,
+            height: image.extent.height, completion: completion)
+    }
 }
