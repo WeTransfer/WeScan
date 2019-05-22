@@ -81,19 +81,17 @@ public final class ImageScannerController: UINavigationController {
             
             guard let ciImage = CIImage(image: image) else { return }
             let orientation = CGImagePropertyOrientation(image.imageOrientation)
+            let orientedImage = ciImage.oriented(forExifOrientation: Int32(orientation.rawValue))
             if #available(iOS 11.0, *) {
+               
                 // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
                 VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
-                    detectedQuad = quad
-                    detectedQuad?.reorganize()
-
-                    let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
-                    self.setViewControllers([editViewController], animated: true)
+                    detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
                 }
             } else {
                 // Use the CIRectangleDetector on iOS 10 to attempt to find a rectangle from the initial image.
-                detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)
-                detectedQuad?.reorganize()
+                detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)?.toCartesian(withHeight: orientedImage.extent.height)
+                //detectedQuad?.reorganize()
             }
         }
     }
