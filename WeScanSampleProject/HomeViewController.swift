@@ -29,11 +29,12 @@ final class HomeViewController: UIViewController {
     
     lazy private var scanButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Scan Now!", for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        button.setTitle("Scan Item", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(presentScanController(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(scanOrSelectImage(_:)), for: .touchUpInside)
         button.backgroundColor = UIColor(red: 64.0 / 255.0, green: 159 / 255.0, blue: 255 / 255.0, alpha: 1.0)
-        button.layer.cornerRadius = 20.0
+        button.layer.cornerRadius = 10.0
         return button
     }()
 
@@ -68,19 +69,52 @@ final class HomeViewController: UIViewController {
             logoLabel.centerXAnchor.constraint(equalTo: logoImageView.centerXAnchor)
         ]
         
-        let scanButtonConstraints = [
-            view.bottomAnchor.constraint(equalTo: scanButton.bottomAnchor, constant: 50.0),
-            scanButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scanButton.heightAnchor.constraint(equalToConstant: 40.0),
-            scanButton.widthAnchor.constraint(equalToConstant: 150.0)
-        ]
+        NSLayoutConstraint.activate(logoLabelConstraints + logoImageViewConstraints)
         
-        NSLayoutConstraint.activate(scanButtonConstraints + logoLabelConstraints + logoImageViewConstraints)
+        if #available(iOS 11.0, *) {
+            let scanButtonConstraints = [
+                scanButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+                scanButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16),
+                scanButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+                scanButton.heightAnchor.constraint(equalToConstant: 55)
+            ]
+            
+            NSLayoutConstraint.activate(scanButtonConstraints)
+        } else {
+            let scanButtonConstraints = [
+                scanButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+                scanButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+                scanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+                scanButton.heightAnchor.constraint(equalToConstant: 55)
+            ]
+            
+            NSLayoutConstraint.activate(scanButtonConstraints)
+        }
     }
     
     // MARK: - Actions
     
-    @objc func presentScanController(_ sender: UIButton) {
+    @objc func scanOrSelectImage(_ sender: UIButton) {
+        let actionSheet = UIAlertController(title: "Would you like to scan an image or select one from your photo library?", message: nil, preferredStyle: .actionSheet)
+        
+        let scanAction = UIAlertAction(title: "Scan", style: .default) { (_) in
+            self.scanImage()
+        }
+        
+        let selectAction = UIAlertAction(title: "Select", style: .default) { (_) in
+            self.selectImage()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(scanAction)
+        actionSheet.addAction(selectAction)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func scanImage() {
         let scannerOptions = ImageScannerOptions(scanMultipleItems: true,
                                                  allowAutoScan: false,
                                                  allowTapToFocus: false,
@@ -89,6 +123,13 @@ final class HomeViewController: UIViewController {
         let scannerVC = ImageScannerController(options:scannerOptions)
         scannerVC.imageScannerDelegate = self
         present(scannerVC, animated: true, completion: nil)
+    }
+    
+    func selectImage() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
     }
 }
 
@@ -122,4 +163,22 @@ extension HomeViewController: ImageScannerControllerDelegate {
         scanner.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true)
+        
+        
+        // FIXME: We should no longer instantiate the ImageScannerController with an image. For that we should use the ReviewViewController
+        /*
+        guard let image = info[.originalImage] as? UIImage else { return }
+        let scannerViewController = ImageScannerController(image: image, delegate: self)
+        present(scannerViewController, animated: true)
+         */
+    }
 }

@@ -11,10 +11,11 @@ import UIKit
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
     
-    var enhancedImageIsAvailable = false
-    var isCurrentlyDisplayingEnhancedImage = false
+    private var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
+    private var enhancedImageIsAvailable = false
+    private var isCurrentlyDisplayingEnhancedImage = false
     
-    lazy private var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
@@ -28,6 +29,13 @@ final class ReviewViewController: UIViewController {
     lazy private var enhanceButton: UIBarButtonItem = {
         let image = UIImage(named: "enhance", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleEnhancedImage))
+        button.tintColor = .white
+        return button
+    }()
+    
+    lazy private var rotateButton: UIBarButtonItem = {
+        let image = UIImage(named: "rotate", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rotateImage))
         button.tintColor = .white
         return button
     }()
@@ -90,7 +98,8 @@ final class ReviewViewController: UIViewController {
         navigationController?.toolbar.barStyle = .blackTranslucent
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        toolbarItems = [fixedSpace, enhanceButton]
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbarItems = [fixedSpace, enhanceButton, flexibleSpace, rotateButton, fixedSpace]
     }
     
     private func setupConstraints() {
@@ -106,23 +115,42 @@ final class ReviewViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func toggleEnhancedImage() {
-        guard enhancedImageIsAvailable else { return }
-        if isCurrentlyDisplayingEnhancedImage {
-            imageView.image = results.scannedImage
-            enhanceButton.tintColor = .white
+    @objc private func reloadImage() {
+        if enhancedImageIsAvailable, isCurrentlyDisplayingEnhancedImage {
+            imageView.image = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
         } else {
-            imageView.image = results.enhancedImage
-            enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
+            imageView.image = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
         }
+    }
+    
+    @objc func toggleEnhancedImage() {
+        guard enhancedImageIsAvailable else { return }
         
         isCurrentlyDisplayingEnhancedImage.toggle()
+        reloadImage()
+        
+        if isCurrentlyDisplayingEnhancedImage {
+            enhanceButton.tintColor = UIColor(red: 64 / 255, green: 159 / 255, blue: 255 / 255, alpha: 1.0)
+        } else {
+            enhanceButton.tintColor = .white
+        }
+    }
+    
+    @objc func rotateImage() {
+        rotationAngle.value += 90
+        
+        if rotationAngle.value == 360 {
+            rotationAngle.value = 0
+        }
+        
+        reloadImage()
     }
     
     @objc private func finishScan() {
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
         var newResults = results
-        newResults.scannedImage = results.scannedImage
+        newResults.scannedImage = results.scannedImage.rotated(by: rotationAngle) ?? results.scannedImage
+        newResults.enhancedImage = results.enhancedImage?.rotated(by: rotationAngle) ?? results.enhancedImage
         newResults.doesUserPreferEnhancedImage = isCurrentlyDisplayingEnhancedImage
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }

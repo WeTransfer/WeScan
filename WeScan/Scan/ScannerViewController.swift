@@ -36,6 +36,9 @@ final class ScannerViewController: UIViewController {
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
     
+    /// The visual effect (blur) view used on the navigation bar
+    private let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    
     /// Whether flash is enabled
     private var flashEnabled = false
     
@@ -49,6 +52,9 @@ final class ScannerViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    /// The original bar style that was set by the host app
+    private var originalBarStyle: UIBarStyle?
     
     lazy private var shutterButton: ShutterButton = {
         let button = ShutterButton()
@@ -107,6 +113,8 @@ final class ScannerViewController: UIViewController {
     lazy private var flashButton: UIBarButtonItem = {
         let flashImage = UIImage(named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let flashButton = UIBarButtonItem(image: flashImage, style: .plain, target: self, action: #selector(toggleFlash))
+        flashButton.tintColor = .white
+        
         return flashButton
     }()
     
@@ -128,33 +136,42 @@ final class ScannerViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = NSLocalizedString("wescan.scanning.title", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Scanning", comment: "The title of the ScannerViewController")
+        title = nil
         
         setupViews()
-        setupToolbar()
+        setupNavigationBar()
         setupConstraints()
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
         CaptureSession.current.isAutoScanEnabled = self.options.allowAutoScan
         
-        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
+        originalBarStyle = navigationController?.navigationBar.barStyle
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+        
         CaptureSession.current.isEditing = false
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        navigationController?.setToolbarHidden(true, animated: false)
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.addSubview(visualEffectView)
+        navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
+        
+        navigationController?.navigationBar.barStyle = .blackTranslucent
+        
         self.updateCounterButton()
         
         deviceOrientationHelper.startDeviceOrientationNotifier { (deviceOrientation) in
@@ -171,11 +188,20 @@ final class ScannerViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         videoPreviewLayer.frame = view.layer.bounds
+        
+        let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
+        let visualEffectRect = self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: -(statusBarHeight)).offsetBy(dx: 0, dy: -statusBarHeight)
+        
+        visualEffectView.frame = visualEffectRect ?? CGRect.zero
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
+        
+        visualEffectView.removeFromSuperview()
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barStyle = originalBarStyle ?? .default
         
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         if device.torchMode == .on {
@@ -198,10 +224,9 @@ final class ScannerViewController: UIViewController {
         view.addSubview(blackFlashView)
     }
     
-    private func setupToolbar() {
-        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([fixedSpace, flashButton, flexibleSpace, autoScanButton, fixedSpace], animated: false)
+    private func setupNavigationBar() {
+        navigationItem.setLeftBarButton(flashButton, animated: false)
+        navigationItem.setRightBarButton(autoScanButton, animated: false)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
             let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
@@ -211,7 +236,6 @@ final class ScannerViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        var toolbarConstraints = [NSLayoutConstraint]()
         var quadViewConstraints = [NSLayoutConstraint]()
         var cancelButtonConstraints = [NSLayoutConstraint]()
         var shutterButtonConstraints = [NSLayoutConstraint]()
@@ -245,19 +269,6 @@ final class ScannerViewController: UIViewController {
         ]
         
         if #available(iOS 11.0, *) {
-            let window = UIApplication.shared.keyWindow
-            
-            toolbarConstraints = [
-                toolbar.widthAnchor.constraint(equalTo: view.widthAnchor),
-                toolbar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                toolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                toolbar.topAnchor.constraint(equalTo: view.topAnchor)
-            ]
-            
-            if let safeAreaInsets = window?.safeAreaInsets {
-                toolbarConstraints.append(toolbar.heightAnchor.constraint(equalToConstant: safeAreaInsets.top + 44.0))
-            }
-            
             cancelButtonConstraints = [
                 cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
                 view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
@@ -273,13 +284,6 @@ final class ScannerViewController: UIViewController {
             let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
         } else {
-            toolbarConstraints = [
-                toolbar.widthAnchor.constraint(equalTo: view.widthAnchor),
-                toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                toolbar.topAnchor.constraint(equalTo: view.topAnchor)
-            ]
-            
             cancelButtonConstraints = [
                 cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
                 view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
@@ -289,7 +293,7 @@ final class ScannerViewController: UIViewController {
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
         }
         
-        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints + counterButtonConstraints + blackFlashViewConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + counterButtonConstraints + blackFlashViewConstraints)
     }
     
     private func flashToBlack() {
@@ -434,7 +438,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
-
+        
         let scannedItem = ScannedItem(originalImage:picture, quad:quad)
         scannedItem.rotation = self.getCurrentRotationAngle()
         ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
@@ -460,9 +464,9 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         let scaledImageSize = imageSize.applying(scaleTransform)
         
         let rotationTransform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
-
+        
         let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
-
+        
         let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
         
         let transforms = [scaleTransform, rotationTransform, translationTransform]

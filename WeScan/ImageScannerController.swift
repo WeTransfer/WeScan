@@ -64,12 +64,23 @@ public final class ImageScannerController: UINavigationController {
     
     // MARK: - Life Cycle
     
+    /// A black UIView, used to quickly display a black screen when the shutter button is presseed.
+    internal let blackFlashView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     public required init(options:ImageScannerOptions?) {
         let scannerViewController = ScannerViewController(scanSession:nil, options:options)
         super.init(rootViewController: scannerViewController)
         scannerViewController.delegate = self
         navigationBar.tintColor = .black
         navigationBar.isTranslucent = false
+        self.view.addSubview(blackFlashView)
+        setupConstraints()
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -78,6 +89,17 @@ public final class ImageScannerController: UINavigationController {
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupConstraints() {
+        let blackFlashViewConstraints = [
+            blackFlashView.topAnchor.constraint(equalTo: view.topAnchor),
+            blackFlashView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            view.bottomAnchor.constraint(equalTo: blackFlashView.bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: blackFlashView.trailingAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(blackFlashViewConstraints)
     }
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
