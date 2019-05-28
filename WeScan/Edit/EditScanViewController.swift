@@ -135,8 +135,8 @@ final class EditScanViewController: UIViewController {
     @objc func handleDone() {
         
         guard let quad = quadView.quad else {
-                // TODO: Return error
-                return
+            // TODO: Return error
+            return
         }
         
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)

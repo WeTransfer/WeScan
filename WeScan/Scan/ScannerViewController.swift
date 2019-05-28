@@ -94,20 +94,16 @@ final class ScannerViewController: UIViewController {
         return view
     }()
     
-    lazy private var toolbar: UIToolbar = {
-        let toolbar = UIToolbar()
-        toolbar.barStyle = .blackTranslucent
-        toolbar.tintColor = .white
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        return toolbar
-    }()
-    
     lazy private var autoScanButton: UIBarButtonItem = {
         var title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
         if !self.options.allowAutoScan{
             title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
         }
-        return UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
+        
+        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
+        button.tintColor = .white
+        
+        return button
     }()
     
     lazy private var flashButton: UIBarButtonItem = {
@@ -220,7 +216,6 @@ final class ScannerViewController: UIViewController {
         view.addSubview(counterButton)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
-        view.addSubview(toolbar)
         view.addSubview(blackFlashView)
     }
     
