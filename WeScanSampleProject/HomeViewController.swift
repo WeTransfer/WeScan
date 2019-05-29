@@ -118,7 +118,7 @@ final class HomeViewController: UIViewController {
         let scannerOptions = ImageScannerOptions(scanMultipleItems: true,
                                                  allowAutoScan: false,
                                                  allowTapToFocus: false,
-                                                 defaultColorRenderOption:.grayscale)
+                                                 defaultColorRenderOption:.color)
         
         let scannerVC = ImageScannerController(options:scannerOptions)
         scannerVC.imageScannerDelegate = self

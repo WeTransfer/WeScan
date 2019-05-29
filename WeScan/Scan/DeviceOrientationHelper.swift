@@ -18,7 +18,7 @@ class DeviceOrientationHelper {
     typealias DeviceOrientationHandler = ((_ deviceOrientation: UIDeviceOrientation) -> Void)?
     private var deviceOrientationAction: DeviceOrientationHandler?
     
-    public var currentDeviceOrientation: UIDeviceOrientation = .portrait
+    private (set) var currentDeviceOrientation: UIDeviceOrientation = .portrait
     
     private let motionLimit: Double = 0.6 // Smallers values makes it much sensitive to detect an orientation change. [0 to 1]
     
