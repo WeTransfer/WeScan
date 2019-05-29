@@ -124,7 +124,7 @@ extension ImageScannerController:ScannerViewControllerDelegate{
 
 extension ImageScannerController:MultiPageScanSessionViewControllerDelegate{
     
-    func multiPageScanSessionViewController(_ multiPageScanSessionViewController: MultiPageScanSessionViewController, finished session: MultiPageScanSession) {
+    public func multiPageScanSessionViewController(_ multiPageScanSessionViewController: MultiPageScanSessionViewController, finished session: MultiPageScanSession) {
         self.imageScannerDelegate?.imageScannerController(self, didFinishWithSession: session)
     }
 }

@@ -31,7 +31,7 @@ public class ScannedItem{
     /// The deskewed and cropped orignal image using the detected rectangle, without any filters.
     var renderedImage:UIImage? = nil
     
-    init(originalImage:UIImage, quad:Quadrilateral?) {
+    public init(originalImage:UIImage, quad:Quadrilateral?) {
         self.originalImage = originalImage
         self.quad = quad
     }
@@ -40,6 +40,8 @@ public class ScannedItem{
 public class MultiPageScanSession {
     
     public private(set) var scannedItems:Array<ScannedItem> = []
+    
+    public init(){}
     
     public func add(item:ScannedItem){
         self.scannedItems.append(item)
