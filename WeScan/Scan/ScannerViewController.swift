@@ -122,7 +122,7 @@ final class ScannerViewController: UIViewController {
         visualEffectView.removeFromSuperview()
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = originalBarStyle ?? .default
-        
+        captureSessionManager?.stop()
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         if device.torchMode == .on {
             toggleFlash()
@@ -296,6 +296,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {
         activityIndicator.startAnimating()
+        captureSessionManager.stop()
         shutterButton.isUserInteractionEnabled = false
     }
     

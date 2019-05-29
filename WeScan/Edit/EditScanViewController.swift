@@ -74,7 +74,12 @@ final class EditScanViewController: UIViewController {
         setupConstraints()
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
-        navigationItem.leftBarButtonItem = cancelButton
+        if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
+          navigationItem.leftBarButtonItem = cancelButton
+        }
+        else {
+            navigationItem.leftBarButtonItem = nil
+        }
 
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
         

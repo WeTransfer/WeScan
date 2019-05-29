@@ -148,11 +148,10 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
-        
+        CaptureSession.current.setImageOrientation()
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
         photoSettings.isAutoStillImageStabilizationEnabled = true
-        
         photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
     
@@ -243,8 +242,6 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        CaptureSession.current.setImageOrientation()
-        
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0
         delegate?.didStartCapturingPicture(for: self)
@@ -266,8 +263,6 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
-        
-        CaptureSession.current.setImageOrientation()
         
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0
