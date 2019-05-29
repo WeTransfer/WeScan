@@ -10,7 +10,7 @@ import Foundation
 import CoreMotion
 
 class DeviceOrientationHelper {
-    static let shared = DeviceOrientationHelper() // Singleton is recommended because an app should create only a single instance of the CMMotionManager class.
+    static let shared = DeviceOrientationHelper() 
     
     private let motionManager: CMMotionManager
     private let queue: OperationQueue

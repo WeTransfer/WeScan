@@ -19,30 +19,29 @@ public class ScannedItemRenderer{
             let originalImage = scannedItem.originalImage
             let image = originalImage.applyingPortraitOrientation()
             
-            guard let quad = scannedItem.quad,
-                let ciImage = CIImage(image: image) else {
-                    // Return the original image
-                    DispatchQueue.main.async { completion(image) }
-                    return
-            }
-            
-            var cartesianScaledQuad = quad.toCartesian(withHeight: image.size.height)
-            cartesianScaledQuad.reorganize()
-            
-            let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
-                "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
-                "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
-                "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
-                "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
-                ])
-            
             var uiImage: UIImage!
             
-            // Let's try to generate the CGImage from the CIImage before creating a UIImage.
-            if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
-                uiImage = UIImage(cgImage: cgImage)
+            if let quad = scannedItem.quad,
+                let ciImage = CIImage(image: image) {
+
+                var cartesianScaledQuad = quad.toCartesian(withHeight: image.size.height)
+                cartesianScaledQuad.reorganize()
+                
+                let filteredImage = ciImage.applyingFilter("CIPerspectiveCorrection", parameters: [
+                    "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
+                    "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
+                    "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
+                    "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
+                    ])
+                
+                // Let's try to generate the CGImage from the CIImage before creating a UIImage.
+                if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
+                    uiImage = UIImage(cgImage: cgImage)
+                } else {
+                    uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+                }
             } else {
-                uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
+                uiImage = image
             }
             
             if scannedItem.colorOption == .grayscale{
