@@ -136,14 +136,13 @@ final class HomeViewController: UIViewController {
     
     func handleResult(session:MultiPageScanSession){
         // Do whatever you want with the images like creating a PDF
-        print("Creating PDF")
         
         var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         path = path + "/file.pdf"
         
         let pdfCreator = PDFCreator(scanSession: session, in: path, outputResolution:1000)
         pdfCreator.createPDF(completion: { (error) in
-            print("Done creating PDF")
+            print("Done creating PDF: \(path)")
         }, progress: { (progress) in
             print("Crating PDF... \(progress)")
         })
@@ -177,21 +176,13 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
         
         guard let image = info[.originalImage] as? UIImage else { return }
         let scanSession = MultiPageScanSession()
-        let scannedItem = ScannedItem(originalImage: image, quad: nil)
+        let scannedItem = ScannedItem(originalImage: image, quad: nil, colorOption: .grayscale)
         scanSession.add(item: scannedItem)
         
         let scanSessionViewController = MultiPageScanSessionViewController(scanSession: scanSession)
         scanSessionViewController.delegate = self
         let navigationController = UINavigationController(rootViewController: scanSessionViewController)
         present(navigationController, animated: true)
-        
-        
-        // FIXME: We should no longer instantiate the ImageScannerController with an image. For that we should use the ReviewViewController
-        /*
-        guard let image = info[.originalImage] as? UIImage else { return }
-        let scannerViewController = ImageScannerController(image: image, delegate: self)
-        present(scannerViewController, animated: true)
-         */
     }
 }
 

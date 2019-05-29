@@ -31,9 +31,10 @@ public class ScannedItem{
     /// The deskewed and cropped orignal image using the detected rectangle, without any filters.
     var renderedImage:UIImage? = nil
     
-    public init(originalImage:UIImage, quad:Quadrilateral?) {
+    public init(originalImage:UIImage, quad:Quadrilateral? = nil, colorOption:ScannedItemColorOption = .color) {
         self.originalImage = originalImage
         self.quad = quad
+        self.colorOption = colorOption
     }
 }
 
