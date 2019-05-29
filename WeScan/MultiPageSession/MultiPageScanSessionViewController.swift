@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol MultiPageScanSessionViewControllerDelegate:NSObjectProtocol {
+public protocol MultiPageScanSessionViewControllerDelegate:NSObjectProtocol {
     func multiPageScanSessionViewController(_ multiPageScanSessionViewController:MultiPageScanSessionViewController, finished session:MultiPageScanSession)
 }
 
-class MultiPageScanSessionViewController: UIViewController {
+public class MultiPageScanSessionViewController: UIViewController {
 
     private var scanSession:MultiPageScanSession
     private var pages:Array<ScannedPageViewController> = []
@@ -39,7 +39,7 @@ class MultiPageScanSessionViewController: UIViewController {
         return pageControl
     }()
     
-    init(scanSession:MultiPageScanSession){
+    public init(scanSession:MultiPageScanSession){
         self.scanSession = scanSession
         super.init(nibName: nil, bundle: nil)
         setupPages()
@@ -51,13 +51,13 @@ class MultiPageScanSessionViewController: UIViewController {
     
     // MARK: - View lifecycle
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
         self.setupViews()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.setToolbarHidden(false, animated: true)
@@ -210,7 +210,7 @@ extension MultiPageScanSessionViewController:EditScanViewControllerDelegate {
 
 extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if let index = pages.firstIndex(of: (viewController as! ScannedPageViewController)){
             let previousIndex = index - 1
             if (previousIndex >= 0){
@@ -220,7 +220,7 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
         return nil
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         if let index = pages.firstIndex(of: (viewController as! ScannedPageViewController)){
             let nextIndex = index + 1
             if (nextIndex < pages.count){
@@ -234,7 +234,7 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
 
 extension MultiPageScanSessionViewController:UIPageViewControllerDelegate{
     
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         guard completed else { return }
         

@@ -165,10 +165,11 @@ final class ScannerViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.addSubview(visualEffectView)
         navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
-        
         navigationController?.navigationBar.barStyle = .blackTranslucent
         
-        self.updateCounterButton()
+        navigationController?.setToolbarHidden(true, animated: true)
+        
+        updateCounterButton()
         
         deviceOrientationHelper.startDeviceOrientationNotifier { (deviceOrientation) in
             self.orientationChanged(deviceOrientation: deviceOrientation)
@@ -436,6 +437,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         
         let scannedItem = ScannedItem(originalImage:picture, quad:quad)
         scannedItem.rotation = self.getCurrentRotationAngle()
+        scannedItem.colorOption = self.options.defaultColorRenderOption
         ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
             scannedItem.renderedImage = image
         }
