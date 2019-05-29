@@ -13,11 +13,22 @@ public enum ScannedItemColorOption{
     case grayscale
 }
 
+/// Data structure containing information about one page scanned
 public class ScannedItem{
+    
+    /// The original image taken by the user, prior to the cropping applied by WeScan.
     let originalImage:UIImage
+    
+    /// The detected rectangle which was used to generate the `scannedImage`.
     var quad:Quadrilateral?
+    
+    /// The rotation applied to the resulting image
     var rotation:Double = 0.0
+    
+    /// The color preference for the output of this image
     var colorOption:ScannedItemColorOption = .color
+    
+    /// The deskewed and cropped orignal image using the detected rectangle, without any filters.
     var renderedImage:UIImage? = nil
     
     init(originalImage:UIImage, quad:Quadrilateral?) {

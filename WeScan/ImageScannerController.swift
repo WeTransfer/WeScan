@@ -128,23 +128,3 @@ extension ImageScannerController:MultiPageScanSessionViewControllerDelegate{
         self.imageScannerDelegate?.imageScannerController(self, didFinishWithSession: session)
     }
 }
-
-/// Data structure containing information about a scan.
-public struct ImageScannerResults {
-    
-    /// The original image taken by the user, prior to the cropping applied by WeScan.
-    public var originalImage: UIImage
-    
-    /// The deskewed and cropped orignal image using the detected rectangle, without any filters.
-    public var scannedImage: UIImage
-    
-    /// The enhanced image, passed through an Adaptive Thresholding function. This image will always be grayscale and may not always be available.
-    public var enhancedImage: UIImage?
-    
-    /// Whether the user wants to use the enhanced image or not. The `enhancedImage`, for use with OCR or similar uses, may still be available even if it has not been selected by the user.
-    public var doesUserPreferEnhancedImage: Bool
-    
-    /// The detected rectangle which was used to generate the `scannedImage`.
-    public var detectedRectangle: Quadrilateral
-    
-}

@@ -436,6 +436,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         
         let scannedItem = ScannedItem(originalImage:picture, quad:quad)
         scannedItem.rotation = self.getCurrentRotationAngle()
+        scannedItem.colorOption = self.options.defaultColorRenderOption
         ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
             scannedItem.renderedImage = image
         }
