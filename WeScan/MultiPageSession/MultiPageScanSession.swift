@@ -36,6 +36,13 @@ public class ScannedItem{
         self.quad = quad
         self.colorOption = colorOption
     }
+    
+    public func render(completion: @escaping (_ image:UIImage?)->Void){
+        ScannedItemRenderer().render(scannedItem: self) { (image) in
+            self.renderedImage = image
+            completion(image)
+        }
+    }
 }
 
 public class MultiPageScanSession {

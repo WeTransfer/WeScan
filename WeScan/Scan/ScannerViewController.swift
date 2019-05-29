@@ -438,9 +438,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         let scannedItem = ScannedItem(originalImage:picture, quad:quad)
         scannedItem.rotation = self.getCurrentRotationAngle()
         scannedItem.colorOption = self.options.defaultColorRenderOption
-        ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
-            scannedItem.renderedImage = image
-        }
+        scannedItem.render { (_) in }   // Renders the image so we have it ready instead of doing it while reviewing (this speeds the proces a lot because is done in the background)
         self.multipageSession.add(item: scannedItem)
         self.updateCounterButton()
         

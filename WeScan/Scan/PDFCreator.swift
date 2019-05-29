@@ -51,7 +51,7 @@ public class PDFCreator {
                 self.renderNextImage()
             } else {
                 print("Rendering image \(self.currentIndex)")
-                ScannedItemRenderer().render(scannedItem: scannedItem) { (image) in
+                scannedItem.render { (image) in
                     if let image = image {
                         self.images.append(image)
                     }
