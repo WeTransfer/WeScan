@@ -113,7 +113,7 @@ class MultiPageScanSessionViewController: UIViewController {
     
     private func getCurrentPageIndex()->Int?{
         let currentViewController = self.getCurrentViewController()
-        return self.pages.index(of:currentViewController)
+        return self.pages.firstIndex(of:currentViewController)
     }
     
     private func getCurrentItem()->ScannedItem?{
@@ -211,7 +211,7 @@ extension MultiPageScanSessionViewController:EditScanViewControllerDelegate {
 extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        if let index = pages.index(of: (viewController as! ScannedPageViewController)){
+        if let index = pages.firstIndex(of: (viewController as! ScannedPageViewController)){
             let previousIndex = index - 1
             if (previousIndex >= 0){
                 return self.pages[previousIndex]
@@ -221,7 +221,7 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDataSource{
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if let index = pages.index(of: (viewController as! ScannedPageViewController)){
+        if let index = pages.firstIndex(of: (viewController as! ScannedPageViewController)){
             let nextIndex = index + 1
             if (nextIndex < pages.count){
                 return self.pages[nextIndex]
@@ -239,7 +239,7 @@ extension MultiPageScanSessionViewController:UIPageViewControllerDelegate{
         guard completed else { return }
         
         let currentViewController = self.getCurrentViewController()
-        let index = self.pages.index(of:currentViewController)
+        let index = self.pages.firstIndex(of:currentViewController)
         
         if let index = index {
             self.updateTitle(index:index)

@@ -30,11 +30,8 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     ///
     /// - Parameters:
     ///   - scanner: The scanner controller object managing the scanning interface.
-    ///   - results: The results of the user scanning with the camera.
+    ///   - sessuib: The result multi page scan session with the ScannedItem objects
     /// - Discussion: Your delegate's implementation of this method should dismiss the image scanner controller.
-    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults)
-    
-    // This will replace the 'didFinishScanningWithResults' method above
     func imageScannerController(_ scanner:ImageScannerController, didFinishWithSession session:MultiPageScanSession)
     
     /// Tells the delegate that the user cancelled the scan operation.
