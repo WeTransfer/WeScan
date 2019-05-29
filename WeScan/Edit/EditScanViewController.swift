@@ -76,8 +76,7 @@ final class EditScanViewController: UIViewController {
         navigationItem.rightBarButtonItem = nextButton
         if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
           navigationItem.leftBarButtonItem = cancelButton
-        }
-        else {
+        } else {
             navigationItem.leftBarButtonItem = nil
         }
 
