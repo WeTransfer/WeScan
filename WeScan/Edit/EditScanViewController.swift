@@ -150,6 +150,7 @@ final class EditScanViewController: UIViewController {
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
         self.quad = scaledQuad
         
+        // Cropped Image
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
         
@@ -160,22 +161,14 @@ final class EditScanViewController: UIViewController {
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
         
+        let croppedImage = UIImage.from(ciImage: filteredImage)
+        // Enhanced Image
         let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
+        let enhancedScan = enhancedImage.flatMap { ImageScannerScan(image: $0) }
         
-        var uiImage: UIImage!
+        let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(image: image), croppedScan: ImageScannerScan(image: croppedImage), enhancedScan: enhancedScan)
         
-        // Let's try to generate the CGImage from the CIImage before creating a UIImage.
-        if let cgImage = CIContext(options: nil).createCGImage(filteredImage, from: filteredImage.extent) {
-            uiImage = UIImage(cgImage: cgImage)
-        } else {
-            uiImage = UIImage(ciImage: filteredImage, scale: 1.0, orientation: .up)
-        }
-        
-        let finalImage = uiImage.withFixedOrientation()
-        
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
         let reviewViewController = ReviewViewController(results: results)
-        
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
 
