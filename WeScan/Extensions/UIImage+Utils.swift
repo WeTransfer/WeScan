@@ -12,9 +12,9 @@ extension UIImage {
     /// Creates a UIImage from the specified CIImage.
     static func from(ciImage: CIImage) -> UIImage {
         if let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent) {
-            return UIImage(cgImage: cgImage).withFixedOrientation()
+            return UIImage(cgImage: cgImage)
         } else {
-            return UIImage(ciImage: ciImage, scale: 1.0, orientation: .up).withFixedOrientation()
+            return UIImage(ciImage: ciImage, scale: 1.0, orientation: .up)
         }
     }
     
