@@ -50,7 +50,7 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
+    init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true, useAdaptiveThreshold: Bool = true) {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
         self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
         super.init(nibName: nil, bundle: nil)
@@ -141,8 +141,13 @@ final class EditScanViewController: UIViewController {
             "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
-        
-        let enhancedImage = filteredImage.applyingPhotoEffectMono()?.withFixedOrientation()
+
+        let enhancedImage: CIImage
+        if useAdaptiveThreshold {
+            enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
+        } else {
+            enhancedImage = filteredImage.applyingPhotoEffectMono()?.withFixedOrientation()
+        }
         
         var uiImage: UIImage!
         

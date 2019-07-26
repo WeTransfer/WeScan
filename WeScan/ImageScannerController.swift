@@ -56,7 +56,7 @@ public final class ImageScannerController: UINavigationController {
         return view
     }()
     
-    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
+    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil, useAdaptiveThreshold: Bool = true) {
         super.init(rootViewController: ScannerViewController())
         
         self.imageScannerDelegate = delegate
@@ -75,7 +75,7 @@ public final class ImageScannerController: UINavigationController {
             // *** Vision *requires* a completion block to detect rectangles, but it's instant.
             // *** When using Vision, we'll present the normal edit view controller first, then present the updated edit view controller later.
             defer {
-                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, useAdaptiveThreshold: useAdaptiveThreshold)
                 setViewControllers([editViewController], animated: false)
             }
             
@@ -87,7 +87,7 @@ public final class ImageScannerController: UINavigationController {
                     detectedQuad = quad
                     detectedQuad?.reorganize()
 
-                    let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+                    let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, useAdaptiveThreshold: useAdaptiveThreshold)
                     self.setViewControllers([editViewController], animated: true)
                 }
             } else {

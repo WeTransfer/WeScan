@@ -299,10 +299,10 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         shutterButton.isUserInteractionEnabled = false
     }
     
-    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?, useAdaptiveThreshold: Bool = true) {
         activityIndicator.stopAnimating()
         
-        let editVC = EditScanViewController(image: picture, quad: quad)
+        let editVC = EditScanViewController(image: picture, quad: quad, rotateImage: true, useAdaptiveThreshold: useAdaptiveThreshold)
         navigationController?.pushViewController(editVC, animated: false)
         
         shutterButton.isUserInteractionEnabled = true
