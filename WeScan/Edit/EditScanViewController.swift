@@ -142,7 +142,7 @@ final class EditScanViewController: UIViewController {
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
             ])
         
-        let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
+        let enhancedImage = filteredImage.applyingPhotoEffectMono()?.withFixedOrientation()
         
         var uiImage: UIImage!
         
