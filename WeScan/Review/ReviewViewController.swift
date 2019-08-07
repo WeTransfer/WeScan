@@ -26,21 +26,21 @@ final class ReviewViewController: UIViewController {
         return imageView
     }()
     
-    lazy private var enhanceButton: UIBarButtonItem = {
+    private lazy var enhanceButton: UIBarButtonItem = {
         let image = UIImage(named: "enhance", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleEnhancedImage))
         button.tintColor = .white
         return button
     }()
     
-    lazy private var rotateButton: UIBarButtonItem = {
+    private lazy var rotateButton: UIBarButtonItem = {
         let image = UIImage(named: "rotate", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rotateImage))
         button.tintColor = .white
         return button
     }()
     
-    lazy private var doneButton: UIBarButtonItem = {
+    private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(finishScan))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
