@@ -1,6 +1,8 @@
 ## Changelog
 
 ### Next
+- Updated SwiftLint code style rules
+- Forcing a changelog entry now from CI
 
 ### 1.1.0
 

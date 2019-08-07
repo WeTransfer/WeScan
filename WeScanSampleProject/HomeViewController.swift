@@ -12,7 +12,7 @@ import WeScan
 final class HomeViewController: UIViewController {
     
     private lazy var logoImageView: UIImageView = {
-        let image = UIImage(named: "WeScanLogo")
+        let image = #imageLiteral(resourceName: "WeScanLogo")
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
