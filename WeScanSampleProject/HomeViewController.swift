@@ -11,14 +11,14 @@ import WeScan
 
 final class HomeViewController: UIViewController {
     
-    lazy private var logoImageView: UIImageView = {
-        let image = UIImage(named: "WeScanLogo")
+    private lazy var logoImageView: UIImageView = {
+        let image = #imageLiteral(resourceName: "WeScanLogo")
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    lazy private var logoLabel: UILabel = {
+    private lazy var logoLabel: UILabel = {
         let label = UILabel()
         label.text = "WeScan"
         label.font = UIFont.systemFont(ofSize: 25.0, weight: .bold)
@@ -27,7 +27,7 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
-    lazy private var scanButton: UIButton = {
+    private lazy var scanButton: UIButton = {
         let button = UIButton(type: .custom)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         button.setTitle("Scan Item", for: .normal)
@@ -130,7 +130,7 @@ final class HomeViewController: UIViewController {
 
 extension HomeViewController: ImageScannerControllerDelegate {
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
-        print(error)
+        assertionFailure("Error occurred: \(error)")
     }
     
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {

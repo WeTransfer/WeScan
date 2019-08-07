@@ -43,7 +43,7 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
 public final class ImageScannerController: UINavigationController {
     
     /// The object that acts as the delegate of the `ImageScannerController`.
-    weak public var imageScannerDelegate: ImageScannerControllerDelegate?
+    public weak var imageScannerDelegate: ImageScannerControllerDelegate?
     
     // MARK: - Life Cycle
     
@@ -55,6 +55,10 @@ public final class ImageScannerController: UINavigationController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
     
     public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
         super.init(rootViewController: ScannerViewController())
@@ -97,12 +101,12 @@ public final class ImageScannerController: UINavigationController {
             }
         }
     }
-    
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+
+    override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -115,10 +119,6 @@ public final class ImageScannerController: UINavigationController {
         ]
         
         NSLayoutConstraint.activate(blackFlashViewConstraints)
-    }
-    
-    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
     }
     
     internal func flashToBlack() {
