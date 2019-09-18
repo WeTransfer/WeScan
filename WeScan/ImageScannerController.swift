@@ -61,7 +61,13 @@ public final class ImageScannerController: UINavigationController {
         
         self.imageScannerDelegate = delegate
         
-        navigationBar.tintColor = .black
+        if #available(iOS 13.0, *) {
+            // Use semantic colors for Dark Mode compatibility on iOS 13+
+            navigationBar.tintColor = .label
+        } else {
+            navigationBar.tintColor = .black
+        }
+
         navigationBar.isTranslucent = false
         self.view.addSubview(blackFlashView)
         setupConstraints()
