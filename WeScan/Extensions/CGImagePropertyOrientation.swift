@@ -31,4 +31,32 @@ extension CGImagePropertyOrientation {
             self = .right
         }
     }
+
+    init(deviceOrientation: UIDeviceOrientation) {
+        switch deviceOrientation {
+        case .portrait: self = .up
+        case .portraitUpsideDown: self = .down
+        case .landscapeLeft: self = .left
+        case .landscapeRight: self = .right
+        case .unknown: self = .up
+        case .faceUp: self = .up
+        case .faceDown: self = .up
+        @unknown default:
+            assertionFailure("Unknow orientation, falling to default")
+            self = .right
+        }
+    }
+
+    init(interfaceOrientation: UIInterfaceOrientation) {
+        switch interfaceOrientation {
+        case .portrait: self = .up
+        case .portraitUpsideDown: self = .up
+        case .landscapeLeft: self = .left
+        case .landscapeRight: self = .right
+        case .unknown: self = .up
+        @unknown default:
+            assertionFailure("Unknow orientation, falling to default")
+            self = .right
+        }
+    }
 }
