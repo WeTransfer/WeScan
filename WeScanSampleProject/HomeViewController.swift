@@ -96,7 +96,7 @@ final class HomeViewController: UIViewController {
     
     @objc func scanOrSelectImage(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: "Would you like to scan an image or select one from your photo library?", message: nil, preferredStyle: .actionSheet)
-        
+        actionSheet.popoverPresentationController?.sourceView = sender
         let scanAction = UIAlertAction(title: "Scan", style: .default) { (_) in
             self.scanImage()
         }
@@ -116,6 +116,7 @@ final class HomeViewController: UIViewController {
     
     func scanImage() {
         let scannerViewController = ImageScannerController(delegate: self)
+        scannerViewController.modalPresentationStyle = .fullScreen
         present(scannerViewController, animated: true)
     }
     
@@ -153,6 +154,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
         
         guard let image = info[.originalImage] as? UIImage else { return }
         let scannerViewController = ImageScannerController(image: image, delegate: self)
+        scannerViewController.modalPresentationStyle = .fullScreen
         present(scannerViewController, animated: true)
     }
 }
