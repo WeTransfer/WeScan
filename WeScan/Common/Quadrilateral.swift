@@ -147,7 +147,7 @@ public struct Quadrilateral: Transformable {
         var invertedfromSize = fromSize
         let rotated = rotationAngle != 0.0
         
-        if rotated && rotationAngle != CGFloat.pi {
+        if rotated && (rotationAngle.truncatingRemainder(dividingBy: CGFloat.pi) != 0) {
             invertedfromSize = CGSize(width: fromSize.height, height: fromSize.width)
         }
         
