@@ -102,17 +102,23 @@ final class ScannerViewController: UIViewController {
         navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
         
         navigationController?.navigationBar.barStyle = .blackTranslucent
+
+        setupVideoOrientation()
+        setupViewsForCurrentOrientation()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        videoPreviewLayer.frame = view.layer.bounds
-        
-        let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
-        let visualEffectRect = self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: -(statusBarHeight)).offsetBy(dx: 0, dy: -statusBarHeight)
-        
-        visualEffectView.frame = visualEffectRect ?? CGRect.zero
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupViewsForCurrentOrientation()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { [weak self] (context) in
+            self?.setupViewsForCurrentOrientation()
+        }, completion: { [weak self] (_) in
+            self?.setupVideoOrientation()
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -140,7 +146,20 @@ final class ScannerViewController: UIViewController {
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
     }
-    
+
+    private func setupViewsForCurrentOrientation() {
+        let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
+        let visualEffectRect = self.navigationController?.navigationBar.bounds.insetBy(
+            dx: 0,
+            dy: -(statusBarHeight)
+        ).offsetBy(
+            dx: 0,
+            dy: -statusBarHeight
+        )
+        self.visualEffectView.frame = visualEffectRect ?? CGRect.zero
+        videoPreviewLayer.frame = view.layer.bounds
+    }
+
     private func setupNavigationBar() {
         navigationItem.setLeftBarButton(flashButton, animated: false)
         navigationItem.setRightBarButton(autoScanButton, animated: false)
@@ -195,6 +214,17 @@ final class ScannerViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
+    }
+
+    func setupVideoOrientation() {
+        let statusBarOrientation = UIApplication.shared.statusBarOrientation
+        var initialVideoOrientation: AVCaptureVideoOrientation = .portrait
+        if statusBarOrientation != .unknown {
+            if let videoOrientation = AVCaptureVideoOrientation(rawValue: statusBarOrientation.rawValue) {
+                initialVideoOrientation = videoOrientation
+            }
+        }
+        videoPreviewLayer.connection?.videoOrientation = initialVideoOrientation
     }
     
     // MARK: - Tap to Focus
@@ -302,7 +332,6 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
-        
         let editVC = EditScanViewController(image: picture, quad: quad)
         navigationController?.pushViewController(editVC, animated: false)
         
@@ -315,13 +344,18 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
             quadView.removeQuadrilateral()
             return
         }
+
+        let statusBarOrientation = UIApplication.shared.statusBarOrientation
+
+        let orientedImageSize = CGSize(
+            width: statusBarOrientation.isPortrait ? imageSize.height : imageSize.width,
+            height: statusBarOrientation.isPortrait ? imageSize.width : imageSize.height
+        )
         
-        let portraitImageSize = CGSize(width: imageSize.height, height: imageSize.width)
-        
-        let scaleTransform = CGAffineTransform.scaleTransform(forSize: portraitImageSize, aspectFillInSize: quadView.bounds.size)
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: orientedImageSize, aspectFillInSize: quadView.bounds.size)
         let scaledImageSize = imageSize.applying(scaleTransform)
         
-        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
+        let rotationTransform = CGAffineTransform(rotationAngle: statusBarOrientation.rotationAngle)
 
         let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
 
