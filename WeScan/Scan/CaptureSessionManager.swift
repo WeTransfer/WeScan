@@ -280,6 +280,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
     /// Completes the image capture by processing the image, and passing it to the delegate object.
     /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
     private func completeImageCapture(with imageData: Data) {
+        let statusBarOrientation = UIApplication.shared.statusBarOrientation
         DispatchQueue.global(qos: .background).async { [weak self] in
             CaptureSession.current.isEditing = true
             guard let image = UIImage(data: imageData) else {
@@ -292,29 +293,25 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
                 }
                 return
             }
-            
-            var angle: CGFloat = 0.0
-            
-            switch image.imageOrientation {
-            case .right:
-                angle = CGFloat.pi / 2
-            case .up:
-                angle = CGFloat.pi
-            default:
-                break
-            }
-            
+
+            let floatAngle = statusBarOrientation.rotationAngle + CGFloat.pi
+            let angle = Measurement(value: Double(floatAngle), unit: UnitAngle.radians)
+            let orientedImage = image.rotated(by: angle) ?? image
             var quad: Quadrilateral?
             if let displayedRectangleResult = self?.displayedRectangleResult {
                 quad = self?.displayRectangleResult(rectangleResult: displayedRectangleResult)
-                quad = quad?.scale(displayedRectangleResult.imageSize, image.size, withRotationAngle: angle)
+                quad = quad?.scale(
+                    displayedRectangleResult.imageSize,
+                    orientedImage.size,
+                    withRotationAngle: statusBarOrientation.rotationAngle
+                )
             }
-            
+
             DispatchQueue.main.async {
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.delegate?.captureSessionManager(strongSelf, didCapturePicture: image, withQuad: quad)
+                strongSelf.delegate?.captureSessionManager(strongSelf, didCapturePicture: orientedImage, withQuad: quad)
             }
         }
     }
