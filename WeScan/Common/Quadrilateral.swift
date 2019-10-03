@@ -8,40 +8,27 @@
 
 import Foundation
 import AVFoundation
+import Vision
 
 /// A data structure representing a quadrilateral and its position. This class exists to bypass the fact that CIRectangleFeature is read-only.
 public struct Quadrilateral: Transformable {
     
     /// A point that specifies the top left corner of the quadrilateral.
-    var topLeft: CGPoint
+    public var topLeft: CGPoint
     
     /// A point that specifies the top right corner of the quadrilateral.
-    var topRight: CGPoint
+    public var topRight: CGPoint
     
     /// A point that specifies the bottom right corner of the quadrilateral.
-    var bottomRight: CGPoint
+    public var bottomRight: CGPoint
     
     /// A point that specifies the bottom left corner of the quadrilateral.
-    var bottomLeft: CGPoint
-    
-    init(rectangleFeature: CIRectangleFeature) {
-        self.topLeft = rectangleFeature.topLeft
-        self.topRight = rectangleFeature.topRight
-        self.bottomLeft = rectangleFeature.bottomLeft
-        self.bottomRight = rectangleFeature.bottomRight
-    }
-    
-    init(topLeft: CGPoint, topRight: CGPoint, bottomRight: CGPoint, bottomLeft: CGPoint) {
-        self.topLeft = topLeft
-        self.topRight = topRight
-        self.bottomRight = bottomRight
-        self.bottomLeft = bottomLeft
-    }
-    
+    public var bottomLeft: CGPoint
+
     public var description: String {
         return "topLeft: \(topLeft), topRight: \(topRight), bottomRight: \(bottomRight), bottomLeft: \(bottomLeft)"
     }
-    
+
     /// The path of the Quadrilateral as a `UIBezierPath`
     var path: UIBezierPath {
         let path = UIBezierPath()
@@ -50,14 +37,36 @@ public struct Quadrilateral: Transformable {
         path.addLine(to: bottomRight)
         path.addLine(to: bottomLeft)
         path.close()
-        
+
         return path
     }
-    
+
     /// The perimeter of the Quadrilateral
     var perimeter: Double {
         let perimeter = topLeft.distanceTo(point: topRight) + topRight.distanceTo(point: bottomRight) + bottomRight.distanceTo(point: bottomLeft) + bottomLeft.distanceTo(point: topLeft)
         return Double(perimeter)
+    }
+    
+    init(rectangleFeature: CIRectangleFeature) {
+        self.topLeft = rectangleFeature.topLeft
+        self.topRight = rectangleFeature.topRight
+        self.bottomLeft = rectangleFeature.bottomLeft
+        self.bottomRight = rectangleFeature.bottomRight
+    }
+
+    @available(iOS 11.0, *)
+    init(rectangleObservation: VNRectangleObservation) {
+        self.topLeft = rectangleObservation.topLeft
+        self.topRight = rectangleObservation.topRight
+        self.bottomLeft = rectangleObservation.bottomLeft
+        self.bottomRight = rectangleObservation.bottomRight
+    }
+
+    init(topLeft: CGPoint, topRight: CGPoint, bottomRight: CGPoint, bottomLeft: CGPoint) {
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomRight = bottomRight
+        self.bottomLeft = bottomLeft
     }
     
     /// Applies a `CGAffineTransform` to the quadrilateral.

@@ -66,6 +66,12 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         self.videoPreviewLayer = videoPreviewLayer
         super.init()
         
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return nil
+        }
+        
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
@@ -75,11 +81,11 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         videoOutput.alwaysDiscardsLateVideoFrames = true
         
         defer {
+            device.unlockForConfiguration()
             captureSession.commitConfiguration()
         }
         
-        guard let inputDevice = AVCaptureDevice.default(for: AVMediaType.video),
-            let deviceInput = try? AVCaptureDeviceInput(device: inputDevice),
+        guard let deviceInput = try? AVCaptureDeviceInput(device: device),
             captureSession.canAddInput(deviceInput),
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
@@ -88,12 +94,22 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 return
         }
         
+        do {
+            try device.lockForConfiguration()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
+        device.isSubjectAreaChangeMonitoringEnabled = true
+        
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
         captureSession.addOutput(videoOutput)
         
         videoPreviewLayer.session = captureSession
-        videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer.videoGravity = .resizeAspectFill
         
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "video_ouput_queue"))
     }
@@ -102,7 +118,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     
     /// Starts the camera and detecting quadrilaterals.
     internal func start() {
-        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
         
         switch authorizationStatus {
         case .authorized:
@@ -127,13 +143,15 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     internal func capturePhoto() {
+        guard let connection = photoOutput.connection(with: .video), connection.isEnabled, connection.isActive else {
+            let error = ImageScannerControllerError.capture
+            delegate?.captureSessionManager(self, didFailWithError: error)
+            return
+        }
+        
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
         photoSettings.isAutoStillImageStabilizationEnabled = true
-        
-        if let photoOutputConnection = self.photoOutput.connection(with: .video) {
-            photoOutputConnection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? AVCaptureVideoOrientation.portrait
-        }
         
         photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
@@ -141,64 +159,22 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard isDetecting == true else {
+        guard isDetecting == true,
+            let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-        
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-        
-        let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let imageSize = finalImage.extent.size
-        
+
+        let imageSize = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
+
         if #available(iOS 11.0, *) {
-            VisionRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
+            VisionRectangleDetector.rectangle(forPixelBuffer: pixelBuffer) { (rectangle) in
                 self.processRectangle(rectangle: rectangle, imageSize: imageSize)
             }
         } else {
+            let finalImage = CIImage(cvPixelBuffer: pixelBuffer)
             CIRectangleDetector.rectangle(forImage: finalImage) { (rectangle) in
                 self.processRectangle(rectangle: rectangle, imageSize: imageSize)
             }
-        }
-    }
-    
-    private func setImageOrientation() {
-        var motion: CMMotionManager!
-        motion = CMMotionManager()
-        
-        /// This value should be 0.2, but since we only need one cycle (and stop updates immediately),
-        /// we set it low to get the orientation immediately
-        motion.accelerometerUpdateInterval = 0.01
-        
-        guard motion.isAccelerometerAvailable else {
-            CaptureSession.current.editImageOrientation = .up
-            return
-        }
-        
-        motion.startAccelerometerUpdates(to: OperationQueue()) { data, error in
-            guard let data = data, error == nil else {
-                CaptureSession.current.editImageOrientation = .up
-                return
-            }
-            
-            /// The minimum amount of sensitivity for the landscape orientations
-            /// This is to prevent the landscape orientation being incorrectly used
-            /// Higher = easier for landscape to be detected, lower = easier for portrait to be detected
-            let motionThreshold = 0.35
-            
-            if data.acceleration.x >= motionThreshold {
-                CaptureSession.current.editImageOrientation = .left
-            } else if data.acceleration.x <= -motionThreshold {
-                CaptureSession.current.editImageOrientation = .right
-            } else {
-                /// This means the device is either in the 'up' or 'down' orientation, BUT,
-                /// it's very rare for someone to be using their phone upside down, so we use 'up' all the time
-                /// Which prevents accidentally making the document be scanned upside down
-                CaptureSession.current.editImageOrientation = .up
-            }
-            
-            motion.stopAccelerometerUpdates()
         }
     }
     
@@ -214,7 +190,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
                 
                 let shouldAutoScan = (result == .showAndAutoScan)
                 strongSelf.displayRectangleResult(rectangleResult: RectangleDetectorResult(rectangle: rectangle, imageSize: imageSize))
-                if shouldAutoScan, CaptureSession.current.autoScanEnabled, !CaptureSession.current.isEditing {
+                if shouldAutoScan, CaptureSession.current.isAutoScanEnabled, !CaptureSession.current.isEditing {
                     capturePhoto()
                 }
             }
@@ -260,14 +236,15 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
 }
 
 extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
-    
+
+    // swiftlint:disable function_parameter_count
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         if let error = error {
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
         
-        setImageOrientation()
+        CaptureSession.current.setImageOrientation()
         
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0
@@ -291,7 +268,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        setImageOrientation()
+        CaptureSession.current.setImageOrientation()
         
         isDetecting = false
         rectangleFunnel.currentAutoScanPassCount = 0

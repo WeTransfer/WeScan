@@ -26,7 +26,7 @@ final class RectangleFeaturesFunnelTests: XCTestCase {
         expectation.isInverted = true
         
         for i in 0 ..< rectangleFeatures.count {
-            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in                
+            funnel.add(rectangleFeatures[i], currentlyDisplayedRectangle: nil) { (_, _) in
                 expectation.fulfill()
             }
         }
