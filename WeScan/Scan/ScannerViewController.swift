@@ -97,9 +97,12 @@ final class ScannerViewController: UIViewController {
         UIApplication.shared.isIdleTimerDisabled = true
 
         navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.addSubview(visualEffectView)
-        navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
+        if #available(iOS 13.0, *) {
+        } else {
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navigationController?.navigationBar.addSubview(visualEffectView)
+            navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
+        }
         
         navigationController?.navigationBar.barStyle = .blackTranslucent
     }
