@@ -195,6 +195,7 @@
 		74F7D039211ACC4B0046AF7E /* UIImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTests.swift; sourceTree = "<group>"; };
 		74F7D03B211ACC6B0046AF7E /* CGAffineTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGAffineTransformTests.swift; sourceTree = "<group>"; };
 		74F7D03D211ACC890046AF7E /* AVCaptureVideoOrientationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureVideoOrientationTests.swift; sourceTree = "<group>"; };
+		82A414A022B9391B00DF5831 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9541C84122155DD3005FBCD3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A11C5B9B2046A20C005075FE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		A11C5CD820495EA1005075FE /* RectangleFeaturesFunnelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnelTests.swift; sourceTree = "<group>"; };
@@ -661,6 +662,7 @@
 				"zh-Hans",
 				"zh-Hant",
 				de,
+				"pt-BR",
 				hu,
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
@@ -910,6 +912,7 @@
 				B940E3C621AC2568003B3C0B /* zh-Hans */,
 				B940E3C721AC256E003B3C0B /* zh-Hant */,
 				9541C84122155DD3005FBCD3 /* de */,
+				82A414A022B9391B00DF5831 /* pt-BR */,
 				274DF35922D363BC0095CE49 /* hu */,
 			);
 			name = Localizable.strings;
