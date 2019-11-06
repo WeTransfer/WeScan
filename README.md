@@ -27,11 +27,11 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 ## Features
 
-- [x] Fast
+- [x] Fast and lightweight
 - [x] Live scanning of documents
 - [x] Edit detected rectangle
 - [x] Auto scan and flash support
-- [x] Lightweight dependency
+- [x] Support for both PDF and UIImage
 - [x] Translated to English, Chinese, Italian, Portuguese, and French
 - [ ] Batch scanning
 
@@ -43,7 +43,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 ## Requirements
 
-- Swift 4.2
+- Swift 5.0
 - iOS 10.0+
 
 <br>

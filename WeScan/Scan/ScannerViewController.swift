@@ -20,10 +20,7 @@ final class ScannerViewController: UIViewController {
     
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
-    
-    /// The visual effect (blur) view used on the navigation bar
-    private let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-    
+        
     /// Whether flash is enabled
     private var flashEnabled = false
     
@@ -84,7 +81,7 @@ final class ScannerViewController: UIViewController {
         
         originalBarStyle = navigationController?.navigationBar.barStyle
         
-        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,11 +92,6 @@ final class ScannerViewController: UIViewController {
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
-
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.addSubview(visualEffectView)
-        navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
         
         navigationController?.navigationBar.barStyle = .blackTranslucent
     }
@@ -108,21 +100,15 @@ final class ScannerViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         videoPreviewLayer.frame = view.layer.bounds
-        
-        let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
-        let visualEffectRect = self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: -(statusBarHeight)).offsetBy(dx: 0, dy: -statusBarHeight)
-        
-        visualEffectView.frame = visualEffectRect ?? CGRect.zero
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
         
-        visualEffectView.removeFromSuperview()
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = originalBarStyle ?? .default
-        
+        captureSessionManager?.stop()
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         if device.torchMode == .on {
             toggleFlash()
@@ -132,6 +118,7 @@ final class ScannerViewController: UIViewController {
     // MARK: - Setups
     
     private func setupViews() {
+        view.backgroundColor = .darkGray
         view.layer.addSublayer(videoPreviewLayer)
         quadView.translatesAutoresizingMaskIntoConstraints = false
         quadView.editable = false
@@ -296,6 +283,7 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {
         activityIndicator.startAnimating()
+        captureSessionManager.stop()
         shutterButton.isUserInteractionEnabled = false
     }
     
