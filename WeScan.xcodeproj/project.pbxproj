@@ -659,6 +659,7 @@
 				fr,
 				"pt-PT",
 				it,
+				nl,
 				"zh-Hans",
 				"zh-Hant",
 				de,
