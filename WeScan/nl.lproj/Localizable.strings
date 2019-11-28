@@ -1,0 +1,18 @@
+/*
+    Created by Samuel Willems on 11/28/19.
+    Copyright © 2018 Afdeling apps BV. All rights reserved.
+ */
+
+/* The "Next" button on the right side of the navigation bar on the Edit screen. */
+"wescan.edit.button.next" = "Verder";
+
+/* The title on the navigation bar of the Edit screen. */
+"wescan.edit.title" = "Aanpassen";
+
+/* The title on the navigation bar of the Review screen. */
+"wescan.review.title" = "Bevestigen";
+
+/* The button titles on the Scanning screen. */
+"wescan.scanning.cancel" = "Annuleren";
+"wescan.scanning.auto" = "Automatisch";
+"wescan.scanning.manual" = "Handmatig";
