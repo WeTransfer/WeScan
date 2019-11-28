@@ -652,7 +652,7 @@
 			};
 			buildConfigurationList = A1D4BCB2202C4F3800FCDDEC /* Build configuration list for PBXProject "WeScan" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = en;
+			developmentRegion = nl;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
