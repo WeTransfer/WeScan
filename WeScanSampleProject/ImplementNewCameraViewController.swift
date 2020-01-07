@@ -34,17 +34,18 @@ class ImplementNewCameraViewController: UIViewController {
     }
     
     @IBAction func captureTapped(_ sender: UIButton) {
-        
+        controller.capture()
     }
 
 }
 
 extension ImplementNewCameraViewController: CameraScannerViewOutputDelegate {
     func captureImageFailWithError(error: Error) {
-        
+        print(error)
     }
     
     func captureImageSuccess(image: UIImage, withQuad quad: Quadrilateral?) {
-        
+        let editVC = EditImageViewController(image: image, quad: quad)
+        navigationController?.pushViewController(editVC, animated: false)
     }
 }
