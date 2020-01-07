@@ -9,12 +9,12 @@
 import UIKit
 import AVFoundation
 
-protocol CameraScannerViewProtocol {
-    func capture()
-    func toggleFlash()
+public protocol CameraScannerViewOutputDelegate: class {
+    func captureImageFailWithError(error: Error)
+    func captureImageSuccess(image: UIImage, withQuad quad: Quadrilateral?)
 }
 
-class CameraScannerView: UIViewController, CameraScannerViewProtocol {
+public class CameraScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
@@ -28,12 +28,14 @@ class CameraScannerView: UIViewController, CameraScannerViewProtocol {
     /// Whether flash is enabled
     private var flashEnabled = false
     
-    override func viewDidLoad() {
+    weak open var delegate: CameraScannerViewOutputDelegate?
+    
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         CaptureSession.current.isEditing = false
         quadView.removeQuadrilateral()
@@ -41,13 +43,13 @@ class CameraScannerView: UIViewController, CameraScannerViewProtocol {
         UIApplication.shared.isIdleTimerDisabled = true
     }
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         videoPreviewLayer.frame = view.layer.bounds
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
         captureSessionManager?.stop()
@@ -58,25 +60,119 @@ class CameraScannerView: UIViewController, CameraScannerViewProtocol {
     }
     
     private func setupView() {
+        view.backgroundColor = .darkGray
+        view.layer.addSublayer(videoPreviewLayer)
+        quadView.translatesAutoresizingMaskIntoConstraints = false
+        quadView.editable = false
+        view.addSubview(quadView)
+        setupConstraints()
+        
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
     
-    
-    
-    
-    
-    
-    func capture() {
+    private func setupConstraints() {
+        var quadViewConstraints = [NSLayoutConstraint]()
+        
+        quadViewConstraints = [
+            quadView.topAnchor.constraint(equalTo: view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: quadView.bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: quadView.trailingAnchor),
+            quadView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        ]
+        NSLayoutConstraint.activate(quadViewConstraints)
     }
     
-    func toggleFlash() {
+    /// Called when the AVCaptureDevice detects that the subject area has changed significantly. When it's called, we reset the focus so the camera is no longer out of focus.
+    @objc private func subjectAreaDidChange() {
+        /// Reset the focus and exposure back to automatic
+        do {
+            try CaptureSession.current.resetFocusToAuto()
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            guard let captureSessionManager = captureSessionManager else { return }
+            captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
+            return
+        }
+        
+        /// Remove the focus rectangle if one exists
+        CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
+    }
+    
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        guard  let touch = touches.first else { return }
+        let touchPoint = touch.location(in: view)
+        let convertedTouchPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
+        
+        CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
+        
+        focusRectangle = FocusRectangleView(touchPoint: touchPoint)
+        focusRectangle.setBorder(color: UIColor.white.cgColor)
+        view.addSubview(focusRectangle)
+        
+        do {
+            try CaptureSession.current.setFocusPointToTapPoint(convertedTouchPoint)
+        } catch {
+            let error = ImageScannerControllerError.inputDevice
+            guard let captureSessionManager = captureSessionManager else { return }
+            captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
+            return
+        }
+    }
+    
+    public func capture() {
+        captureSessionManager?.capturePhoto()
+    }
+    
+    public func toggleFlash() {
+        let state = CaptureSession.current.toggleFlash()
+        switch state {
+        case .on:
+            flashEnabled = true
+        case .off:
+            flashEnabled = false
+        case .unknown, .unavailable:
+            flashEnabled = false
+        }
     }
 }
 
-// Custom UI
-extension CameraScannerView {
+extension CameraScannerViewController: RectangleDetectionDelegateProtocol {
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error) {
+        delegate?.captureImageFailWithError(error: error)
+    }
     
+    func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {
+        captureSessionManager.stop()
+    }
+    
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager,
+                               didCapturePicture picture: UIImage,
+                               withQuad quad: Quadrilateral?) {
+        delegate?.captureImageSuccess(image: picture, withQuad: quad)
+    }
+    
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager,
+                               didDetectQuad quad: Quadrilateral?,
+                               _ imageSize: CGSize) {
+        guard let quad = quad else {
+            // If no quad has been detected, we remove the currently displayed on on the quadView.
+            quadView.removeQuadrilateral()
+            return
+        }
+        
+        let portraitImageSize = CGSize(width: imageSize.height, height: imageSize.width)
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: portraitImageSize, aspectFillInSize: quadView.bounds.size)
+        let scaledImageSize = imageSize.applying(scaleTransform)
+        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
+        let imageBounds = CGRect(origin: .zero, size: scaledImageSize).applying(rotationTransform)
+        let translationTransform = CGAffineTransform.translateTransform(fromCenterOfRect: imageBounds, toCenterOfRect: quadView.bounds)
+        let transforms = [scaleTransform, rotationTransform, translationTransform]
+        let transformedQuad = quad.applyTransforms(transforms)
+        quadView.drawQuadrilateral(quad: transformedQuad, animated: true)
+    }
 }
