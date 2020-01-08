@@ -45,7 +45,10 @@ extension ImplementNewCameraViewController: CameraScannerViewOutputDelegate {
     }
     
     func captureImageSuccess(image: UIImage, withQuad quad: Quadrilateral?) {
-        let editVC = EditImageViewController(image: image, quad: quad)
-        navigationController?.pushViewController(editVC, animated: false)
+        guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewEditImageView") as? ImplementEditImageViewController else { return }
+        controller.modalPresentationStyle = .fullScreen
+        controller.captureImage = image
+        controller.quad = quad
+        navigationController?.pushViewController(controller, animated: false)
     }
 }

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		362967782294C23700B9FC4A /* CGImagePropertyOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362967772294C23700B9FC4A /* CGImagePropertyOrientation.swift */; };
 		382D0B0323C348A800A81619 /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382D0B0223C348A800A81619 /* CameraScannerViewController.swift */; };
+		383C440E23C5846B0070DE47 /* ImplementEditImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C440D23C5846B0070DE47 /* ImplementEditImageViewController.swift */; };
+		383C441723C587B90070DE47 /* ImplementReviewImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C441623C587B90070DE47 /* ImplementReviewImageViewController.swift */; };
 		388A3BF423C46DAE00263DD1 /* ImplementNewCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BF323C46DAE00263DD1 /* ImplementNewCameraViewController.swift */; };
 		388A3BFD23C46FF000263DD1 /* EditImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BFC23C46FF000263DD1 /* EditImageViewController.swift */; };
 		74E27858215446C900361812 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E27850215446C200361812 /* FBSnapshotTestCase.framework */; };
@@ -190,6 +192,8 @@
 		274DF35922D363BC0095CE49 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		362967772294C23700B9FC4A /* CGImagePropertyOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImagePropertyOrientation.swift; sourceTree = "<group>"; };
 		382D0B0223C348A800A81619 /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
+		383C440D23C5846B0070DE47 /* ImplementEditImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplementEditImageViewController.swift; sourceTree = "<group>"; };
+		383C441623C587B90070DE47 /* ImplementReviewImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplementReviewImageViewController.swift; sourceTree = "<group>"; };
 		388A3BF323C46DAE00263DD1 /* ImplementNewCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplementNewCameraViewController.swift; sourceTree = "<group>"; };
 		388A3BFC23C46FF000263DD1 /* EditImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImageViewController.swift; sourceTree = "<group>"; };
 		4A644E2221A73C2B00B20839 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -385,6 +389,8 @@
 				A1D4BCC3202C4F3800FCDDEC /* LaunchScreen.storyboard */,
 				A1D4BCC6202C4F3800FCDDEC /* Info.plist */,
 				388A3BF323C46DAE00263DD1 /* ImplementNewCameraViewController.swift */,
+				383C440D23C5846B0070DE47 /* ImplementEditImageViewController.swift */,
+				383C441623C587B90070DE47 /* ImplementReviewImageViewController.swift */,
 			);
 			path = WeScanSampleProject;
 			sourceTree = "<group>";
@@ -803,6 +809,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				383C440E23C5846B0070DE47 /* ImplementEditImageViewController.swift in Sources */,
+				383C441723C587B90070DE47 /* ImplementReviewImageViewController.swift in Sources */,
 				A1D4BCBD202C4F3800FCDDEC /* HomeViewController.swift in Sources */,
 				388A3BF423C46DAE00263DD1 /* ImplementNewCameraViewController.swift in Sources */,
 				A1D4BCBB202C4F3800FCDDEC /* AppDelegate.swift in Sources */,
