@@ -26,6 +26,8 @@ public class EditImageViewController: UIViewController {
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
     
+    weak open var delegate: EditImageViewDelegate?
+    
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
@@ -104,9 +106,10 @@ public class EditImageViewController: UIViewController {
     }
     
     // MARK: - Actions
-    public func cropImage() -> UIImage? {
+    public func cropImage(){
         guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
-                return nil
+            delegate?.cropped(image: nil)
+            return
         }
         
         let cgOrientation = CGImagePropertyOrientation(image.imageOrientation)
@@ -126,7 +129,7 @@ public class EditImageViewController: UIViewController {
         ])
 
         let croppedImage = UIImage.from(ciImage: filteredImage)
-        return croppedImage
+        delegate?.cropped(image: croppedImage)
     }
     
     private func displayQuad() {
