@@ -9,6 +9,10 @@
 import UIKit
 import AVFoundation
 
+public protocol EditImageViewDelegate: class {
+    func cropped(image: UIImage?)
+}
+
 public class EditImageViewController: UIViewController {
     
     /// The image the quadrilateral was detected on.
@@ -100,6 +104,31 @@ public class EditImageViewController: UIViewController {
     }
     
     // MARK: - Actions
+    public func cropImage() -> UIImage? {
+        guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
+                return nil
+        }
+        
+        let cgOrientation = CGImagePropertyOrientation(image.imageOrientation)
+        let orientedImage = ciImage.oriented(forExifOrientation: Int32(cgOrientation.rawValue))
+        let scaledQuad = quad.scale(quadView.bounds.size, image.size)
+        self.quad = scaledQuad
+
+        // Cropped Image
+        var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
+        cartesianScaledQuad.reorganize()
+
+        let filteredImage = orientedImage.applyingFilter("CIPerspectiveCorrection", parameters: [
+            "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
+            "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
+            "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
+            "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
+        ])
+
+        let croppedImage = UIImage.from(ciImage: filteredImage)
+        return croppedImage
+    }
+    
     private func displayQuad() {
         let imageSize = image.size
         let imageFrame = CGRect(origin: quadView.frame.origin, size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant))
