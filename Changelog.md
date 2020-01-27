@@ -2,6 +2,10 @@
 
 ### Next
 
+### 1.3.0
+- Updated SwiftLint code style rules
+- Forcing a changelog entry now from CI
+
 ### 1.1.0
 
 - Updated to Swift 5.0

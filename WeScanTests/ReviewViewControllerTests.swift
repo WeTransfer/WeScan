@@ -106,4 +106,3 @@ final class ReviewViewControllerTests: FBSnapshotTestCase {
         FBSnapshotVerifyView(viewController.imageView)
     }
 }
-

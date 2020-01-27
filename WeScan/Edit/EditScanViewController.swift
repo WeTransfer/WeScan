@@ -12,7 +12,7 @@ import AVFoundation
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
 public class EditScanViewController: UIViewController {
     
-    lazy private var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
@@ -23,14 +23,14 @@ public class EditScanViewController: UIViewController {
         return imageView
     }()
     
-    lazy private var quadView: QuadrilateralView = {
+    private lazy var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
         quadView.editable = true
         quadView.translatesAutoresizingMaskIntoConstraints = false
         return quadView
     }()
     
-    lazy private var nextButton: UIBarButtonItem = {
+    private lazy var nextButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
         button.tintColor = navigationController?.navigationBar.tintColor

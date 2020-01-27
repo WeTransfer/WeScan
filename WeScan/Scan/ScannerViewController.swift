@@ -27,14 +27,14 @@ final class ScannerViewController: UIViewController {
     /// The original bar style that was set by the host app
     private var originalBarStyle: UIBarStyle?
     
-    lazy private var shutterButton: ShutterButton = {
+    private lazy var shutterButton: ShutterButton = {
         let button = ShutterButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         return button
     }()
     
-    lazy private var cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +42,7 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
-    lazy private var autoScanButton: UIBarButtonItem = {
+    private lazy var autoScanButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
         button.tintColor = .white
@@ -50,7 +50,7 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
-    lazy private var flashButton: UIBarButtonItem = {
+    private lazy var flashButton: UIBarButtonItem = {
         let image = UIImage(named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleFlash))
         button.tintColor = .white
@@ -58,7 +58,7 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
-    lazy private var activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .gray)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
