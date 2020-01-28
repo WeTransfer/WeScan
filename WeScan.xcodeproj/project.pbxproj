@@ -808,7 +808,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -z \"$CI\" ]; then\nif which swiftlint >/dev/null; then\nswiftlint --config \"${SRCROOT}/Submodules/WeTransfer-iOS-CI/SwiftLint/.swiftlint-source.yml\"\nswiftlint --config \"${SRCROOT}/Submodules/WeTransfer-iOS-CI/SwiftLint/.swiftlint-tests.yml\"\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\nfi\n";
+			shellScript = "./Submodules/WeTransfer-iOS-CI/SwiftLint/swiftlint.sh\n";
 		};
 		503A25EC22FB045E00534850 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -826,7 +826,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -z \"$CI\" ]; then\nif which swiftlint >/dev/null; then\nswiftlint --config \"${SRCROOT}/Submodules/WeTransfer-iOS-CI/SwiftLint/.swiftlint-source.yml\"\nswiftlint --config \"${SRCROOT}/Submodules/WeTransfer-iOS-CI/SwiftLint/.swiftlint-tests.yml\"\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\nfi\n";
+			shellScript = "./Submodules/WeTransfer-iOS-CI/SwiftLint/swiftlint.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

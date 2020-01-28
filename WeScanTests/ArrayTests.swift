@@ -37,7 +37,7 @@ final class ArrayTests: XCTestCase {
         
         rects1 = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect1, withCount: 10)
         rects2 = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect2, withCount: 10)
-        var rects3 = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect3, withCount: 10)
+        let rects3 = ImageFeatureTestHelpers.getRectangleFeatures(from: .rect3, withCount: 10)
         
         rectangles = rects1 + rects2 + rects3
         
