@@ -4,4 +4,4 @@
 	branch = master
 [submodule "Submodules/ios-snapshot-test-case"]
 	path = Submodules/ios-snapshot-test-case
-	url = https://github.com/uber/ios-snapshot-test-case/
+	url = https://github.com/uber/ios-snapshot-test-case.git
