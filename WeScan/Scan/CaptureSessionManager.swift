@@ -121,6 +121,10 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         captureSession.stopRunning()
     }
     
+    public func stopCamera() {
+        stop()
+    }
+    
     internal func capturePhoto() {
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.isHighResolutionPhotoEnabled = true
