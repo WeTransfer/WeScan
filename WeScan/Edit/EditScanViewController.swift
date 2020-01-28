@@ -37,7 +37,7 @@ final class EditScanViewController: UIViewController {
         return button
     }()
     
-    lazy private var cancelButton: UIBarButtonItem = {
+    private lazy var cancelButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.edit.button.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
         button.tintColor = navigationController?.navigationBar.tintColor

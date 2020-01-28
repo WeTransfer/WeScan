@@ -8,5 +8,5 @@ lane :test do |options|
   test_project(
     project_name: "WeScan", 
     scheme: "WeScan",
-    device: "iPhone 7")
+    device: "iPhone 8")
 end
