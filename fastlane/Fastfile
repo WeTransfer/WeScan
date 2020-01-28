@@ -7,5 +7,6 @@ desc "Run the tests and prepare for Danger"
 lane :test do |options|
   test_project(
     project_name: "WeScan", 
-    scheme: "WeScan")
+    scheme: "WeScan",
+    device: "iPhone 7")
 end
