@@ -1,3 +1,7 @@
+### 1.4.0
+
+- Migrate to Bitrise & Danger-Swift ([#211](https://github.com/WeTransfer/WeScan/pull/211)) via @AvdLee
+
 ### 1.3.0
 - Updated SwiftLint code style rules
 - Forcing a changelog entry now from CI
