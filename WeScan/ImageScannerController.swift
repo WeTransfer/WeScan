@@ -83,7 +83,6 @@ public final class ImageScannerController: UINavigationController {
             // *** Vision *requires* a completion block to detect rectangles, but it's instant.
             // *** When using Vision, we'll present the normal edit view controller first, then present the updated edit view controller later.
            
-            
             guard let ciImage = CIImage(image: image) else { return }
             let orientation = CGImagePropertyOrientation(image.imageOrientation)
             let orientedImage = ciImage.oriented(forExifOrientation: Int32(orientation.rawValue))
