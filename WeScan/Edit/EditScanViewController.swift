@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
-public class EditScanViewController: UIViewController {
+final class EditScanViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
