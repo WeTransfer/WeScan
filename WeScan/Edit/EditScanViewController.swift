@@ -37,7 +37,7 @@ final class EditScanViewController: UIViewController {
         return button
     }()
     
-    lazy private var cancelButton: UIBarButtonItem = {
+    private lazy var cancelButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.edit.button.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
         button.tintColor = navigationController?.navigationBar.tintColor
@@ -92,8 +92,8 @@ final class EditScanViewController: UIViewController {
         adjustQuadViewConstraints()
         displayQuad()
     }
-    public
-    override func viewWillDisappear(_ animated: Bool) {
+    
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Work around for an iOS 11.2 bug where UIBarButtonItems don't get back to their normal state after being pressed.

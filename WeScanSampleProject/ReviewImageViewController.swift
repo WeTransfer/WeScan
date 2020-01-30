@@ -10,7 +10,7 @@ import UIKit
 
 final class ReviewImageViewController: UIViewController {
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     var image: UIImage?
     
     override func viewDidLoad() {

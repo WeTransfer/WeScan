@@ -11,7 +11,7 @@ import WeScan
 
 final class EditImageViewController: UIViewController {
     
-    @IBOutlet weak var editImageView: UIView!
+    @IBOutlet private weak var editImageView: UIView!
     var captureImage: UIImage!
     var quad: Quadrilateral?
     var controller: WeScan.EditImageViewController!

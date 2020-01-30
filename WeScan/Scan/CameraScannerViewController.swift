@@ -28,7 +28,7 @@ public class CameraScannerViewController: UIViewController {
     /// Whether flash is enabled
     private var flashEnabled = false
     
-    weak open var delegate: CameraScannerViewOutputDelegate?
+    open weak var delegate: CameraScannerViewOutputDelegate?
     
     override public func viewDidLoad() {
         super.viewDidLoad()

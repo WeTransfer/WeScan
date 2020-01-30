@@ -58,6 +58,7 @@
                         <constraints>
                             <constraint firstItem="YcL-Ck-Kaf" firstAttribute="centerY" secondItem="Hke-o0-5wQ" secondAttribute="centerY" id="HcC-KV-S7s"/>
                             <constraint firstItem="YcL-Ck-Kaf" firstAttribute="top" secondItem="YbL-Hk-8Tq" secondAttribute="bottom" constant="8" id="Qvc-Sb-cII"/>
+                            <constraint firstItem="YbL-Hk-8Tq" firstAttribute="leading" secondItem="YcL-Ck-Kaf" secondAttribute="trailing" constant="-37" id="Ufd-44-VuT"/>
                             <constraint firstItem="YcL-Ck-Kaf" firstAttribute="centerX" secondItem="Hke-o0-5wQ" secondAttribute="centerX" id="YcB-aL-AFe"/>
                             <constraint firstItem="aYQ-YN-7Jr" firstAttribute="top" secondItem="YcL-Ck-Kaf" secondAttribute="bottom" constant="24" id="ezB-Kb-BRY"/>
                             <constraint firstItem="aYQ-YN-7Jr" firstAttribute="centerX" secondItem="YcL-Ck-Kaf" secondAttribute="centerX" id="kmQ-WQ-9JI"/>
@@ -103,6 +104,7 @@
                         <constraints>
                             <constraint firstItem="0Oa-12-mc5" firstAttribute="top" secondItem="95t-Li-oZf" secondAttribute="bottom" constant="8" id="ICZ-Ug-Gsb"/>
                             <constraint firstItem="0Oa-12-mc5" firstAttribute="centerY" secondItem="7M6-vz-otb" secondAttribute="centerY" id="KQK-fV-Jws"/>
+                            <constraint firstItem="95t-Li-oZf" firstAttribute="leading" secondItem="0Oa-12-mc5" secondAttribute="trailing" constant="-80" id="bGT-yq-8tT"/>
                             <constraint firstItem="0Oa-12-mc5" firstAttribute="centerX" secondItem="7M6-vz-otb" secondAttribute="centerX" id="e6L-fx-Zk6"/>
                             <constraint firstItem="95t-Li-oZf" firstAttribute="trailing" secondItem="0Oa-12-mc5" secondAttribute="trailing" id="tgi-L6-9lI"/>
                         </constraints>
@@ -111,7 +113,7 @@
                     <navigationItem key="navigationItem" id="Z3L-TC-hac"/>
                     <connections>
                         <outlet property="editImageView" destination="0Oa-12-mc5" id="ghQ-ac-ZxL"/>
-                        <segue destination="Z8s-gl-yPH" kind="show" id="SzC-8o-wyg"/>
+                        <segue destination="Z8s-gl-yPH" kind="show" identifier="showReviewImageSegue" id="SzC-8o-wyg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hYq-kP-b44" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
