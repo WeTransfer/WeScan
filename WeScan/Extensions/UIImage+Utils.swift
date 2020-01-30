@@ -9,15 +9,6 @@
 import Foundation
 
 extension UIImage {
-    /// Creates a UIImage from the specified CIImage.
-    static func from(ciImage: CIImage) -> UIImage {
-        if let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent) {
-            return UIImage(cgImage: cgImage)
-        } else {
-            return UIImage(ciImage: ciImage, scale: 1.0, orientation: .up)
-        }
-    }
-    
     /// Draws a new cropped and scaled (zoomed in) image.
     ///
     /// - Parameters:
@@ -115,5 +106,14 @@ extension UIImage {
         CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
 
         return pixelBuffer
+    }
+
+    /// Creates a UIImage from the specified CIImage.
+    static func from(ciImage: CIImage) -> UIImage {
+        if let cgImage = CIContext(options: nil).createCGImage(ciImage, from: ciImage.extent) {
+            return UIImage(cgImage: cgImage)
+        } else {
+            return UIImage(ciImage: ciImage, scale: 1.0, orientation: .up)
+        }
     }
 }
