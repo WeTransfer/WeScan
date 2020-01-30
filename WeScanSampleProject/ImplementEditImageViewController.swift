@@ -37,7 +37,7 @@ class ImplementEditImageViewController: UIViewController {
 }
 
 extension ImplementEditImageViewController: EditImageViewDelegate {
-    func cropped(image: UIImage?) {
+    func cropped(image: UIImage) {
         guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "ReviewImageView") as? ImplementReviewImageViewController else { return }
         controller.modalPresentationStyle = .fullScreen
         controller.image = image
