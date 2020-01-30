@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 public protocol EditImageViewDelegate: class {
-    func cropped(image: UIImage?)
+    func cropped(image: UIImage)
 }
 
 public class EditImageViewController: UIViewController {
@@ -108,7 +108,6 @@ public class EditImageViewController: UIViewController {
     // MARK: - Actions
     public func cropImage(){
         guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
-            delegate?.cropped(image: nil)
             return
         }
         
