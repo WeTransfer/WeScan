@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="141" y="125"/>
         </scene>
-        <!--Implement New Camera View Controller-->
+        <!--New Camera View Controller-->
         <scene sceneID="ygh-Ca-Ra7">
             <objects>
-                <viewController id="1zm-gj-4hn" customClass="ImplementNewCameraViewController" customModule="WeScanSampleProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1zm-gj-4hn" customClass="NewCameraViewController" customModule="WeScanSampleProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hke-o0-5wQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -75,10 +75,10 @@
             </objects>
             <point key="canvasLocation" x="957" y="850"/>
         </scene>
-        <!--Implement Edit Image View Controller-->
+        <!--Edit Image View Controller-->
         <scene sceneID="v7h-aM-DS4">
             <objects>
-                <viewController storyboardIdentifier="NewEditImageView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tpA-bO-XWN" customClass="ImplementEditImageViewController" customModule="WeScanSampleProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewEditImageView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tpA-bO-XWN" customClass="EditImageViewController" customModule="WeScanSampleProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7M6-vz-otb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -118,10 +118,10 @@
             </objects>
             <point key="canvasLocation" x="1828" y="850"/>
         </scene>
-        <!--Implement Review Image View Controller-->
+        <!--Review Image View Controller-->
         <scene sceneID="dW5-i7-bIL">
             <objects>
-                <viewController storyboardIdentifier="ReviewImageView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Z8s-gl-yPH" customClass="ImplementReviewImageViewController" customModule="WeScanSampleProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReviewImageView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Z8s-gl-yPH" customClass="ReviewImageViewController" customModule="WeScanSampleProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jxz-1T-kQ6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
