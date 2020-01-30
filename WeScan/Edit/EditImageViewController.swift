@@ -26,9 +26,9 @@ public class EditImageViewController: UIViewController {
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
     
-    weak open var delegate: EditImageViewDelegate?
+    open weak var delegate: EditImageViewDelegate?
     
-    lazy private var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isOpaque = true
@@ -39,7 +39,7 @@ public class EditImageViewController: UIViewController {
         return imageView
     }()
     
-    lazy private var quadView: QuadrilateralView = {
+    private lazy var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
         quadView.editable = true
         quadView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ public class EditImageViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -106,7 +106,7 @@ public class EditImageViewController: UIViewController {
     }
     
     // MARK: - Actions
-    public func cropImage(){
+    public func cropImage() {
         guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
             return
         }
