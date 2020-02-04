@@ -21,6 +21,8 @@ public class EditImageViewController: UIViewController {
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
     
+    private var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
+    
     private var zoomGestureController: ZoomGestureController!
     
     private var quadViewWidthConstraint = NSLayoutConstraint()
@@ -129,6 +131,20 @@ public class EditImageViewController: UIViewController {
 
         let croppedImage = UIImage.from(ciImage: filteredImage)
         delegate?.cropped(image: croppedImage)
+    }
+    
+    public func rotateImage() {
+        rotationAngle.value += 90
+        
+        if rotationAngle.value == 360 {
+            rotationAngle.value = 0
+        }
+        
+        reloadImage()
+    }
+    
+    private func reloadImage() {
+        imageView.image = image.rotated(by: rotationAngle)
     }
     
     private func displayQuad() {
