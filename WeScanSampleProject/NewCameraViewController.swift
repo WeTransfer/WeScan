@@ -2,7 +2,7 @@
 //  NewCameraViewController.swift
 //  WeScanSampleProject
 //
-//  Created by Chawatvish Worrapoj on 7/1/2563 BE.
+//  Created by Chawatvish Worrapoj on 7/1/2020
 //  Copyright © 2020 WeTransfer. All rights reserved.
 //
 
