@@ -9,10 +9,13 @@
 import UIKit
 import AVFoundation
 
+/// A method that your delegate object must implement to get cropped image.
 public protocol EditImageViewDelegate: class {
     func cropped(image: UIImage)
 }
 
+/// A view controller that manages edit image for scanning documents or pick image from photo library
+/// The `EditImageViewController` class is individual for rotate, crop image
 public class EditImageViewController: UIViewController {
     
     /// The image the quadrilateral was detected on.
@@ -108,6 +111,7 @@ public class EditImageViewController: UIViewController {
     }
     
     // MARK: - Actions
+    /// This function allow user can crop image follow quad. the image will send back by delegate function
     public func cropImage() {
         guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
             return
@@ -133,6 +137,7 @@ public class EditImageViewController: UIViewController {
         delegate?.cropped(image: croppedImage)
     }
     
+    /// This function allow user to rotate image by 90 degree each and will reload image on image view.
     public func rotateImage() {
         rotationAngle.value += 90
         
