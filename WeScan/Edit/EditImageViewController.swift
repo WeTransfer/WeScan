@@ -2,8 +2,8 @@
 //  EditImageViewController.swift
 //  WeScan
 //
-//  Created by Chawatvish Worrapoj on 7/1/2563 BE.
-//  Copyright © 2563 WeTransfer. All rights reserved.
+//  Created by Chawatvish Worrapoj on 7/1/2020
+//  Copyright © 2020 WeTransfer. All rights reserved.
 //
 
 import UIKit
