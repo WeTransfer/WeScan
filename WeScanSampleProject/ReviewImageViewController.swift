@@ -1,9 +1,9 @@
 //
-//  ImplementReviewImageViewController.swift
+//  ReviewImageViewController.swift
 //  WeScanSampleProject
 //
 //  Created by Chawatvish Worrapoj on 8/1/2563 BE.
-//  Copyright © 2563 WeTransfer. All rights reserved.
+//  Copyright © 2020 WeTransfer. All rights reserved.
 //
 
 import UIKit
