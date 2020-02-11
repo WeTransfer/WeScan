@@ -2,18 +2,22 @@
 //  CameraScannerViewController.swift
 //  WeScan
 //
-//  Created by Chawatvish Worrapoj on 6/1/2563 BE.
-//  Copyright © 2563 WeTransfer. All rights reserved.
+//  Created by Chawatvish Worrapoj on 6/1/2020
+//  Copyright © 2020 WeTransfer. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
 
+/// A set of methods that your delegate object must implement to get capture image.
+/// If camera module doesn't work it will send error back to your delegate object.
 public protocol CameraScannerViewOutputDelegate: class {
     func captureImageFailWithError(error: Error)
     func captureImageSuccess(image: UIImage, withQuad quad: Quadrilateral?)
 }
 
+/// A view controller that manages the camera module and auto capture of rectangle shape of document
+/// The `CameraScannerViewController` class is individual camera view include touch for focus, flash control, capture control and auto detect rectangle shape of object.
 public class CameraScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
