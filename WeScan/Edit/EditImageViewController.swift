@@ -23,14 +23,9 @@ public class EditImageViewController: UIViewController {
     
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
-    
-    private var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
-    
     private var zoomGestureController: ZoomGestureController!
-    
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
-    
     open weak var delegate: EditImageViewDelegate?
     
     private lazy var imageView: UIImageView = {
@@ -142,12 +137,12 @@ public class EditImageViewController: UIViewController {
     
     /// This function allow user to rotate image by 90 degree each and will reload image on image view.
     public func rotateImage() {
-        rotationAngle.value = 90
-        reloadImage()
+        let rotationAngle = Measurement<UnitAngle>(value: 90, unit: .degrees)
+        reloadImage(withAngle: rotationAngle)
     }
     
-    private func reloadImage() {
-        guard let newImage = image.rotated(by: rotationAngle) else { return }
+    private func reloadImage(withAngle angle: Measurement<UnitAngle>) {
+        guard let newImage = image.rotated(by: angle) else { return }
         let newQuad = EditImageViewController.defaultQuad(forImage: newImage)
         
         image = newImage
