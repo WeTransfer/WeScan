@@ -19,7 +19,7 @@ public protocol EditImageViewDelegate: class {
 public class EditImageViewController: UIViewController {
     
     /// The image the quadrilateral was detected on.
-    private let image: UIImage
+    private var image: UIImage
     
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
@@ -69,11 +69,7 @@ public class EditImageViewController: UIViewController {
         setupViews()
         setupConstraints()
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
-        
-        let touchDown = UILongPressGestureRecognizer(target: zoomGestureController,
-                                                     action: #selector(zoomGestureController.handle(pan:)))
-        touchDown.minimumPressDuration = 0
-        view.addGestureRecognizer(touchDown)
+        addLongGesture(of: zoomGestureController)
     }
     
     override public func viewDidLayoutSubviews() {
@@ -110,6 +106,13 @@ public class EditImageViewController: UIViewController {
         NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints)
     }
     
+    private func addLongGesture(of controller: ZoomGestureController) {
+        let touchDown = UILongPressGestureRecognizer(target: controller,
+                                                     action: #selector(controller.handle(pan:)))
+        touchDown.minimumPressDuration = 0
+        view.addGestureRecognizer(touchDown)
+    }
+    
     // MARK: - Actions
     /// This function allow user can crop image follow quad. the image will send back by delegate function
     public func cropImage() {
@@ -139,17 +142,22 @@ public class EditImageViewController: UIViewController {
     
     /// This function allow user to rotate image by 90 degree each and will reload image on image view.
     public func rotateImage() {
-        rotationAngle.value += 90
-        
-        if rotationAngle.value == 360 {
-            rotationAngle.value = 0
-        }
-        
+        rotationAngle.value = 90
         reloadImage()
     }
     
     private func reloadImage() {
-        imageView.image = image.rotated(by: rotationAngle)
+        guard let newImage = image.rotated(by: rotationAngle) else { return }
+        let newQuad = EditImageViewController.defaultQuad(forImage: newImage)
+        
+        image = newImage
+        imageView.image = image
+        quad = newQuad
+        adjustQuadViewConstraints()
+        displayQuad()
+        
+        zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
+        addLongGesture(of: zoomGestureController)
     }
     
     private func displayQuad() {
