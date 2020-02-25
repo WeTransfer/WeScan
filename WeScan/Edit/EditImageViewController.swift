@@ -42,15 +42,19 @@ public class EditImageViewController: UIViewController {
     private lazy var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
         quadView.editable = true
+        quadView.strokeColor = strokeColor
         quadView.translatesAutoresizingMaskIntoConstraints = false
         return quadView
     }()
-    
+
+    private var strokeColor: CGColor?
+
     // MARK: - Life Cycle
     
-    public init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
+    public init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true, strokeColor: CGColor? = nil) {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
-        self.quad = quad ?? EditImageViewController.defaultQuad(forImage: image)
+        self.quad = quad ?? EditImageViewController.defaultQuad(allOfImage: image)
+        self.strokeColor = strokeColor
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -143,7 +147,7 @@ public class EditImageViewController: UIViewController {
     
     private func reloadImage(withAngle angle: Measurement<UnitAngle>) {
         guard let newImage = image.rotated(by: angle) else { return }
-        let newQuad = EditImageViewController.defaultQuad(forImage: newImage)
+        let newQuad = EditImageViewController.defaultQuad(allOfImage: newImage)
         
         image = newImage
         imageView.image = image
@@ -157,7 +161,8 @@ public class EditImageViewController: UIViewController {
     
     private func displayQuad() {
         let imageSize = image.size
-        let imageFrame = CGRect(origin: quadView.frame.origin, size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant))
+        let size = CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
+        let imageFrame = CGRect(origin: quadView.frame.origin, size: size)
         
         let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
         let transforms = [scaleTransform]
@@ -183,6 +188,16 @@ public class EditImageViewController: UIViewController {
         
         let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
         
+        return quad
+    }
+
+    /// Generates a `Quadrilateral` object that's cover all of image.
+    private static func defaultQuad(allOfImage image: UIImage, withOffset offset: CGFloat = 75) -> Quadrilateral {
+        let topLeft = CGPoint(x: offset, y: offset)
+        let topRight = CGPoint(x: image.size.width - offset, y: offset)
+        let bottomRight = CGPoint(x: image.size.width - offset, y: image.size.height - offset)
+        let bottomLeft = CGPoint(x: offset, y: image.size.height - offset)
+        let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
         return quad
     }
 }
