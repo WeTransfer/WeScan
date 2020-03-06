@@ -16,7 +16,7 @@ public protocol EditImageViewDelegate: class {
 
 /// A view controller that manages edit image for scanning documents or pick image from photo library
 /// The `EditImageViewController` class is individual for rotate, crop image
-public class EditImageViewController: UIViewController {
+public final class EditImageViewController: UIViewController {
     
     /// The image the quadrilateral was detected on.
     private var image: UIImage
@@ -26,7 +26,7 @@ public class EditImageViewController: UIViewController {
     private var zoomGestureController: ZoomGestureController!
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
-    open weak var delegate: EditImageViewDelegate?
+    public weak var delegate: EditImageViewDelegate?
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
