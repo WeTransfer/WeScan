@@ -104,7 +104,11 @@ Simply add the WeScan framework in the project's Embedded Binaries and Linked Fr
 
 ### Swift
 
-1. Make sure that your view controller conforms to the `ImageScannerControllerDelegate` protocol:
+1. In order to make the framework available, add `import WeScan` at the top of the Swift source file 
+
+2. In the Info.plist, add the `NSCameraUsageDescription` key and set the appropriate value in which you have to inform the user of the reason to allow the camera permission
+
+3. Make sure that your view controller conforms to the `ImageScannerControllerDelegate` protocol:
 
 ```swift
 class YourViewController: UIViewController, ImageScannerControllerDelegate {
@@ -112,7 +116,7 @@ class YourViewController: UIViewController, ImageScannerControllerDelegate {
 }
 ```
 
-2. Implement the delegate functions inside your view controller:
+4. Implement the delegate functions inside your view controller:
 ```swift
 func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
     // You are responsible for carefully handling the error
@@ -132,7 +136,7 @@ func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
 }
 ```
 
-3. Finally, create and present a `ImageScannerController` instance somewhere within your view controller:
+5. Finally, create and present a `ImageScannerController` instance somewhere within your view controller:
 
 ```swift
 let scannerViewController = ImageScannerController()
