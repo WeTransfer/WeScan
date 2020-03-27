@@ -79,7 +79,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
 
         captureSession.beginConfiguration()
-        captureSession.sessionPreset = .hd4K3840x2160
+        captureSession.sessionPreset = .hd1920x1080
         
         photoOutput.isHighResolutionCaptureEnabled = true
 
