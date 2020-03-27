@@ -170,11 +170,9 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         let pixelFormat: FourCharCode = {
             if photoOutput.availablePhotoPixelFormatTypes.contains(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
                 return kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
-            }
-            else if photoOutput.availablePhotoPixelFormatTypes.contains(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+            } else if photoOutput.availablePhotoPixelFormatTypes.contains(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
                 return kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
-            }
-            else {
+            } else {
                 fatalError("No available YpCbCr formats.")
             }
         }()
