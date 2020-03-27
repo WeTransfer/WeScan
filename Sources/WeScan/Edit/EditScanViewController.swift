@@ -59,17 +59,20 @@ final class EditScanViewController: UIViewController {
 
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
-
+    
+    private var pixelBuffer: CVPixelBuffer?
+    
     private var zoomGestureController: ZoomGestureController!
 
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
 
     // MARK: - Life Cycle
-
-    init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
+    
+    init(image: UIImage, pixelBuffer: CVPixelBuffer?, quad: Quadrilateral?, rotateImage: Bool = true) {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
         self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        self.pixelBuffer = pixelBuffer
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -180,14 +183,13 @@ final class EditScanViewController: UIViewController {
         // Enhanced Image
         let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
         let enhancedScan = enhancedImage.flatMap { ImageScannerScan(image: $0) }
-
-        let results = ImageScannerResults(
-            detectedRectangle: scaledQuad,
-            originalScan: ImageScannerScan(image: image),
-            croppedScan: ImageScannerScan(image: croppedImage),
-            enhancedScan: enhancedScan
-        )
-
+        
+        let results = ImageScannerResults(detectedRectangle: scaledQuad,
+                                          originalScan: ImageScannerScan(image: image),
+                                          croppedScan: ImageScannerScan(image: croppedImage),
+                                          enhancedScan: enhancedScan,
+                                          pixelBuffer: pixelBuffer)
+        
         let reviewViewController = ReviewViewController(results: results)
         navigationController?.pushViewController(reviewViewController, animated: true)
     }

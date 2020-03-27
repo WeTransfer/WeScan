@@ -44,7 +44,9 @@ public final class ImageScannerController: UINavigationController {
 
     /// The object that acts as the delegate of the `ImageScannerController`.
     public weak var imageScannerDelegate: ImageScannerControllerDelegate?
-
+    
+    private let scannerViewController = ScannerViewController()
+    
     // MARK: - Life Cycle
 
     /// A black UIView, used to quickly display a black screen when the shutter button is presseed.
@@ -61,8 +63,8 @@ public final class ImageScannerController: UINavigationController {
     }
 
     public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
-        super.init(rootViewController: ScannerViewController())
-
+        super.init(rootViewController: scannerViewController)
+        
         self.imageScannerDelegate = delegate
 
         if #available(iOS 13.0, *) {
@@ -75,11 +77,36 @@ public final class ImageScannerController: UINavigationController {
         setupConstraints()
 
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
-        if let image {
-            detect(image: image) { [weak self] detectedQuad in
-                guard let self else { return }
-                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
-                self.setViewControllers([editViewController], animated: false)
+        if let image = image {
+            
+            var detectedQuad: Quadrilateral?
+            
+            // Whether or not we detect a quad, present the edit view controller after attempting to detect a quad.
+            // *** Vision *requires* a completion block to detect rectangles, but it's instant.
+            // *** When using Vision, we'll present the normal edit view controller first, then present the updated edit view controller later.
+           
+            guard let ciImage = CIImage(image: image) else { return }
+            let orientation = CGImagePropertyOrientation(image.imageOrientation)
+            let orientedImage = ciImage.oriented(forExifOrientation: Int32(orientation.rawValue))
+            if #available(iOS 11.0, *) {
+                
+                // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
+                VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
+                    detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
+                    let editViewController = EditScanViewController(image: image,
+                                                                    pixelBuffer: self.scannerViewController.pixelBuffer,
+                                                                    quad: detectedQuad,
+                                                                    rotateImage: false)
+                    self.setViewControllers([editViewController], animated: true)
+                }
+            } else {
+                // Use the CIRectangleDetector on iOS 10 to attempt to find a rectangle from the initial image.
+                detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)?.toCartesian(withHeight: orientedImage.extent.height)
+                let editViewController = EditScanViewController(image: image,
+                                                                pixelBuffer: self.scannerViewController.pixelBuffer,
+                                                                quad: detectedQuad,
+                                                                rotateImage: false)
+                setViewControllers([editViewController], animated: false)
             }
         }
     }
@@ -188,27 +215,37 @@ public struct ImageScannerResults {
     /// The enhanced scan, passed through an Adaptive Thresholding function.
     /// This image will always be grayscale and may not always be available.
     public var enhancedScan: ImageScannerScan?
-
+    
+    /// The underlying pixel buffer of full captured image.
+    public var pixelBuffer: CVPixelBuffer?
+    
     /// Whether the user selected the enhanced scan or not.
     /// The `enhancedScan` may still be available even if it has not been selected by the user.
     public var doesUserPreferEnhancedScan: Bool
 
     /// The detected rectangle which was used to generate the `scannedImage`.
     public var detectedRectangle: Quadrilateral
-
-    init(
-        detectedRectangle: Quadrilateral,
-        originalScan: ImageScannerScan,
-        croppedScan: ImageScannerScan,
-        enhancedScan: ImageScannerScan?,
-        doesUserPreferEnhancedScan: Bool = false
-    ) {
+    
+    @available(*, unavailable, renamed: "originalScan")
+    public var originalImage: UIImage?
+    
+    @available(*, unavailable, renamed: "croppedScan")
+    public var scannedImage: UIImage?
+    
+    @available(*, unavailable, renamed: "enhancedScan")
+    public var enhancedImage: UIImage?
+    
+    @available(*, unavailable, renamed: "doesUserPreferEnhancedScan")
+    public var doesUserPreferEnhancedImage: Bool = false
+    
+    init(detectedRectangle: Quadrilateral, originalScan: ImageScannerScan, croppedScan: ImageScannerScan, enhancedScan: ImageScannerScan?, pixelBuffer: CVPixelBuffer?, doesUserPreferEnhancedScan: Bool = false) {
         self.detectedRectangle = detectedRectangle
 
         self.originalScan = originalScan
         self.croppedScan = croppedScan
         self.enhancedScan = enhancedScan
-
+        self.pixelBuffer = pixelBuffer
+        
         self.doesUserPreferEnhancedScan = doesUserPreferEnhancedScan
     }
 }

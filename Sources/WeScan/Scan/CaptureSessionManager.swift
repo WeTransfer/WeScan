@@ -33,13 +33,9 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
     ///   - captureSessionManager: The `CaptureSessionManager` instance that has captured a picture.
     ///   - picture: The picture that has been captured.
     ///   - quad: The quadrilateral that was detected in the picture's coordinates if any.
-    func captureSessionManager(
-        _ captureSessionManager: CaptureSessionManager,
-        didCapturePicture picture: UIImage,
-        withQuad quad: Quadrilateral?
-    )
-
-    /// Called when an error occurred with the capture session manager.
+    func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, pixelBuffer: CVPixelBuffer?, withQuad quad: Quadrilateral?)
+    
+    /// Called when an error occured with the capture session manager.
     /// - Parameters:
     ///   - captureSessionManager: The `CaptureSessionManager` that encountered an error.
     ///   - error: The encountered error.
@@ -83,7 +79,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
 
         captureSession.beginConfiguration()
-
+        captureSession.sessionPreset = .hd4K3840x2160
+        
         photoOutput.isHighResolutionCaptureEnabled = true
 
         let videoOutput = AVCaptureVideoDataOutput()
@@ -167,10 +164,31 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             delegate?.captureSessionManager(self, didFailWithError: error)
             return
         }
+        
         CaptureSession.current.setImageOrientation()
-        let photoSettings = AVCapturePhotoSettings()
-        photoSettings.isHighResolutionPhotoEnabled = true
-        photoSettings.isAutoStillImageStabilizationEnabled = true
+        
+        let pixelFormat: FourCharCode = {
+            if photoOutput.availablePhotoPixelFormatTypes.contains(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+                return kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+            }
+            else if photoOutput.availablePhotoPixelFormatTypes.contains(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+                return kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
+            }
+            else {
+                fatalError("No available YpCbCr formats.")
+            }
+        }()
+        
+        let exposureSettings = (0 ..< photoOutput.maxBracketedCapturePhotoCount).map { _ in
+            AVCaptureAutoExposureBracketedStillImageSettings.autoExposureSettings(
+                exposureTargetBias: AVCaptureDevice.currentExposureTargetBias)
+        }
+        
+        let photoSettings = AVCapturePhotoBracketSettings(
+            rawPixelFormatType: 0,
+            processedFormat: [kCVPixelBufferPixelFormatTypeKey as String: pixelFormat],
+            bracketedSettings: exposureSettings)
+        
         photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
 
@@ -274,11 +292,8 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         delegate?.didStartCapturingPicture(for: self)
 
         if let sampleBuffer = photoSampleBuffer,
-            let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(
-                forJPEGSampleBuffer: sampleBuffer,
-                previewPhotoSampleBuffer: nil
-            ) {
-            completeImageCapture(with: imageData)
+            let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil) {
+            completeImageCapture(with: imageData, pixelBuffer: nil)
         } else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -299,7 +314,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         delegate?.didStartCapturingPicture(for: self)
 
         if let imageData = photo.fileDataRepresentation() {
-            completeImageCapture(with: imageData)
+            completeImageCapture(with: imageData, pixelBuffer: photo.pixelBuffer)
         } else {
             let error = ImageScannerControllerError.capture
             delegate?.captureSessionManager(self, didFailWithError: error)
@@ -309,7 +324,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
 
     /// Completes the image capture by processing the image, and passing it to the delegate object.
     /// This function is necessary because the capture functions for iOS 10 and 11 are decoupled.
-    private func completeImageCapture(with imageData: Data) {
+    private func completeImageCapture(with imageData: Data, pixelBuffer: CVPixelBuffer?) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             CaptureSession.current.isEditing = true
             guard let image = UIImage(data: imageData) else {
@@ -344,7 +359,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
                 guard let self else {
                     return
                 }
-                self.delegate?.captureSessionManager(self, didCapturePicture: image, withQuad: quad)
+                strongSelf.delegate?.captureSessionManager(strongSelf, didCapturePicture: image, pixelBuffer: pixelBuffer, withQuad: quad)
             }
         }
     }
