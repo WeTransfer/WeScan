@@ -11,8 +11,8 @@ import AVFoundation
 import UIKit
 
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
-public final class ScannerViewController: UIViewController {
-
+final class ScannerViewController: UIViewController {
+    var hasPushed = false
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
 
@@ -95,7 +95,8 @@ public final class ScannerViewController: UIViewController {
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
-
+        hasPushed = false
+        
         navigationController?.navigationBar.barStyle = .blackTranslucent
     }
 
@@ -292,6 +293,9 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
     
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didCapturePicture picture: UIImage, pixelBuffer: CVPixelBuffer?, withQuad quad: Quadrilateral?) {
         activityIndicator.stopAnimating()
+        
+        guard !hasPushed else { return }
+        hasPushes = true
         
         self.pixelBuffer = pixelBuffer
         let editVC = EditScanViewController(image: picture, pixelBuffer: pixelBuffer, quad: quad)
