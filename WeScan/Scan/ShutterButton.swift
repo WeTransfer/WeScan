@@ -27,7 +27,7 @@ final class ShutterButton: UIControl {
         }
     }
     
-    // MARL: Life Cycle
+    // MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
