@@ -62,8 +62,13 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     
     // MARK: Life Cycle
     
-    init?(videoPreviewLayer: AVCaptureVideoPreviewLayer) {
+    init?(videoPreviewLayer: AVCaptureVideoPreviewLayer, delegate: RectangleDetectionDelegateProtocol? = nil) {
         self.videoPreviewLayer = videoPreviewLayer
+        
+        if delegate != nil {
+            self.delegate = delegate
+        }
+        
         super.init()
         
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
