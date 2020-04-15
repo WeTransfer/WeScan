@@ -153,9 +153,11 @@ public struct Quadrilateral: Transformable {
         
         var transformedQuad = self
         let invertedFromSizeWidth = invertedfromSize.width == 0 ? .leastNormalMagnitude : invertedfromSize.width
+        let invertedFromSizeHeight = invertedfromSize.height == 0 ? .leastNormalMagnitude : invertedfromSize.height
         
-        let scale = toSize.width / invertedFromSizeWidth
-        let scaledTransform = CGAffineTransform(scaleX: scale, y: scale)
+        let scaleWidth = toSize.width / invertedFromSizeWidth
+        let scaleHeight = toSize.height / invertedFromSizeHeight
+        let scaledTransform = CGAffineTransform(scaleX: scaleWidth, y: scaleHeight)
         transformedQuad = transformedQuad.applying(scaledTransform)
         
         if rotated {
