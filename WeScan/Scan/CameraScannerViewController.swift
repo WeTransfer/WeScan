@@ -19,7 +19,17 @@ public protocol CameraScannerViewOutputDelegate: class {
 /// A view controller that manages the camera module and auto capture of rectangle shape of document
 /// The `CameraScannerViewController` class is individual camera view include touch for focus, flash control, capture control and auto detect rectangle shape of object.
 public final class CameraScannerViewController: UIViewController {
-    
+
+    /// The status of auto scan.
+    public var isAutoScanEnabled: Bool = CaptureSession.current.isAutoScanEnabled {
+        didSet {
+            CaptureSession.current.isAutoScanEnabled = isAutoScanEnabled
+        }
+    }
+
+    /// The callback to caller view to send back success or fail.
+    public weak var delegate: CameraScannerViewOutputDelegate?
+
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
     
@@ -31,8 +41,6 @@ public final class CameraScannerViewController: UIViewController {
     
     /// Whether flash is enabled
     private var flashEnabled = false
-    
-    public weak var delegate: CameraScannerViewOutputDelegate?
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -142,6 +150,10 @@ public final class CameraScannerViewController: UIViewController {
         case .unknown, .unavailable:
             flashEnabled = false
         }
+    }
+
+    public func toggleAutoScan() {
+        isAutoScanEnabled = !isAutoScanEnabled
     }
 }
 
