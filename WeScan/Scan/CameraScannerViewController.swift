@@ -153,7 +153,7 @@ public final class CameraScannerViewController: UIViewController {
     }
 
     public func toggleAutoScan() {
-        isAutoScanEnabled = !isAutoScanEnabled
+        isAutoScanEnabled.toggle()
     }
 }
 
