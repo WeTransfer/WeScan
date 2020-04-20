@@ -47,7 +47,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     private let videoPreviewLayer: AVCaptureVideoPreviewLayer
     private let captureSession = AVCaptureSession()
     private let rectangleFunnel = RectangleFeaturesFunnel()
-    weak var delegate: RectangleDetectionDelegateProtocol?
+    private weak var delegate: RectangleDetectionDelegateProtocol?
     private var displayedRectangleResult: RectangleDetectorResult?
     private var photoOutput = AVCapturePhotoOutput()
     
@@ -62,18 +62,14 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     
     // MARK: Life Cycle
     
-    init?(videoPreviewLayer: AVCaptureVideoPreviewLayer, delegate: RectangleDetectionDelegateProtocol? = nil) {
+    init?(videoPreviewLayer: AVCaptureVideoPreviewLayer, delegate: RectangleDetectionDelegateProtocol) {
         self.videoPreviewLayer = videoPreviewLayer
-        
-        if delegate != nil {
-            self.delegate = delegate
-        }
-        
+        self.delegate = delegate
         super.init()
         
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
             let error = ImageScannerControllerError.inputDevice
-            delegate?.captureSessionManager(self, didFailWithError: error)
+            delegate.captureSessionManager(self, didFailWithError: error)
             return nil
         }
         
@@ -95,7 +91,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             captureSession.canAddOutput(photoOutput),
             captureSession.canAddOutput(videoOutput) else {
                 let error = ImageScannerControllerError.inputDevice
-                delegate?.captureSessionManager(self, didFailWithError: error)
+                delegate.captureSessionManager(self, didFailWithError: error)
                 return
         }
         
@@ -103,7 +99,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             try device.lockForConfiguration()
         } catch {
             let error = ImageScannerControllerError.inputDevice
-            delegate?.captureSessionManager(self, didFailWithError: error)
+            delegate.captureSessionManager(self, didFailWithError: error)
             return
         }
         
