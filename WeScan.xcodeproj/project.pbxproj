@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		362967782294C23700B9FC4A /* CGImagePropertyOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362967772294C23700B9FC4A /* CGImagePropertyOrientation.swift */; };
+		41376C832450FEAB00FB6934 /* AVCaptureSession+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41376C822450FEAB00FB6934 /* AVCaptureSession+Utils.swift */; };
 		74E27858215446C900361812 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E27850215446C200361812 /* FBSnapshotTestCase.framework */; };
 		74F7D034211ACBD90046AF7E /* CIRectangleDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */; };
 		74F7D036211ACBEE0046AF7E /* CaptureSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */; };
@@ -187,6 +188,7 @@
 		274DF35922D363BC0095CE49 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		362967772294C23700B9FC4A /* CGImagePropertyOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImagePropertyOrientation.swift; sourceTree = "<group>"; };
 		37DE11D92417FC8A0062E4E4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		41376C822450FEAB00FB6934 /* AVCaptureSession+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVCaptureSession+Utils.swift"; sourceTree = "<group>"; };
 		4A644E2221A73C2B00B20839 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		731898DA243A753C00EA7356 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FBSnapshotTestCase.xcodeproj; path = "Submodules/ios-snapshot-test-case/FBSnapshotTestCase.xcodeproj"; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				A1D4BD14202C6CC000FCDDEC /* Array+Utils.swift */,
+				41376C822450FEAB00FB6934 /* AVCaptureSession+Utils.swift */,
 				A11C5CDA20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift */,
 				A1F22EA4202DB3AA001723AD /* CGPoint+Utils.swift */,
 				A1DF90F12035992A00841A11 /* CGAffineTransform+Utils.swift */,
@@ -856,6 +859,7 @@
 			files = (
 				A11C5CDB20495EC9005075FE /* AVCaptureVideoOrientation+Utils.swift in Sources */,
 				A1DF90F22035992A00841A11 /* CGAffineTransform+Utils.swift in Sources */,
+				41376C832450FEAB00FB6934 /* AVCaptureSession+Utils.swift in Sources */,
 				A1F22EA3202DAA74001723AD /* RectangleFeaturesFunnel.swift in Sources */,
 				A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */,
 				B9AAE88B219E6C0400205620 /* FocusRectangleView.swift in Sources */,
