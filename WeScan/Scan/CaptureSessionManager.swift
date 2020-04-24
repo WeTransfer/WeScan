@@ -78,7 +78,12 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         }
         
         captureSession.beginConfiguration()
-        captureSession.sessionPreset = .photo
+        
+        let photoPreset = AVCaptureSession.Preset.photo
+        
+        if captureSession.canSetSessionPreset(photoPreset) {
+            captureSession.sessionPreset = photoPreset
+        }
         
         photoOutput.isHighResolutionCaptureEnabled = true
         
