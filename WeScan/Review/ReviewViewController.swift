@@ -105,17 +105,24 @@ final class ReviewViewController: UIViewController {
     private func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
+        var imageViewConstraints: [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
-            view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.leadingAnchor).isActive = true
-            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.topAnchor).isActive = true
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.trailingAnchor).isActive = true
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.bottomAnchor).isActive = true
+            imageViewConstraints = [
+                view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.topAnchor),
+                view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.trailingAnchor),
+                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.bottomAnchor),
+                view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.leadingAnchor)
+            ]
         } else {
-            view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
-            view.topAnchor.constraint(equalTo: imageView.topAnchor).isActive = true
-            view.trailingAnchor.constraint(equalTo: imageView.trailingAnchor).isActive = true
-            view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
+            imageViewConstraints = [
+                view.topAnchor.constraint(equalTo: imageView.topAnchor),
+                view.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
+                view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+                view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
+            ]
         }
+        
+        NSLayoutConstraint.activate(imageViewConstraints)
     }
     
     // MARK: - Actions
