@@ -29,7 +29,7 @@ extension ImageScannerControllerError: LocalizedError {
         case .inputDevice:
             return "Could not setup input device."
         case .capture:
-            return "Could not capture pitcure."
+            return "Could not capture picture."
         case .ciImageCreation:
             return "Internal Error - Could not create CIImage"
         }
