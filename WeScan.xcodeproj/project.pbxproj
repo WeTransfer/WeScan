@@ -284,6 +284,7 @@
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
+		D40239502448ADD60027CCFF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -689,6 +690,7 @@
 				es,
 				"es-419",
 				tr,
+				ru,
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
 			productRefGroup = A1D4BCB8202C4F3800FCDDEC /* Products */;
@@ -987,6 +989,7 @@
 				75629CE3241664D2008777A5 /* es */,
 				75629CE4241664E0008777A5 /* es-419 */,
 				731898DA243A753C00EA7356 /* tr */,
+				D40239502448ADD60027CCFF /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
