@@ -51,7 +51,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     private lazy var flashButton: UIBarButtonItem = {
-        let image = UIImage(named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let image = UIImage(systemName: "bolt.fill", named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleFlash))
         button.tintColor = .white
         
@@ -132,7 +132,7 @@ final class ScannerViewController: UIViewController {
         navigationItem.setRightBarButton(autoScanButton, animated: false)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
-            let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+            let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
             flashButton.image = flashOffImage
             flashButton.tintColor = UIColor.lightGray
         }
@@ -244,8 +244,8 @@ final class ScannerViewController: UIViewController {
     @objc private func toggleFlash() {
         let state = CaptureSession.current.toggleFlash()
         
-        let flashImage = UIImage(named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
-        let flashOffImage = UIImage(named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let flashImage = UIImage(systemName: "bolt.fill", named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
         
         switch state {
         case .on:
