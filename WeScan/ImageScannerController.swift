@@ -76,7 +76,7 @@ public final class ImageScannerController: UINavigationController {
         
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
         if let image = image {
-            self.detect(image: image) { [weak self] detectedQuad in
+            detect(image: image) { [weak self] detectedQuad in
                 guard let self = self else { return }
                 let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
                 self.setViewControllers([editViewController], animated: false)
@@ -92,7 +92,7 @@ public final class ImageScannerController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func detect(image: UIImage, completion: @escaping (Quadrilateral?) -> ()) {
+    private func detect(image: UIImage, completion: @escaping (Quadrilateral?) -> Void) {
         // Whether or not we detect a quad, present the edit view controller after attempting to detect a quad.
         // *** Vision *requires* a completion block to detect rectangles, but it's instant.
         // *** When using Vision, we'll present the normal edit view controller first, then present the updated edit view controller later.
@@ -115,9 +115,9 @@ public final class ImageScannerController: UINavigationController {
     }
     
     public func useImage(image: UIImage) {
-        guard self.topViewController is ScannerViewController else { return }
+        guard topViewController is ScannerViewController else { return }
         
-        self.detect(image: image) { [weak self] detectedQuad in
+        detect(image: image) { [weak self] detectedQuad in
             guard let self = self else { return }
             let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
             self.setViewControllers([editViewController], animated: true)
@@ -125,7 +125,7 @@ public final class ImageScannerController: UINavigationController {
     }
     
     public func resetScanner() {
-        self.setViewControllers([ScannerViewController()], animated: true)
+        setViewControllers([ScannerViewController()], animated: true)
     }
     
     private func setupConstraints() {
