@@ -67,7 +67,7 @@ public final class ScannerViewController: UIViewController {
 
     // MARK: - Life Cycle
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         title = nil
@@ -84,7 +84,7 @@ public final class ScannerViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
         
@@ -96,13 +96,13 @@ public final class ScannerViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .blackTranslucent
     }
     
-    public override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         videoPreviewLayer.frame = view.layer.bounds
     }
     
-    public override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
         
@@ -202,7 +202,7 @@ public final class ScannerViewController: UIViewController {
         CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
     }
     
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
         guard  let touch = touches.first else { return }
