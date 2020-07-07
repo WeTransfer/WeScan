@@ -76,29 +76,10 @@ public final class ImageScannerController: UINavigationController {
         
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
         if let image = image {
-            
-            var detectedQuad: Quadrilateral?
-            
-            // Whether or not we detect a quad, present the edit view controller after attempting to detect a quad.
-            // *** Vision *requires* a completion block to detect rectangles, but it's instant.
-            // *** When using Vision, we'll present the normal edit view controller first, then present the updated edit view controller later.
-           
-            guard let ciImage = CIImage(image: image) else { return }
-            let orientation = CGImagePropertyOrientation(image.imageOrientation)
-            let orientedImage = ciImage.oriented(forExifOrientation: Int32(orientation.rawValue))
-            if #available(iOS 11.0, *) {
-                
-                // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
-                VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
-                    detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
-                    let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
-                    self.setViewControllers([editViewController], animated: true)
-                }
-            } else {
-                // Use the CIRectangleDetector on iOS 10 to attempt to find a rectangle from the initial image.
-                detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)?.toCartesian(withHeight: orientedImage.extent.height)
+            detect(image: image) { [weak self] detectedQuad in
+                guard let self = self else { return }
                 let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
-                setViewControllers([editViewController], animated: false)
+                self.setViewControllers([editViewController], animated: false)
             }
         }
     }
@@ -109,6 +90,42 @@ public final class ImageScannerController: UINavigationController {
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func detect(image: UIImage, completion: @escaping (Quadrilateral?) -> Void) {
+        // Whether or not we detect a quad, present the edit view controller after attempting to detect a quad.
+        // *** Vision *requires* a completion block to detect rectangles, but it's instant.
+        // *** When using Vision, we'll present the normal edit view controller first, then present the updated edit view controller later.
+        
+        guard let ciImage = CIImage(image: image) else { return }
+        let orientation = CGImagePropertyOrientation(image.imageOrientation)
+        let orientedImage = ciImage.oriented(forExifOrientation: Int32(orientation.rawValue))
+        
+        if #available(iOS 11.0, *) {
+            // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
+            VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
+                let detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
+                completion(detectedQuad)
+            }
+        } else {
+            // Use the CIRectangleDetector on iOS 10 to attempt to find a rectangle from the initial image.
+            let detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)?.toCartesian(withHeight: orientedImage.extent.height)
+            completion(detectedQuad)
+        }
+    }
+    
+    public func useImage(image: UIImage) {
+        guard topViewController is ScannerViewController else { return }
+        
+        detect(image: image) { [weak self] detectedQuad in
+            guard let self = self else { return }
+            let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+            self.setViewControllers([editViewController], animated: true)
+        }
+    }
+    
+    public func resetScanner() {
+        setViewControllers([ScannerViewController()], animated: true)
     }
     
     private func setupConstraints() {
