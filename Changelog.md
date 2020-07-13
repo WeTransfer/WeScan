@@ -1,3 +1,20 @@
+### 1.6.0
+- Allow support for using an image after instantiation ([#251](https://github.com/WeTransfer/WeScan/pull/251)) via [@erikvillegas](https://github.com/erikvillegas)
+- SF Symbols ([#250](https://github.com/WeTransfer/WeScan/pull/250)) via [@andschdk](https://github.com/andschdk)
+- Use same yellow tint color. ([#249](https://github.com/WeTransfer/WeScan/pull/249)) via [@andschdk](https://github.com/andschdk)
+- Update cancel button title, wescan.edit.button.cancel is not found ([#246](https://github.com/WeTransfer/WeScan/pull/246)) via [@thomasdao](https://github.com/thomasdao)
+- Fix error description typo ([#244](https://github.com/WeTransfer/WeScan/pull/244)) via [@danilovmaxim](https://github.com/danilovmaxim)
+- Update EditScanViewController.swift ([#242](https://github.com/WeTransfer/WeScan/pull/242)) via [@hakan-codeway](https://github.com/hakan-codeway)
+- Update Localizable.strings ([#239](https://github.com/WeTransfer/WeScan/pull/239)) via [@hakan-codeway](https://github.com/hakan-codeway)
+- Update ReviewViewController.swift ([#240](https://github.com/WeTransfer/WeScan/pull/240)) via [@hakan-codeway](https://github.com/hakan-codeway)
+- Safe assignment of the `AVCaptureSession` preset value. ([#238](https://github.com/WeTransfer/WeScan/pull/238)) via [@davidsteppenbeck](https://github.com/davidsteppenbeck)
+- Added delegate argument to class `CaptureSessionManager` init. ([#237](https://github.com/WeTransfer/WeScan/pull/237)) via [@davidsteppenbeck](https://github.com/davidsteppenbeck)
+- Trivial marker typo fix. ([#234](https://github.com/WeTransfer/WeScan/pull/234)) via [@davidsteppenbeck](https://github.com/davidsteppenbeck)
+- [localization] add Russian language support ([#235](https://github.com/WeTransfer/WeScan/pull/235)) via [@DmitriyTor](https://github.com/DmitriyTor)
+- 🇹🇷 Turkish localization added ([#231](https://github.com/WeTransfer/WeScan/pull/231)) via [@Adem68](https://github.com/Adem68)
+- Re-scale height independently in Quadrilateral CGAffineTransform ([#228](https://github.com/WeTransfer/WeScan/pull/228)) via [@winsonluk](https://github.com/winsonluk)
+- Merge release 1.5.0 into master ([#225](https://github.com/WeTransfer/WeScan/pull/225)) via [@WeTransferBot](https://github.com/WeTransferBot)
+
 ### 1.5.0
 - Update xcode project - include polish translation - improvements ([#224](https://github.com/WeTransfer/WeScan/pull/224)) via @lukszar
 - Create polish localization ([#221](https://github.com/WeTransfer/WeScan/pull/221)) via @lukszar
