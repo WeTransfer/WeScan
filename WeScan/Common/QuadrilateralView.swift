@@ -53,6 +53,17 @@ final class QuadrilateralView: UIView {
             layoutCornerViews(forQuad: quad)
         }
     }
+
+    /// Set stroke color of image rect and coner.
+    public var strokeColor: CGColor? {
+        didSet {
+            quadLayer.strokeColor = strokeColor
+            topLeftCornerView.strokeColor = strokeColor
+            topRightCornerView.strokeColor = strokeColor
+            bottomRightCornerView.strokeColor = strokeColor
+            bottomLeftCornerView.strokeColor = strokeColor
+        }
+    }
     
     private var isHighlighted = false {
         didSet (oldValue) {
