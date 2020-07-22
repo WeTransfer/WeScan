@@ -1,3 +1,7 @@
+### 1.7.0
+- Create individual Scanner and Review image controller ([#213](https://github.com/WeTransfer/WeScan/pull/213)) via [@chawatvish](https://github.com/chawatvish)
+- Merge release 1.6.0 into master ([#254](https://github.com/WeTransfer/WeScan/pull/254)) via [@WeTransferBot](https://github.com/WeTransferBot)
+
 ### 1.6.0
 - Allow support for using an image after instantiation ([#251](https://github.com/WeTransfer/WeScan/pull/251)) via [@erikvillegas](https://github.com/erikvillegas)
 - SF Symbols ([#250](https://github.com/WeTransfer/WeScan/pull/250)) via [@andschdk](https://github.com/andschdk)
