@@ -192,12 +192,13 @@
 /* Begin PBXFileReference section */
 		274DF35922D363BC0095CE49 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		362967772294C23700B9FC4A /* CGImagePropertyOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImagePropertyOrientation.swift; sourceTree = "<group>"; };
+		37DE11D92417FC8A0062E4E4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		382D0B0223C348A800A81619 /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
 		383C440D23C5846B0070DE47 /* EditImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImageViewController.swift; sourceTree = "<group>"; };
 		383C441623C587B90070DE47 /* ReviewImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewImageViewController.swift; sourceTree = "<group>"; };
 		388A3BF323C46DAE00263DD1 /* NewCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCameraViewController.swift; sourceTree = "<group>"; };
 		388A3BFC23C46FF000263DD1 /* EditImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImageViewController.swift; sourceTree = "<group>"; };
-		37DE11D92417FC8A0062E4E4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		435B034F24D81FED006A1B04 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4A644E2221A73C2B00B20839 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		731898DA243A753C00EA7356 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FBSnapshotTestCase.xcodeproj; path = "Submodules/ios-snapshot-test-case/FBSnapshotTestCase.xcodeproj"; sourceTree = "<group>"; };
@@ -694,6 +695,7 @@
 				"es-419",
 				tr,
 				ru,
+				cs,
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
 			productRefGroup = A1D4BCB8202C4F3800FCDDEC /* Products */;
@@ -994,6 +996,7 @@
 				75629CE4241664E0008777A5 /* es-419 */,
 				731898DA243A753C00EA7356 /* tr */,
 				D40239502448ADD60027CCFF /* ru */,
+				435B034F24D81FED006A1B04 /* cs */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
