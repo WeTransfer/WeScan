@@ -17,12 +17,11 @@
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 - [Features](#features)
-- [Example](#example)
+- [Demo](#demo)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [Communication](#communication)
 - [License](#license)
 
 ## Features
@@ -49,6 +48,7 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 <br>
 
 ## Installation
+
 ### Cocoapods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
@@ -153,6 +153,7 @@ present(scannerViewController, animated: true)
 5. In your class, add `@Class ImageScannerController;`
 
 #### Example Implementation
+
 ```objc
 ImageScannerController *scannerViewController = [[ImageScannerController alloc] init];
 [self presentViewController:scannerViewController animated:YES completion:nil];
