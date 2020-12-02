@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // We're hiding dev, test, and danger dependencies with // dev to make sure they're not fetched by users of this package.
 import PackageDescription
 
@@ -23,7 +23,7 @@ let package = Package(
         .target(name: "WeScan",
                 path: "Sources",
                 resources: [
-
+                    .process("Resources")
                 ])
     ]
 )
