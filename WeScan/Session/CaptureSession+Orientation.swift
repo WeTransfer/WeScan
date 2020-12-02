@@ -8,6 +8,7 @@
 
 import CoreMotion
 import Foundation
+import UIKit
 
 /// Extension to CaptureSession with support for automatically detecting the current orientation via CoreMotion
 /// Which works even if the user has enabled portrait lock.

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,7 +14,7 @@
 		388A3BF423C46DAE00263DD1 /* NewCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BF323C46DAE00263DD1 /* NewCameraViewController.swift */; };
 		388A3BFD23C46FF000263DD1 /* EditImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BFC23C46FF000263DD1 /* EditImageViewController.swift */; };
 		50FF76632577CCFB0099D918 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50FF764B2577CCFB0099D918 /* Localizable.strings */; };
-		50FF76932577CF6C0099D918 /* WeScan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* WeScan.framework */; };
+		50FF76AD2577D1BC0099D918 /* WeScan in Frameworks */ = {isa = PBXBuildFile; productRef = 50FF76AC2577D1BC0099D918 /* WeScan */; };
 		74E27858215446C900361812 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E27850215446C200361812 /* FBSnapshotTestCase.framework */; };
 		74F7D034211ACBD90046AF7E /* CIRectangleDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */; };
 		74F7D036211ACBEE0046AF7E /* CaptureSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */; };
@@ -296,7 +296,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50FF76932577CF6C0099D918 /* WeScan.framework in Frameworks */,
+				50FF76AD2577D1BC0099D918 /* WeScan in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,6 +622,7 @@
 			);
 			name = WeScanSampleProject;
 			packageProductDependencies = (
+				50FF76AC2577D1BC0099D918 /* WeScan */,
 			);
 			productName = ScannerSampleProject;
 			productReference = A1D4BCB7202C4F3800FCDDEC /* WeScanSampleProject.app */;
@@ -1133,7 +1134,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1148,7 +1150,10 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = WeScanSampleProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.WeTransfer.WeScanSampleProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1167,7 +1172,10 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = WeScanSampleProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.WeTransfer.WeScanSampleProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1191,7 +1199,11 @@
 				INFOPLIST_FILE = WeScan/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.WeScan;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1220,7 +1232,11 @@
 				INFOPLIST_FILE = WeScan/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.WeScan;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1241,7 +1257,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 74N8K5J2N7;
 				INFOPLIST_FILE = WeScanTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.WeScanTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WeScanTests/WeScanTests-Bridging-Header.h";
@@ -1260,7 +1280,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 74N8K5J2N7;
 				INFOPLIST_FILE = WeScanTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = WeTransfer.WeScanTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WeScanTests/WeScanTests-Bridging-Header.h";
@@ -1310,6 +1334,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		50FF76AC2577D1BC0099D918 /* WeScan */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeScan;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1D4BCAF202C4F3800FCDDEC /* Project object */;
 }

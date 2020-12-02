@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Foundation
 
 /// Simple enum to keep track of the position of the corners of a quadrilateral.
 enum CornerPosition {

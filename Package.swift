@@ -28,7 +28,7 @@ let package = Package(
                     "WeScan.h"
                 ],
                 resources: [
-                    .copy("Resources")
+                    .process("Resources")
                 ])
     ]
 )

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreImage
 
 /// A UIView used by corners of a quadrilateral that is aware of its position.
 final class EditScanCornerView: UIView {

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 extension CGImagePropertyOrientation {
     init(_ uiOrientation: UIImage.Orientation) {
         switch uiOrientation {
