@@ -14,6 +14,7 @@
 		388A3BF423C46DAE00263DD1 /* NewCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BF323C46DAE00263DD1 /* NewCameraViewController.swift */; };
 		388A3BFD23C46FF000263DD1 /* EditImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BFC23C46FF000263DD1 /* EditImageViewController.swift */; };
 		50FF76632577CCFB0099D918 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50FF764B2577CCFB0099D918 /* Localizable.strings */; };
+		50FF76932577CF6C0099D918 /* WeScan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* WeScan.framework */; };
 		74E27858215446C900361812 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E27850215446C200361812 /* FBSnapshotTestCase.framework */; };
 		74F7D034211ACBD90046AF7E /* CIRectangleDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */; };
 		74F7D036211ACBEE0046AF7E /* CaptureSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */; };
@@ -42,7 +43,6 @@
 		A1D4BCC5202C4F3800FCDDEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCC3202C4F3800FCDDEC /* LaunchScreen.storyboard */; };
 		A1D4BCF6202C4F4100FCDDEC /* WeScan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* WeScan.framework */; };
 		A1D4BCFF202C4F4100FCDDEC /* WeScan.h in Headers */ = {isa = PBXBuildFile; fileRef = A1D4BCEF202C4F4100FCDDEC /* WeScan.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A1D4BD02202C4F4100FCDDEC /* WeScan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* WeScan.framework */; };
 		A1D4BD03202C4F4100FCDDEC /* WeScan.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* WeScan.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D4BD0C202C504F00FCDDEC /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BD0B202C504F00FCDDEC /* ScannerViewController.swift */; };
 		A1D4BD0E202C57A400FCDDEC /* CaptureSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BD0D202C57A400FCDDEC /* CaptureSessionManager.swift */; };
@@ -296,7 +296,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1D4BD02202C4F4100FCDDEC /* WeScan.framework in Frameworks */,
+				50FF76932577CF6C0099D918 /* WeScan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,6 +621,8 @@
 				A1D4BD01202C4F4100FCDDEC /* PBXTargetDependency */,
 			);
 			name = WeScanSampleProject;
+			packageProductDependencies = (
+			);
 			productName = ScannerSampleProject;
 			productReference = A1D4BCB7202C4F3800FCDDEC /* WeScanSampleProject.app */;
 			productType = "com.apple.product-type.application";
