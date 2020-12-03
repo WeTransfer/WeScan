@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import CoreImage
 
 /// Class used to detect rectangles from an image.
 enum CIRectangleDetector {

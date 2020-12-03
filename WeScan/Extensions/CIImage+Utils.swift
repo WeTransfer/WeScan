@@ -8,6 +8,7 @@
 
 import CoreImage
 import Foundation
+import UIKit
 
 extension CIImage {
     /// Applies an AdaptiveThresholding filter to the image, which enhances the image and makes it completely gray scale

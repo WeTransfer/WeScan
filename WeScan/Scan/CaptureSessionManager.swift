@@ -9,6 +9,7 @@
 import Foundation
 import CoreMotion
 import AVFoundation
+import UIKit
 
 /// A set of functions that inform the delegate object of the state of the detection.
 protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
