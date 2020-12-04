@@ -1,5 +1,5 @@
 # WeScan
- 
+
 <p align="center">
     <img width="900px" src="Assets/WeScan-Banner.jpg">
 </p>
@@ -12,7 +12,7 @@
 <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/>
 <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat"/>
 </p>
- 
+
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
@@ -48,6 +48,18 @@ It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 <br>
 
 ## Installation
+
+### Swift Package Manager
+
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler. It is in early development, but WeScan does support its use on supported platforms.
+
+Once you have your Swift package set up, adding WeScan as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/WeTransfer/WeScan.git", .upToNextMajor(from: "1.7.0"))
+]
+```
 
 ### Cocoapods
 

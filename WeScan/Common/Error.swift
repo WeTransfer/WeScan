@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreImage
 
 /// Errors related to the `ImageScannerController`
 public enum ImageScannerControllerError: Error {

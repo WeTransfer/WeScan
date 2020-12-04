@@ -8,6 +8,7 @@
 
 import Vision
 import Foundation
+import CoreImage
 
 /// Class used to detect rectangles from an image.
 @available(iOS 11.0, *)

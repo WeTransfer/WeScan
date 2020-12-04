@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Extension to CaptureSession that controls auto focus
 extension CaptureSession {

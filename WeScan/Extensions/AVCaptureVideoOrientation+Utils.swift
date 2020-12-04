@@ -8,6 +8,8 @@
 
 import Foundation
 import AVFoundation
+import CoreImage
+import UIKit
 
 extension AVCaptureVideoOrientation {
     
