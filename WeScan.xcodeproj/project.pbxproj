@@ -190,6 +190,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		274DF35922D363BC0095CE49 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		32365A35257A39B500AAB6CD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		362967772294C23700B9FC4A /* CGImagePropertyOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImagePropertyOrientation.swift; sourceTree = "<group>"; };
 		382D0B0223C348A800A81619 /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
 		383C440D23C5846B0070DE47 /* EditImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImageViewController.swift; sourceTree = "<group>"; };
@@ -717,6 +719,7 @@
 				ru,
 				cs,
 				ar,
+				ja,
 				nl,
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
@@ -1023,6 +1026,30 @@
 				B97B49D5216C6FF600B2235B /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		B97B49CB216C6C6800B2235B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B97B49CA216C6C6800B2235B /* en */,
+				4A644E2221A73C2B00B20839 /* fr */,
+				B940E3BD21AC2553003B3C0B /* pt-PT */,
+				B940E3C521AC2560003B3C0B /* it */,
+				B940E3C621AC2568003B3C0B /* zh-Hans */,
+				B940E3C721AC256E003B3C0B /* zh-Hant */,
+				9541C84122155DD3005FBCD3 /* de */,
+				82A414A022B9391B00DF5831 /* pt-BR */,
+				274DF35922D363BC0095CE49 /* hu */,
+				37DE11D92417FC8A0062E4E4 /* pl */,
+				75629CE3241664D2008777A5 /* es */,
+				75629CE4241664E0008777A5 /* es-419 */,
+				731898DA243A753C00EA7356 /* tr */,
+				D40239502448ADD60027CCFF /* ru */,
+				435B034F24D81FED006A1B04 /* cs */,
+				BD88FABF2514D8580049C41E /* ar */,
+				32365A35257A39B500AAB6CD /* ja */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
