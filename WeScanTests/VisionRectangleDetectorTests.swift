@@ -66,7 +66,7 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
         quadView.backgroundColor = UIColor.red
         resultView.addSubview(quadView)
 
-        self.FBSnapshotVerifyView(resultView, perPixelTolerance: 6/256, overallTolerance: 0.02)
+        self.FBSnapshotVerifyView(resultView, overallTolerance: 0.05)
         expectation.fulfill()
       }
     }
