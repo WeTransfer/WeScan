@@ -52,7 +52,7 @@ final class CIRectangleDetectorTests: FBSnapshotTestCase {
         quadView.backgroundColor = UIColor.red
         resultView.addSubview(quadView)
         
-        FBSnapshotVerifyView(resultView, perPixelTolerance: 6/256)
+        FBSnapshotVerifyView(resultView, perPixelTolerance: 6 / 256)
     }
     
 }

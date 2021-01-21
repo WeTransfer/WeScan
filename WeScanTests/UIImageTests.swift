@@ -25,7 +25,7 @@ final class UIImageTests: FBSnapshotTestCase {
         let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
         view.sizeToFit()
         
-        FBSnapshotVerifyView(view, perPixelTolerance: 6/256)
+        FBSnapshotVerifyView(view, perPixelTolerance: 6 / 256)
     }
     
     func testRotateDownFacingImageCorrectly() {
@@ -35,7 +35,7 @@ final class UIImageTests: FBSnapshotTestCase {
         let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
         view.sizeToFit()
         
-        FBSnapshotVerifyView(view, perPixelTolerance: 6/256)
+        FBSnapshotVerifyView(view, perPixelTolerance: 6 / 256)
     }
     
     func testRotateLeftFacingImageCorrectly() {
@@ -45,7 +45,7 @@ final class UIImageTests: FBSnapshotTestCase {
         let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
         view.sizeToFit()
         
-        FBSnapshotVerifyView(view, perPixelTolerance: 6/256)
+        FBSnapshotVerifyView(view, perPixelTolerance: 6 / 256)
     }
     
     func testRotateRightFacingImageCorrectly() {
@@ -55,7 +55,7 @@ final class UIImageTests: FBSnapshotTestCase {
         let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
         view.sizeToFit()
         
-        FBSnapshotVerifyView(view, perPixelTolerance: 6/256)
+        FBSnapshotVerifyView(view, perPixelTolerance: 6 / 256)
     }
     
     func testRotateDefaultFacingImageCorrectly() {
@@ -65,7 +65,7 @@ final class UIImageTests: FBSnapshotTestCase {
         let view = UIImageView(image: orientatedImage.applyingPortraitOrientation())
         view.sizeToFit()
         
-        FBSnapshotVerifyView(view, perPixelTolerance: 6/256)
+        FBSnapshotVerifyView(view, perPixelTolerance: 6 / 256)
     }
     
     func testRotateImageCorrectly() {
@@ -74,7 +74,7 @@ final class UIImageTests: FBSnapshotTestCase {
         let view = UIImageView(image: image!.rotated(by: Measurement(value: Double.pi * 0.2, unit: .radians), options: []))
         view.sizeToFit()
         
-        FBSnapshotVerifyView(view, perPixelTolerance: 6/256)
+        FBSnapshotVerifyView(view, perPixelTolerance: 6 / 256)
     }
     
     func testScaledImageSuccessfully() {
