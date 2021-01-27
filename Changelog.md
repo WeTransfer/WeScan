@@ -1,3 +1,10 @@
+### 1.8.1
+- Fix broken iOS 14 AV apple api ([#293](https://github.com/WeTransfer/WeScan/pull/293)) via [@ErikGro](https://github.com/ErikGro)
+- ! add japan language ([#281](https://github.com/WeTransfer/WeScan/pull/281)) via [@padgithub](https://github.com/padgithub)
+- Localization - Add support for Dutch language ([#285](https://github.com/WeTransfer/WeScan/pull/285)) via [@marvukusic](https://github.com/marvukusic)
+- Fix tests, update to use the iPhone 12 simulator. ([#290](https://github.com/WeTransfer/WeScan/pull/290)) via [@AvdLee](https://github.com/AvdLee)
+- Merge release 1.8.0 into master ([#280](https://github.com/WeTransfer/WeScan/pull/280)) via [@wetransferplatform](https://github.com/wetransferplatform)
+
 ### 1.8.0
 - SPM Support ([#172](https://github.com/WeTransfer/WeScan/issues/172)) via [@AvdLee](https://github.com/AvdLee)
 - Typo fix in the comment ([#272](https://github.com/WeTransfer/WeScan/pull/272)) via [@PermanAtayev](https://github.com/PermanAtayev)
