@@ -80,12 +80,6 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         captureSession.beginConfiguration()
         
-        let photoPreset = AVCaptureSession.Preset.photo
-        
-        if captureSession.canSetSessionPreset(photoPreset) {
-            captureSession.sessionPreset = photoPreset
-        }
-        
         photoOutput.isHighResolutionCaptureEnabled = true
         
         let videoOutput = AVCaptureVideoDataOutput()
@@ -118,6 +112,13 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
         captureSession.addOutput(videoOutput)
+        
+        let photoPreset = AVCaptureSession.Preset.photo
+
+        if captureSession.canSetSessionPreset(photoPreset) {
+            captureSession.sessionPreset = photoPreset
+            photoOutput.isLivePhotoCaptureEnabled = true
+        }
         
         videoPreviewLayer.session = captureSession
         videoPreviewLayer.videoGravity = .resizeAspectFill

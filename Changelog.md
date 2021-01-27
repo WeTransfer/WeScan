@@ -1,3 +1,18 @@
+### 1.8.1
+- Fix broken iOS 14 AV apple api ([#293](https://github.com/WeTransfer/WeScan/pull/293)) via [@ErikGro](https://github.com/ErikGro)
+- ! add japan language ([#281](https://github.com/WeTransfer/WeScan/pull/281)) via [@padgithub](https://github.com/padgithub)
+- Localization - Add support for Dutch language ([#285](https://github.com/WeTransfer/WeScan/pull/285)) via [@marvukusic](https://github.com/marvukusic)
+- Fix tests, update to use the iPhone 12 simulator. ([#290](https://github.com/WeTransfer/WeScan/pull/290)) via [@AvdLee](https://github.com/AvdLee)
+- Merge release 1.8.0 into master ([#280](https://github.com/WeTransfer/WeScan/pull/280)) via [@wetransferplatform](https://github.com/wetransferplatform)
+
+### 1.8.0
+- SPM Support ([#172](https://github.com/WeTransfer/WeScan/issues/172)) via [@AvdLee](https://github.com/AvdLee)
+- Typo fix in the comment ([#272](https://github.com/WeTransfer/WeScan/pull/272)) via [@PermanAtayev](https://github.com/PermanAtayev)
+- Realign table of contents and rest of the README ([#271](https://github.com/WeTransfer/WeScan/pull/271)) via [@jacquerie](https://github.com/jacquerie)
+- Feat: added Arabic language support ([#267](https://github.com/WeTransfer/WeScan/pull/267)) via [@mohammadhamdan1991](https://github.com/mohammadhamdan1991)
+- Czech language support ([#259](https://github.com/WeTransfer/WeScan/pull/259)) via [@killalad](https://github.com/killalad)
+- Merge release 1.7.0 into master ([#256](https://github.com/WeTransfer/WeScan/pull/256)) via [@ghost](https://github.com/ghost)
+
 ### 1.7.0
 - Create individual Scanner and Review image controller ([#213](https://github.com/WeTransfer/WeScan/pull/213)) via [@chawatvish](https://github.com/chawatvish)
 - Merge release 1.6.0 into master ([#254](https://github.com/WeTransfer/WeScan/pull/254)) via [@WeTransferBot](https://github.com/WeTransferBot)
