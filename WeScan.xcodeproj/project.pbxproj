@@ -214,6 +214,7 @@
 		50FF76592577CCFB0099D918 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50FF765A2577CCFB0099D918 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50FF765B2577CCFB0099D918 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5A5A8B1525804C7D0058A37C /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FBSnapshotTestCase.xcodeproj; path = "Submodules/ios-snapshot-test-case/FBSnapshotTestCase.xcodeproj"; sourceTree = "<group>"; };
 		74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FBSnapshotTestCase.xcodeproj; path = "Submodules/ios-snapshot-test-case/FBSnapshotTestCase.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIRectangleDetectorTests.swift; sourceTree = "<group>"; };
@@ -719,8 +720,12 @@
 				ru,
 				cs,
 				ar,
+<<<<<<< HEAD
+				sv,
+=======
 				ja,
 				nl,
+>>>>>>> 21bba3bb5f48422fe3b08dc05d66c4726ebab7a4
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
 			productRefGroup = A1D4BCB8202C4F3800FCDDEC /* Products */;
@@ -1007,7 +1012,11 @@
 				50FF76592577CCFB0099D918 /* ru */,
 				50FF765A2577CCFB0099D918 /* fr */,
 				50FF765B2577CCFB0099D918 /* pt-PT */,
+<<<<<<< HEAD
+				5A5A8B1525804C7D0058A37C /* sv */,
+=======
 				BF16DBD5258D2E99008A979B /* nl */,
+>>>>>>> 21bba3bb5f48422fe3b08dc05d66c4726ebab7a4
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
