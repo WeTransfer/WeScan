@@ -117,7 +117,10 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
 
         if captureSession.canSetSessionPreset(photoPreset) {
             captureSession.sessionPreset = photoPreset
-            photoOutput.isLivePhotoCaptureEnabled = true
+            
+            if photoOutput.isLivePhotoCaptureSupported {
+                photoOutput.isLivePhotoCaptureEnabled = true
+            }
         }
         
         videoPreviewLayer.session = captureSession
