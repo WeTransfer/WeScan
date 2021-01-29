@@ -720,12 +720,9 @@
 				ru,
 				cs,
 				ar,
-<<<<<<< HEAD
 				sv,
-=======
 				ja,
 				nl,
->>>>>>> 21bba3bb5f48422fe3b08dc05d66c4726ebab7a4
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
 			productRefGroup = A1D4BCB8202C4F3800FCDDEC /* Products */;
@@ -1012,11 +1009,8 @@
 				50FF76592577CCFB0099D918 /* ru */,
 				50FF765A2577CCFB0099D918 /* fr */,
 				50FF765B2577CCFB0099D918 /* pt-PT */,
-<<<<<<< HEAD
 				5A5A8B1525804C7D0058A37C /* sv */,
-=======
 				BF16DBD5258D2E99008A979B /* nl */,
->>>>>>> 21bba3bb5f48422fe3b08dc05d66c4726ebab7a4
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
