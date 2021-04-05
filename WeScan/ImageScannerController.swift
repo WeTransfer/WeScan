@@ -184,13 +184,6 @@ public struct ImageScannerResults {
     /// The deskewed and cropped scan using the detected rectangle, without any filters.
     public var croppedScan: ImageScannerScan
     
-    /// The enhanced scan, passed through an Adaptive Thresholding function. This image will always be grayscale and may not always be available.
-    public var enhancedScan: ImageScannerScan?
-    
-    /// Whether the user selected the enhanced scan or not.
-    /// The `enhancedScan` may still be available even if it has not been selected by the user.
-    public var doesUserPreferEnhancedScan: Bool
-    
     /// The detected rectangle which was used to generate the `scannedImage`.
     public var detectedRectangle: Quadrilateral
     
@@ -206,13 +199,10 @@ public struct ImageScannerResults {
     @available(*, unavailable, renamed: "doesUserPreferEnhancedScan")
     public var doesUserPreferEnhancedImage: Bool = false
     
-    init(detectedRectangle: Quadrilateral, originalScan: ImageScannerScan, croppedScan: ImageScannerScan, enhancedScan: ImageScannerScan?, doesUserPreferEnhancedScan: Bool = false) {
+    init(detectedRectangle: Quadrilateral, originalScan: ImageScannerScan, croppedScan: ImageScannerScan) {
         self.detectedRectangle = detectedRectangle
         
         self.originalScan = originalScan
         self.croppedScan = croppedScan
-        self.enhancedScan = enhancedScan
-        
-        self.doesUserPreferEnhancedScan = doesUserPreferEnhancedScan
     }
 }

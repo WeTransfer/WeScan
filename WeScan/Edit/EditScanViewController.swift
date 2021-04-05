@@ -59,7 +59,11 @@ final class EditScanViewController: UIViewController {
     
     init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
-        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        if let quad = quad, quad.bottomLeft.distanceTo(point: quad.bottomRight) > image.size.width/2 || quad.topLeft.distanceTo(point: quad.bottomLeft) > image.size.height/2 {
+            self.quad = quad
+        } else {
+            self.quad = EditScanViewController.defaultQuad(forImage: image)
+        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -162,11 +166,8 @@ final class EditScanViewController: UIViewController {
         ])
         
         let croppedImage = UIImage.from(ciImage: filteredImage)
-        // Enhanced Image
-        let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-        let enhancedScan = enhancedImage.flatMap { ImageScannerScan(image: $0) }
         
-        let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(image: image), croppedScan: ImageScannerScan(image: croppedImage), enhancedScan: enhancedScan)
+        let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(image: image), croppedScan: ImageScannerScan(image: croppedImage))
         
         let reviewViewController = ReviewViewController(results: results)
         navigationController?.pushViewController(reviewViewController, animated: true)
