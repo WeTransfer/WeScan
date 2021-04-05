@@ -33,9 +33,9 @@ final class ReviewViewController: UIViewController {
     }()
     
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(finishScan))
+        let title = languageLocalization["done"] ?? NSLocalizedString("wescan.review.done", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Done", comment: "The done button of the ReviewController")
+        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(finishScan))
         button.tintColor = navigationController?.navigationBar.tintColor
-        button.title = languageLocalization["done"] ?? NSLocalizedString("wescan.review.done", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Done", comment: "The done button of the ReviewController")
         return button
     }()
     
@@ -87,7 +87,7 @@ final class ReviewViewController: UIViewController {
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbarItems = [fixedSpace, flexibleSpace, rotateButton, fixedSpace]
+        toolbarItems = [flexibleSpace, rotateButton, fixedSpace]
     }
     
     private func setupConstraints() {
