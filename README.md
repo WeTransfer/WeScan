@@ -57,7 +57,7 @@ Once you have your Swift package set up, adding WeScan as a dependency is as eas
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/WeTransfer/WeScan.git", .upToNextMajor(from: "1.7.0"))
+    .package(url: "https://github.com/WeTransfer/WeScan.git", .upToNextMajor(from: "1.7.1"))
 ]
 ```
 

@@ -60,7 +60,10 @@ public final class ImageScannerController: UINavigationController {
         return .portrait
     }
     
-    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
+    var language: String
+    
+    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil, language: String) {
+        self.language = language
         super.init(rootViewController: ScannerViewController())
         
         self.imageScannerDelegate = delegate
@@ -78,13 +81,14 @@ public final class ImageScannerController: UINavigationController {
         if let image = image {
             detect(image: image) { [weak self] detectedQuad in
                 guard let self = self else { return }
-                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, language: language)
                 self.setViewControllers([editViewController], animated: false)
             }
         }
     }
 
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.language = "en"
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -119,7 +123,7 @@ public final class ImageScannerController: UINavigationController {
         
         detect(image: image) { [weak self] detectedQuad in
             guard let self = self else { return }
-            let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+            let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, language: self.language)
             self.setViewControllers([editViewController], animated: true)
         }
     }

@@ -14,6 +14,7 @@
 
 /* The title on the navigation bar of the Review screen. */
 "wescan.review.title" = "Önizləmə";
+"wescan.review.done" = "Hazırdır";
 
 /* The button titles on the Scanning screen. */
 "wescan.scanning.cancel" = "Ləğv et";

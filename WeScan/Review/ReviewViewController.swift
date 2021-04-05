@@ -12,7 +12,6 @@ import UIKit
 final class ReviewViewController: UIViewController {
     
     private var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
-    private var enhancedImageIsAvailable = false
     private var isCurrentlyDisplayingEnhancedImage = false
     
     lazy var imageView: UIImageView = {
@@ -36,15 +35,19 @@ final class ReviewViewController: UIViewController {
     private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(finishScan))
         button.tintColor = navigationController?.navigationBar.tintColor
+        button.title = "wescan.review.done".localized(forLanguage: language)
         return button
     }()
     
     private let results: ImageScannerResults
     
+    private let language: String
+    
     // MARK: - Life Cycle
     
-    init(results: ImageScannerResults) {
+    init(results: ImageScannerResults, language: String) {
         self.results = results
+        self.language = language
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -59,17 +62,12 @@ final class ReviewViewController: UIViewController {
         setupToolbar()
         setupConstraints()
         
-        title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
-        navigationItem.rightBarButtonItem = doneButton
+        title = NSLocalizedString("wescan.review.title".localized(forLanguage: language), tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // We only show the toolbar (with the enhance button) if the enhanced image is available.
-        if enhancedImageIsAvailable {
-            navigationController?.setToolbarHidden(false, animated: true)
-        }
+        navigationController?.setToolbarHidden(false, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,13 +82,11 @@ final class ReviewViewController: UIViewController {
     }
     
     private func setupToolbar() {
-        guard enhancedImageIsAvailable else { return }
-        
         navigationController?.toolbar.barStyle = .blackTranslucent
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbarItems = [fixedSpace, flexibleSpace, rotateButton, fixedSpace]
+        toolbarItems = [fixedSpace, rotateButton, flexibleSpace, doneButton, fixedSpace]
     }
     
     private func setupConstraints() {
@@ -122,13 +118,6 @@ final class ReviewViewController: UIViewController {
         imageView.image = results.croppedScan.image.rotated(by: rotationAngle) ?? results.croppedScan.image
     }
     
-    @objc func toggleEnhancedImage() {
-        guard enhancedImageIsAvailable else { return }
-        
-        isCurrentlyDisplayingEnhancedImage.toggle()
-        reloadImage()
-    }
-    
     @objc func rotateImage() {
         rotationAngle.value += 90
         
@@ -147,4 +136,20 @@ final class ReviewViewController: UIViewController {
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
 
+}
+
+
+extension String {
+
+    func localized(forLanguage language: String = Locale.preferredLanguages.first!.components(separatedBy: "-").first!) -> String {
+
+        guard let path = Bundle.main.path(forResource: language == "en" ? "Base" : language, ofType: "lproj") else {
+
+            let basePath = Bundle.main.path(forResource: "Base", ofType: "lproj")!
+
+            return Bundle(path: basePath)!.localizedString(forKey: self, value: "", table: nil)
+        }
+
+        return Bundle(path: path)!.localizedString(forKey: self, value: "", table: nil)
+    }
 }
