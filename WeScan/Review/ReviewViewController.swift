@@ -64,6 +64,9 @@ final class ReviewViewController: UIViewController {
         
         title = languageLocalization["review"] ?? NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
         navigationItem.rightBarButtonItem = doneButton
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,20 +140,4 @@ final class ReviewViewController: UIViewController {
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
 
-}
-
-
-extension String {
-
-    func localized(forLanguage language: String = Locale.preferredLanguages.first!.components(separatedBy: "-").first!) -> String {
-
-        guard let path = Bundle.main.path(forResource: language == "en" ? "Base" : language, ofType: "lproj") else {
-
-            let basePath = Bundle.main.path(forResource: "Base", ofType: "lproj")!
-
-            return Bundle(path: basePath)!.localizedString(forKey: self, value: "", table: nil)
-        }
-
-        return Bundle(path: path)!.localizedString(forKey: self, value: "", table: nil)
-    }
 }
