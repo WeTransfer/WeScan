@@ -54,8 +54,6 @@ final class ReviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        enhancedImageIsAvailable = results.enhancedScan != nil
         
         setupViews()
         setupToolbar()
@@ -121,11 +119,7 @@ final class ReviewViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func reloadImage() {
-        if enhancedImageIsAvailable, isCurrentlyDisplayingEnhancedImage {
-            imageView.image = results.enhancedScan?.image.rotated(by: rotationAngle) ?? results.enhancedScan?.image
-        } else {
-            imageView.image = results.croppedScan.image.rotated(by: rotationAngle) ?? results.croppedScan.image
-        }
+        imageView.image = results.croppedScan.image.rotated(by: rotationAngle) ?? results.croppedScan.image
     }
     
     @objc func toggleEnhancedImage() {
@@ -133,12 +127,6 @@ final class ReviewViewController: UIViewController {
         
         isCurrentlyDisplayingEnhancedImage.toggle()
         reloadImage()
-      
-        if isCurrentlyDisplayingEnhancedImage {
-            enhanceButton.tintColor = .yellow
-        } else {
-            enhanceButton.tintColor = .white
-        }
     }
     
     @objc func rotateImage() {
@@ -156,8 +144,6 @@ final class ReviewViewController: UIViewController {
         
         var newResults = results
         newResults.croppedScan.rotate(by: rotationAngle)
-        newResults.enhancedScan?.rotate(by: rotationAngle)
-        newResults.doesUserPreferEnhancedScan = isCurrentlyDisplayingEnhancedImage
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
 

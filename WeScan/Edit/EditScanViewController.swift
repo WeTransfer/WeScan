@@ -59,7 +59,7 @@ final class EditScanViewController: UIViewController {
     
     init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
-        if let quad = quad, quad.bottomLeft.distanceTo(point: quad.bottomRight) > image.size.width/2 || quad.topLeft.distanceTo(point: quad.bottomLeft) > image.size.height/2 {
+        if let quad = quad, quad.bottomLeft.distanceTo(point: quad.bottomRight) > image.size.width/2, quad.topLeft.distanceTo(point: quad.bottomLeft) > image.size.height/2 {
             self.quad = quad
         } else {
             self.quad = EditScanViewController.defaultQuad(forImage: image)
