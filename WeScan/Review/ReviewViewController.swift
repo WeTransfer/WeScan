@@ -35,19 +35,19 @@ final class ReviewViewController: UIViewController {
     private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(finishScan))
         button.tintColor = navigationController?.navigationBar.tintColor
-        button.title = "wescan.review.done".localized(forLanguage: language)
+        button.title = languageLocalization["done"] ?? NSLocalizedString("wescan.review.done", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Done", comment: "The done button of the ReviewController")
         return button
     }()
     
     private let results: ImageScannerResults
     
-    private let language: String
+    private let languageLocalization: [String:String]
     
     // MARK: - Life Cycle
     
-    init(results: ImageScannerResults, language: String) {
+    init(results: ImageScannerResults, languageLocalization: [String:String]) {
         self.results = results
-        self.language = language
+        self.languageLocalization = languageLocalization
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -62,7 +62,8 @@ final class ReviewViewController: UIViewController {
         setupToolbar()
         setupConstraints()
         
-        title = NSLocalizedString("wescan.review.title".localized(forLanguage: language), tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
+        title = languageLocalization["review"] ?? NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
+        navigationItem.rightBarButtonItem = doneButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,7 +87,7 @@ final class ReviewViewController: UIViewController {
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbarItems = [fixedSpace, rotateButton, flexibleSpace, doneButton, fixedSpace]
+        toolbarItems = [fixedSpace, flexibleSpace, rotateButton, fixedSpace]
     }
     
     private func setupConstraints() {

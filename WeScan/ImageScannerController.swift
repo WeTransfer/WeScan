@@ -60,10 +60,10 @@ public final class ImageScannerController: UINavigationController {
         return .portrait
     }
     
-    var language: String
+    var languageLocalization: [String:String] = [:]
     
-    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil, language: String) {
-        self.language = language
+    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil, languageLocalization: [String:String]) {
+        self.languageLocalization = languageLocalization
         super.init(rootViewController: ScannerViewController())
         
         self.imageScannerDelegate = delegate
@@ -81,14 +81,13 @@ public final class ImageScannerController: UINavigationController {
         if let image = image {
             detect(image: image) { [weak self] detectedQuad in
                 guard let self = self else { return }
-                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, language: language)
+                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, languageLocalization: languageLocalization)
                 self.setViewControllers([editViewController], animated: false)
             }
         }
     }
 
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.language = "en"
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -123,7 +122,7 @@ public final class ImageScannerController: UINavigationController {
         
         detect(image: image) { [weak self] detectedQuad in
             guard let self = self else { return }
-            let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, language: self.language)
+            let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false, languageLocalization: self.languageLocalization)
             self.setViewControllers([editViewController], animated: true)
         }
     }

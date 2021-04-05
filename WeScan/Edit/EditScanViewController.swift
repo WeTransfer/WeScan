@@ -31,14 +31,14 @@ final class EditScanViewController: UIViewController {
     }()
     
     private lazy var nextButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.edit.button.next".localized(forLanguage: language), tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
+        let title = languageLocalization["next"] ?? NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
     
     private lazy var cancelButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.scanning.cancel".localized(forLanguage: language), tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
+        let title = languageLocalization["cancel"] ?? NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
@@ -54,12 +54,12 @@ final class EditScanViewController: UIViewController {
     
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
-    private let language: String
+    private let languageLocalization: [String:String]
     
     // MARK: - Life Cycle
     
-    init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true, language: String) {
-        self.language = language
+    init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true, languageLocalization: [String:String]) {
+        self.languageLocalization = languageLocalization
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
         if let quad = quad, quad.bottomLeft.distanceTo(point: quad.bottomRight) > image.size.width/2, quad.topLeft.distanceTo(point: quad.bottomLeft) > image.size.height/2 {
             self.quad = quad
@@ -78,7 +78,7 @@ final class EditScanViewController: UIViewController {
         
         setupViews()
         setupConstraints()
-        title = NSLocalizedString("wescan.edit.title".localized(forLanguage: language), tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
+        title = languageLocalization["edit"] ?? NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
         if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
             navigationItem.leftBarButtonItem = cancelButton
@@ -171,7 +171,7 @@ final class EditScanViewController: UIViewController {
         
         let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(image: image), croppedScan: ImageScannerScan(image: croppedImage))
         
-        let reviewViewController = ReviewViewController(results: results, language: language)
+        let reviewViewController = ReviewViewController(results: results, languageLocalization: languageLocalization)
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
     
