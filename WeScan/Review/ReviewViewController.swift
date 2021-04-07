@@ -27,14 +27,14 @@ final class ReviewViewController: UIViewController {
     }()
     
     private lazy var enhanceButton: UIBarButtonItem = {
-        let image = UIImage(systemName: "wand.and.rays.inverse", named: "enhance", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let image = UIImage(systemName: "wand.and.rays.inverse", named: "enhance", in: .module, compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleEnhancedImage))
         button.tintColor = .white
         return button
     }()
     
     private lazy var rotateButton: UIBarButtonItem = {
-        let image = UIImage(systemName: "rotate.right", named: "rotate", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let image = UIImage(systemName: "rotate.right", named: "rotate", in: .module, compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rotateImage))
         button.tintColor = .white
         return button
@@ -68,7 +68,7 @@ final class ReviewViewController: UIViewController {
         setupToolbar()
         setupConstraints()
         
-        title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
+        title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: .module, value: "Review", comment: "The review title of the ReviewController")
         navigationItem.rightBarButtonItem = doneButton
     }
     

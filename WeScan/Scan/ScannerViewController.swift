@@ -36,14 +36,14 @@ public final class ScannerViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
+        button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: .module, value: "Cancel", comment: "The cancel button"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
         return button
     }()
     
     private lazy var autoScanButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+        let title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: .module, value: "Auto", comment: "The auto button state")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
         button.tintColor = .white
         
@@ -51,7 +51,7 @@ public final class ScannerViewController: UIViewController {
     }()
     
     private lazy var flashButton: UIBarButtonItem = {
-        let image = UIImage(systemName: "bolt.fill", named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let image = UIImage(systemName: "bolt.fill", named: "flash", in: .module, compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleFlash))
         button.tintColor = .white
         
@@ -133,7 +133,7 @@ public final class ScannerViewController: UIViewController {
         navigationItem.setRightBarButton(autoScanButton, animated: false)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
-            let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+            let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: .module, compatibleWith: nil)
             flashButton.image = flashOffImage
             flashButton.tintColor = UIColor.lightGray
         }
@@ -235,18 +235,18 @@ public final class ScannerViewController: UIViewController {
     @objc private func toggleAutoScan() {
         if CaptureSession.current.isAutoScanEnabled {
             CaptureSession.current.isAutoScanEnabled = false
-            autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
+            autoScanButton.title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: .module, value: "Manual", comment: "The manual button state")
         } else {
             CaptureSession.current.isAutoScanEnabled = true
-            autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+            autoScanButton.title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: .module, value: "Auto", comment: "The auto button state")
         }
     }
     
     @objc private func toggleFlash() {
         let state = CaptureSession.current.toggleFlash()
         
-        let flashImage = UIImage(systemName: "bolt.fill", named: "flash", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
-        let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        let flashImage = UIImage(systemName: "bolt.fill", named: "flash", in: .module, compatibleWith: nil)
+        let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: .module, compatibleWith: nil)
         
         switch state {
         case .on:
