@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 /// A protocol that your delegate object will get results of EditImageViewController.
-public protocol EditImageViewDelegate: class {
+public protocol EditImageViewDelegate: AnyObject {
     /// A method that your delegate object must implement to get cropped image.
     func cropped(image: UIImage)
 }
