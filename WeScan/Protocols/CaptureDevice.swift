@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-protocol CaptureDevice: class {
+protocol CaptureDevice: AnyObject {
     var torchMode: AVCaptureDevice.TorchMode { get set }
     var isTorchAvailable: Bool { get }
     
