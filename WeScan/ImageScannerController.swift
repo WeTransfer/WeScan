@@ -45,6 +45,8 @@ public final class ImageScannerController: UINavigationController {
     /// The object that acts as the delegate of the `ImageScannerController`.
     public weak var imageScannerDelegate: ImageScannerControllerDelegate?
     
+    fileprivate var imageScannerOptions: ImageScannerOptions
+    
     // MARK: - Life Cycle
     
     /// A black UIView, used to quickly display a black screen when the shutter button is presseed.
@@ -60,10 +62,15 @@ public final class ImageScannerController: UINavigationController {
         return .portrait
     }
     
-    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
+    public required init(imageScannerOptions: ImageScannerOptions? = nil, delegate: ImageScannerControllerDelegate? = nil) {
+        let theImageScannerOptions = imageScannerOptions ?? ImageScannerOptions()
+        self.imageScannerOptions = theImageScannerOptions
+        
         super.init(rootViewController: ScannerViewController())
         
         self.imageScannerDelegate = delegate
+        
+        CaptureSession.current.isAutoScanEnabled = self.imageScannerOptions.isAutoScanEnabled
         
         if #available(iOS 13.0, *) {
             navigationBar.tintColor = .label
@@ -75,7 +82,7 @@ public final class ImageScannerController: UINavigationController {
         setupConstraints()
         
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
-        if let image = image {
+        if let image = imageScannerOptions?.image {
             detect(image: image) { [weak self] detectedQuad in
                 guard let self = self else { return }
                 let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
@@ -85,6 +92,8 @@ public final class ImageScannerController: UINavigationController {
     }
 
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.imageScannerOptions = ImageScannerOptions()
+        
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -146,6 +155,18 @@ public final class ImageScannerController: UINavigationController {
         DispatchQueue.main.asyncAfter(deadline: flashDuration) {
             self.blackFlashView.isHidden = true
         }
+    }
+}
+
+/// Data structure with options for scan
+public struct ImageScannerOptions {
+    public var image: UIImage?
+    public var isAutoScanEnabled: Bool = true
+    
+    /// ImageScannerOptions initialization
+    public init(image: UIImage? = nil, isAutoScanEnabled: Bool = true) {
+        self.image = image
+        self.isAutoScanEnabled = isAutoScanEnabled
     }
 }
 
