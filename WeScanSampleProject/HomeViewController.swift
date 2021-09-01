@@ -97,6 +97,10 @@ final class HomeViewController: UIViewController {
     @objc func scanOrSelectImage(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: "Would you like to scan an image or select one from your photo library?", message: nil, preferredStyle: .actionSheet)
         
+        let scanOrSelectAction = UIAlertAction(title: "Scan or Select", style: .default) { (_) in
+            self.scanImage(canSelect: true)
+        }
+        
         let newAction = UIAlertAction(title: "A new scan", style: .default) { (_) in
             guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewCameraViewController") else { return }
             controller.modalPresentationStyle = .fullScreen
@@ -113,6 +117,7 @@ final class HomeViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
+        actionSheet.addAction(scanOrSelectAction)
         actionSheet.addAction(scanAction)
         actionSheet.addAction(selectAction)
         actionSheet.addAction(cancelAction)
@@ -121,8 +126,8 @@ final class HomeViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
-    func scanImage() {
-        let scannerViewController = ImageScannerController(delegate: self)
+    func scanImage(canSelect: Bool? = false) {
+        let scannerViewController = ImageScannerController(canSelect: canSelect, delegate: self)
         scannerViewController.modalPresentationStyle = .fullScreen
         
         if #available(iOS 13.0, *) {

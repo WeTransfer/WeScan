@@ -83,6 +83,9 @@
 		B9E49DBE21BFD3BB000E994D /* rotate.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBB21BFD3BA000E994D /* rotate.png */; };
 		B9E49DBF21BFD3BB000E994D /* rotate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBC21BFD3BB000E994D /* rotate@2x.png */; };
 		B9E49DC021BFD3BB000E994D /* rotate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBD21BFD3BB000E994D /* rotate@3x.png */; };
+		C0C722F226DF639500944F4E /* gallery@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C722EF26DF639500944F4E /* gallery@3x.png */; };
+		C0C722F326DF639500944F4E /* gallery.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C722F026DF639500944F4E /* gallery.png */; };
+		C0C722F426DF639500944F4E /* gallery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C722F126DF639500944F4E /* gallery@2x.png */; };
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
@@ -289,6 +292,9 @@
 		B9E49DBC21BFD3BB000E994D /* rotate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate@2x.png"; sourceTree = "<group>"; };
 		B9E49DBD21BFD3BB000E994D /* rotate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate@3x.png"; sourceTree = "<group>"; };
 		BF16DBD5258D2E99008A979B /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C0C722EF26DF639500944F4E /* gallery@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@3x.png"; sourceTree = "<group>"; };
+		C0C722F026DF639500944F4E /* gallery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gallery.png; sourceTree = "<group>"; };
+		C0C722F126DF639500944F4E /* gallery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@2x.png"; sourceTree = "<group>"; };
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
@@ -566,6 +572,7 @@
 		B94FBB9D2178647B001ED1B4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				C0C722D526DF5E7200944F4E /* Gallery */,
 				B9E49DB421BFCE7A000E994D /* Rotate */,
 				B983380121A6CA4E00AAE307 /* Enhance */,
 				B9274D2D219AE10B00F9FCD1 /* Flash */,
@@ -592,6 +599,16 @@
 				B9E49DBD21BFD3BB000E994D /* rotate@3x.png */,
 			);
 			name = Rotate;
+			sourceTree = "<group>";
+		};
+		C0C722D526DF5E7200944F4E /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				C0C722F026DF639500944F4E /* gallery.png */,
+				C0C722F126DF639500944F4E /* gallery@2x.png */,
+				C0C722EF26DF639500944F4E /* gallery@3x.png */,
+			);
+			name = Gallery;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -824,13 +841,16 @@
 				B9E49DBF21BFD3BB000E994D /* rotate@2x.png in Resources */,
 				50FF76632577CCFB0099D918 /* Localizable.strings in Resources */,
 				B94FBBB52178653C001ED1B4 /* flashUnavailable@2x.png in Resources */,
+				C0C722F226DF639500944F4E /* gallery@3x.png in Resources */,
 				B94FBBAD2178652B001ED1B4 /* flash.png in Resources */,
 				B94FBBAF2178652B001ED1B4 /* flash@2x.png in Resources */,
 				B940E38C21A77192003B3C0B /* enhance.png in Resources */,
 				B94FBBB32178653C001ED1B4 /* flashUnavailable@3x.png in Resources */,
 				B9E49DBE21BFD3BB000E994D /* rotate.png in Resources */,
 				B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */,
+				C0C722F426DF639500944F4E /* gallery@2x.png in Resources */,
 				B940E38A21A77192003B3C0B /* enhance@3x.png in Resources */,
+				C0C722F326DF639500944F4E /* gallery.png in Resources */,
 				B940E38B21A77192003B3C0B /* enhance@2x.png in Resources */,
 				B94FBBB42178653C001ED1B4 /* flashUnavailable.png in Resources */,
 			);

@@ -40,7 +40,7 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
 /// 1. Uses the camera to capture an image with a rectangle that has been detected.
 /// 2. Edit the detected rectangle.
 /// 3. Review the cropped down version of the rectangle.
-public final class ImageScannerController: UINavigationController {
+public final class ImageScannerController: UINavigationController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     /// The object that acts as the delegate of the `ImageScannerController`.
     public weak var imageScannerDelegate: ImageScannerControllerDelegate?
@@ -55,12 +55,21 @@ public final class ImageScannerController: UINavigationController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    private lazy var selectPhotoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "gallery", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = UIColor.white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
+        return button
+    }()
 
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
     
-    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
+    public required init(canSelect: Bool? = false, image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
         super.init(rootViewController: ScannerViewController())
         
         self.imageScannerDelegate = delegate
@@ -71,6 +80,9 @@ public final class ImageScannerController: UINavigationController {
             navigationBar.tintColor = .black
         }
         navigationBar.isTranslucent = false
+        if (canSelect == true) {
+            self.view.addSubview(selectPhotoButton)
+        }
         self.view.addSubview(blackFlashView)
         setupConstraints()
         
@@ -136,7 +148,32 @@ public final class ImageScannerController: UINavigationController {
             view.trailingAnchor.constraint(equalTo: blackFlashView.trailingAnchor)
         ]
         
-        NSLayoutConstraint.activate(blackFlashViewConstraints)
+        var constraints = blackFlashViewConstraints
+        
+        if (self.view.contains(selectPhotoButton)) {
+            var selectPhotoButtonConstraints = [NSLayoutConstraint]()
+            
+            
+            if #available(iOS 11.0, *) {
+                selectPhotoButtonConstraints = [
+                    selectPhotoButton.widthAnchor.constraint(equalToConstant: 44.0),
+                    selectPhotoButton.heightAnchor.constraint(equalToConstant: 44.0),
+                    selectPhotoButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24.0),
+                    view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: selectPhotoButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+                ]
+            } else {
+                selectPhotoButtonConstraints = [
+                    selectPhotoButton.widthAnchor.constraint(equalToConstant: 44.0),
+                    selectPhotoButton.heightAnchor.constraint(equalToConstant: 44.0),
+                    selectPhotoButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24.0),
+                    view.bottomAnchor.constraint(equalTo: selectPhotoButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+                ]
+            }
+            
+            constraints = constraints + selectPhotoButtonConstraints;
+        }
+        
+        NSLayoutConstraint.activate(constraints)
     }
     
     internal func flashToBlack() {
@@ -146,6 +183,26 @@ public final class ImageScannerController: UINavigationController {
         DispatchQueue.main.asyncAfter(deadline: flashDuration) {
             self.blackFlashView.isHidden = true
         }
+    }
+    
+    @objc private func selectPhoto() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
+    }
+
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true)
+        
+        selectPhotoButton.isHidden = true
+        
+        guard let image = info[.originalImage] as? UIImage else { return }
+        useImage(image: image)
     }
 }
 
