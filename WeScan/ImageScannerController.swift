@@ -65,9 +65,15 @@ public final class ImageScannerController: UINavigationController {
         
         self.imageScannerDelegate = delegate
         
+        //Added for iOS 15
         if #available(iOS 13.0, *) {
-            navigationBar.tintColor = .label
-        } else {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.backgroundColor = .label
+            navigationBar.standardAppearance = navBarAppearance
+            navigationBar.scrollEdgeAppearance = navBarAppearance
+        }
+        else {
             navigationBar.tintColor = .black
         }
         navigationBar.isTranslucent = false
