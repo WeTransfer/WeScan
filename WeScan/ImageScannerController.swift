@@ -65,7 +65,6 @@ public final class ImageScannerController: UINavigationController {
         
         self.imageScannerDelegate = delegate
         
-        //Added for iOS 15
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.configureWithOpaqueBackground()
