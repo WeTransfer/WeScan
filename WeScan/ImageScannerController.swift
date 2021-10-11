@@ -71,8 +71,7 @@ public final class ImageScannerController: UINavigationController {
             navBarAppearance.backgroundColor = .label
             navigationBar.standardAppearance = navBarAppearance
             navigationBar.scrollEdgeAppearance = navBarAppearance
-        }
-        else {
+        } else {
             navigationBar.tintColor = .black
         }
         navigationBar.isTranslucent = false
