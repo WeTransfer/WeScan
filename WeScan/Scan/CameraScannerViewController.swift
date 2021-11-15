@@ -11,7 +11,7 @@ import AVFoundation
 
 /// A set of methods that your delegate object must implement to get capture image.
 /// If camera module doesn't work it will send error back to your delegate object.
-public protocol CameraScannerViewOutputDelegate: class {
+public protocol CameraScannerViewOutputDelegate: AnyObject {
     func captureImageFailWithError(error: Error)
     func captureImageSuccess(image: UIImage, withQuad quad: Quadrilateral?)
 }
