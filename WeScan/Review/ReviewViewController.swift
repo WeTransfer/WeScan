@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 /// The `ReviewViewController` offers an interface to review the image after it has been cropped and deskwed according to the passed in quadrilateral.
 final class ReviewViewController: UIViewController {
@@ -14,6 +15,15 @@ final class ReviewViewController: UIViewController {
     private var rotationAngle = Measurement<UnitAngle>(value: 0, unit: .degrees)
     private var enhancedImageIsAvailable = false
     private var isCurrentlyDisplayingEnhancedImage = false
+    
+    lazy var imageCheck: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "img_check")
+        imageView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.0)
+        imageView.contentMode = .scaleAspectFit
+        //imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -67,9 +77,13 @@ final class ReviewViewController: UIViewController {
         setupViews()
         setupToolbar()
         setupConstraints()
+        setupCheckMarkConstraints()
         
         title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
         navigationItem.rightBarButtonItem = doneButton
+        
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +104,8 @@ final class ReviewViewController: UIViewController {
     
     private func setupViews() {
         view.addSubview(imageView)
+        imageView.addSubview(imageCheck)
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
     }
     
     private func setupToolbar() {
@@ -167,5 +183,48 @@ final class ReviewViewController: UIViewController {
         newResults.doesUserPreferEnhancedScan = isCurrentlyDisplayingEnhancedImage
         imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
     }
+    
+    private func setupCheckMarkConstraints() {
+        // imageCheck.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+
+         imageCheck.translatesAutoresizingMaskIntoConstraints = false
+             let centerVertically = NSLayoutConstraint(item: imageCheck,
+                                                       attribute: .centerX,
+                                                       relatedBy: .equal,
+                                               toItem: imageView,
+                                                       attribute: .centerX,
+                                           multiplier: 1.0,
+                                                       constant: 0.0)
+             let centerHorizontally = NSLayoutConstraint(item: imageCheck,
+                                                         attribute: .centerY,
+                                                         relatedBy: .equal,
+                                               toItem: imageView,
+                                                         attribute: .centerY,
+                                           multiplier: 1.0,
+                                                         constant: 0.0)
+         let widthConstraint = NSLayoutConstraint(item: imageCheck,
+                                                     attribute: .width,
+                                                     relatedBy: .equal,
+                                                     toItem: imageView,
+                                                     attribute: .width,
+                                                  multiplier: 0.2,
+                                                     constant: 0)
+         let heightConstraint = NSLayoutConstraint(item: imageCheck,
+                                                     attribute: .height,
+                                                     relatedBy: .equal,
+                                                     toItem: imageView,
+                                                     attribute: .width,
+                                                   multiplier: 0.2,
+                                                     constant: 0)
+         NSLayoutConstraint.activate([centerVertically, centerHorizontally, widthConstraint, heightConstraint])
+
+         
+     }
+
 
 }
+
+
+
+
+   
