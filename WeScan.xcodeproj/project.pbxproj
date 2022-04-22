@@ -615,8 +615,8 @@
 				A1D4BCB3202C4F3800FCDDEC /* Sources */,
 				A1D4BCB4202C4F3800FCDDEC /* Frameworks */,
 				A1D4BCB5202C4F3800FCDDEC /* Resources */,
-				A1D4BD07202C4F4100FCDDEC /* Embed Frameworks */,
 				503A25E422FB044C00534850 /* SwiftLint */,
+				A1D4BD07202C4F4100FCDDEC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -634,9 +634,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A1D4BD04202C4F4100FCDDEC /* Build configuration list for PBXNativeTarget "WeScan" */;
 			buildPhases = (
+				A1D4BCEA202C4F4100FCDDEC /* Headers */,
 				A1D4BCE8202C4F4100FCDDEC /* Sources */,
 				A1D4BCE9202C4F4100FCDDEC /* Frameworks */,
-				A1D4BCEA202C4F4100FCDDEC /* Headers */,
 				A1D4BCEB202C4F4100FCDDEC /* Resources */,
 				503A25EC22FB045E00534850 /* SwiftLint */,
 			);
@@ -865,7 +865,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Submodules/WeTransfer-iOS-CI/SwiftLint/swiftlint.sh\n";
+			shellScript = "if [ -z \"$CI\" ]; then\n    if [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n        if test -d \"/opt/homebrew/bin/\"; then\n            PATH=\"/opt/homebrew/bin/:${PATH}\"\n        fi\n\n        export PATH\n        swiftlint --config \"${SRCROOT}/../Submodules/WeTransfer-iOS-CI/BuildTools/.swiftlint.yml\"\n    else\n        echo \"Info: As we're not building for Debug, no SwiftLint is running.\"\n    fi\nfi\n";
 		};
 		503A25EC22FB045E00534850 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -883,7 +883,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Submodules/WeTransfer-iOS-CI/SwiftLint/swiftlint.sh\n";
+			shellScript = "if [ -z \"$CI\" ]; then\n    if [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n        if test -d \"/opt/homebrew/bin/\"; then\n            PATH=\"/opt/homebrew/bin/:${PATH}\"\n        fi\n\n        export PATH\n        swiftlint --config \"${SRCROOT}/../Submodules/WeTransfer-iOS-CI/BuildTools/.swiftlint.yml\"\n    else\n        echo \"Info: As we're not building for Debug, no SwiftLint is running.\"\n    fi\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

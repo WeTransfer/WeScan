@@ -6,14 +6,13 @@
 
 <p align="center">
 <img src="https://app.bitrise.io/app/df00af454f27891d.svg?token=spjxNvzjnRqug6GfGM3_Lg"/>
-<img src="https://img.shields.io/cocoapods/v/WeScan.svg?style=flat"/>
 <img src="https://img.shields.io/cocoapods/l/WeScan.svg?style=flat"/>
 <img src="https://img.shields.io/cocoapods/p/WeScan.svg?style=flat"/>
 <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/>
 <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat"/>
 </p>
 
-**WeScan** makes it easy to add scanning functionalities to your iOS app! 
+**WeScan** makes it easy to add scanning functionalities to your iOS app!
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
 
 - [Features](#features)
@@ -61,28 +60,6 @@ dependencies: [
 ]
 ```
 
-### Cocoapods
-
-[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
-
-To integrate **WeScan** into your Xcode project using CocoaPods, specify it in your `Podfile`:
-
-```rubygi
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '10.0'
-use_frameworks!
-
-target '<Your Target Name>' do
-    pod 'WeScan', '>= 0.9'
-end
-```
-
-Then, run the following command:
-
-```bash
-$ pod install
-```
-
 ### Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
@@ -116,7 +93,7 @@ Simply add the WeScan framework in the project's Embedded Binaries and Linked Fr
 
 ### Swift
 
-1. In order to make the framework available, add `import WeScan` at the top of the Swift source file 
+1. In order to make the framework available, add `import WeScan` at the top of the Swift source file
 
 2. In the Info.plist, add the `NSCameraUsageDescription` key and set the appropriate value in which you have to inform the user of the reason to allow the camera permission
 
