@@ -22,7 +22,13 @@ final class EditImageViewController: UIViewController {
     }
     
     private func setupView() {
-        controller = WeScan.EditImageViewController(image: captureImage, quad: quad, strokeColor: UIColor(red: (69.0 / 255.0), green: (194.0 / 255.0), blue: (177.0 / 255.0), alpha: 1.0).cgColor)
+        let strokeColor = UIColor(red: (69.0 / 255.0),
+                                  green: (194.0 / 255.0),
+                                  blue: (177.0 / 255.0),
+                                  alpha: 1.0).cgColor
+        controller = WeScan.EditImageViewController(image: captureImage,
+                                                    quad: quad,
+                                                    strokeColor: strokeColor)
         controller.view.frame = editImageView.bounds
         controller.willMove(toParent: self)
         editImageView.addSubview(controller.view)
@@ -34,11 +40,16 @@ final class EditImageViewController: UIViewController {
     @IBAction func cropTapped(_ sender: UIButton!) {
         controller.cropImage()
     }
+    
+    @IBAction func rotateTapped(_ sender: UIButton!) {
+        controller.rotateImage()
+    }
 }
 
 extension EditImageViewController: EditImageViewDelegate {
     func cropped(image: UIImage) {
-        guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "ReviewImageView") as? ReviewImageViewController else { return }
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "ReviewImageView")
+        guard let controller = controller as? ReviewImageViewController else { return }
         controller.modalPresentationStyle = .fullScreen
         controller.image = image
         navigationController?.pushViewController(controller, animated: false)

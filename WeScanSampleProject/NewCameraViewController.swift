@@ -36,6 +36,10 @@ final class NewCameraViewController: UIViewController {
     @IBAction func captureTapped(_ sender: UIButton) {
         controller.capture()
     }
+    
+    @IBAction func cancelTapped(_ sender: UIButton) {
+        self.dismiss(animated: true)
+    }
 
 }
 
@@ -45,7 +49,8 @@ extension NewCameraViewController: CameraScannerViewOutputDelegate {
     }
     
     func captureImageSuccess(image: UIImage, withQuad quad: Quadrilateral?) {
-        guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewEditImageView") as? EditImageViewController else { return }
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewEditImageView")
+        guard let controller = controller as? EditImageViewController else { return }
         controller.modalPresentationStyle = .fullScreen
         controller.captureImage = image
         controller.quad = quad

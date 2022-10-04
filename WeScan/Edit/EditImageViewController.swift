@@ -23,7 +23,7 @@ public final class EditImageViewController: UIViewController {
     private var image: UIImage
     
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
-    private var quad: Quadrilateral
+    private var quad: Quadrilateral?
     private var zoomGestureController: ZoomGestureController!
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
@@ -54,7 +54,7 @@ public final class EditImageViewController: UIViewController {
     
     public init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true, strokeColor: CGColor? = nil) {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
-        self.quad = quad ?? EditImageViewController.defaultQuad(allOfImage: image)
+        self.quad = quad
         self.strokeColor = strokeColor
         super.init(nibName: nil, bundle: nil)
     }
@@ -68,8 +68,24 @@ public final class EditImageViewController: UIViewController {
         
         setupViews()
         setupConstraints()
-        zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
-        addLongGesture(of: zoomGestureController)
+        
+        if quad == nil {
+            let ciImage = CIImage(cgImage: image.cgImage!)
+            VisionRectangleDetector.rectangle(forImage: ciImage) { quad in
+                if let quad = quad {
+                    let detectedQuad = quad.toCartesian(withHeight: ciImage.extent.height)
+                    self.quad = detectedQuad
+                } else {
+                    self.quad = EditImageViewController.defaultQuad(allOfImage: self.image)
+                }
+               
+                self.zoomGestureController = ZoomGestureController(image: self.image, quadView: self.quadView)
+                self.addLongGesture(of: self.zoomGestureController)
+            }
+        } else {
+            zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
+            addLongGesture(of: zoomGestureController)
+        }
     }
     
     override public func viewDidLayoutSubviews() {
@@ -124,18 +140,18 @@ public final class EditImageViewController: UIViewController {
         let orientedImage = ciImage.oriented(forExifOrientation: Int32(cgOrientation.rawValue))
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
         self.quad = scaledQuad
-
+        
         // Cropped Image
         var cartesianScaledQuad = scaledQuad.toCartesian(withHeight: image.size.height)
         cartesianScaledQuad.reorganize()
-
+        
         let filteredImage = orientedImage.applyingFilter("CIPerspectiveCorrection", parameters: [
             "inputTopLeft": CIVector(cgPoint: cartesianScaledQuad.bottomLeft),
             "inputTopRight": CIVector(cgPoint: cartesianScaledQuad.bottomRight),
             "inputBottomLeft": CIVector(cgPoint: cartesianScaledQuad.topLeft),
             "inputBottomRight": CIVector(cgPoint: cartesianScaledQuad.topRight)
         ])
-
+        
         let croppedImage = UIImage.from(ciImage: filteredImage)
         delegate?.cropped(image: croppedImage)
     }
@@ -147,20 +163,20 @@ public final class EditImageViewController: UIViewController {
     }
     
     private func reloadImage(withAngle angle: Measurement<UnitAngle>) {
-        guard let newImage = image.rotated(by: angle) else { return }
-        let newQuad = EditImageViewController.defaultQuad(allOfImage: newImage)
         
-        image = newImage
-        imageView.image = image
-        quad = newQuad
-        adjustQuadViewConstraints()
-        displayQuad()
-        
-        zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
-        addLongGesture(of: zoomGestureController)
+        guard let newImage = image.rotated(by: angle),
+              let newQuad = quad?.scale(image.size, newImage.size,
+                                        withRotationAngle: CGFloat(angle.converted(to: .radians).value)) else { return }
+        self.quad = newQuad
+        self.image = newImage
+        self.imageView.image = self.image
+        self.adjustQuadViewConstraints()
+        self.displayQuad()
     }
     
     private func displayQuad() {
+        guard let quad = quad else { return }
+        
         let imageSize = image.size
         let size = CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
         let imageFrame = CGRect(origin: quadView.frame.origin, size: size)

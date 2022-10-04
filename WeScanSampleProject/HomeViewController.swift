@@ -97,7 +97,7 @@ final class HomeViewController: UIViewController {
     @objc func scanOrSelectImage(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: "Would you like to scan an image or select one from your photo library?", message: nil, preferredStyle: .actionSheet)
         
-        let newAction = UIAlertAction(title: "A new scan", style: .default) { (_) in
+        let individualScanAction = UIAlertAction(title: "Individual Scan", style: .default) { (_) in
             guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewCameraViewController") else { return }
             controller.modalPresentationStyle = .fullScreen
             self.present(controller, animated: true, completion: nil)
@@ -116,7 +116,7 @@ final class HomeViewController: UIViewController {
         actionSheet.addAction(scanAction)
         actionSheet.addAction(selectAction)
         actionSheet.addAction(cancelAction)
-        actionSheet.addAction(newAction)
+        actionSheet.addAction(individualScanAction)
         
         present(actionSheet, animated: true)
     }
@@ -167,7 +167,30 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
         picker.dismiss(animated: true)
         
         guard let image = info[.originalImage] as? UIImage else { return }
-        let scannerViewController = ImageScannerController(image: image, delegate: self)
-        present(scannerViewController, animated: true)
+        
+        let actionSheet = UIAlertController(title: "Would you like to show Complete scanner or Individual scanner?",
+                                            message: nil, preferredStyle: .actionSheet)
+        
+        let completeAction = UIAlertAction(title: "Complete Scanner", style: .default) { (_) in
+            let scannerViewController = ImageScannerController(image: image, delegate: self)
+            self.present(scannerViewController, animated: true)
+        }
+        
+        let individualAction = UIAlertAction(title: "Individual Scanner", style: .default) { (_) in
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewEditImageView")
+            guard let controller = controller as? EditImageViewController else { return }
+            controller.modalPresentationStyle = .fullScreen
+            controller.captureImage = image
+            let nav = UINavigationController(rootViewController: controller)
+            self.present(nav, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(completeAction)
+        actionSheet.addAction(individualAction)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true)
     }
 }
