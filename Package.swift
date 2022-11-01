@@ -10,7 +10,7 @@ let package = Package(
     ],
     products: [
         // dev .library(name: "DangerDeps", type: .dynamic, targets: ["DangerDependencies"]), // dev
-        .library(name: "WeScan", type: .static, targets: ["WeScan"])
+        .library(name: "WeScan", targets: ["WeScan"])
     ],
     dependencies: [
         // dev .package(name: "danger-swift", url: "https://github.com/danger/swift", from: "3.0.0"),
