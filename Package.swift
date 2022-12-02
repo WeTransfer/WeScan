@@ -9,7 +9,10 @@ let package = Package(
         .iOS(.v12)
     ],
     products: [
-        .library(name: "WeScan", type: .static, targets: ["WeScan"])
+        .library(name: "WeScan", targets: ["WeScan"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/uber/ios-snapshot-test-case.git", from: "8.0.0")
     ],
     targets: [
         .target(name: "WeScan",
@@ -20,6 +23,17 @@ let package = Package(
                 ],
                 resources: [
                     .process("Resources")
-                ])
+                ]),
+        .testTarget(
+            name: "WeScanTests",
+            dependencies: [
+                "WeScan",
+                .product(name: "iOSSnapshotTestCase", package: "ios-snapshot-test-case")
+            ],
+            path: "WeScanTests",
+            resources: [
+                .process("Resources")
+            ]
+        )
     ]
 )

@@ -8,7 +8,7 @@
 //  swiftlint:disable line_length
 
 import CoreGraphics
-import FBSnapshotTestCase
+import iOSSnapshotTestCase
 @testable import WeScan
 import XCTest
 

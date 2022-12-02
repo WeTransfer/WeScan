@@ -6,7 +6,7 @@
 //  Copyright © 2018 WeTransfer. All rights reserved.
 //
 
-import FBSnapshotTestCase
+import iOSSnapshotTestCase
 @testable import WeScan
 import XCTest
 

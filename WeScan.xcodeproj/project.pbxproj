@@ -15,7 +15,6 @@
 		388A3BFD23C46FF000263DD1 /* EditImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BFC23C46FF000263DD1 /* EditImageViewController.swift */; };
 		50FF76632577CCFB0099D918 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50FF764B2577CCFB0099D918 /* Localizable.strings */; };
 		50FF77162577EAD80099D918 /* WeScan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D4BCED202C4F4100FCDDEC /* WeScan.framework */; };
-		74E27858215446C900361812 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E27850215446C200361812 /* FBSnapshotTestCase.framework */; };
 		74F7D034211ACBD90046AF7E /* CIRectangleDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */; };
 		74F7D036211ACBEE0046AF7E /* CaptureSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */; };
 		74F7D038211ACBF90046AF7E /* VisionRectangleDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */; };
@@ -89,69 +88,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		74E2784F215446C200361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B31987F01AB782D000B0A900;
-			remoteInfo = "FBSnapshotTestCase iOS";
-		};
-		74E27851215446C200361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B31987FB1AB782D100B0A900;
-			remoteInfo = "FBSnapshotTestCase iOS Tests";
-		};
-		74E27853215446C200361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8271377A1C63AB6F00354E42;
-			remoteInfo = "FBSnapshotTestCase tvOS";
-		};
-		74E27855215446C200361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 827137831C63AB7000354E42;
-			remoteInfo = "FBSnapshotTestCase tvOS Tests";
-		};
-		74E27859215446D100361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B31987EF1AB782D000B0A900;
-			remoteInfo = "FBSnapshotTestCase iOS";
-		};
-		74E278622154528300361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B31987F01AB782D000B0A900;
-			remoteInfo = "FBSnapshotTestCase iOS";
-		};
-		74E278642154528300361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B31987FB1AB782D100B0A900;
-			remoteInfo = "FBSnapshotTestCase iOS Tests";
-		};
-		74E278662154528300361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8271377A1C63AB6F00354E42;
-			remoteInfo = "FBSnapshotTestCase tvOS";
-		};
-		74E278682154528300361812 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 827137831C63AB7000354E42;
-			remoteInfo = "FBSnapshotTestCase tvOS Tests";
-		};
 		A1D4BCF7202C4F4100FCDDEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A1D4BCAF202C4F3800FCDDEC /* Project object */;
@@ -214,8 +150,6 @@
 		50FF765A2577CCFB0099D918 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50FF765B2577CCFB0099D918 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5A5A8B1525804C7D0058A37C /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
-		74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FBSnapshotTestCase.xcodeproj; path = "Submodules/ios-snapshot-test-case/FBSnapshotTestCase.xcodeproj"; sourceTree = "<group>"; };
-		74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FBSnapshotTestCase.xcodeproj; path = "Submodules/ios-snapshot-test-case/FBSnapshotTestCase.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		74F7D033211ACBD90046AF7E /* CIRectangleDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIRectangleDetectorTests.swift; sourceTree = "<group>"; };
 		74F7D035211ACBEE0046AF7E /* CaptureSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionTests.swift; sourceTree = "<group>"; };
 		74F7D037211ACBF90046AF7E /* VisionRectangleDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionRectangleDetectorTests.swift; sourceTree = "<group>"; };
@@ -314,7 +248,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74E27858215446C900361812 /* FBSnapshotTestCase.framework in Frameworks */,
 				A1D4BCF6202C4F4100FCDDEC /* WeScan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,33 +272,11 @@
 			path = Localisation;
 			sourceTree = "<group>";
 		};
-		74E27849215446C200361812 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				74E27850215446C200361812 /* FBSnapshotTestCase.framework */,
-				74E27852215446C200361812 /* FBSnapshotTestCase iOS Tests.xctest */,
-				74E27854215446C200361812 /* FBSnapshotTestCase.framework */,
-				74E27856215446C200361812 /* FBSnapshotTestCase tvOS Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		74E27857215446C900361812 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		74E2785C2154528300361812 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				74E278632154528300361812 /* FBSnapshotTestCase.framework */,
-				74E278652154528300361812 /* FBSnapshotTestCase iOS Tests.xctest */,
-				74E278672154528300361812 /* FBSnapshotTestCase.framework */,
-				74E278692154528300361812 /* FBSnapshotTestCase tvOS Tests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A1675BA92041692800852865 /* Resources */ = {
@@ -389,7 +300,6 @@
 		A1D4BCAE202C4F3800FCDDEC = {
 			isa = PBXGroup;
 			children = (
-				74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */,
 				A1D4BCB9202C4F3800FCDDEC /* WeScanSampleProject */,
 				A1D4BCEE202C4F4100FCDDEC /* WeScan */,
 				A1D4BCFB202C4F4100FCDDEC /* WeScanTests */,
@@ -445,7 +355,6 @@
 		A1D4BCFB202C4F4100FCDDEC /* WeScanTests */ = {
 			isa = PBXGroup;
 			children = (
-				74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */,
 				A1675BA92041692800852865 /* Resources */,
 				A1D4BCFE202C4F4100FCDDEC /* Info.plist */,
 				A14089ED204EAA180009530F /* ArrayTests.swift */,
@@ -660,7 +569,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				74E2785A215446D100361812 /* PBXTargetDependency */,
 				A1D4BCF8202C4F4100FCDDEC /* PBXTargetDependency */,
 				A1D4BCFA202C4F4100FCDDEC /* PBXTargetDependency */,
 			);
@@ -727,16 +635,6 @@
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
 			productRefGroup = A1D4BCB8202C4F3800FCDDEC /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 74E2785C2154528300361812 /* Products */;
-					ProjectRef = 74E2785B2154528300361812 /* FBSnapshotTestCase.xcodeproj */;
-				},
-				{
-					ProductGroup = 74E27849215446C200361812 /* Products */;
-					ProjectRef = 74E27848215446C200361812 /* FBSnapshotTestCase.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				A1D4BCB6202C4F3800FCDDEC /* WeScanSampleProject */,
@@ -745,65 +643,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		74E27850215446C200361812 /* FBSnapshotTestCase.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = FBSnapshotTestCase.framework;
-			remoteRef = 74E2784F215446C200361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E27852215446C200361812 /* FBSnapshotTestCase iOS Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "FBSnapshotTestCase iOS Tests.xctest";
-			remoteRef = 74E27851215446C200361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E27854215446C200361812 /* FBSnapshotTestCase.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = FBSnapshotTestCase.framework;
-			remoteRef = 74E27853215446C200361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E27856215446C200361812 /* FBSnapshotTestCase tvOS Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "FBSnapshotTestCase tvOS Tests.xctest";
-			remoteRef = 74E27855215446C200361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E278632154528300361812 /* FBSnapshotTestCase.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = FBSnapshotTestCase.framework;
-			remoteRef = 74E278622154528300361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E278652154528300361812 /* FBSnapshotTestCase iOS Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "FBSnapshotTestCase iOS Tests.xctest";
-			remoteRef = 74E278642154528300361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E278672154528300361812 /* FBSnapshotTestCase.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = FBSnapshotTestCase.framework;
-			remoteRef = 74E278662154528300361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E278692154528300361812 /* FBSnapshotTestCase tvOS Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "FBSnapshotTestCase tvOS Tests.xctest";
-			remoteRef = 74E278682154528300361812 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A1D4BCB5202C4F3800FCDDEC /* Resources */ = {
@@ -967,11 +806,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		74E2785A215446D100361812 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "FBSnapshotTestCase iOS";
-			targetProxy = 74E27859215446D100361812 /* PBXContainerItemProxy */;
-		};
 		A1D4BCF8202C4F4100FCDDEC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A1D4BCEC202C4F4100FCDDEC /* WeScan */;

@@ -29,7 +29,7 @@ final class ImageFeatureTestHelpers: NSObject {
     }
 
     static func getRectangleFeature(from resourceImage: ResourceImage) -> Quadrilateral {
-        let image = UIImage(named: resourceImage.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
+        let image = UIImage(named: resourceImage.rawValue, in: Bundle.module, compatibleWith: nil)
         let ciImage = CIImage(image: image!)!
 
         return CIRectangleDetector.rectangle(forImage: ciImage)!
