@@ -6,8 +6,8 @@
 //  Copyright © 2020 WeTransfer. All rights reserved.
 //
 
-import UIKit
 import AVFoundation
+import UIKit
 
 /// A set of methods that your delegate object must implement to get capture image.
 /// If camera module doesn't work it will send error back to your delegate object.
@@ -17,7 +17,8 @@ public protocol CameraScannerViewOutputDelegate: AnyObject {
 }
 
 /// A view controller that manages the camera module and auto capture of rectangle shape of document
-/// The `CameraScannerViewController` class is individual camera view include touch for focus, flash control, capture control and auto detect rectangle shape of object.
+/// The `CameraScannerViewController` class is individual camera view include touch for focus, flash control,
+/// capture control and auto detect rectangle shape of object.
 public final class CameraScannerViewController: UIViewController {
 
     /// The status of auto scan.
@@ -32,21 +33,21 @@ public final class CameraScannerViewController: UIViewController {
 
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
-    
+
     /// The view that shows the focus rectangle (when the user taps to focus, similar to the Camera app)
     private var focusRectangle: FocusRectangleView!
-    
+
     /// The view that draws the detected rectangles.
     private let quadView = QuadrilateralView()
-    
+
     /// Whether flash is enabled
     private var flashEnabled = false
-    
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupView()
     }
-    
+
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         CaptureSession.current.isEditing = false
@@ -54,13 +55,13 @@ public final class CameraScannerViewController: UIViewController {
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
     }
-    
+
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         videoPreviewLayer.frame = view.layer.bounds
     }
-    
+
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
@@ -70,7 +71,7 @@ public final class CameraScannerViewController: UIViewController {
             toggleFlash()
         }
     }
-    
+
     private func setupView() {
         view.backgroundColor = .darkGray
         view.layer.addSublayer(videoPreviewLayer)
@@ -78,16 +79,21 @@ public final class CameraScannerViewController: UIViewController {
         quadView.editable = false
         view.addSubview(quadView)
         setupConstraints()
-        
+
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer)
         captureSessionManager?.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(subjectAreaDidChange),
+            name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange,
+            object: nil
+        )
     }
-    
+
     private func setupConstraints() {
         var quadViewConstraints = [NSLayoutConstraint]()
-        
+
         quadViewConstraints = [
             quadView.topAnchor.constraint(equalTo: view.topAnchor),
             view.bottomAnchor.constraint(equalTo: quadView.bottomAnchor),
@@ -96,50 +102,51 @@ public final class CameraScannerViewController: UIViewController {
         ]
         NSLayoutConstraint.activate(quadViewConstraints)
     }
-    
-    /// Called when the AVCaptureDevice detects that the subject area has changed significantly. When it's called, we reset the focus so the camera is no longer out of focus.
+
+    /// Called when the AVCaptureDevice detects that the subject area has changed significantly. When it's called,
+    /// we reset the focus so the camera is no longer out of focus.
     @objc private func subjectAreaDidChange() {
         /// Reset the focus and exposure back to automatic
         do {
             try CaptureSession.current.resetFocusToAuto()
         } catch {
             let error = ImageScannerControllerError.inputDevice
-            guard let captureSessionManager = captureSessionManager else { return }
+            guard let captureSessionManager else { return }
             captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
             return
         }
-        
+
         /// Remove the focus rectangle if one exists
         CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: true)
     }
-    
+
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        
+
         guard  let touch = touches.first else { return }
         let touchPoint = touch.location(in: view)
         let convertedTouchPoint: CGPoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchPoint)
-        
+
         CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
-        
+
         focusRectangle = FocusRectangleView(touchPoint: touchPoint)
         focusRectangle.setBorder(color: UIColor.white.cgColor)
         view.addSubview(focusRectangle)
-        
+
         do {
             try CaptureSession.current.setFocusPointToTapPoint(convertedTouchPoint)
         } catch {
             let error = ImageScannerControllerError.inputDevice
-            guard let captureSessionManager = captureSessionManager else { return }
+            guard let captureSessionManager else { return }
             captureSessionManager.delegate?.captureSessionManager(captureSessionManager, didFailWithError: error)
             return
         }
     }
-    
+
     public func capture() {
         captureSessionManager?.capturePhoto()
     }
-    
+
     public func toggleFlash() {
         let state = CaptureSession.current.toggleFlash()
         switch state {
@@ -161,26 +168,26 @@ extension CameraScannerViewController: RectangleDetectionDelegateProtocol {
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager, didFailWithError error: Error) {
         delegate?.captureImageFailWithError(error: error)
     }
-    
+
     func didStartCapturingPicture(for captureSessionManager: CaptureSessionManager) {
         captureSessionManager.stop()
     }
-    
+
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager,
                                didCapturePicture picture: UIImage,
                                withQuad quad: Quadrilateral?) {
         delegate?.captureImageSuccess(image: picture, withQuad: quad)
     }
-    
+
     func captureSessionManager(_ captureSessionManager: CaptureSessionManager,
                                didDetectQuad quad: Quadrilateral?,
                                _ imageSize: CGSize) {
-        guard let quad = quad else {
+        guard let quad else {
             // If no quad has been detected, we remove the currently displayed on on the quadView.
             quadView.removeQuadrilateral()
             return
         }
-        
+
         let portraitImageSize = CGSize(width: imageSize.height, height: imageSize.width)
         let scaleTransform = CGAffineTransform.scaleTransform(forSize: portraitImageSize, aspectFillInSize: quadView.bounds.size)
         let scaledImageSize = imageSize.applying(scaleTransform)

@@ -6,8 +6,8 @@
 //  Copyright © 2018 WeTransfer. All rights reserved.
 //
 
-import UIKit
 import AVFoundation
+import UIKit
 @testable import WeScan
 
 enum ResourceImage: String {
@@ -17,22 +17,22 @@ enum ResourceImage: String {
 }
 
 final class ImageFeatureTestHelpers: NSObject {
-    
+
     static func getRectangleFeatures(from resourceImage: ResourceImage, withCount count: Int) -> [Quadrilateral] {
         var rectangleFeatures = [Quadrilateral]()
-      
+
         for _ in 0 ..< count {
             rectangleFeatures.append(ImageFeatureTestHelpers.getRectangleFeature(from: resourceImage))
         }
-        
+
         return rectangleFeatures
     }
-    
+
     static func getRectangleFeature(from resourceImage: ResourceImage) -> Quadrilateral {
         let image = UIImage(named: resourceImage.rawValue, in: Bundle(for: ImageFeatureTestHelpers.self), compatibleWith: nil)
         let ciImage = CIImage(image: image!)!
 
         return CIRectangleDetector.rectangle(forImage: ciImage)!
     }
-    
+
 }

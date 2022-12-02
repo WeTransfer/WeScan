@@ -23,10 +23,10 @@ extension CIImage {
             }
             """
             ) else { return nil }
-        
+
         let firstInputEdge = 0.25
         let secondInputEdge = 0.75
-        
+
         let arguments: [Any] = [self, firstInputEdge, secondInputEdge]
 
         guard let enhancedCIImage = colorKernel.apply(extent: self.extent, arguments: arguments) else { return nil }

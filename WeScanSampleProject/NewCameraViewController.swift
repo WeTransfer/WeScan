@@ -10,7 +10,7 @@ import UIKit
 import WeScan
 
 final class NewCameraViewController: UIViewController {
-    
+
     @IBOutlet private weak var cameraView: UIView!
     var controller: CameraScannerViewController!
 
@@ -18,7 +18,7 @@ final class NewCameraViewController: UIViewController {
         super.viewDidLoad()
         setupView()
     }
-    
+
     private func setupView() {
         controller = CameraScannerViewController()
         controller.view.frame = cameraView.bounds
@@ -28,11 +28,11 @@ final class NewCameraViewController: UIViewController {
         controller.didMove(toParent: self)
         controller.delegate = self
     }
-    
+
     @IBAction func flashTapped(_ sender: UIButton) {
         controller.toggleFlash()
     }
-    
+
     @IBAction func captureTapped(_ sender: UIButton) {
         controller.capture()
     }
@@ -43,9 +43,10 @@ extension NewCameraViewController: CameraScannerViewOutputDelegate {
     func captureImageFailWithError(error: Error) {
         print(error)
     }
-    
+
     func captureImageSuccess(image: UIImage, withQuad quad: Quadrilateral?) {
-        guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewEditImageView") as? EditImageViewController else { return }
+        guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewEditImageView") as? EditImageViewController
+            else { return }
         controller.modalPresentationStyle = .fullScreen
         controller.captureImage = image
         controller.quad = quad

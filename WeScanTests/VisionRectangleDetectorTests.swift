@@ -7,8 +7,8 @@
 //
 
 import FBSnapshotTestCase
-import XCTest
 @testable import WeScan
+import XCTest
 
 final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
@@ -54,7 +54,7 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
     let ciImage = CIImage(cgImage: image.cgImage!)
     let expectation = XCTestExpectation(description: "Detect rectangle on CIImage")
 
-    VisionRectangleDetector.rectangle(forImage: ciImage) { (quad) in
+    VisionRectangleDetector.rectangle(forImage: ciImage) { quad in
 
       DispatchQueue.main.async {
 
@@ -78,7 +78,7 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
 
     let expectation = XCTestExpectation(description: "Detect rectangle on CVPixelBuffer")
     if let pixelBuffer = image.pixelBuffer() {
-      VisionRectangleDetector.rectangle(forPixelBuffer: pixelBuffer) { (quad) in
+      VisionRectangleDetector.rectangle(forPixelBuffer: pixelBuffer) { quad in
 
         DispatchQueue.main.async {
 
