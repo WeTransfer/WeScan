@@ -16,10 +16,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "WeScan",
-                exclude: [
-                    "Info.plist",
-                    "WeScan.h"
-                ],
                 resources: [
                     .process("Resources")
                 ]),
