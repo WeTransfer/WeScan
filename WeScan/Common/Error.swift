@@ -6,8 +6,8 @@
 //  Copyright © 2018 WeTransfer. All rights reserved.
 //
 
-import Foundation
 import CoreImage
+import Foundation
 
 /// Errors related to the `ImageScannerController`
 public enum ImageScannerControllerError: Error {
@@ -22,7 +22,7 @@ public enum ImageScannerControllerError: Error {
 }
 
 extension ImageScannerControllerError: LocalizedError {
-    
+
     public var errorDescription: String? {
         switch self {
         case .authorization:
