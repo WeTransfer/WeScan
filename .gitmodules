@@ -2,6 +2,3 @@
 	path = Submodules/WeTransfer-iOS-CI
 	url = https://github.com/WeTransfer/WeTransfer-iOS-CI.git
 	branch = master
-[submodule "Submodules/ios-snapshot-test-case"]
-	path = Submodules/ios-snapshot-test-case
-	url = https://github.com/uber/ios-snapshot-test-case.git
