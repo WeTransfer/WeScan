@@ -1,3 +1,7 @@
+### 2.0.0
+- Fixed SwiftUI Previews in Xcode >= 14 ([#338](https://github.com/WeTransfer/WeScan/pull/338)) via [@amarildolucas](https://github.com/amarildolucas)
+- Update CI to latest ([#339](https://github.com/WeTransfer/WeScan/pull/339)) via [@AvdLee](https://github.com/AvdLee)
+
 ### 1.8.1
 - Fix broken iOS 14 AV apple api ([#293](https://github.com/WeTransfer/WeScan/pull/293)) via [@ErikGro](https://github.com/ErikGro)
 - ! add japan language ([#281](https://github.com/WeTransfer/WeScan/pull/281)) via [@padgithub](https://github.com/padgithub)
