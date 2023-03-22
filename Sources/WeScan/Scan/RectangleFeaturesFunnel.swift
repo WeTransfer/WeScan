@@ -183,7 +183,7 @@ final class RectangleFeaturesFunnel {
     private func resetMatchingScores() {
         guard !rectangles.isEmpty else { return }
         for rectangle in rectangles {
-            rectangle.matchingScore = 1
+            rectangle.matchingScore = 0
         }
     }
 
