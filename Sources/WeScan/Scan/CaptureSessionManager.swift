@@ -141,7 +141,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
 
         switch authorizationStatus {
         case .authorized:
-            DispatchQueue.main.async {
+            DispatchQueue.global(qos: .userInitiated).async {
                 self.captureSession.startRunning()
             }
             isDetecting = true
