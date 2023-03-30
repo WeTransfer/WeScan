@@ -1,3 +1,9 @@
+### 2.1.0
+- Update CI module to fix CI ([#351](https://github.com/WeTransfer/WeScan/pull/351)) via [@AvdLee](https://github.com/AvdLee)
+- Fix resetMatchingScores ([#349](https://github.com/WeTransfer/WeScan/pull/349)) via [@lengocgiang](https://github.com/lengocgiang)
+- Update CODEOWNERS ([#343](https://github.com/WeTransfer/WeScan/pull/343)) via [@peagasilva](https://github.com/peagasilva)
+- Merge release 2.0.0 into master ([#342](https://github.com/WeTransfer/WeScan/pull/342)) via [@wetransferplatform](https://github.com/wetransferplatform)
+
 ### 2.0.0
 - Fixed SwiftUI Previews in Xcode >= 14 ([#338](https://github.com/WeTransfer/WeScan/pull/338)) via [@amarildolucas](https://github.com/amarildolucas)
 - Update CI to latest ([#339](https://github.com/WeTransfer/WeScan/pull/339)) via [@AvdLee](https://github.com/AvdLee)
