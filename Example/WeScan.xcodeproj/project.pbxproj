@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35BA81E22A4084C50071FF3C /* WeScan in Frameworks */ = {isa = PBXBuildFile; productRef = 35BA81E12A4084C50071FF3C /* WeScan */; };
 		383C440E23C5846B0070DE47 /* EditImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C440D23C5846B0070DE47 /* EditImageViewController.swift */; };
 		383C441723C587B90070DE47 /* ReviewImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C441623C587B90070DE47 /* ReviewImageViewController.swift */; };
 		388A3BF423C46DAE00263DD1 /* NewCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A3BF323C46DAE00263DD1 /* NewCameraViewController.swift */; };
-		8432556F293A41A100E3CC20 /* WeScan in Frameworks */ = {isa = PBXBuildFile; productRef = 8432556E293A41A100E3CC20 /* WeScan */; };
 		A1D4BCBB202C4F3800FCDDEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */; };
 		A1D4BCBD202C4F3800FCDDEC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D4BCBC202C4F3800FCDDEC /* HomeViewController.swift */; };
 		A1D4BCC0202C4F3800FCDDEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1D4BCBE202C4F3800FCDDEC /* Main.storyboard */; };
@@ -35,7 +35,6 @@
 		383C440D23C5846B0070DE47 /* EditImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImageViewController.swift; sourceTree = "<group>"; };
 		383C441623C587B90070DE47 /* ReviewImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewImageViewController.swift; sourceTree = "<group>"; };
 		388A3BF323C46DAE00263DD1 /* NewCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCameraViewController.swift; sourceTree = "<group>"; };
-		8432556D293A419500E3CC20 /* WeScan */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WeScan; path = ..; sourceTree = "<group>"; };
 		A1D4BCB7202C4F3800FCDDEC /* WeScanSampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeScanSampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D4BCBA202C4F3800FCDDEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1D4BCBC202C4F3800FCDDEC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -50,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8432556F293A41A100E3CC20 /* WeScan in Frameworks */,
+				35BA81E22A4084C50071FF3C /* WeScan in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +66,6 @@
 		A1D4BCAE202C4F3800FCDDEC = {
 			isa = PBXGroup;
 			children = (
-				8432556D293A419500E3CC20 /* WeScan */,
 				A1D4BCB9202C4F3800FCDDEC /* WeScanSampleProject */,
 				A1D4BCB8202C4F3800FCDDEC /* Products */,
 				74E27857215446C900361812 /* Frameworks */,
@@ -117,7 +115,7 @@
 			);
 			name = WeScanSampleProject;
 			packageProductDependencies = (
-				8432556E293A41A100E3CC20 /* WeScan */,
+				35BA81E12A4084C50071FF3C /* WeScan */,
 			);
 			productName = ScannerSampleProject;
 			productReference = A1D4BCB7202C4F3800FCDDEC /* WeScanSampleProject.app */;
@@ -141,7 +139,7 @@
 				};
 			};
 			buildConfigurationList = A1D4BCB2202C4F3800FCDDEC /* Build configuration list for PBXProject "WeScan" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -168,6 +166,9 @@
 				ko,
 			);
 			mainGroup = A1D4BCAE202C4F3800FCDDEC;
+			packageReferences = (
+				35BA81E02A4084C50071FF3C /* XCRemoteSwiftPackageReference "WeScan" */,
+			);
 			productRefGroup = A1D4BCB8202C4F3800FCDDEC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -427,9 +428,21 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		35BA81E02A4084C50071FF3C /* XCRemoteSwiftPackageReference "WeScan" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:WeTransfer/WeScan.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		8432556E293A41A100E3CC20 /* WeScan */ = {
+		35BA81E12A4084C50071FF3C /* WeScan */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 35BA81E02A4084C50071FF3C /* XCRemoteSwiftPackageReference "WeScan" */;
 			productName = WeScan;
 		};
 /* End XCSwiftPackageProductDependency section */

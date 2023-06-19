@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "swift-snapshot-testing",
+      "identity" : "wescan",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
+      "location" : "git@github.com:WeTransfer/WeScan.git",
       "state" : {
-        "revision" : "f29e2014f6230cf7d5138fc899da51c7f513d467",
-        "version" : "1.10.0"
+        "revision" : "fbbeede52a8ec737d769a5f4777d4db611b9b1e8",
+        "version" : "2.1.0"
       }
     }
   ],
