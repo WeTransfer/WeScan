@@ -10,7 +10,7 @@ import CoreImage
 import Foundation
 import Vision
 
-/// Class used to detect rectangles from an image.
+/// Enum encapsulating static functions to detect rectangles from an image.
 @available(iOS 11.0, *)
 enum VisionRectangleDetector {
 
