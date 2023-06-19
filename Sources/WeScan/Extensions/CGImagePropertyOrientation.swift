@@ -29,7 +29,7 @@ extension CGImagePropertyOrientation {
         case .rightMirrored:
             self = .rightMirrored
         @unknown default:
-            assertionFailure("Unknow orientation, falling to default")
+            assertionFailure("Unknown orientation, falling to default")
             self = .right
         }
     }
