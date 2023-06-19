@@ -11,10 +11,10 @@ import UIKit
 /// A simple button used for the shutter.
 final class ShutterButton: UIControl {
 
-    private let outterRingLayer = CAShapeLayer()
+    private let outerRingLayer = CAShapeLayer()
     private let innerCircleLayer = CAShapeLayer()
 
-    private let outterRingRatio: CGFloat = 0.80
+    private let outerRingRatio: CGFloat = 0.80
     private let innerRingRatio: CGFloat = 0.75
 
     private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
@@ -31,7 +31,7 @@ final class ShutterButton: UIControl {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.addSublayer(outterRingLayer)
+        layer.addSublayer(outerRingLayer)
         layer.addSublayer(innerCircleLayer)
         backgroundColor = .clear
         isAccessibilityElement = true
@@ -48,11 +48,11 @@ final class ShutterButton: UIControl {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
 
-        outterRingLayer.frame = rect
-        outterRingLayer.path = pathForOutterRing(inRect: rect).cgPath
-        outterRingLayer.fillColor = UIColor.white.cgColor
-        outterRingLayer.rasterizationScale = UIScreen.main.scale
-        outterRingLayer.shouldRasterize = true
+        outerRingLayer.frame = rect
+        outerRingLayer.path = pathForOuterRing(inRect: rect).cgPath
+        outerRingLayer.fillColor = UIColor.white.cgColor
+        outerRingLayer.rasterizationScale = UIScreen.main.scale
+        outerRingLayer.shouldRasterize = true
 
         innerCircleLayer.frame = rect
         innerCircleLayer.path = pathForInnerCircle(inRect: rect).cgPath
@@ -85,10 +85,10 @@ final class ShutterButton: UIControl {
 
     // MARK: - Paths
 
-    private func pathForOutterRing(inRect rect: CGRect) -> UIBezierPath {
+    private func pathForOuterRing(inRect rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath(ovalIn: rect)
 
-        let innerRect = rect.scaleAndCenter(withRatio: outterRingRatio)
+        let innerRect = rect.scaleAndCenter(withRatio: outerRingRatio)
         let innerPath = UIBezierPath(ovalIn: innerRect).reversing()
 
         path.append(innerPath)
