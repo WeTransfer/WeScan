@@ -39,7 +39,7 @@ protocol RectangleDetectionDelegateProtocol: NSObjectProtocol {
         withQuad quad: Quadrilateral?
     )
 
-    /// Called when an error occured with the capture session manager.
+    /// Called when an error occurred with the capture session manager.
     /// - Parameters:
     ///   - captureSessionManager: The `CaptureSessionManager` that encountered an error.
     ///   - error: The encountered error.
