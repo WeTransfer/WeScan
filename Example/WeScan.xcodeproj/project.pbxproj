@@ -431,7 +431,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		35BA81E02A4084C50071FF3C /* XCRemoteSwiftPackageReference "WeScan" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:WeTransfer/WeScan.git";
+			repositoryURL = "../";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
