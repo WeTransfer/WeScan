@@ -11,11 +11,11 @@ import UIKit
 
 extension CGPoint {
 
-    /// Returns a rectangle of a given size surounding the point.
+    /// Returns a rectangle of a given size surrounding the point.
     ///
     /// - Parameters:
     ///   - size: The size of the rectangle that should surround the points.
-    /// - Returns: A `CGRect` instance that surrounds this instance of `CGpoint`.
+    /// - Returns: A `CGRect` instance that surrounds this instance of `CGPoint`.
     func surroundingSquare(withSize size: CGFloat) -> CGRect {
         return CGRect(x: x - size / 2.0, y: y - size / 2.0, width: size, height: size)
     }

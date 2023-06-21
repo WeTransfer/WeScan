@@ -91,7 +91,7 @@ public struct Quadrilateral: Transformable {
         return quadrilateral
     }
 
-    /// Checks whether the quadrilateral is withing a given distance of another quadrilateral.
+    /// Checks whether the quadrilateral is within a given distance of another quadrilateral.
     ///
     /// - Parameters:
     ///   - distance: The distance (threshold) to use for the condition to be met.
@@ -122,7 +122,7 @@ public struct Quadrilateral: Transformable {
         return true
     }
 
-    /// Reorganizes the current quadrilateal, making sure that the points are at their appropriate positions.
+    /// Reorganizes the current quadrilateral, making sure that the points are at their appropriate positions.
     /// For example, it ensures that the top left point is actually the top and left point point of the quadrilateral.
     mutating func reorganize() {
         let points = [topLeft, topRight, bottomRight, bottomLeft]
@@ -148,7 +148,7 @@ public struct Quadrilateral: Transformable {
         bottomLeft = xSortedBottomMostPoints[0]
     }
 
-    /// Scales the quadrilateral based on the ratio of two given sizes, and optionaly applies a rotation.
+    /// Scales the quadrilateral based on the ratio of two given sizes, and optionally applies a rotation.
     ///
     /// - Parameters:
     ///   - fromSize: The size the quadrilateral is currently related to.
@@ -156,16 +156,16 @@ public struct Quadrilateral: Transformable {
     ///   - rotationAngle: The optional rotation to apply.
     /// - Returns: The newly scaled and potentially rotated quadrilateral.
     func scale(_ fromSize: CGSize, _ toSize: CGSize, withRotationAngle rotationAngle: CGFloat = 0.0) -> Quadrilateral {
-        var invertedfromSize = fromSize
+        var invertedFromSize = fromSize
         let rotated = rotationAngle != 0.0
 
         if rotated && rotationAngle != CGFloat.pi {
-            invertedfromSize = CGSize(width: fromSize.height, height: fromSize.width)
+            invertedFromSize = CGSize(width: fromSize.height, height: fromSize.width)
         }
 
         var transformedQuad = self
-        let invertedFromSizeWidth = invertedfromSize.width == 0 ? .leastNormalMagnitude : invertedfromSize.width
-        let invertedFromSizeHeight = invertedfromSize.height == 0 ? .leastNormalMagnitude : invertedfromSize.height
+        let invertedFromSizeWidth = invertedFromSize.width == 0 ? .leastNormalMagnitude : invertedFromSize.width
+        let invertedFromSizeHeight = invertedFromSize.height == 0 ? .leastNormalMagnitude : invertedFromSize.height
 
         let scaleWidth = toSize.width / invertedFromSizeWidth
         let scaleHeight = toSize.height / invertedFromSizeHeight
@@ -193,7 +193,7 @@ public struct Quadrilateral: Transformable {
 
     /// Sorts the given `CGPoints` based on their y value.
     /// - Parameters:
-    ///   - points: The poinmts to sort.
+    ///   - points: The points to sort.
     /// - Returns: The points sorted based on their y value.
     private func sortPointsByYValue(_ points: [CGPoint]) -> [CGPoint] {
         return points.sorted { point1, point2 -> Bool in
@@ -218,7 +218,7 @@ extension Quadrilateral {
     ///
     /// - Parameters:
     ///   - height: The height of the rect containing the quadrilateral.
-    /// - Returns: The same quadrilateral in the cartesian corrdinate system.
+    /// - Returns: The same quadrilateral in the cartesian coordinate system.
     func toCartesian(withHeight height: CGFloat) -> Quadrilateral {
         let topLeft = self.topLeft.cartesian(withHeight: height)
         let topRight = self.topRight.cartesian(withHeight: height)

@@ -40,7 +40,7 @@ extension UIImage {
     /// - Parameters:
     ///   - rotationAngle: The angle to rotate the image by.
     ///   - options: Options to apply to the image.
-    /// - Returns: The new image rotated and optentially flipped (@see options).
+    /// - Returns: The new image rotated and optionally flipped (@see options).
     func rotated(by rotationAngle: Measurement<UnitAngle>, options: RotationOptions = []) -> UIImage? {
         guard let cgImage = self.cgImage else { return nil }
 

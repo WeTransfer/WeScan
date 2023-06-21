@@ -26,7 +26,7 @@ final class EditScanCornerView: UIView {
         return layer
     }()
 
-    /// Set stroke color of coner layer
+    /// Set stroke color of corner layer
     public var strokeColor: CGColor? {
         didSet {
             circleLayer.strokeColor = strokeColor
