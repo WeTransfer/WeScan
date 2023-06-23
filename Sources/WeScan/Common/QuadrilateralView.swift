@@ -234,11 +234,11 @@ final class QuadrilateralView: UIView {
 
     private func resetHighlightedCornerViews(cornerViews: [EditScanCornerView]) {
         cornerViews.forEach { cornerView in
-            resetHightlightedCornerView(cornerView: cornerView)
+            resetHighlightedCornerView(cornerView: cornerView)
         }
     }
 
-    private func resetHightlightedCornerView(cornerView: EditScanCornerView) {
+    private func resetHighlightedCornerView(cornerView: EditScanCornerView) {
         cornerView.reset()
         let origin = CGPoint(x: cornerView.frame.origin.x + (cornerView.frame.size.width - cornerViewSize.width) / 2.0,
                              y: cornerView.frame.origin.y + (cornerView.frame.size.height - cornerViewSize.width) / 2.0)
