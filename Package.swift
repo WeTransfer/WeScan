@@ -25,6 +25,7 @@ let package = Package(
                 "WeScan",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ],
+            exclude:["Info.plist"],
             resources: [
                 .process("Resources"),
                 .copy("__Snapshots__")
