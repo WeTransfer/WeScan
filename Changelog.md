@@ -1,3 +1,10 @@
+### 3.0.0-beta.1
+- Copy snapshots to test bundle to solve SPM warning ([#363](https://github.com/WeTransfer/WeScan/pull/363)) via [@valeriyvan](https://github.com/valeriyvan)
+- Fix typo ([#362](https://github.com/WeTransfer/WeScan/pull/362)) via [@valeriyvan](https://github.com/valeriyvan)
+- Remove deprecated properties ([#360](https://github.com/WeTransfer/WeScan/pull/360)) via [@valeriyvan](https://github.com/valeriyvan)
+- Fix typos ([#357](https://github.com/WeTransfer/WeScan/pull/357)) via [@valeriyvan](https://github.com/valeriyvan)
+- Merge release 2.1.0 into master ([#352](https://github.com/WeTransfer/WeScan/pull/352)) via [@wetransferplatform](https://github.com/wetransferplatform)
+
 ### 2.1.0
 - Update CI module to fix CI ([#351](https://github.com/WeTransfer/WeScan/pull/351)) via [@AvdLee](https://github.com/AvdLee)
 - Fix resetMatchingScores ([#349](https://github.com/WeTransfer/WeScan/pull/349)) via [@lengocgiang](https://github.com/lengocgiang)
