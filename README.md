@@ -56,38 +56,9 @@ Once you have your Swift package set up, adding WeScan as a dependency is as eas
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/WeTransfer/WeScan.git", .upToNextMajor(from: "1.7.0"))
+    .package(url: "https://github.com/WeTransfer/WeScan.git", .upToNextMajor(from: "2.1.0"))
 ]
 ```
-
-### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
-
-To integrate **WeScan** into your Xcode project using Carthage, specify it in your `Cartfile`:
-
-```ogdl
-github "WeTransfer/WeScan" >= 0.9
-```
-
-Run `carthage update` to build the framework and drag the built `WeScan.framework` into your Xcode project.
-
-### Manually
-
-Just download the project, and drag and drop the "WeScan" folder in your project.
-
-
-
-<p align="center">
-    <img width="900px" src="Assets/project.png">
-</p>
-
-
-Simply add the WeScan framework in the project's Embedded Binaries and Linked Frameworks and Libraries.
-
-<p align="center">
-    <img width="900px" src="Assets/LinkedFrameworks.png">
-</p>
 
 ## Usage
 
