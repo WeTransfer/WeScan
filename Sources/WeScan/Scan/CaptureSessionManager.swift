@@ -144,7 +144,8 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 self?.captureSession.startRunning()
                 DispatchQueue.main.async {
-                    self?.isDetecting = true
+                    guard let self = self else { return }
+                    self.isDetecting = true
                 }
             }
         case .notDetermined:
@@ -161,8 +162,9 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             })
         default:
             DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 let error = ImageScannerControllerError.authorization
-                self?.delegate?.captureSessionManager(self!, didFailWithError: error)
+                self.delegate?.captureSessionManager(self, didFailWithError: error)
             }
         }
     }
