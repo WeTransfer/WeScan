@@ -149,14 +149,13 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
             }
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { [weak self] granted in
-                if granted {
-                    DispatchQueue.main.async {
-                        self?.start()
-                    }
-                } else {
-                    DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    if granted {
+                        self.start()
+                    } else {
                         let error = ImageScannerControllerError.authorization
-                        self?.delegate?.captureSessionManager(self!, didFailWithError: error)
+                        self.delegate?.captureSessionManager(self, didFailWithError: error)
                     }
                 }
             })
