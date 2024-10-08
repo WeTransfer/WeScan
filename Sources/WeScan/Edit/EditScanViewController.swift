@@ -94,7 +94,7 @@ final class EditScanViewController: UIViewController {
         } else {
             navigationItem.leftBarButtonItem = nil
         }
-
+        navigationController?.setToolbarHidden(false, animated: false)
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
 
         let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
