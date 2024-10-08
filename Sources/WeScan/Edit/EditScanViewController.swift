@@ -38,7 +38,7 @@ final class EditScanViewController: UIViewController {
                                       comment: "A generic next button"
         )
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
-        button.tintColor = navigationController?.navigationBar.tintColor
+        button.tintColor = .white//navigationController?.navigationBar.tintColor
         return button
     }()
 
@@ -50,7 +50,7 @@ final class EditScanViewController: UIViewController {
                                       comment: "A generic cancel button"
         )
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
-        button.tintColor = navigationController?.navigationBar.tintColor
+        button.tintColor = .white//navigationController?.navigationBar.tintColor
         return button
     }()
 
