@@ -74,7 +74,7 @@ final class EditScanViewController: UIViewController, UIGestureRecognizerDelegat
     private let image: UIImage
 
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
-    private var quad: Quadrilateral
+    public var quad: Quadrilateral  // Changed to public
 
     private var zoomGestureController: ZoomGestureController!
 
@@ -155,7 +155,7 @@ final class EditScanViewController: UIViewController, UIGestureRecognizerDelegat
             quadView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quadView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             quadViewWidthConstraint,
-            quadViewHeightConstraint
+            quadViewHeightAnchor.constraint(equalTo: quadViewHeightConstraint)
         ]
 
         // Constraints for the bottom button stack
@@ -213,18 +213,8 @@ final class EditScanViewController: UIViewController, UIGestureRecognizerDelegat
         ])
 
         let croppedImage = UIImage.from(ciImage: filteredImage)
-        // Enhanced Image
-        let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
-        let enhancedScan = enhancedImage.flatMap { ImageScannerScan(image: $0) }
 
-        let results = ImageScannerResults(
-            detectedRectangle: scaledQuad,
-            originalScan: ImageScannerScan(image: image),
-            croppedScan: ImageScannerScan(image: croppedImage),
-            enhancedScan: enhancedScan
-        )
-
-        let reviewViewController = ReviewViewController(results: results)
+        let reviewViewController = ReviewScanViewController(croppedImage: croppedImage, originalImage: image, quad: scaledQuad, originalQuad: quad)
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
 
@@ -236,8 +226,17 @@ final class EditScanViewController: UIViewController, UIGestureRecognizerDelegat
     // MARK: - Quadrilateral Display
 
     private func displayQuad() {
-        quadView.quad = quad
-        quadView.setNeedsDisplay()
+        let imageSize = image.size
+        let imageFrame = CGRect(
+            origin: quadView.frame.origin,
+            size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
+        )
+
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
+        let transforms = [scaleTransform]
+        let transformedQuad = quad.applyTransforms(transforms)
+
+        quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
     }
 
     private func adjustQuadViewConstraints() {
