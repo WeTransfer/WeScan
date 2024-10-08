@@ -64,7 +64,8 @@ final class EditScanViewController: UIViewController {
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [cancelButton, nextButton])
         stackView.axis = .horizontal
-        stackView.distribution = .fill // Distribute available space to both buttons
+        stackView.distribution = .fillEqually // Distributes buttons evenly
+        stackView.alignment = .fill // Aligns buttons to fill the stack view
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
