@@ -30,28 +30,44 @@ final class EditScanViewController: UIViewController {
         return quadView
     }()
 
-    private lazy var nextButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.edit.button.next",
+    // Save button in place of the old Next button in the navigation bar
+    private lazy var saveButton: UIBarButtonItem = {
+        let title = NSLocalizedString("wescan.edit.button.save",
                                       tableName: nil,
                                       bundle: Bundle(for: EditScanViewController.self),
-                                      value: "Next",
-                                      comment: "A generic next button"
+                                      value: "Save",
+                                      comment: "A generic save button"
         )
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
-        button.tintColor = .white//navigationController?.navigationBar.tintColor
+        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(saveButtonTapped))
+        button.tintColor = .white
         return button
     }()
 
-    private lazy var cancelButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.scanning.cancel",
-                                      tableName: nil,
-                                      bundle: Bundle(for: EditScanViewController.self),
-                                      value: "Cancel",
-                                      comment: "A generic cancel button"
-        )
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
-        button.tintColor = .white//navigationController?.navigationBar.tintColor
+    // Cancel and Next buttons for the bottom
+    private lazy var bottomCancelButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle(NSLocalizedString("Cancel", comment: "Cancel button"), for: .normal)
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        button.tintColor = .white
         return button
+    }()
+
+    private lazy var bottomNextButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle(NSLocalizedString("Next", comment: "Next button"), for: .normal)
+        button.addTarget(self, action: #selector(pushReviewController), for: .touchUpInside)
+        button.tintColor = .white
+        return button
+    }()
+
+    // Stack view to hold the Cancel and Next buttons
+    private lazy var bottomButtonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [bottomCancelButton, bottomNextButton])
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
 
     /// The image the quadrilateral was detected on.
@@ -88,10 +104,8 @@ final class EditScanViewController: UIViewController {
                                   value: "Edit Scan",
                                   comment: "The title of the EditScanViewController"
         )
-        navigationItem.rightBarButtonItem = nextButton
+        navigationItem.rightBarButtonItem = saveButton  // Set the Save button
         if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
-            navigationItem.leftBarButtonItem = cancelButton
-        } else {
             navigationItem.leftBarButtonItem = nil
         }
         self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -101,7 +115,6 @@ final class EditScanViewController: UIViewController {
         touchDown.minimumPressDuration = 0
         view.addGestureRecognizer(touchDown)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationBar.tintColor = .white
     }
 
     override public func viewDidLayoutSubviews() {
@@ -123,6 +136,7 @@ final class EditScanViewController: UIViewController {
     private func setupViews() {
         view.addSubview(imageView)
         view.addSubview(quadView)
+        view.addSubview(bottomButtonStackView)  // Add the stack view to the view
     }
 
     private func setupConstraints() {
@@ -143,10 +157,19 @@ final class EditScanViewController: UIViewController {
             quadViewHeightConstraint
         ]
 
-        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints)
+        // Constraints for the bottom button stack
+        let bottomButtonConstraints = [
+            bottomButtonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            bottomButtonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            bottomButtonStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            bottomButtonStackView.heightAnchor.constraint(equalToConstant: 50)
+        ]
+
+        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints + bottomButtonConstraints)
     }
 
     // MARK: - Actions
+
     @objc func cancelButtonTapped() {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
@@ -194,6 +217,11 @@ final class EditScanViewController: UIViewController {
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
 
+    @objc func saveButtonTapped() {
+        // Handle the Save button action here
+        print("Save button tapped")
+    }
+
     private func displayQuad() {
         let imageSize = image.size
         let imageFrame = CGRect(
@@ -209,24 +237,24 @@ final class EditScanViewController: UIViewController {
     }
 
     /// The quadView should be lined up on top of the actual image displayed by the imageView.
-    /// Since there is no way to know the size of that image before run time, we adjust the constraints
-    /// to make sure that the quadView is on top of the displayed image.
     private func adjustQuadViewConstraints() {
-        let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
-        quadViewWidthConstraint.constant = frame.size.width
-        quadViewHeightConstraint.constant = frame.size.height
+        guard let image = imageView.image else { return }
+
+        let imageFrame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
+        quadViewWidthConstraint.constant = imageFrame.size.width
+        quadViewHeightConstraint.constant = imageFrame.size.height
     }
 
-    /// Generates a `Quadrilateral` object that's centered and 90% of the size of the passed in image.
     private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
-        let topLeft = CGPoint(x: image.size.width * 0.05, y: image.size.height * 0.05)
-        let topRight = CGPoint(x: image.size.width * 0.95, y: image.size.height * 0.05)
-        let bottomRight = CGPoint(x: image.size.width * 0.95, y: image.size.height * 0.95)
-        let bottomLeft = CGPoint(x: image.size.width * 0.05, y: image.size.height * 0.95)
+        let topOffset = 0.18
+        let bottomOffset = 0.05
 
-        let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-
-        return quad
+        return Quadrilateral(
+            topLeft: CGPoint(x: topOffset, y: topOffset),
+            topRight: CGPoint(x: 1 - topOffset, y: topOffset),
+            bottomRight: CGPoint(x: 1 - bottomOffset, y: 1 - bottomOffset),
+            bottomLeft: CGPoint(x: bottomOffset, y: 1 - bottomOffset)
+        )
     }
 
 }
