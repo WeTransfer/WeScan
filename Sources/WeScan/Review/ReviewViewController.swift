@@ -48,7 +48,7 @@ final class ReviewViewController: UIViewController {
 
     private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(finishScan))
-        button.tintColor = navigationController?.navigationBar.tintColor
+        button.tintColor = .white//navigationController?.navigationBar.tintColor
         return button
     }()
 
