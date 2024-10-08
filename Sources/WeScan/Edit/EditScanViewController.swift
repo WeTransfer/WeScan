@@ -30,27 +30,21 @@ final class EditScanViewController: UIViewController {
         return quadView
     }()
 
-    private lazy var nextButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.edit.button.next",
-                                      tableName: nil,
-                                      bundle: Bundle(for: EditScanViewController.self),
-                                      value: "Next",
-                                      comment: "A generic next button"
-        )
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
-        button.tintColor = .white//navigationController?.navigationBar.tintColor
+    private lazy var nextButton: UIButton = {
+        let button = UIButton(type: .system)
+        let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
+        button.setTitle(title, for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(pushReviewController), for: .touchUpInside)
         return button
     }()
 
-    private lazy var cancelButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.scanning.cancel",
-                                      tableName: nil,
-                                      bundle: Bundle(for: EditScanViewController.self),
-                                      value: "Cancel",
-                                      comment: "A generic cancel button"
-        )
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
-        button.tintColor = .white//navigationController?.navigationBar.tintColor
+    private lazy var cancelButton: UIButton = {
+        let button = UIButton(type: .system)
+        let title = NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
+        button.setTitle(title, for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -64,6 +58,14 @@ final class EditScanViewController: UIViewController {
 
     private var quadViewWidthConstraint = NSLayoutConstraint()
     private var quadViewHeightConstraint = NSLayoutConstraint()
+
+    private lazy var buttonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [cancelButton, nextButton])
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
 
     // MARK: - Life Cycle
 
@@ -82,18 +84,7 @@ final class EditScanViewController: UIViewController {
 
         setupViews()
         setupConstraints()
-        title = NSLocalizedString("wescan.edit.title",
-                                  tableName: nil,
-                                  bundle: Bundle(for: EditScanViewController.self),
-                                  value: "Edit Scan",
-                                  comment: "The title of the EditScanViewController"
-        )
-        navigationItem.rightBarButtonItem = nextButton
-        if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
-            navigationItem.leftBarButtonItem = cancelButton
-        } else {
-            navigationItem.leftBarButtonItem = nil
-        }
+        title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
 
@@ -123,6 +114,7 @@ final class EditScanViewController: UIViewController {
     private func setupViews() {
         view.addSubview(imageView)
         view.addSubview(quadView)
+        view.addSubview(buttonStackView) // Add the button stack view
     }
 
     private func setupConstraints() {
@@ -143,7 +135,14 @@ final class EditScanViewController: UIViewController {
             quadViewHeightConstraint
         ]
 
-        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints)
+        let buttonStackViewConstraints = [
+            buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            buttonStackView.heightAnchor.constraint(equalToConstant: 50) // Height for the button stack view
+        ]
+
+        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints + buttonStackViewConstraints)
     }
 
     // MARK: - Actions
@@ -154,13 +153,12 @@ final class EditScanViewController: UIViewController {
     }
 
     @objc func pushReviewController() {
-        guard let quad = quadView.quad,
-            let ciImage = CIImage(image: image) else {
-                if let imageScannerController = navigationController as? ImageScannerController {
-                    let error = ImageScannerControllerError.ciImageCreation
-                    imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
-                }
-                return
+        guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
+            if let imageScannerController = navigationController as? ImageScannerController {
+                let error = ImageScannerControllerError.ciImageCreation
+                imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
+            }
+            return
         }
         let cgOrientation = CGImagePropertyOrientation(image.imageOrientation)
         let orientedImage = ciImage.oriented(forExifOrientation: Int32(cgOrientation.rawValue))
@@ -228,5 +226,5 @@ final class EditScanViewController: UIViewController {
 
         return quad
     }
-
 }
+
