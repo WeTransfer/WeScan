@@ -101,6 +101,7 @@ final class EditScanViewController: UIViewController {
         touchDown.minimumPressDuration = 0
         view.addGestureRecognizer(touchDown)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.navigationBar.tintColor = .white
     }
 
     override public func viewDidLayoutSubviews() {
