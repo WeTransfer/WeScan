@@ -10,7 +10,7 @@ import AVFoundation
 import UIKit
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
-final class EditScanViewController: UIViewController {
+final class EditScanViewController: UIViewController, UIGestureRecognizerDelegate {
 
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -113,6 +113,7 @@ final class EditScanViewController: UIViewController {
 
         let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
         touchDown.minimumPressDuration = 0
+        touchDown.delegate = self  // Set the gesture recognizer's delegate
         view.addGestureRecognizer(touchDown)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -168,6 +169,16 @@ final class EditScanViewController: UIViewController {
         NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints + bottomButtonConstraints)
     }
 
+    // MARK: - UIGestureRecognizerDelegate
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        // Check if the touch location is within the bounds of the bottom button stack
+        let touchLocation = touch.location(in: view)
+        let bottomButtonFrame = bottomButtonStackView.frame
+        
+        return !bottomButtonFrame.contains(touchLocation) // Prevent gestures when touching the buttons
+    }
+
     // MARK: - Actions
 
     @objc func cancelButtonTapped() {
@@ -178,12 +189,12 @@ final class EditScanViewController: UIViewController {
 
     @objc func pushReviewController() {
         guard let quad = quadView.quad,
-            let ciImage = CIImage(image: image) else {
-                if let imageScannerController = navigationController as? ImageScannerController {
-                    let error = ImageScannerControllerError.ciImageCreation
-                    imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
-                }
-                return
+              let ciImage = CIImage(image: image) else {
+            if let imageScannerController = navigationController as? ImageScannerController {
+                let error = ImageScannerControllerError.ciImageCreation
+                imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
+            }
+            return
         }
         let cgOrientation = CGImagePropertyOrientation(image.imageOrientation)
         let orientedImage = ciImage.oriented(forExifOrientation: Int32(cgOrientation.rawValue))
@@ -218,25 +229,17 @@ final class EditScanViewController: UIViewController {
     }
 
     @objc func saveButtonTapped() {
-        // Handle the Save button action here
-        print("Save button tapped")
+        // Handle save button action here
+        print("Save button tapped.")
     }
+
+    // MARK: - Quadrilateral Display
 
     private func displayQuad() {
-        let imageSize = image.size
-        let imageFrame = CGRect(
-            origin: quadView.frame.origin,
-            size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
-        )
-
-        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
-        let transforms = [scaleTransform]
-        let transformedQuad = quad.applyTransforms(transforms)
-
-        quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
+        quadView.quad = quad
+        quadView.setNeedsDisplay()
     }
 
-    /// The quadView should be lined up on top of the actual image displayed by the imageView.
     private func adjustQuadViewConstraints() {
         guard let image = imageView.image else { return }
 
@@ -256,5 +259,5 @@ final class EditScanViewController: UIViewController {
             bottomLeft: CGPoint(x: bottomOffset, y: 1 - bottomOffset)
         )
     }
-
 }
+
