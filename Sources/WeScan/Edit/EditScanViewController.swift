@@ -219,18 +219,9 @@ final class EditScanViewController: UIViewController {
     }
 
     private func adjustQuadViewConstraints() {
-        let imageSize = image.size
-        let imageFrame = CGRect(
-            origin: quadView.frame.origin,
-            size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
-        )
-
-        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
-
-        let scaledWidth = quad.width() * scaleTransform.a
-        let scaledHeight = quad.height() * scaleTransform.d
-        quadViewWidthConstraint.constant = scaledWidth
-        quadViewHeightConstraint.constant = scaledHeight
+        let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
+        quadViewWidthConstraint.constant = frame.size.width
+        quadViewHeightConstraint.constant = frame.size.height
     }
 
     private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
