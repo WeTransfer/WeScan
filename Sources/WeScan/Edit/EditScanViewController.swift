@@ -35,6 +35,7 @@ final class EditScanViewController: UIViewController {
         let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
         button.setTitle(title, for: .normal)
         button.tintColor = .white
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18) // Increased font size
         button.addTarget(self, action: #selector(pushReviewController), for: .touchUpInside)
         return button
     }()
@@ -44,6 +45,7 @@ final class EditScanViewController: UIViewController {
         let title = NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
         button.setTitle(title, for: .normal)
         button.tintColor = .white
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18) // Increased font size
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -62,7 +64,7 @@ final class EditScanViewController: UIViewController {
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [cancelButton, nextButton])
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill // Distribute available space to both buttons
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -86,6 +88,11 @@ final class EditScanViewController: UIViewController {
         setupConstraints()
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+
+        // Add Save button to the navigation bar
+        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+        navigationItem.rightBarButtonItem = saveButton
+
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
 
         let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
@@ -146,6 +153,11 @@ final class EditScanViewController: UIViewController {
     }
 
     // MARK: - Actions
+    @objc func saveButtonTapped() {
+        // Implement save functionality here
+        print("Save button tapped")
+    }
+
     @objc func cancelButtonTapped() {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
@@ -206,16 +218,21 @@ final class EditScanViewController: UIViewController {
         quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
     }
 
-    /// The quadView should be lined up on top of the actual image displayed by the imageView.
-    /// Since there is no way to know the size of that image before run time, we adjust the constraints
-    /// to make sure that the quadView is on top of the displayed image.
     private func adjustQuadViewConstraints() {
-        let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
-        quadViewWidthConstraint.constant = frame.size.width
-        quadViewHeightConstraint.constant = frame.size.height
+        let imageSize = image.size
+        let imageFrame = CGRect(
+            origin: quadView.frame.origin,
+            size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
+        )
+
+        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
+
+        let scaledWidth = quad.width() * scaleTransform.a
+        let scaledHeight = quad.height() * scaleTransform.d
+        quadViewWidthConstraint.constant = scaledWidth
+        quadViewHeightConstraint.constant = scaledHeight
     }
 
-    /// Generates a `Quadrilateral` object that's centered and 90% of the size of the passed in image.
     private static func defaultQuad(forImage image: UIImage) -> Quadrilateral {
         let topLeft = CGPoint(x: image.size.width * 0.05, y: image.size.height * 0.05)
         let topRight = CGPoint(x: image.size.width * 0.95, y: image.size.height * 0.05)
@@ -227,4 +244,5 @@ final class EditScanViewController: UIViewController {
         return quad
     }
 }
+
 
