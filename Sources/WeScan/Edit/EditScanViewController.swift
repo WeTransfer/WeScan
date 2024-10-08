@@ -157,6 +157,14 @@ final class EditScanViewController: UIViewController {
     @objc func saveButtonTapped() {
         // Implement save functionality here
         print("Save button tapped")
+        guard let quad = quadView.quad,
+              let ciImage = CIImage(image: image) else {
+            if let imageScannerController = navigationController as? ImageScannerController {
+                let error = ImageScannerControllerError.ciImageCreation
+                imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
+            }
+            return
+        }
     }
 
     @objc func cancelButtonTapped() {
