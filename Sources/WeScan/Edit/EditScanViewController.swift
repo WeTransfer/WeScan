@@ -165,6 +165,18 @@ final class EditScanViewController: UIViewController {
             }
             return
         }
+        guard let imageScannerController = navigationController as? ImageScannerController else { return }
+        let scaledQuad = quad.scale(quadView.bounds.size, image.size)
+        let croppedImage = UIImage.from(ciImage: filteredImage)
+        let newResults = ImageScannerResults(
+            detectedRectangle: scaledQuad,
+            originalScan: ImageScannerScan(image: image),
+            croppedScan: ImageScannerScan(image: croppedImage),
+            enhancedScan: enhancedScan
+        )
+        imageScannerController.imageScannerDelegate?
+            .imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
+        
     }
 
     @objc func cancelButtonTapped() {
