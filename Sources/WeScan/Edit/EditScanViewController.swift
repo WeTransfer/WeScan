@@ -72,12 +72,23 @@ final class EditScanViewController: UIViewController {
 
     // MARK: - Life Cycle
 
+//    init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
+//        self.image = rotateImage ? image.applyingPortraitOrientation() : image
+//        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+//        super.init(nibName: nil, bundle: nil)
+//    }
     init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
-        self.image = rotateImage ? image.applyingPortraitOrientation() : image
-        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        var processedImage = image
+        if rotateImage, image.size.width > image.size.height {
+            // Rotate image to portrait if it is in landscape
+            if let cgImage = image.cgImage {
+                processedImage = UIImage(cgImage: cgImage, scale: image.scale, orientation: .right)
+            }
+        }
+        self.image = processedImage.applyingPortraitOrientation()
+        self.quad = quad ?? EditScanViewController.defaultQuad(forImage: processedImage)
         super.init(nibName: nil, bundle: nil)
     }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
