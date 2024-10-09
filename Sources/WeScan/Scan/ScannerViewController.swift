@@ -12,7 +12,7 @@ import UIKit
 
 /// The `ScannerViewController` offers an interface to give feedback to the user regarding quadrilaterals that are detected. It also gives the user the opportunity to capture an image with a detected rectangle.
 public final class ScannerViewController: UIViewController {
-
+    private var lastZoomFactor: CGFloat = 1.0
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
 
@@ -77,7 +77,7 @@ public final class ScannerViewController: UIViewController {
         setupViews()
         setupNavigationBar()
         setupConstraints()
-
+        setupPinchToZoom() // Add pinch to zoom setup
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer, delegate: self)
 
         originalBarStyle = navigationController?.navigationBar.barStyle
@@ -115,7 +115,33 @@ public final class ScannerViewController: UIViewController {
             toggleFlash()
         }
     }
-
+    private func setupPinchToZoom() {
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
+        view.addGestureRecognizer(pinchGesture)
+    }
+    
+    @objc private func handlePinch(_ pinch: UIPinchGestureRecognizer) {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        
+        // Handle the zoom during pinch gesture
+        if pinch.state == .changed {
+            let maxZoomFactor = min(device.activeFormat.videoMaxZoomFactor, 6.0) // Set a max zoom limit, 6x here
+            let zoomFactor = max(1.0, min(lastZoomFactor * pinch.scale, maxZoomFactor))
+            
+            do {
+                try device.lockForConfiguration()
+                device.videoZoomFactor = zoomFactor
+                device.unlockForConfiguration()
+            } catch {
+                print("Error locking configuration")
+            }
+        }
+        
+        // When pinch ends, store the last zoom factor
+        if pinch.state == .ended {
+            lastZoomFactor = device.videoZoomFactor
+        }
+    }
     // MARK: - Setups
 
     private func setupViews() {
