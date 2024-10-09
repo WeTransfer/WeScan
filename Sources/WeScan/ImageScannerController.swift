@@ -119,14 +119,7 @@ public final class ImageScannerController: UINavigationController {
 
         detect(image: image) { [weak self] detectedQuad in
             guard let self else { return }
-            // Ensure the image is presented in its correct orientation
-            var adjustedImage = image
-            
-            // Rotate the image based on its orientation if needed
-            if image.imageOrientation != .up {
-                adjustedImage = image.rotated(by: image.angle) ?? image // Make sure to implement the angle property correctly
-            }
-            let editViewController = EditScanViewController(image: adjustedImage, quad: detectedQuad, rotateImage: false)
+            let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
             self.setViewControllers([editViewController], animated: true)
         }
     }
