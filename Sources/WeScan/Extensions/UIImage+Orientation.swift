@@ -18,7 +18,18 @@ extension UIImage {
         static let flipOnVerticalAxis = RotationOptions(rawValue: 1)
         static let flipOnHorizontalAxis = RotationOptions(rawValue: 2)
     }
-
+    func fixedOrientation() -> UIImage? {
+        if imageOrientation == .up {
+            return self // No change needed
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(in: CGRect(origin: .zero, size: size))
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage
+    }
     /// Returns the same image with a portrait orientation.
     func applyingPortraitOrientation() -> UIImage {
         switch imageOrientation {
