@@ -75,7 +75,7 @@ public final class ImageScannerController: UINavigationController {
         setupConstraints()
 
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
-        if let image {
+        if let image = image?.correctedImage(){
             detect(image: image) { [weak self] detectedQuad in
                 guard let self else { return }
                 let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)

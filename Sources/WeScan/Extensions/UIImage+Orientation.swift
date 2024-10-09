@@ -18,19 +18,56 @@ extension UIImage {
         static let flipOnVerticalAxis = RotationOptions(rawValue: 1)
         static let flipOnHorizontalAxis = RotationOptions(rawValue: 2)
     }
-    func fixedOrientation() -> UIImage? {
-        if imageOrientation == .up {
-            return self // No change needed
+    func correctedImage() -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        var transform = CGAffineTransform.identity
+        
+        switch self.imageOrientation {
+        case .up:
+            break // No change needed
+        case .down:
+            transform = transform.translatedBy(x: CGFloat(cgImage.width), y: CGFloat(cgImage.height))
+            transform = transform.rotated(by: .pi)
+        case .left:
+            transform = transform.translatedBy(x: CGFloat(cgImage.width), y: 0)
+            transform = transform.rotated(by: .pi / 2)
+        case .right:
+            transform = transform.translatedBy(x: 0, y: CGFloat(cgImage.height))
+            transform = transform.rotated(by: -.pi / 2)
+        case .upMirrored:
+            transform = transform.translatedBy(x: CGFloat(cgImage.width), y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        case .downMirrored:
+            transform = transform.translatedBy(x: CGFloat(cgImage.width), y: CGFloat(cgImage.height))
+            transform = transform.scaledBy(x: -1, y: -1)
+        case .leftMirrored:
+            transform = transform.translatedBy(x: CGFloat(cgImage.width), y: CGFloat(cgImage.height))
+            transform = transform.rotated(by: .pi / 2)
+            transform = transform.scaledBy(x: -1, y: 1)
+        case .rightMirrored:
+            transform = transform.translatedBy(x: 0, y: CGFloat(cgImage.height))
+            transform = transform.rotated(by: -.pi / 2)
+            transform = transform.scaledBy(x: -1, y: 1)
         }
         
-        UIGraphicsBeginImageContextWithOptions(size, false, scale)
-        draw(in: CGRect(origin: .zero, size: size))
-        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        // Create a new context with the correct size
+        let ctx = CGContext(data: nil,
+                            width: cgImage.width,
+                            height: cgImage.height,
+                            bitsPerComponent: cgImage.bitsPerComponent,
+                            bytesPerRow: 0,
+                            space: CGColorSpaceCreateDeviceRGB(),
+                            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
         
-        return normalizedImage
-    }
-    /// Returns the same image with a portrait orientation.
+        ctx?.concatenate(transform)
+        
+        // Draw the image into the context
+        ctx?.draw(cgImage, in: CGRect(x: 0, y: 0, width: CGFloat(cgImage.width), height: CGFloat(cgImage.height)))
+        
+        // Create a new image from the context
+        let correctedCGImage = ctx?.makeImage()
+        return correctedCGImage.map { UIImage(cgImage: $0) }
+    }    /// Returns the same image with a portrait orientation.
     func applyingPortraitOrientation() -> UIImage {
         switch imageOrientation {
         case .up:
