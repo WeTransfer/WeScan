@@ -78,6 +78,7 @@ public final class ImageScannerController: UINavigationController {
         if let image {
             detect(image: image) { [weak self] detectedQuad in
                 guard let self else { return }
+                let image = image.applyingPortraitOrientation()
                 let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: true)
                 self.setViewControllers([editViewController], animated: false)
             }
