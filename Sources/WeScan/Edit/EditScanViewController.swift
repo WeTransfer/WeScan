@@ -11,7 +11,17 @@ import UIKit
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
 final class EditScanViewController: UIViewController {
-
+    private var isResizing: Bool = false
+   
+    private lazy var resizeButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "ic_detectedSize"), for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(resizeButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
@@ -51,7 +61,11 @@ final class EditScanViewController: UIViewController {
     }()
 
     /// The image the quadrilateral was detected on.
-    private let image: UIImage
+    private var image: UIImage{
+        didSet{
+            print("set=",image)
+        }
+    }
 
     /// The detected quadrilateral that can be edited by the user. Uses the image's coordinates.
     private var quad: Quadrilateral
@@ -62,7 +76,7 @@ final class EditScanViewController: UIViewController {
     private var quadViewHeightConstraint = NSLayoutConstraint()
 
     private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [cancelButton, nextButton])
+        let stackView = UIStackView(arrangedSubviews: [cancelButton,resizeButton, nextButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually // Distributes buttons evenly
         stackView.alignment = .fill // Aligns buttons to fill the stack view
@@ -106,7 +120,9 @@ final class EditScanViewController: UIViewController {
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         adjustQuadViewConstraints()
-        displayQuad()
+        if !isResizing {
+            displayQuad()
+        }
     }
 
     override public func viewWillDisappear(_ animated: Bool) {
@@ -116,7 +132,28 @@ final class EditScanViewController: UIViewController {
         navigationController?.navigationBar.tintAdjustmentMode = .normal
         navigationController?.navigationBar.tintAdjustmentMode = .automatic
     }
-
+    @objc func resizeButtonTapped() {
+        isResizing = !isResizing
+        resizeButton.isSelected.toggle()
+        if isResizing {
+            resizeButton.setImage(UIImage(named: "ic_DefaultSize"), for: .normal)
+            // Revert to the detected frame
+            quadViewWidthConstraint.constant = 0.0
+            quadViewHeightConstraint.constant = 0.0
+            displayQuad()
+            
+        } else {
+            // Resize to the full frame of imageView
+            let imageViewFrame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
+            quadViewWidthConstraint.constant = imageViewFrame.size.width
+            quadViewHeightConstraint.constant = imageViewFrame.size.height
+            displayQuad()
+            resizeButton.setImage(UIImage(named: "ic_detectedSize"), for: .normal)
+        }
+        // Update the quadView display
+            
+        // Toggle the resizing state
+    }
     // MARK: - Setups
 
     private func setupViews() {
@@ -183,12 +220,15 @@ final class EditScanViewController: UIViewController {
         ])
 
         let croppedImage = UIImage.from(ciImage: filteredImage)
+        let croppedNew = croppedImage.withFixedOrientation()
+        let croppedRotatedImage = CIImage(image: image)?.applyingAdaptiveThreshold()?.withFixedOrientation() ?? UIImage()
+        
         let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
         let enhancedScan = enhancedImage.flatMap { ImageScannerScan(image: $0) }
         let newResults = ImageScannerResults(
             detectedRectangle: scaledQuad,
             originalScan: ImageScannerScan(image: image),
-            croppedScan: ImageScannerScan(image: croppedImage),
+            croppedScan: ImageScannerScan(image: croppedNew),
             enhancedScan: enhancedScan
         )
         imageScannerController.imageScannerDelegate?
@@ -244,16 +284,30 @@ final class EditScanViewController: UIViewController {
 
     private func displayQuad() {
         let imageSize = image.size
-        let imageFrame = CGRect(
-            origin: quadView.frame.origin,
-            size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
-        )
-
-        let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
-        let transforms = [scaleTransform]
-        let transformedQuad = quad.applyTransforms(transforms)
-
-        quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
+        var transformedQuad: Quadrilateral
+        
+        if isResizing {
+            
+            transformedQuad = Quadrilateral.init(topLeft: CGPoint.zero,
+                                                 topRight: CGPoint(x: quadView.frame.width, y: CGFloat.zero),
+                                                 bottomRight: CGPoint(x: quadView.frame.width, y: quadView.frame.height),
+                                                 bottomLeft: CGPoint(x: CGFloat.zero, y: quadView.frame.height))//quad.applyTransforms(transforms)
+            // Layout corner views after applying transformation
+            quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
+            return
+        } else {
+            // When not resizing, apply the scale transformation
+            let imageFrame = CGRect(
+                origin: quadView.frame.origin,
+                size: CGSize(width: quadViewWidthConstraint.constant, height: quadViewHeightConstraint.constant)
+            )
+            
+            let scaleTransform = CGAffineTransform.scaleTransform(forSize: imageSize, aspectFillInSize: imageFrame.size)
+            let transforms = [scaleTransform]
+            transformedQuad = quad.applyTransforms(transforms)
+            // Layout corner views after applying transformation
+            quadView.drawQuadrilateral(quad: transformedQuad, animated: false)
+        }
     }
 
     private func adjustQuadViewConstraints() {

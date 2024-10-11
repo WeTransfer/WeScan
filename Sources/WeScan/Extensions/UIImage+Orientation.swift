@@ -97,3 +97,75 @@ extension UIImage {
     }
 
 }
+extension UIImage {
+    // Rotate the image if needed based on the device's orientation when the image was captured
+    func rotateToPortraitIfNeeded(deviceOrientation: UIDeviceOrientation) -> UIImage? {
+        switch deviceOrientation {
+        case .landscapeLeft:
+            // Rotate the image 90 degrees clockwise (landscape left)
+            return self.rotate(radians: .pi / 2)
+        case .landscapeRight:
+            // Rotate the image 90 degrees counterclockwise (landscape right)
+            return self.rotate(radians: -.pi / 2)
+        case .portraitUpsideDown:
+            // Rotate the image 180 degrees (upside down)
+            return self.rotate(radians: .pi)
+        case .portrait, .faceUp, .faceDown, .unknown:
+            // No need to rotate for portrait or unknown orientations
+            return self
+        @unknown default:
+            return self
+        }
+    }
+
+    // Helper function to rotate the image by a given angle
+    private func rotate(radians: CGFloat) -> UIImage? {
+        var newSize = CGRect(origin: .zero, size: self.size)
+            .applying(CGAffineTransform(rotationAngle: radians)).size
+        
+        // Ensure no subpixel issues by rounding the size
+        newSize.width = floor(newSize.width)
+        newSize.height = floor(newSize.height)
+
+        UIGraphicsBeginImageContextWithOptions(newSize, false, self.scale)
+        let context = UIGraphicsGetCurrentContext()
+
+        // Move origin to the center of the image to rotate around the center
+        context?.translateBy(x: newSize.width / 2, y: newSize.height / 2)
+        // Rotate the image context
+        context?.rotate(by: radians)
+        // Draw the image in the rotated context
+        self.draw(in: CGRect(x: -self.size.width / 2, y: -self.size.height / 2,
+                             width: self.size.width, height: self.size.height))
+
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return rotatedImage
+    }
+}
+extension UIView {
+    func rotateViewBasedOnDeviceOrientation(deviceOrientation: UIDeviceOrientation) {
+        var rotationAngle: CGFloat = 0
+
+        switch deviceOrientation {
+        case .landscapeLeft:
+            // Rotate by 90 degrees clockwise for landscape left
+            rotationAngle = .pi / 2
+        case .landscapeRight:
+            // Rotate by 90 degrees counterclockwise for landscape right
+            rotationAngle = -.pi / 2
+        case .portraitUpsideDown:
+            // Rotate by 180 degrees for upside-down portrait
+            rotationAngle = .pi
+        case .portrait, .faceUp, .faceDown, .unknown:
+            // No rotation needed
+            rotationAngle = 0
+        @unknown default:
+            rotationAngle = 0
+        }
+
+        // Apply the rotation transformation to the view
+        self.transform = CGAffineTransform(rotationAngle: rotationAngle)
+    }
+}
