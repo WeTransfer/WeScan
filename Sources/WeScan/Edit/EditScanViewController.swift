@@ -59,7 +59,24 @@ final class EditScanViewController: UIViewController {
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    private lazy var retakeButton: UIButton = {
+        let button = UIButton(type: .system)
+        let title = "Retake"
+        button.setTitle(title, for: .normal)
+        button.tintColor = .white
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18) // Increased font size
+        button.addTarget(self, action: #selector(retakeButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    private lazy var saveButton: UIButton = {
+        let button = UIButton(type: .system)
+        let title = "Save"
+        button.setTitle(title, for: .normal)
+        button.tintColor = .white
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18) // Increased font size
+        button.addTarget(self, action: #selector(saveButtonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
     /// The image the quadrilateral was detected on.
     private var image: UIImage{
         didSet{
@@ -76,7 +93,7 @@ final class EditScanViewController: UIViewController {
     private var quadViewHeightConstraint = NSLayoutConstraint()
 
     private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [cancelButton,resizeButton, nextButton])
+        let stackView = UIStackView(arrangedSubviews: [cancelButton,retakeButton,resizeButton, saveButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually // Distributes buttons evenly
         stackView.alignment = .fill // Aligns buttons to fill the stack view
@@ -105,8 +122,8 @@ final class EditScanViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
 
         // Add Save button to the navigation bar
-        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-        navigationItem.rightBarButtonItem = saveButton
+//        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+        navigationItem.rightBarButtonItem =  UIBarButtonItem(customView: nextButton) //saveButton
 
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
 
@@ -191,7 +208,7 @@ final class EditScanViewController: UIViewController {
     }
 
     // MARK: - Actions
-    @objc func saveButtonTapped() {
+    @objc func saveButtonTapped(_ sender:Any) {
         // Implement save functionality here
         print("Save button tapped")
         guard let quad = quadView.quad,
@@ -235,7 +252,9 @@ final class EditScanViewController: UIViewController {
             .imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
         
     }
-
+    @objc func retakeButtonTapped() {
+        self.navigationController?.popViewController(animated: false)
+    }
     @objc func cancelButtonTapped() {
         if let imageScannerController = navigationController as? ImageScannerController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
