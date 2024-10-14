@@ -272,7 +272,7 @@ final class EditScanViewController: UIViewController {
     }
     @objc func btnBackHomeTapped(){
         if let imageScannerController = navigationController as? ImageScannerController {
-            imageScannerController.imageScannerDelegate?.navigateBackToHomeTapped()
+            imageScannerController.imageScannerDelegate?.navigateBackToHomeTapped(imageScannerController)
 //            self.navigationController?.popViewController(animated: true)
         }
 //        for controller in self.navigationController?.viewControllers ?? []{

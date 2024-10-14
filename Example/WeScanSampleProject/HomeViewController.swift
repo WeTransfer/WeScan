@@ -156,6 +156,10 @@ final class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: ImageScannerControllerDelegate {
+    func navigateBackToHomeTapped(_ scanner: ImageScannerController) {
+        
+    }
+    
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
         assertionFailure("Error occurred: \(error)")
     }
