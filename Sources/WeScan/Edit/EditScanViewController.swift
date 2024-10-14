@@ -42,7 +42,7 @@ final class EditScanViewController: UIViewController {
 
     private lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
-        let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
+        let title = "Edit"//NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
         button.setTitle(title, for: .normal)
         button.tintColor = .white
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18) // Increased font size
@@ -102,7 +102,7 @@ final class EditScanViewController: UIViewController {
     private var quadViewHeightConstraint = NSLayoutConstraint()
 
     private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [retakeButton,resizeButton,nextButton, saveButton])
+        let stackView = UIStackView(arrangedSubviews: [retakeButton,nextButton,resizeButton, saveButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually // Distributes buttons evenly
         stackView.alignment = .fill // Aligns buttons to fill the stack view
@@ -259,7 +259,7 @@ final class EditScanViewController: UIViewController {
             enhancedScan: enhancedScan
         )
         imageScannerController.imageScannerDelegate?
-            .imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
+            .imageScannerController(imageScannerController, didFinishScanningWithResults: newResults, dismiss: false)
         
     }
     @objc func retakeButtonTapped() {
