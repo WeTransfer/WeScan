@@ -51,7 +51,7 @@ final class EditScanViewController: UIViewController {
     }()
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
-        let title = "Home"
+        let title = "Back"
         button.setTitle(title, for: .normal)
         button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         button.tintColor = .white
