@@ -80,7 +80,7 @@ final class ReviewViewController: UIViewController {
                                   value: "Review",
                                   comment: "The review title of the ReviewController"
         )
-        navigationItem.rightBarButtonItem = doneButton
+//        navigationItem.rightBarButtonItem = doneButton
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,8 +109,10 @@ final class ReviewViewController: UIViewController {
         navigationController?.toolbar.barStyle = .blackTranslucent
 
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        let fixedSpace1 = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        fixedSpace1.width = 25
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbarItems = [fixedSpace, enhanceButton, flexibleSpace, rotateButton, fixedSpace]
+        toolbarItems = [fixedSpace, enhanceButton, fixedSpace1, rotateButton,flexibleSpace,doneButton,fixedSpace]
     }
 
     private func setupConstraints() {
