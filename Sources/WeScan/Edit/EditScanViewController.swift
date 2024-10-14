@@ -260,6 +260,7 @@ final class EditScanViewController: UIViewController {
         )
         imageScannerController.imageScannerDelegate?
             .imageScannerController(imageScannerController, didFinishScanningWithResults: newResults, dismiss: false)
+        self.retakeButtonTapped()
         
     }
     @objc func retakeButtonTapped() {

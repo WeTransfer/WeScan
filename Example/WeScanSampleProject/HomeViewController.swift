@@ -156,16 +156,16 @@ final class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: ImageScannerControllerDelegate {
+    func imageScannerController(_ scanner: WeScan.ImageScannerController, didFinishScanningWithResults results: WeScan.ImageScannerResults, dismiss: Bool) {
+        scanner.dismiss(animated: true, completion: nil)
+    }
+    
     func navigateBackToHomeTapped(_ scanner: ImageScannerController) {
         
     }
     
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
         assertionFailure("Error occurred: \(error)")
-    }
-
-    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
-        scanner.dismiss(animated: true, completion: nil)
     }
 
     func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
