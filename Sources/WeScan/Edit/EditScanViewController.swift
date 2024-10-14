@@ -271,13 +271,17 @@ final class EditScanViewController: UIViewController {
         }
     }
     @objc func btnBackHomeTapped(){
-        for controller in self.navigationController?.viewControllers ?? []{
-            if controller is ScannerViewController{
-                controller.dismiss(animated: false)
-                break
-            }
+        if let imageScannerController = navigationController as? ImageScannerController {
+            imageScannerController.imageScannerDelegate?.navigateBackToHomeTapped()
+            self.navigationController?.popViewController(animated: true)
         }
-        self.navigationController?.popToRootViewController(animated: true)
+//        for controller in self.navigationController?.viewControllers ?? []{
+//            if controller is ScannerViewController{
+//                controller.dismiss(animated: false)
+//                break
+//            }
+//        }
+//        self.navigationController?.popToRootViewController(animated: true)
     }
     @objc func pushReviewController() {
         guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {

@@ -33,6 +33,8 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
     ///   - scanner: The scanner controller object managing the scanning interface.
     ///   - error: The error that occurred.
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error)
+    
+    func navigateBackToHomeTapped()
 }
 
 /// A view controller that manages the full flow for scanning documents.
