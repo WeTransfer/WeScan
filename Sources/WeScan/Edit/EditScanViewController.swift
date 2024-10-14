@@ -15,7 +15,7 @@ final class EditScanViewController: UIViewController {
    
     private lazy var resizeButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "ic_detectedSize"), for: .normal)
+        button.setImage(UIImage(named: "ic_DefaultSize"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(resizeButtonTapped), for: .touchUpInside)
@@ -49,7 +49,16 @@ final class EditScanViewController: UIViewController {
         button.addTarget(self, action: #selector(pushReviewController), for: .touchUpInside)
         return button
     }()
-
+    private lazy var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        let title = "Home"
+        button.setTitle(title, for: .normal)
+        button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        button.tintColor = .white
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18) // Increased font size
+        button.addTarget(self, action: #selector(btnBackHomeTapped), for: .touchUpInside)
+        return button
+    }()
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         let title = NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
@@ -93,7 +102,7 @@ final class EditScanViewController: UIViewController {
     private var quadViewHeightConstraint = NSLayoutConstraint()
 
     private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [cancelButton,retakeButton,resizeButton, saveButton])
+        let stackView = UIStackView(arrangedSubviews: [retakeButton,resizeButton,nextButton, saveButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually // Distributes buttons evenly
         stackView.alignment = .fill // Aligns buttons to fill the stack view
@@ -123,15 +132,16 @@ final class EditScanViewController: UIViewController {
 
         // Add Save button to the navigation bar
 //        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-        navigationItem.rightBarButtonItem =  UIBarButtonItem(customView: nextButton) //saveButton
-
+//        navigationItem.rightBarButtonItem =  UIBarButtonItem(customView: nextButton) //saveButton
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
 
         let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
         touchDown.minimumPressDuration = 0
         quadView.addGestureRecognizer(touchDown)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.tintColor = .white
+        
+        self.navigationController?.navigationBar.backItem?.title = "Home"
     }
 
     override public func viewDidLayoutSubviews() {
@@ -153,7 +163,7 @@ final class EditScanViewController: UIViewController {
         isResizing = !isResizing
         resizeButton.isSelected.toggle()
         if isResizing {
-            resizeButton.setImage(UIImage(named: "ic_DefaultSize"), for: .normal)
+            resizeButton.setImage(UIImage(named: "ic_detectedSize"), for: .normal)
             // Revert to the detected frame
             quadViewWidthConstraint.constant = 0.0
             quadViewHeightConstraint.constant = 0.0
@@ -165,7 +175,7 @@ final class EditScanViewController: UIViewController {
             quadViewWidthConstraint.constant = imageViewFrame.size.width
             quadViewHeightConstraint.constant = imageViewFrame.size.height
             displayQuad()
-            resizeButton.setImage(UIImage(named: "ic_detectedSize"), for: .normal)
+            resizeButton.setImage(UIImage(named: "ic_DefaultSize"), for: .normal)
         }
         // Update the quadView display
             
@@ -260,7 +270,15 @@ final class EditScanViewController: UIViewController {
             imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
         }
     }
-
+    @objc func btnBackHomeTapped(){
+        for controller in self.navigationController?.viewControllers ?? []{
+            if controller is ScannerViewController{
+                controller.dismiss(animated: false)
+                break
+            }
+        }
+        self.navigationController?.popToRootViewController(animated: true)
+    }
     @objc func pushReviewController() {
         guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
             if let imageScannerController = navigationController as? ImageScannerController {

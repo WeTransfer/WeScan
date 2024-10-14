@@ -39,12 +39,14 @@ public final class ScannerViewController: UIViewController {
         let button = UIButton()
         button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
         return button
     }()
 
     private lazy var autoScanButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+        let title = NSLocalizedString("wescan.scanning.manual", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Manual", comment: "The manual button state")
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
         button.tintColor = .white
 
@@ -77,6 +79,7 @@ public final class ScannerViewController: UIViewController {
         setupViews()
         setupNavigationBar()
         setupConstraints()
+        cancelButton.layer.cornerRadius = 15
         setupPinchToZoom() // Add pinch to zoom setup
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer, delegate: self)
 
@@ -90,6 +93,7 @@ public final class ScannerViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
 
         CaptureSession.current.isEditing = false
+        CaptureSession.current.isAutoScanEnabled = false
         quadView.removeQuadrilateral()
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
@@ -157,7 +161,7 @@ public final class ScannerViewController: UIViewController {
 
     private func setupNavigationBar() {
         navigationItem.setLeftBarButton(flashButton, animated: false)
-        navigationItem.setRightBarButton(autoScanButton, animated: false)
+//        navigationItem.setRightBarButton(autoScanButton, animated: false)
 
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
             let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
@@ -193,7 +197,9 @@ public final class ScannerViewController: UIViewController {
         if #available(iOS 11.0, *) {
             cancelButtonConstraints = [
                 cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
-                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0),
+                cancelButton.widthAnchor.constraint(equalToConstant: 70),
+                cancelButton.heightAnchor.constraint(equalToConstant: 30)
             ]
 
             let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
@@ -201,7 +207,9 @@ public final class ScannerViewController: UIViewController {
         } else {
             cancelButtonConstraints = [
                 cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
-                view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+                view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0),
+                cancelButton.widthAnchor.constraint(equalToConstant: 70),
+                cancelButton.heightAnchor.constraint(equalToConstant: 30)
             ]
 
             let shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
