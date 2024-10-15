@@ -92,12 +92,18 @@ public final class ScannerViewController: UIViewController {
         nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     @objc func appMovedToBackground() {// UI stuck when entering background. So, stopped detecting
-        captureSessionManager?.stop()
+        DispatchQueue.global(qos: .background).async {
+            self.captureSessionManager?.stop()
+        }
+        
     }
 
     @objc func appMovedToForeground() {// Restarting detecting when entering in foreground
 //        if captureSessionManager?.isDetecting == false{
-            captureSessionManager?.start()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.captureSessionManager?.start()
+        })
+            
 //        }
     }
     override public func viewWillAppear(_ animated: Bool) {
