@@ -57,7 +57,7 @@ final class CaptureSessionManager: NSObject, AVCaptureVideoDataOutputSampleBuffe
     private var photoOutput = AVCapturePhotoOutput()
 
     /// Whether the CaptureSessionManager should be detecting quadrilaterals.
-    private var isDetecting = true
+    var isDetecting = true
 
     /// The number of times no rectangles have been found in a row.
     private var noRectangleCount = 0

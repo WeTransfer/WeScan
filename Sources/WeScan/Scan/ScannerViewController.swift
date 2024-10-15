@@ -86,8 +86,20 @@ public final class ScannerViewController: UIViewController {
         originalBarStyle = navigationController?.navigationBar.barStyle
 
         NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: Notification.Name.AVCaptureDeviceSubjectAreaDidChange, object: nil)
+       
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    @objc func appMovedToBackground() {// UI stuck when entering background. So, stopped detecting
+        captureSessionManager?.stop()
     }
 
+    @objc func appMovedToForeground() {// Restarting detecting when entering in foreground
+//        if captureSessionManager?.isDetecting == false{
+            captureSessionManager?.start()
+//        }
+    }
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
